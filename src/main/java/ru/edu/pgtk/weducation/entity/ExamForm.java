@@ -21,6 +21,19 @@ public class ExamForm implements Serializable {
   @Column(name = "exf_pcode")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  
-  
+
+  @Column(name = "exf_name")
+  private String name;
+
+  public int getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }
