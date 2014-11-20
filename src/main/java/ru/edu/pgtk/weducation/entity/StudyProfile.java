@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,40 +24,43 @@ public class StudyProfile implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @Column(name = "stp_depcode")
-  private int departmentCode;
+  @ManyToOne
+  @JoinColumn(name = "stp_depcode", nullable = false)
+  private Department department;
 
-  @Column(name = "stp_spccode")
-  private int specialityCode;
+  @ManyToOne
+  @JoinColumn(name = "stp_spccode", nullable = false)
+  private Speciality speciality;
 
-  @Column(name = "stp_sfmcode")
-  private int studyFormCode;
+  @ManyToOne
+  @JoinColumn(name = "stp_sfmcode", nullable = false)
+  private StudyForm studyForm;
 
   public int getId() {
     return id;
   }
 
-  public int getDepartmentCode() {
-    return departmentCode;
+  public Department getDepartment() {
+    return department;
   }
 
-  public void setDepartmentCode(int departmentCode) {
-    this.departmentCode = departmentCode;
+  public void setDepartment(Department department) {
+    this.department = department;
   }
 
-  public int getSpecialityCode() {
-    return specialityCode;
+  public Speciality getSpeciality() {
+    return speciality;
   }
 
-  public void setSpecialityCode(int specialityCode) {
-    this.specialityCode = specialityCode;
+  public void setSpeciality(Speciality speciality) {
+    this.speciality = speciality;
   }
 
-  public int getStudyFormCode() {
-    return studyFormCode;
+  public StudyForm getStudyForm() {
+    return studyForm;
   }
 
-  public void setStudyFormCode(int studyFormCode) {
-    this.studyFormCode = studyFormCode;
+  public void setStudyForm(StudyForm studyForm) {
+    this.studyForm = studyForm;
   }
 }
