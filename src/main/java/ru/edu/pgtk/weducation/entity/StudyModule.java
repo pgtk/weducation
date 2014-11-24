@@ -24,7 +24,6 @@ public class StudyModule implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  // TODO может заменить на ссылку на Title?
   @Column(name = "mod_name", nullable = false, length = 255)
   private String name;
 

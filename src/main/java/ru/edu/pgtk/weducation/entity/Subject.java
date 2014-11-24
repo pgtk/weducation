@@ -23,15 +23,66 @@ public class Subject implements Serializable {
   @Column(name = "sub_pcode")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  
-  // Может сделать ссылку на наименование дисциплины?
+
   @Column(name = "sub_fullname")
   private String fullName;
-  
+
   @Column(name = "sub_shortname")
   private String shortName;
-  
+
   @ManyToOne
   @JoinColumn(name = "sub_plncode", nullable = false)
   private StudyPlan plan;
+
+  @ManyToOne
+  @JoinColumn(name = "sub_modcode")
+  private StudyModule module;
+
+  @ManyToOne
+  @JoinColumn(name = "sub_exfcode", nullable = false)
+  private ExamForm examForm;
+
+  public int getId() {
+    return id;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public void setFullName(String fullName) {
+    this.fullName = fullName;
+  }
+
+  public String getShortName() {
+    return shortName;
+  }
+
+  public void setShortName(String shortName) {
+    this.shortName = shortName;
+  }
+
+  public StudyPlan getPlan() {
+    return plan;
+  }
+
+  public void setPlan(StudyPlan plan) {
+    this.plan = plan;
+  }
+
+  public StudyModule getModule() {
+    return module;
+  }
+
+  public void setModule(StudyModule module) {
+    this.module = module;
+  }
+
+  public ExamForm getExamForm() {
+    return examForm;
+  }
+
+  public void setExamForm(ExamForm examForm) {
+    this.examForm = examForm;
+  }
 }

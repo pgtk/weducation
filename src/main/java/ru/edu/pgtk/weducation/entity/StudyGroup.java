@@ -35,7 +35,7 @@ public class StudyGroup implements Serializable {
 
   @Column(name = "grp_year", nullable = false)
   private int year;
-  
+
   @Column(name = "grp_commercial", nullable = false)
   private boolean commercial;
 
@@ -50,7 +50,7 @@ public class StudyGroup implements Serializable {
   @ManyToOne
   @JoinColumn(name = "grp_sfmcode", nullable = false)
   private StudyForm studyForm;
-  
+
   @ManyToOne
   @JoinColumn(name = "grp_plncode", nullable = false)
   private StudyPlan plan;
