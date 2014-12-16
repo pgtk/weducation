@@ -1,10 +1,12 @@
 package ru.edu.pgtk.weducation.ejb;
 
+import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
@@ -23,6 +25,17 @@ public class SubjectsEJB {
     throw new EJBException("SUbject not found with id " + id);
   }
   
+  public List<Subject> fetchAll() {
+    TypedQuery<Subject> q = em.createQuery("SELECT s FROM Subject s", Subject.class);
+    return q.getResultList();
+  }
+  
+  public List<Subject> findByName(final String name) {
+    TypedQuery<Subject> q = em.createQuery(
+            "SELECT s FROM Subject s WHERE s.fullName LIKE :name", Subject.class);
+    q.setParameter("name", name);
+    return q.getResultList();
+  }
   
   public Subject save(Subject item) {
     if (item.getModuleCode() > 0) {
@@ -43,6 +56,12 @@ public class SubjectsEJB {
     } else {
       return em.merge(item);
     }
-  } 
+  }
   
+  public void delete(Subject item) {
+    Subject s = em.find(Subject.class, item.getId());
+    if (null != s) {
+      em.remove(s);
+    }
+  }
 }

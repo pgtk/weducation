@@ -9,8 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "cards")
@@ -84,9 +86,15 @@ public class StudyCard implements Serializable {
   @JoinColumn(name = "crd_inschool", nullable = false)
   private School inSchool;
 
+  @Transient
+  private int inSchoolCode;
+
   @ManyToOne
   @JoinColumn(name = "crd_outschool")
   private School outSchool;
+
+  @Transient
+  private int outSchoolCode;
 
   @ManyToOne
   @JoinColumn(name = "crd_sfmcode", nullable = false)
@@ -96,16 +104,36 @@ public class StudyCard implements Serializable {
   @JoinColumn(name = "crd_psncode", nullable = false)
   private Person person;
 
+  @Transient
+  private int personCode;
+
   @ManyToOne
   @JoinColumn(name = "crd_spccode", nullable = false)
   private Speciality speciality;
 
+  @Transient
+  private int specialityCode;
+
   @ManyToOne
   @JoinColumn(name = "crd_grpcode")
   private StudyGroup group;
-  
+
+  @Transient
+  private int groupCode;
+
   @Column(name = "crd_active", nullable = false)
   private boolean active;
+
+  @PostLoad
+  private void updateCodes() {
+    inSchoolCode = inSchool.getId();
+    outSchoolCode = outSchool.getId();
+    personCode = person.getId();
+    if (null != group) {
+      groupCode = group.getId();
+    }
+    specialityCode = speciality.getId();
+  }
 
   public int getId() {
     return id;
@@ -309,5 +337,45 @@ public class StudyCard implements Serializable {
 
   public void setActive(boolean active) {
     this.active = active;
+  }
+
+  public int getInSchoolCode() {
+    return inSchoolCode;
+  }
+
+  public void setInSchoolCode(int inSchoolCode) {
+    this.inSchoolCode = inSchoolCode;
+  }
+
+  public int getOutSchoolCode() {
+    return outSchoolCode;
+  }
+
+  public void setOutSchoolCode(int outSchoolCode) {
+    this.outSchoolCode = outSchoolCode;
+  }
+
+  public int getPersonCode() {
+    return personCode;
+  }
+
+  public void setPersonCode(int personCode) {
+    this.personCode = personCode;
+  }
+
+  public int getSpecialityCode() {
+    return specialityCode;
+  }
+
+  public void setSpecialityCode(int specialityCode) {
+    this.specialityCode = specialityCode;
+  }
+
+  public int getGroupCode() {
+    return groupCode;
+  }
+
+  public void setGroupCode(int groupCode) {
+    this.groupCode = groupCode;
   }
 }
