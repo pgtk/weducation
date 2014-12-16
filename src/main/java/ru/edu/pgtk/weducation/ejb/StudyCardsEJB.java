@@ -48,16 +48,10 @@ public class StudyCardsEJB {
   }
 
   public StudyCard save(StudyCard item) {
-    if (item.getInSchoolCode() > 0) {
-      School inSchool = em.find(School.class, item.getInSchoolCode());
-      if (null != inSchool) {
-        item.setInSchool(inSchool);
-      }
-    }
-    if (item.getOutSchoolCode() > 0) {
-      School outSchool = em.find(School.class, item.getOutSchoolCode());
-      if (null != outSchool) {
-        item.setOutSchool(outSchool);
+    if (item.getSchoolCode() > 0) {
+      School school = em.find(School.class, item.getSchoolCode());
+      if (null != school) {
+        item.setSchool(school);
       }
     }
     if (item.getPersonCode() > 0) {
