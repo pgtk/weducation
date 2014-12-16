@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Класс учебной нагрузки по дисциплине.
  *
- * @author Воронин Леонид
  */
 @Entity
 @Table(name = "load")
@@ -40,5 +40,70 @@ public class SubjectLoad implements Serializable {
   @Column(name = "lod_maximum", nullable = false)
   private int maximumLoad;
   
-    
+  @ManyToOne
+  @JoinColumn(name = "sub_exfcode", nullable = false)
+  private ExamForm examForm;
+  
+  @Transient
+  private int examFormCode;
+
+  public int getId() {
+    return id;
+  }
+
+  public Subject getSubject() {
+    return subject;
+  }
+
+  public void setSubject(Subject subject) {
+    this.subject = subject;
+  }
+
+  public int getCourse() {
+    return course;
+  }
+
+  public void setCourse(int course) {
+    this.course = course;
+  }
+
+  public int getSemester() {
+    return semester;
+  }
+
+  public void setSemester(int semester) {
+    this.semester = semester;
+  }
+
+  public int getAuditoryLoad() {
+    return auditoryLoad;
+  }
+
+  public void setAuditoryLoad(int auditoryLoad) {
+    this.auditoryLoad = auditoryLoad;
+  }
+
+  public int getMaximumLoad() {
+    return maximumLoad;
+  }
+
+  public void setMaximumLoad(int maximumLoad) {
+    this.maximumLoad = maximumLoad;
+  }
+
+  public ExamForm getExamForm() {
+    return examForm;
+  }
+
+  public void setExamForm(ExamForm examForm) {
+    this.examForm = examForm;
+  }
+
+  public int getExamFormCode() {
+    return examFormCode;
+  }
+
+  public void setExamFormCode(int examFormCode) {
+    this.examFormCode = examFormCode;
+  }
 }

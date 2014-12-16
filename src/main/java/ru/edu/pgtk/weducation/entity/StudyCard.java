@@ -10,12 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
-/**
- * Класс учебной карточки.
- *
- * @author Воронин Леонид
- */
 @Entity
 @Table(name = "cards")
 public class StudyCard implements Serializable {
@@ -26,12 +22,15 @@ public class StudyCard implements Serializable {
   private int id;
 
   @Column(name = "crd_bdate", nullable = false)
+  @Temporal(javax.persistence.TemporalType.DATE)
   private Date beginDate;
 
   @Column(name = "crd_edate")
+  @Temporal(javax.persistence.TemporalType.DATE)
   private Date endDate;
 
   @Column(name = "crd_docdate", nullable = false)
+  @Temporal(javax.persistence.TemporalType.DATE)
   private Date documentDate;
 
   @Column(name = "crd_docname", nullable = false)
@@ -41,6 +40,7 @@ public class StudyCard implements Serializable {
   private String documentOrganization;
 
   @Column(name = "crd_comissiondate")
+  @Temporal(javax.persistence.TemporalType.DATE)
   private Date comissionDate;
 
   @Column(name = "crd_comissiondirector")
@@ -62,6 +62,7 @@ public class StudyCard implements Serializable {
   private String registrationNumber;
 
   @Column(name = "crd_diplomedate")
+  @Temporal(javax.persistence.TemporalType.DATE)
   private Date diplomeDate;
 
   @Column(name = "crd_red", nullable = false)
@@ -102,6 +103,9 @@ public class StudyCard implements Serializable {
   @ManyToOne
   @JoinColumn(name = "crd_grpcode")
   private StudyGroup group;
+  
+  @Column(name = "crd_active", nullable = false)
+  private boolean active;
 
   public int getId() {
     return id;
@@ -297,5 +301,13 @@ public class StudyCard implements Serializable {
 
   public void setGroup(StudyGroup group) {
     this.group = group;
+  }
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
   }
 }

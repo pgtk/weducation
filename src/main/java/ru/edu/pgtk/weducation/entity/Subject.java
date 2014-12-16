@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Класс дисциплины или междисциплинарного курса
  *
- * @author Воронин Леонид.
  */
 @Entity
 @Table(name = "subjects")
@@ -24,7 +24,7 @@ public class Subject implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @Column(name = "sub_fullname")
+  @Column(name = "sub_fullname", nullable = false)
   private String fullName;
 
   @Column(name = "sub_shortname")
@@ -33,14 +33,16 @@ public class Subject implements Serializable {
   @ManyToOne
   @JoinColumn(name = "sub_plncode", nullable = false)
   private StudyPlan plan;
+  
+  @Transient
+  private int planCode;
 
   @ManyToOne
   @JoinColumn(name = "sub_modcode")
   private StudyModule module;
-
-  @ManyToOne
-  @JoinColumn(name = "sub_exfcode", nullable = false)
-  private ExamForm examForm;
+  
+  @Transient
+  private int moduleCode;
 
   public int getId() {
     return id;
@@ -78,11 +80,19 @@ public class Subject implements Serializable {
     this.module = module;
   }
 
-  public ExamForm getExamForm() {
-    return examForm;
+  public int getPlanCode() {
+    return planCode;
   }
 
-  public void setExamForm(ExamForm examForm) {
-    this.examForm = examForm;
+  public void setPlanCode(int planCode) {
+    this.planCode = planCode;
+  }
+
+  public int getModuleCode() {
+    return moduleCode;
+  }
+
+  public void setModuleCode(int moduleCode) {
+    this.moduleCode = moduleCode;
   }
 }

@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Класс учебной группы
  *
- * @author Воронин Леонид
  */
 @Entity
 @Table(name = "groups")
@@ -38,18 +38,23 @@ public class StudyGroup implements Serializable {
 
   @Column(name = "grp_commercial", nullable = false)
   private boolean commercial;
+  
+  @Column(name = "grp_extramural", nullable = false)
+  private boolean extramural;
 
   @ManyToOne
   @JoinColumn(name = "grp_depcode", nullable = false)
   private Department department;
+  
+  @Transient
+  private int departmentCode;
 
   @ManyToOne
   @JoinColumn(name = "grp_spccode", nullable = false)
   private Speciality speciality;
-
-  @ManyToOne
-  @JoinColumn(name = "grp_sfmcode", nullable = false)
-  private StudyForm studyForm;
+  
+  @Transient
+  private int specialityCode;
 
   @ManyToOne
   @JoinColumn(name = "grp_plncode", nullable = false)
@@ -115,19 +120,35 @@ public class StudyGroup implements Serializable {
     this.speciality = speciality;
   }
 
-  public StudyForm getStudyForm() {
-    return studyForm;
-  }
-
-  public void setStudyForm(StudyForm studyForm) {
-    this.studyForm = studyForm;
-  }
-
   public StudyPlan getPlan() {
     return plan;
   }
 
   public void setPlan(StudyPlan plan) {
     this.plan = plan;
+  }
+
+  public boolean isExtramural() {
+    return extramural;
+  }
+
+  public void setExtramural(boolean extramural) {
+    this.extramural = extramural;
+  }
+
+  public int getDepartmentCode() {
+    return departmentCode;
+  }
+
+  public void setDepartmentCode(int departmentCode) {
+    this.departmentCode = departmentCode;
+  }
+
+  public int getSpecialityCode() {
+    return specialityCode;
+  }
+
+  public void setSpecialityCode(int specialityCode) {
+    this.specialityCode = specialityCode;
   }
 }
