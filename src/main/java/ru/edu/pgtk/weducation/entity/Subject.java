@@ -33,14 +33,14 @@ public class Subject implements Serializable {
   @ManyToOne
   @JoinColumn(name = "sub_plncode", nullable = false)
   private StudyPlan plan;
-  
+
   @Transient
   private int planCode;
 
   @ManyToOne
   @JoinColumn(name = "sub_modcode")
   private StudyModule module;
-  
+
   @Transient
   private int moduleCode;
 
