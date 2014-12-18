@@ -83,22 +83,11 @@ public class StudyCard implements Serializable {
   private String remandCommand;
 
   @ManyToOne
-  @JoinColumn(name = "crd_inschool", nullable = false)
-  private School inSchool;
+  @JoinColumn(name = "crd_sclcode", nullable = false)
+  private School school;
 
   @Transient
-  private int inSchoolCode;
-
-  @ManyToOne
-  @JoinColumn(name = "crd_outschool")
-  private School outSchool;
-
-  @Transient
-  private int outSchoolCode;
-
-  @ManyToOne
-  @JoinColumn(name = "crd_sfmcode", nullable = false)
-  private StudyForm studyForm;
+  private int schoolCode;
 
   @ManyToOne
   @JoinColumn(name = "crd_psncode", nullable = false)
@@ -123,11 +112,13 @@ public class StudyCard implements Serializable {
 
   @Column(name = "crd_active", nullable = false)
   private boolean active;
+  
+  @Column(name = "crd_extramural", nullable = false)
+  private boolean extramural;
 
   @PostLoad
   private void updateCodes() {
-    inSchoolCode = inSchool.getId();
-    outSchoolCode = outSchool.getId();
+    schoolCode = school.getId();
     personCode = person.getId();
     if (null != group) {
       groupCode = group.getId();
@@ -283,28 +274,20 @@ public class StudyCard implements Serializable {
     this.remandCommand = remandCommand;
   }
 
-  public School getInSchool() {
-    return inSchool;
+  public School getSchool() {
+    return school;
   }
 
-  public void setInSchool(School inSchool) {
-    this.inSchool = inSchool;
+  public void setSchool(School school) {
+    this.school = school;
   }
 
-  public School getOutSchool() {
-    return outSchool;
+  public int getSchoolCode() {
+    return schoolCode;
   }
 
-  public void setOutSchool(School outSchool) {
-    this.outSchool = outSchool;
-  }
-
-  public StudyForm getStudyForm() {
-    return studyForm;
-  }
-
-  public void setStudyForm(StudyForm studyForm) {
-    this.studyForm = studyForm;
+  public void setSchoolCode(int schoolCode) {
+    this.schoolCode = schoolCode;
   }
 
   public Person getPerson() {
@@ -339,22 +322,6 @@ public class StudyCard implements Serializable {
     this.active = active;
   }
 
-  public int getInSchoolCode() {
-    return inSchoolCode;
-  }
-
-  public void setInSchoolCode(int inSchoolCode) {
-    this.inSchoolCode = inSchoolCode;
-  }
-
-  public int getOutSchoolCode() {
-    return outSchoolCode;
-  }
-
-  public void setOutSchoolCode(int outSchoolCode) {
-    this.outSchoolCode = outSchoolCode;
-  }
-
   public int getPersonCode() {
     return personCode;
   }
@@ -377,5 +344,13 @@ public class StudyCard implements Serializable {
 
   public void setGroupCode(int groupCode) {
     this.groupCode = groupCode;
+  }
+
+  public boolean isExtramural() {
+    return extramural;
+  }
+
+  public void setExtramural(boolean extramural) {
+    this.extramural = extramural;
   }
 }
