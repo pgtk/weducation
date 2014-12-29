@@ -2,6 +2,7 @@ package ru.edu.pgtk.weducation.ejb;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -13,7 +14,8 @@ import ru.edu.pgtk.weducation.entity.Speciality;
  * @author Воронин Леонид
  */
 @Stateless
-public class SpecialityEJB {
+@Named("specialitiesEJB")
+public class SpecialitiesEJB {
 
   @PersistenceContext(unitName = "weducationPU")
   EntityManager em;
