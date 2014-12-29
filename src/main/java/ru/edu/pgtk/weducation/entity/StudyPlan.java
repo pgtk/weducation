@@ -10,11 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * Учебный план.
- *
- * @author Воронин Леонид
- */
 @Entity
 @Table(name = "plans")
 public class StudyPlan implements Serializable {
@@ -29,14 +24,13 @@ public class StudyPlan implements Serializable {
 
   @Column(name = "pln_description", length = 255)
   private String description;
+  
+  @Column(name = "pln_extramural", nullable = false)
+  private boolean extramural;
 
   @ManyToOne
   @JoinColumn(name = "pln_spccode", nullable = false)
   private Speciality speciality;
-  
-  @ManyToOne
-  @JoinColumn(name = "pln_sfmcode", nullable = false)
-  private StudyForm studyForm;
 
   public int getId() {
     return id;
@@ -56,6 +50,14 @@ public class StudyPlan implements Serializable {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public boolean isExtramural() {
+    return extramural;
+  }
+
+  public void setExtramural(boolean extramural) {
+    this.extramural = extramural;
   }
 
   public Speciality getSpeciality() {

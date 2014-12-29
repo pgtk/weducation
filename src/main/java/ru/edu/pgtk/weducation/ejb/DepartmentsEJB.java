@@ -29,7 +29,7 @@ public class DepartmentsEJB {
   }
 
   public List<Department> fetchAll() {
-    TypedQuery<Department> query = em.createQuery("SELECT d FROM Department d", Department.class);
+    TypedQuery<Department> query = em.createQuery("SELECT d FROM Department d ORDER BY d.name", Department.class);
     return query.getResultList();
   }
 

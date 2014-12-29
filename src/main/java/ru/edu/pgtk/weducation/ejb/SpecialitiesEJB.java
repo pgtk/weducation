@@ -29,7 +29,7 @@ public class SpecialitiesEJB {
   }
 
   public List<Speciality> fetchAll() {
-    TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s", Speciality.class);
+    TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s ORDER BY s.key, s.fullName", Speciality.class);
     return query.getResultList();
   }
 

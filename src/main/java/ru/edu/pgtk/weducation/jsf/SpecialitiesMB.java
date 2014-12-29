@@ -25,7 +25,7 @@ public class SpecialitiesMB extends GenericBean<Speciality> implements Serializa
 
   public void add() {
     item = new Speciality();
-    resetState();
+    edit = true;
   }
 
   public void confirmDelete() {

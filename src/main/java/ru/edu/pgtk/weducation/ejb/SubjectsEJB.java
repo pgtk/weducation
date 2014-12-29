@@ -27,13 +27,13 @@ public class SubjectsEJB {
   }
 
   public List<Subject> fetchAll() {
-    TypedQuery<Subject> q = em.createQuery("SELECT s FROM Subject s", Subject.class);
+    TypedQuery<Subject> q = em.createQuery("SELECT s FROM Subject s ORDER BY s.fullName", Subject.class);
     return q.getResultList();
   }
 
   public List<Subject> findByName(final String name) {
     TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE s.fullName LIKE :name", Subject.class);
+            "SELECT s FROM Subject s WHERE s.fullName LIKE :name ORDER BY s.fullName", Subject.class);
     q.setParameter("name", name);
     return q.getResultList();
   }
