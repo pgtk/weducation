@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,5 +61,10 @@ public class Renaming implements Serializable {
 
   public void setDate(Date date) {
     this.date = date;
+  }
+  
+  public String getDateString() {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+    return sdf.format(date);
   }
 }

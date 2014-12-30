@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
@@ -25,7 +26,7 @@
               <ui:repeat value="#{renamingsEJB.fetchAll()}" var="ren">
                 <tr>
                   <td>
-                    #{ren.date}
+                    #{ren.dateString}
                   </td>
                   <td>
                     #{ren.newName}
@@ -50,12 +51,14 @@
         <!-- Edit -->
         <h2>Параметры переименования</h2>
         <h:form>
-            <h:outputText value="Старое наименование" /><br />
-            <h:inputText value="#{renamingsMB.item.oldName}" class="textEdit" /><p />
-            <h:outputText value="Новое наименование" /><br />
-            <h:inputText value="#{renamingsMB.item.newName}" class="textEdit" /><p />
-            <h:outputText value="Дата переименования" /><br />
-            <h:inputText value="#{renamingsMB.item.date}" class="textEdit" /><p />
+          <h:outputText value="Старое наименование" /><br />
+          <h:inputText value="#{renamingsMB.item.oldName}" class="textEdit" /><p />
+          <h:outputText value="Новое наименование" /><br />
+          <h:inputText value="#{renamingsMB.item.newName}" class="textEdit" /><p />
+          <h:outputText value="Дата переименования" /><br />
+          <h:inputText value="#{renamingsMB.item.date}" class="textEdit">
+            <f:convertDateTime pattern="d.M.yyyy" />
+          </h:inputText><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{renamingsMB.save()}" />
             <h:commandButton value="Отменить" action="#{renamingsMB.cancel()}" />
