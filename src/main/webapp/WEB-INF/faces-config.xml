@@ -14,4 +14,9 @@
     <managed-bean-class>ru.edu.pgtk.weducation.jsf.DepartmentsMB</managed-bean-class>
     <managed-bean-scope>view</managed-bean-scope>
   </managed-bean>
+    <managed-bean>
+        <managed-bean-name>renamingsMB</managed-bean-name>
+        <managed-bean-class>ru.edu.pgtk.weducation.jsf.RenamingsMB</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>
