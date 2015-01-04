@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.ejb;
 
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -20,12 +21,12 @@ public class DepartmentsEJB {
   @PersistenceContext(unitName = "weducationPU")
   EntityManager em;
 
-  public Department get(final int id) throws DataException {
+  public Department get(final int id) {
     Department item = em.find(Department.class, id);
     if (null != item) {
       return item;
     }
-    throw new DataException("Department not found with id " + id);
+    throw new EJBException("Department not found with id " + id);
   }
 
   public List<Department> fetchAll() {

@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.ejb;
 
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -20,12 +21,12 @@ public class SpecialitiesEJB {
   @PersistenceContext(unitName = "weducationPU")
   EntityManager em;
 
-  public Speciality get(final int id) throws DataException {
+  public Speciality get(final int id) {
     Speciality item = em.find(Speciality.class, id);
     if (null != item) {
       return item;
     }
-    throw new DataException("Speciality not found with id " + id);
+    throw new EJBException("Speciality not found with id " + id);
   }
 
   public List<Speciality> fetchAll() {
