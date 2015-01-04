@@ -8,7 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "plans")
@@ -31,7 +33,15 @@ public class StudyPlan implements Serializable {
   @ManyToOne
   @JoinColumn(name = "pln_spccode", nullable = false)
   private Speciality speciality;
+  
+  @Transient
+  private int specialityCode;
 
+  @PostLoad
+  private void updateCodes() {
+    specialityCode = speciality.getId();
+  }
+  
   public int getId() {
     return id;
   }
@@ -66,5 +76,13 @@ public class StudyPlan implements Serializable {
 
   public void setSpeciality(Speciality speciality) {
     this.speciality = speciality;
+  }
+
+  public int getSpecialityCode() {
+    return specialityCode;
+  }
+
+  public void setSpecialityCode(int specialityCode) {
+    this.specialityCode = specialityCode;
   }
 }

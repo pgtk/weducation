@@ -8,7 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Класс для хранения профилей обучения.
@@ -28,13 +30,24 @@ public class StudyProfile implements Serializable {
   @JoinColumn(name = "stp_depcode", nullable = false)
   private Department department;
 
+  @Transient
+  private int departmentCode;
+
   @ManyToOne
   @JoinColumn(name = "stp_spccode", nullable = false)
   private Speciality speciality;
 
-  @ManyToOne
-  @JoinColumn(name = "stp_sfmcode", nullable = false)
-  private StudyForm studyForm;
+  @Transient
+  private int specialityCode;
+
+  @Column(name = "stp_extramural", nullable = false)
+  private boolean extramural;
+
+  @PostLoad
+  private void updateCodes() {
+    specialityCode = speciality.getId();
+    departmentCode = department.getId();
+  }
 
   public int getId() {
     return id;
@@ -56,11 +69,27 @@ public class StudyProfile implements Serializable {
     this.speciality = speciality;
   }
 
-  public StudyForm getStudyForm() {
-    return studyForm;
+  public int getDepartmentCode() {
+    return departmentCode;
   }
 
-  public void setStudyForm(StudyForm studyForm) {
-    this.studyForm = studyForm;
+  public void setDepartmentCode(int departmentCode) {
+    this.departmentCode = departmentCode;
+  }
+
+  public int getSpecialityCode() {
+    return specialityCode;
+  }
+
+  public void setSpecialityCode(int specialityCode) {
+    this.specialityCode = specialityCode;
+  }
+
+  public boolean isExtramural() {
+    return extramural;
+  }
+
+  public void setExtramural(boolean extramural) {
+    this.extramural = extramural;
   }
 }
