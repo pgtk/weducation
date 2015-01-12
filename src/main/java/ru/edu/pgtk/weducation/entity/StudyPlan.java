@@ -45,6 +45,14 @@ public class StudyPlan implements Serializable {
   public int getId() {
     return id;
   }
+  
+  public String getExtramural() {
+    return (extramural)? "заочная форма" : "очная форма";
+  }
+  
+  public String getNameForList() {
+    return name + " (" + getExtramural() + ")";
+  }
 
   public String getName() {
     return name;

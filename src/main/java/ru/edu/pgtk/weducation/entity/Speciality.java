@@ -43,12 +43,12 @@ public class Speciality implements Serializable {
   @Column(name = "spc_actual", nullable = false)
   private boolean actual;
 
-  public String getName() {
-    return key + " (" + shortName + ")";
-  }
-
   public int getId() {
     return id;
+  }
+  
+  public String getNameForList() {
+    return key + " (" + shortName + ")";
   }
 
   public String getShortName() {
