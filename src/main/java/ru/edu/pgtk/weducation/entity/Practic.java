@@ -22,28 +22,28 @@ import javax.persistence.Transient;
 public class Practic implements Serializable {
 
   @Id
-  @Column(name = "prk_pcode")
+  @Column(name = "prc_pcode")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @Column(name = "prk_name", nullable = false, length = 128)
+  @Column(name = "prc_name", nullable = false, length = 128)
   private String name;
 
-  @Column(name = "prk_length", nullable = false)
+  @Column(name = "prc_length", nullable = false)
   private float length;
 
-  @Column(name = "prk_course", nullable = false)
+  @Column(name = "prc_course", nullable = false)
   private int course;
 
-  @Column(name = "prk_semester", nullable = false)
+  @Column(name = "prc_semester", nullable = false)
   private int semester;
 
   @ManyToOne
-  @JoinColumn(name = "prk_plncode")
+  @JoinColumn(name = "prc_plncode")
   private StudyPlan plan;
   
   @ManyToOne
-  @JoinColumn(name = "prk_modcode")
+  @JoinColumn(name = "prc_modcode")
   private StudyModule module;
   
   @Transient
@@ -70,6 +70,11 @@ public class Practic implements Serializable {
 
   public void setPlan(StudyPlan plan) {
     this.plan = plan;
+    if (null != plan) {
+      planCode = plan.getId();
+    } else {
+      planCode = 0;
+    }
   }
 
   public int getPlanCode() {
@@ -86,6 +91,11 @@ public class Practic implements Serializable {
 
   public void setModule(StudyModule module) {
     this.module = module;
+    if (null != module) {
+      moduleCode = module.getId();
+    } else {
+      moduleCode = 0;
+    }
   }
 
   public int getModuleCode() {

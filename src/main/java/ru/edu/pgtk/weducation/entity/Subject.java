@@ -79,6 +79,11 @@ public class Subject implements Serializable {
 
   public void setPlan(StudyPlan plan) {
     this.plan = plan;
+    if (null != plan) {
+      planCode = plan.getId();
+    } else {
+      planCode = 0;
+    }
   }
 
   public StudyModule getModule() {
@@ -87,6 +92,11 @@ public class Subject implements Serializable {
 
   public void setModule(StudyModule module) {
     this.module = module;
+    if (null != module) {
+      moduleCode = module.getId();
+    } else {
+      moduleCode = 0;
+    }
   }
 
   public int getPlanCode() {

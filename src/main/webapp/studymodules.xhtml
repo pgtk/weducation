@@ -12,13 +12,13 @@
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
+      <p>
+        <h:link class="action" outcome="studyplans" value="Учебные планы" />
+        <h:link class="action" outcome="studyplans?id=#{studyModulesMB.plan.id}" value="#{studyModulesMB.plan.name} " />
+      </p>
       <h:panelGroup layout="block" rendered="#{studyModulesMB.browse}">
         <!-- List -->
         <h2>Профессиональные модули</h2>
-        <p>Учебный план 
-          <h:link outcome="studyplans?id=#{studyModulesMB.plan.id}" value="#{studyModulesMB.plan.name}" />
-        </p>
-        <p><h:link outcome="studyplans" value="Список учебных планов" /></p>
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{studyModulesMB.add()}" /></div>
         </h:form>
@@ -54,7 +54,7 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{studyModulesMB.edit}">
         <!-- Edit -->
-        <h2>Параметры профессионального модуля</h2>
+        <h2>Редактирование профессионального модуля</h2>
         <h:form>
           <h:outputText value="Наименование" /><br />
           <h:inputText value="#{studyModulesMB.item.name}" class="textEdit" /><p />

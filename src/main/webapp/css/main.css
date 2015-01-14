@@ -199,7 +199,6 @@ table {
 
 #dataTable tbody tr:hover {
   background: #efeee0;
-//  background-color: #ffffff;
 }
 
 #dataTable thead th {
@@ -208,6 +207,5 @@ table {
   font-weight: normal;
   text-align: center;
   background: #dfded0;
-//  color: #505050;
   color: #000000;
 } 

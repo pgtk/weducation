@@ -6,23 +6,23 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <f:metadata>
-    <f:viewParam id="planId" name="planId" value="#{subjectsMB.planCode}" />
-    <f:viewAction action="#{subjectsMB.loadPlan()}" />
+    <f:viewParam id="planId" name="planId" value="#{practicsMB.planCode}" />
+    <f:viewAction action="#{practicsMB.loadPlan()}" />
   </f:metadata>  
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <h:panelGroup layout="block" rendered="#{subjectsMB.browse}">
+      <p>
+        <h:link class="action" outcome="studyplans" value="Учебные планы" />
+        <h:link class="action" outcome="studyplans?id=#{practicsMB.plan.id}" value="#{practicsMB.plan.name} " />
+      </p>
+      <h:panelGroup layout="block" rendered="#{practicsMB.browse}">
         <!-- List -->
         <h2>Практики</h2>
-        <p>Учебный план 
-          <h:link outcome="studyplans?id=#{subjectsMB.plan.id}" value="#{subjectsMB.plan.name}" />
-        </p>
-        <p><h:link outcome="studyplans" value="Список учебных планов" /></p>
         <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{subjectsMB.add()}" /></div>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{practicsMB.add()}" /></div>
         </h:form>
-        <h:form id="listForm" rendered="#{not empty subjectsMB.subjects}">
+        <h:form id="listForm" rendered="#{not empty practicsMB.practics}">
           <table id="dataTable">
             <thead>
               <tr>
@@ -32,58 +32,58 @@
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{subjectsMB.subjects}" var="practic">
+              <ui:repeat value="#{practicsMB.practics}" var="practic">
                 <tr>
                   <td>
-                    #{practic.fullName}
+                    #{practic.name}
                   </td>
                   <td>
-                    #{practic.shortName}
+                    #{practic.length}
                   </td>
                   <td>
-                    <h:commandLink class="action" value="Изменить" action="#{subjectsMB.edit(sub)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{subjectsMB.delete(sub)}" />
+                    <h:commandLink class="action" value="Изменить" action="#{practicsMB.edit(practic)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{practicsMB.delete(practic)}" />
                   </td>
                 </tr>
               </ui:repeat>
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty subjectsMB.subjects}">
+        <h:panelGroup rendered="#{empty practicsMB.practics}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{subjectsMB.add()}" /></div>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{practicsMB.add()}" /></div>
         </h:form>
       </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{subjectsMB.edit}">
+      <h:panelGroup layout="block" rendered="#{practicsMB.edit}">
         <!-- Edit -->
         <h2>Редактирование практики</h2>
         <h:form>
           <h:outputText value="Наименование полное" /><br />
-          <h:inputText value="#{subjectsMB.item.fullName}" class="textEdit" /><p />
-          <h:outputText value="Наименование сокращенное" /><br />
-          <h:inputText value="#{subjectsMB.item.shortName}" class="textEdit" /><p />
+          <h:inputText value="#{practicsMB.item.name}" class="textEdit" /><p />
+          <h:outputText value="Продолжительность" /><br />
+          <h:inputText value="#{practicsMB.item.length}" class="textEdit" /><p />
           <h:outputText value="Профессиональный модуль" /><br />
-          <h:selectOneMenu value="#{subjectsMB.item.moduleCode}">
+          <h:selectOneMenu value="#{practicsMB.item.moduleCode}">
             <f:selectItem itemLabel="Нет привязки к модулю" itemValue="0" />
-            <f:selectItems value="#{subjectsMB.studyModules}" var="module" 
+            <f:selectItems value="#{practicsMB.studyModules}" var="module" 
                            itemLabel="#{module.name}" itemValue="#{module.id}" />
           </h:selectOneMenu><p />
           <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{subjectsMB.save()}" />
-            <h:commandButton value="Отменить" action="#{subjectsMB.cancel()}" />
+            <h:commandButton value="Сохранить" action="#{practicsMB.save()}" />
+            <h:commandButton value="Отменить" action="#{practicsMB.cancel()}" />
           </div>
         </h:form>
       </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{subjectsMB.delete}">
+      <h:panelGroup layout="block" rendered="#{practicsMB.delete}">
         <!-- Delete -->
         <h2>Удаление практики</h2>
         <h:form>
-          <p>Практика "#{subjectsMB.item.fullName}" будет удалена!</p>
+          <p>Практика "#{practicsMB.item.name}" будет удалена!</p>
           <div class="buttons">
-            <h:commandButton value="Удалить" action="#{subjectsMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{subjectsMB.cancel()}" />
+            <h:commandButton value="Удалить" action="#{practicsMB.confirmDelete()}" />
+            <h:commandButton value="Отменить" action="#{practicsMB.cancel()}" />
           </div>
         </h:form>
       </h:panelGroup>

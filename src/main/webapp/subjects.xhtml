@@ -12,13 +12,13 @@
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
+      <p>
+        <h:link class="action" outcome="studyplans" value="Учебные планы" />
+        <h:link class="action" outcome="studyplans?id=#{subjectsMB.plan.id}" value="#{subjectsMB.plan.name} " />
+      </p>
       <h:panelGroup layout="block" rendered="#{subjectsMB.browse}">
         <!-- List -->
-        <h2>Дисциплины</h2>
-        <p>Учебный план 
-          <h:link outcome="studyplans?id=#{subjectsMB.plan.id}" value="#{subjectsMB.plan.name}" />
-        </p>
-        <p><h:link outcome="studyplans" value="Список учебных планов" /></p>
+        <h2>Дисциплины (МДК)</h2>
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{subjectsMB.add()}" /></div>
         </h:form>
@@ -58,7 +58,7 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{subjectsMB.edit}">
         <!-- Edit -->
-        <h2>Параметры дисциплины</h2>
+        <h2>Редактирование дисциплины (МДК)</h2>
         <h:form>
           <h:outputText value="Наименование полное" /><br />
           <h:inputText value="#{subjectsMB.item.fullName}" class="textEdit" /><p />
@@ -78,7 +78,7 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{subjectsMB.delete}">
         <!-- Delete -->
-        <h2>Удаление дисциплины</h2>
+        <h2>Удаление дисциплины (МДК)</h2>
         <h:form>
           <p>Дисциплина "#{subjectsMB.item.fullName}" будет удалена!</p>
           <div class="buttons">

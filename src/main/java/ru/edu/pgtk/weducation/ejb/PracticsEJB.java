@@ -14,10 +14,10 @@ import ru.edu.pgtk.weducation.entity.StudyPlan;
 @Stateless
 @Named("practicsEJB")
 public class PracticsEJB {
-  
-  @PersistenceContext(unitName="weducationPU")
+
+  @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
-  
+
   public Practic get(final int id) {
     Practic result = em.find(Practic.class, id);
     if (null != result) {
@@ -25,7 +25,7 @@ public class PracticsEJB {
     }
     throw new EJBException("Practic not found with id " + id);
   }
-  
+
   public StudyPlan getPlan(final int id) {
     StudyPlan result = em.find(StudyPlan.class, id);
     if (null != result) {
@@ -33,19 +33,19 @@ public class PracticsEJB {
     }
     throw new EJBException("Wrong StudyPlan id " + id);
   }
-  
+
   public List<Practic> fetchAll() {
     TypedQuery<Practic> q = em.createQuery("SELECT p FROM Practic p ORDER BY p.name", Practic.class);
     return q.getResultList();
   }
-  
+
   public List<Practic> findByPlan(final StudyPlan plan) {
     TypedQuery<Practic> q = em.createQuery(
             "SELECT p FROM Practic p WHERE (p.plan = :pln) ORDER BY p.name", Practic.class);
     q.setParameter("pln", plan);
     return q.getResultList();
   }
-  
+
   public Practic save(Practic item) {
     if (item.getPlanCode() > 0) {
       StudyPlan sp = getPlan(item.getPlanCode());
@@ -70,11 +70,11 @@ public class PracticsEJB {
       return em.merge(item);
     }
   }
-  
+
   public void delete(final Practic item) {
     Practic p = em.find(Practic.class, item.getId());
     if (null != p) {
       em.remove(p);
     }
-  } 
+  }
 }

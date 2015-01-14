@@ -10,15 +10,15 @@ import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 
 public class SubjectsMB extends GenericBean<Subject> implements Serializable {
-  
+
   @EJB
   private SubjectsEJB ejb;
   @EJB
   private StudyModulesEJB mejb;
-  
+
   private StudyPlan plan = null;
   private int planCode;
-  
+
   public int getPlanCode() {
     return planCode;
   }
@@ -48,17 +48,17 @@ public class SubjectsMB extends GenericBean<Subject> implements Serializable {
   public List<Subject> getSubjects() {
     return ejb.findByPlan(plan);
   }
-  
+
   public List<StudyModule> getStudyModules() {
-    return mejb.findByPlan(plan); 
+    return mejb.findByPlan(plan);
   }
-  
+
   public void add() {
     item = new Subject();
     item.setPlan(plan);
     edit = true;
   }
-  
+
   public void save() {
     try {
       ejb.save(item);
@@ -77,5 +77,5 @@ public class SubjectsMB extends GenericBean<Subject> implements Serializable {
     } catch (Exception e) {
       addMessage(e);
     }
-  }  
+  }
 }

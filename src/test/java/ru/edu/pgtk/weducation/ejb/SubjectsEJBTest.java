@@ -10,6 +10,7 @@ import javax.naming.NamingException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.edu.pgtk.weducation.entity.Subject;
 
@@ -44,6 +45,7 @@ public class SubjectsEJBTest {
     fail("This test should throw an exception!");
   }
 
+  @Ignore
   @Test
   public void testFetchAll() throws Exception {
     try {
