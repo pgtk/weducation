@@ -8,7 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Класс практики
@@ -37,11 +39,61 @@ public class Practic implements Serializable {
   private int semester;
 
   @ManyToOne
+  @JoinColumn(name = "prk_plncode")
+  private StudyPlan plan;
+  
+  @ManyToOne
   @JoinColumn(name = "prk_modcode")
   private StudyModule module;
-
+  
+  @Transient
+  private int planCode;
+  
+  @Transient
+  private int moduleCode;
+  
+  @PostLoad
+  private void updateCodes() {
+    planCode = plan.getId();
+    if (null != module) {
+      moduleCode = module.getId();
+    }
+  }
+  
   public int getId() {
     return id;
+  }
+
+  public StudyPlan getPlan() {
+    return plan;
+  }
+
+  public void setPlan(StudyPlan plan) {
+    this.plan = plan;
+  }
+
+  public int getPlanCode() {
+    return planCode;
+  }
+
+  public void setPlanCode(int planCode) {
+    this.planCode = planCode;
+  }
+
+  public StudyModule getModule() {
+    return module;
+  }
+
+  public void setModule(StudyModule module) {
+    this.module = module;
+  }
+
+  public int getModuleCode() {
+    return moduleCode;
+  }
+
+  public void setModuleCode(int moduleCode) {
+    this.moduleCode = moduleCode;
   }
 
   public String getName() {
@@ -58,14 +110,6 @@ public class Practic implements Serializable {
 
   public void setLength(float length) {
     this.length = length;
-  }
-
-  public StudyModule getModule() {
-    return module;
-  }
-
-  public void setModule(StudyModule module) {
-    this.module = module;
   }
 
   public int getCourse() {

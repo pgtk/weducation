@@ -17,7 +17,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "semestermarks")
-public class SemesterMarks implements Serializable {
+public class SemesterMark implements Serializable {
 
   @Id
   @Column(name = "smk_pcode")

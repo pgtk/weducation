@@ -1,15 +1,27 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
-import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
+import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
-public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable {
+public class StudyModulesMB extends GenericBean<StudyModule> implements Serializable {
 
   @EJB
-  private transient StudyPlansEJB ejb;
+  private StudyModulesEJB ejb;
+
+  private StudyPlan plan = null;
   private int planCode;
+
+  public StudyPlan getPlan() {
+    return plan;
+  }
+
+  public void setPlan(StudyPlan plan) {
+    this.plan = plan;
+  }
 
   public int getPlanCode() {
     return planCode;
@@ -22,16 +34,22 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
   public void loadPlan() {
     try {
       if (planCode > 0) {
-        item = ejb.get(planCode);
-        details = true;
+        plan = ejb.getPlan(planCode);
+      } else {
+        addMessage("Wrond StudyPlan identifier " + planCode);
       }
     } catch (Exception e) {
       addMessage(e);
     }
   }
+  
+  public List<StudyModule> getStudyModules() {
+    return ejb.findByPlan(plan);
+  }
 
   public void add() {
-    item = new StudyPlan();
+    item = new StudyModule();
+    item.setPlan(plan);
     edit = true;
   }
 
@@ -46,7 +64,7 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
 
   public void confirmDelete() {
     try {
-      if (delete && (null != item)) {
+      if ((null != item) && delete) {
         ejb.delete(item);
       }
       resetState();

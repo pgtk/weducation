@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <f:metadata>
+    <f:viewParam id="planId" name="planId" value="#{subjectsMB.planCode}" />
+    <f:viewAction action="#{subjectsMB.loadPlan()}" />
+  </f:metadata>  
+
+  <ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+      <h:panelGroup layout="block" rendered="#{subjectsMB.browse}">
+        <!-- List -->
+        <h2>Практики</h2>
+        <p>Учебный план 
+          <h:link outcome="studyplans?id=#{subjectsMB.plan.id}" value="#{subjectsMB.plan.name}" />
+        </p>
+        <p><h:link outcome="studyplans" value="Список учебных планов" /></p>
+        <h:form>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{subjectsMB.add()}" /></div>
+        </h:form>
+        <h:form id="listForm" rendered="#{not empty subjectsMB.subjects}">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th width="70%">Наименование</th>
+                <th width="10%">Продолжительность</th>
+                <th width="20%">Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ui:repeat value="#{subjectsMB.subjects}" var="practic">
+                <tr>
+                  <td>
+                    #{practic.fullName}
+                  </td>
+                  <td>
+                    #{practic.shortName}
+                  </td>
+                  <td>
+                    <h:commandLink class="action" value="Изменить" action="#{subjectsMB.edit(sub)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{subjectsMB.delete(sub)}" />
+                  </td>
+                </tr>
+              </ui:repeat>
+            </tbody>
+          </table>
+        </h:form>
+        <h:panelGroup rendered="#{empty subjectsMB.subjects}">
+          <p>На данный момент нет ни одной записи.</p>
+        </h:panelGroup>
+        <h:form>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{subjectsMB.add()}" /></div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{subjectsMB.edit}">
+        <!-- Edit -->
+        <h2>Редактирование практики</h2>
+        <h:form>
+          <h:outputText value="Наименование полное" /><br />
+          <h:inputText value="#{subjectsMB.item.fullName}" class="textEdit" /><p />
+          <h:outputText value="Наименование сокращенное" /><br />
+          <h:inputText value="#{subjectsMB.item.shortName}" class="textEdit" /><p />
+          <h:outputText value="Профессиональный модуль" /><br />
+          <h:selectOneMenu value="#{subjectsMB.item.moduleCode}">
+            <f:selectItem itemLabel="Нет привязки к модулю" itemValue="0" />
+            <f:selectItems value="#{subjectsMB.studyModules}" var="module" 
+                           itemLabel="#{module.name}" itemValue="#{module.id}" />
+          </h:selectOneMenu><p />
+          <div class="buttons">
+            <h:commandButton value="Сохранить" action="#{subjectsMB.save()}" />
+            <h:commandButton value="Отменить" action="#{subjectsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{subjectsMB.delete}">
+        <!-- Delete -->
+        <h2>Удаление практики</h2>
+        <h:form>
+          <p>Практика "#{subjectsMB.item.fullName}" будет удалена!</p>
+          <div class="buttons">
+            <h:commandButton value="Удалить" action="#{subjectsMB.confirmDelete()}" />
+            <h:commandButton value="Отменить" action="#{subjectsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+    </ui:define>
+  </ui:composition>
+</html>

@@ -24,4 +24,19 @@
         <managed-bean-class>ru.edu.pgtk.weducation.jsf.StudyPlansMB</managed-bean-class>
     
         <managed-bean-scope>view</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>studyModulesMB</managed-bean-name>
+        <managed-bean-class>ru.edu.pgtk.weducation.jsf.StudyModulesMB</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>subjectsMB</managed-bean-name>
+        <managed-bean-class>ru.edu.pgtk.weducation.jsf.SubjectsMB</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>practicsMB</managed-bean-name>
+        <managed-bean-class>ru.edu.pgtk.weducation.jsf.PracticsMB</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

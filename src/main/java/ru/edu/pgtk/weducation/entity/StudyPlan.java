@@ -26,14 +26,14 @@ public class StudyPlan implements Serializable {
 
   @Column(name = "pln_description", length = 255)
   private String description;
-  
+
   @Column(name = "pln_extramural", nullable = false)
   private boolean extramural;
 
   @ManyToOne
   @JoinColumn(name = "pln_spccode", nullable = false)
   private Speciality speciality;
-  
+
   @Transient
   private int specialityCode;
 
@@ -41,15 +41,15 @@ public class StudyPlan implements Serializable {
   private void updateCodes() {
     specialityCode = speciality.getId();
   }
-  
+
   public int getId() {
     return id;
   }
-  
+
   public String getExtramural() {
-    return (extramural)? "заочная форма" : "очная форма";
+    return (extramural) ? "заочная форма" : "очная форма";
   }
-  
+
   public String getNameForList() {
     return name + " (" + getExtramural() + ")";
   }

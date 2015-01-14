@@ -65,6 +65,9 @@ public class StudyCardsEJB {
       if (null != grp) {
         item.setGroup(grp);
       }
+    } else {
+      // А вдруг группу убрали?
+      item.setGroup(null);
     }
     if (item.getSpecialityCode() > 0) {
       Speciality spc = em.find(Speciality.class, item.getSpecialityCode());

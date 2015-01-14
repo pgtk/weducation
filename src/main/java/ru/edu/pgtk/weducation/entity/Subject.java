@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -43,6 +44,14 @@ public class Subject implements Serializable {
 
   @Transient
   private int moduleCode;
+
+  @PostLoad
+  private void updateCodes() {
+    planCode = plan.getId();
+    if (module != null) {
+      moduleCode = module.getId();
+    }
+  }
 
   public int getId() {
     return id;

@@ -16,7 +16,7 @@ import ru.edu.pgtk.weducation.entity.StudyProfile;
  * @author Воронин Леонид
  */
 @Stateless
-public class StudyProfileEJB {
+public class StudyProfilesEJB {
 
   @PersistenceContext
   EntityManager em;

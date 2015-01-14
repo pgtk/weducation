@@ -5,6 +5,11 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+  <f:metadata>
+    <f:viewParam id="id" name="id" value="#{studyPlansMB.planCode}" />
+    <f:viewAction action="#{studyPlansMB.loadPlan()}" />
+  </f:metadata>  
+
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <h:panelGroup layout="block" rendered="#{studyPlansMB.browse}">
@@ -26,10 +31,10 @@
               <ui:repeat value="#{studyPlansEJB.fetchAll()}" var="stp">
                 <tr>
                   <td>
-                    #{stp.name}
+                    <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.name}" />
                   </td>
                   <td>
-                    #{stp.description}
+                    <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.description}" />
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{studyPlansMB.edit(stp)}" />
@@ -49,7 +54,7 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{studyPlansMB.edit}">
         <!-- Edit -->
-        <h2>Параметры учебного плана</h2>
+        <h2>Редактирование учебного плана</h2>
         <h:form>
           <h:outputText value="Наименование" /><br />
           <h:inputText value="#{studyPlansMB.item.name}" class="textEdit" /><p />
@@ -76,6 +81,19 @@
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{studyPlansMB.confirmDelete()}" />
             <h:commandButton value="Отменить" action="#{studyPlansMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{studyPlansMB.details}">
+        <!-- Details -->
+        <h2>Детали учебного плана</h2>
+        <h:form>
+          <p>Учебный план "#{studyPlansMB.item.name}".</p>
+          <p><h:link outcome="studymodules?planId=#{studyPlansMB.item.id}" value="Редактирование профессиональных модулей" /></p>
+          <p><h:link outcome="subjects?planId=#{studyPlansMB.item.id}" value="Редактирование дисциплин (МДК)" /></p>
+          <p><h:link outcome="practics?planId=#{studyPlansMB.item.id}" value="Редактирование практик" /></p>
+          <div class="buttons">
+            <h:commandButton value="Закрыть" action="#{studyPlansMB.cancel()}" />
           </div>
         </h:form>
       </h:panelGroup>
