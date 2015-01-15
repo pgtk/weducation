@@ -22,7 +22,7 @@ public class ExamForm implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @Column(name = "exf_name")
+  @Column(name = "exf_name", nullable = false, length = 128)
   private String name;
 
   public int getId() {

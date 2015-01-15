@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -23,29 +24,40 @@ public class SubjectLoad implements Serializable {
   @Column(name = "lod_pcode")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  
+
   @ManyToOne
   @JoinColumn(name = "lod_subcode", nullable = false)
   private Subject subject;
-  
+
+  @Transient
+  private int subjectCode;
+
   @Column(name = "lod_course", nullable = false)
   private int course;
-  
+
   @Column(name = "lod_semester", nullable = false)
   private int semester;
-  
+
   @Column(name = "lod_auditory", nullable = false)
   private int auditoryLoad;
-  
+
   @Column(name = "lod_maximum", nullable = false)
   private int maximumLoad;
-  
+
   @ManyToOne
-  @JoinColumn(name = "sub_exfcode", nullable = false)
+  @JoinColumn(name = "sub_exfcode")
   private ExamForm examForm;
-  
+
   @Transient
   private int examFormCode;
+
+  @PostLoad
+  private void updateCodes() {
+    if (null != examForm) {
+      examFormCode = examForm.getId();
+    }
+    subjectCode = subject.getId();
+  }
 
   public int getId() {
     return id;
@@ -57,6 +69,19 @@ public class SubjectLoad implements Serializable {
 
   public void setSubject(Subject subject) {
     this.subject = subject;
+    if (null != subject) {
+      subjectCode = subject.getId();
+    } else {
+      subjectCode = 0;
+    }
+  }
+
+  public int getSubjectCode() {
+    return subjectCode;
+  }
+
+  public void setSubjectCode(int subjectCode) {
+    this.subjectCode = subjectCode;
   }
 
   public int getCourse() {
@@ -97,6 +122,11 @@ public class SubjectLoad implements Serializable {
 
   public void setExamForm(ExamForm examForm) {
     this.examForm = examForm;
+    if (null != examForm) {
+      examFormCode = examForm.getId();
+    } else {
+      examFormCode = 0;
+    }
   }
 
   public int getExamFormCode() {
