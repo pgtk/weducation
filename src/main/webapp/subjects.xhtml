@@ -35,10 +35,10 @@
               <ui:repeat value="#{subjectsMB.subjects}" var="sub">
                 <tr>
                   <td>
-                    #{sub.fullName}
+                    <h:link class="action" value="#{sub.fullName}" outcome="subjectload?subjectId=#{sub.id}" />
                   </td>
                   <td>
-                    #{sub.shortName}
+                    <h:link class="action" value="#{sub.shortName}" outcome="subjectload?subjectId=#{sub.id}" />
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{subjectsMB.edit(sub)}" />

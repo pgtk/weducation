@@ -6,84 +6,101 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <f:metadata>
-    <f:viewParam id="subjectId" name="subjectId" value="#{practicsMB.planCode}" />
-    <f:viewAction action="#{practicsMB.loadPlan()}" />
+    <f:viewParam id="subjectId" name="subjectId" value="#{subjectLoadMB.subjectCode}" />
+    <f:viewAction action="#{subjectLoadMB.loadSubject()}" />
   </f:metadata>  
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <p>
         <h:link class="action" outcome="studyplans" value="Учебные планы" />
-        <h:link class="action" outcome="studyplans?id=#{practicsMB.plan.id}" value="#{practicsMB.plan.name} " />
+        <h:link class="action" outcome="studyplans?id=#{subjectLoadMB.subject.plan.id}" value="#{subjectLoadMB.subject.plan.name}" />
+        <h:link class="action" outcome="subjects?planId=#{subjectLoadMB.subject.plan.id}" value="Дисциплины" />
       </p>
-      <h:panelGroup layout="block" rendered="#{practicsMB.browse}">
+      <p>
+        <h:outputText value="Дисциплина: #{subjectLoadMB.subject.fullName}" />
+      </p>
+      <h:panelGroup layout="block" rendered="#{subjectLoadMB.browse}">
         <!-- List -->
-        <h2>Практики</h2>
+        <h2>Нагрузка по дисциплине (МДК)</h2>
         <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{practicsMB.add()}" /></div>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{subjectLoadMB.add()}" /></div>
         </h:form>
-        <h:form id="listForm" rendered="#{not empty practicsMB.practics}">
+        <h:form id="listForm" rendered="#{not empty subjectLoadMB.subjectLoad}">
           <table id="dataTable">
             <thead>
               <tr>
-                <th width="60%">Наименование</th>
-                <th width="20%">Продолжительность</th>
+                <th width="20%">Курс</th>
+                <th width="20%">Семестр</th>
+                <th width="20%">Аудиторная нагрузка</th>
+                <th width="20%">Максимальная</th>
                 <th width="20%">Действия</th>
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{practicsMB.practics}" var="practic">
+              <ui:repeat value="#{subjectLoadMB.subjectLoad}" var="load">
                 <tr>
                   <td>
-                    #{practic.name}
+                    #{load.course}
                   </td>
                   <td>
-                    #{practic.length}
+                    #{load.semester}
                   </td>
                   <td>
-                    <h:commandLink class="action" value="Изменить" action="#{practicsMB.edit(practic)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{practicsMB.delete(practic)}" />
+                    #{load.auditoryLoad}
+                  </td>
+                  <td>
+                    #{load.maximumLoad}
+                  </td>
+                  <td>
+                    <h:commandLink class="action" value="Изменить" action="#{subjectLoadMB.edit(load)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{subjectLoadMB.delete(load)}" />
                   </td>
                 </tr>
               </ui:repeat>
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty practicsMB.practics}">
+        <h:panelGroup rendered="#{empty subjectLoadMB.subjectLoad}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{practicsMB.add()}" /></div>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{subjectLoadMB.add()}" /></div>
         </h:form>
       </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{practicsMB.edit}">
+      <h:panelGroup layout="block" rendered="#{subjectLoadMB.edit}">
         <!-- Edit -->
-        <h2>Редактирование практики</h2>
+        <h2>Редактирование нагрузки по дисциплине (МДК)</h2>
         <h:form>
-          <h:outputText value="Наименование полное" /><br />
-          <h:inputText value="#{practicsMB.item.name}" class="textEdit" /><p />
-          <h:outputText value="Продолжительность" /><br />
-          <h:inputText value="#{practicsMB.item.length}" class="textEdit" /><p />
-          <h:outputText value="Профессиональный модуль" /><br />
-          <h:selectOneMenu value="#{practicsMB.item.moduleCode}">
-            <f:selectItem itemLabel="Нет привязки к модулю" itemValue="0" />
-            <f:selectItems value="#{practicsMB.studyModules}" var="module" 
-                           itemLabel="#{module.name}" itemValue="#{module.id}" />
+          <h:outputText value="Курс" /><br />
+          <h:inputText value="#{subjectLoadMB.item.course}" class="textEdit" /><p />
+          <h:outputText value="Семестр" /><br />
+          <h:inputText value="#{subjectLoadMB.item.semester}" class="textEdit" /><p />
+          <h:outputText value="Аудиторная нагрузка" /><br />
+          <h:inputText value="#{subjectLoadMB.item.auditoryLoad}" class="textEdit" /><p />
+          <h:outputText value="Максимальная нагрузка" /><br />
+          <h:inputText value="#{subjectLoadMB.item.maximumLoad}" class="textEdit" /><p />
+          <h:outputText value="Форма аттестации" /><br />
+          <h:selectOneMenu value="#{subjectLoadMB.item.examFormCode}">
+            <f:selectItem itemLabel="Не предусмотрено" itemValue="0" />
+            <f:selectItems value="#{examFormsEJB.fetchAll()}" var="exam" 
+                           itemLabel="#{exam.name}" itemValue="#{exam.id}" />
           </h:selectOneMenu><p />
           <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{practicsMB.save()}" />
-            <h:commandButton value="Отменить" action="#{practicsMB.cancel()}" />
+            <h:commandButton value="Сохранить" action="#{subjectLoadMB.save()}" />
+            <h:commandButton value="Отменить" action="#{subjectLoadMB.cancel()}" />
           </div>
         </h:form>
       </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{practicsMB.delete}">
+      <h:panelGroup layout="block" rendered="#{subjectLoadMB.delete}">
         <!-- Delete -->
-        <h2>Удаление практики</h2>
+        <h2>Удаление нагрузки по дисциплине (МДК)</h2>
         <h:form>
-          <p>Практика "#{practicsMB.item.name}" будет удалена!</p>
+          <p>Нагрузка по дисциплине "#{subjectLoadMB.subject.fullName}"
+            за #{subjectLoadMB.item.semester}-й семестр будет удалена!</p>
           <div class="buttons">
-            <h:commandButton value="Удалить" action="#{practicsMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{practicsMB.cancel()}" />
+            <h:commandButton value="Удалить" action="#{subjectLoadMB.confirmDelete()}" />
+            <h:commandButton value="Отменить" action="#{subjectLoadMB.cancel()}" />
           </div>
         </h:form>
       </h:panelGroup>

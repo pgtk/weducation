@@ -39,4 +39,14 @@
         <managed-bean-class>ru.edu.pgtk.weducation.jsf.PracticsMB</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>subjectLoadMB</managed-bean-name>
+        <managed-bean-class>ru.edu.pgtk.weducation.jsf.SubjectLoadMB</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>examFormsMB</managed-bean-name>
+        <managed-bean-class>ru.edu.pgtk.weducation.jsf.ExamFormsMB</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

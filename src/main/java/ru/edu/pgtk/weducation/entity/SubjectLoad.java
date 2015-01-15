@@ -45,7 +45,7 @@ public class SubjectLoad implements Serializable {
   private int maximumLoad;
 
   @ManyToOne
-  @JoinColumn(name = "sub_exfcode")
+  @JoinColumn(name = "lod_exfcode")
   private ExamForm examForm;
 
   @Transient

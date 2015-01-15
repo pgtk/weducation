@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import ru.edu.pgtk.weducation.entity.ExamForm;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.entity.SubjectLoad;
@@ -46,5 +47,41 @@ public class SubjectLoadEJB {
     q.setParameter("pln", plan);
     q.setParameter("sm", semester);
     return q.getResultList();
+  }
+  
+  public SubjectLoad save(SubjectLoad item) {
+    if (item.getSubjectCode() > 0) {
+      Subject s = em.find(Subject.class, item.getSubjectCode());
+      if (null != s) {
+        item.setSubject(s);
+      } else {
+        throw new EJBException("Subject not found with id " + item.getSubjectCode());
+      }
+    } else {
+      throw new EJBException("Wrong Subject code " + item.getSubjectCode());
+    }
+    if (item.getExamFormCode() > 0) {
+      ExamForm ef = em.find(ExamForm.class, item.getExamFormCode());
+      if (null != ef) {
+        item.setExamForm(ef);
+      } else {
+        throw new EJBException("ExamForm not found with id " + item.getSubjectCode());
+      }
+    } else {
+      item.setExamForm(null);
+    }
+    if (item.getId() == 0) {
+      em.persist(item);
+      return item;
+    } else {
+      return em.merge(item);
+    }
+  }
+  
+  public void delete(final SubjectLoad item) {
+    SubjectLoad sl = em.find(SubjectLoad.class, item.getId());
+    if (null != sl) {
+      em.remove(sl);
+    }
   }
 }
