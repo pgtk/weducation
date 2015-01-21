@@ -30,27 +30,34 @@
           <table id="dataTable">
             <thead>
               <tr>
-                <th width="20%">Курс</th>
-                <th width="20%">Семестр</th>
-                <th width="20%">Аудиторная нагрузка</th>
-                <th width="20%">Максимальная</th>
-                <th width="20%">Действия</th>
+                <th rowspan="2" width="10%">Курс</th>
+                <th rowspan="2" width="10%">Семестр</th>
+                <th colspan="3" width="60%">Нагрузка</th>
+                <th rowspan="2" width="20%">Действия</th>
+              </tr>
+              <tr>
+                <th width="20%">аудиторная</th>
+                <th width="20%">максимальная</th>
+                <th width="20%">курсовые</th>
               </tr>
             </thead>
             <tbody>
               <ui:repeat value="#{subjectLoadMB.subjectLoad}" var="load">
                 <tr>
-                  <td>
+                  <td align="right">
                     #{load.course}
                   </td>
-                  <td>
+                  <td align="right">
                     #{load.semester}
                   </td>
-                  <td>
+                  <td align="right">
                     #{load.auditoryLoad}
                   </td>
-                  <td>
+                  <td align="right">
                     #{load.maximumLoad}
+                  </td>
+                  <td align="right">
+                    #{load.courseProjectLoad}
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{subjectLoadMB.edit(load)}" />
@@ -80,6 +87,8 @@
           <h:inputText value="#{subjectLoadMB.item.auditoryLoad}" class="textEdit" /><p />
           <h:outputText value="Максимальная нагрузка" /><br />
           <h:inputText value="#{subjectLoadMB.item.maximumLoad}" class="textEdit" /><p />
+          <h:outputText value="Нагрузка на курсовое проектирование" /><br />
+          <h:inputText value="#{subjectLoadMB.item.courseProjectLoad}" class="textEdit" /><p />
           <h:outputText value="Форма аттестации" /><br />
           <h:selectOneMenu value="#{subjectLoadMB.item.examFormCode}">
             <f:selectItem itemLabel="Не предусмотрено" itemValue="0" />

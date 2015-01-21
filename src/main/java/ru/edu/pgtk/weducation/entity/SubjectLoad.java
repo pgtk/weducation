@@ -40,6 +40,9 @@ public class SubjectLoad implements Serializable {
 
   @Column(name = "lod_auditory", nullable = false)
   private int auditoryLoad;
+  
+  @Column(name = "lod_courseproj", nullable = false)
+  private int courseProjectLoad;
 
   @Column(name = "lod_maximum", nullable = false)
   private int maximumLoad;
@@ -114,6 +117,14 @@ public class SubjectLoad implements Serializable {
 
   public void setMaximumLoad(int maximumLoad) {
     this.maximumLoad = maximumLoad;
+  }
+
+  public int getCourseProjectLoad() {
+    return courseProjectLoad;
+  }
+
+  public void setCourseProjectLoad(int courseProjectLoad) {
+    this.courseProjectLoad = courseProjectLoad;
   }
 
   public ExamForm getExamForm() {

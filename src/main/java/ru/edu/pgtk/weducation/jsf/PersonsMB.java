@@ -1,0 +1,84 @@
+package ru.edu.pgtk.weducation.jsf;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.ejb.EJB;
+import ru.edu.pgtk.weducation.ejb.PersonsEJB;
+import ru.edu.pgtk.weducation.entity.Person;
+
+public class PersonsMB extends GenericBean<Person> implements Serializable {
+
+  @EJB
+  private PersonsEJB ejb;
+  
+  private int personCode;
+  private String name;
+  private boolean filter;
+
+  public int getPersonCode() {
+    return personCode;
+  }
+
+  public void setPersonCode(int personCode) {
+    this.personCode = personCode;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  public void toggleFilter() {
+    filter = !filter;
+    if (!filter) {
+      name = null;
+    }
+  }
+  
+  public void loadPerson() {
+    try {
+      if (personCode > 0) {
+        item = ejb.get(personCode);
+        details = true;
+      }
+    } catch (Exception e) {
+      addMessage(e);
+    }
+  }
+  
+  public List<Person> getPersonList() {
+    if (filter && (null != name)) {
+      return ejb.findByName(name);
+    } else {
+      return ejb.fetchAll();
+    }
+  }
+  
+  public void add() {
+    item = new Person();
+    edit = true;
+  }
+  
+  public void save() {
+    try {
+      ejb.save(item);
+      resetState();
+    } catch (Exception e) {
+      addMessage(e);
+    }
+  }
+
+  public void confirmDelete() {
+    try {
+      if ((null != item) && delete) {
+        ejb.delete(item);
+      }
+      resetState();
+    } catch (Exception e) {
+      addMessage(e);
+    }
+  }
+}

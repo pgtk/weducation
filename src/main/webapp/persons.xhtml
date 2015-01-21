@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <f:metadata>
+    <f:viewParam id="id" name="id" value="#{personsMB.personCode}" />
+    <f:viewAction action="#{personsMB.loadPerson()}" />
+  </f:metadata>  
+
+  <ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+      <h:panelGroup layout="block" rendered="#{personsMB.browse}">
+        <!-- List -->
+        <h2>Персоны</h2>
+        <h:form>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}" /></div>
+          <p>
+            <h:outputText value="Фамилия " />
+            <h:inputText value="#{personsMB.name}" class="textEdit" />
+            <h:commandButton action="#{personsMB.toggleFilter()}" value="Фильтр/Сброс" />
+          </p>
+        </h:form>
+        <h:form id="listForm" rendered="#{not empty personsMB.personList}">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th width="20%">Фамилия</th>
+                <th width="20%">Имя</th>
+                <th width="20%">Отчество</th>
+                <th width="20%">Дата рождения</th>
+                <th width="20%">Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ui:repeat value="#{personsMB.personList}" var="psn">
+                <tr>
+                  <td>
+                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.firstName}" />
+                  </td>
+                  <td>
+                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.middleName}" />
+                  </td>
+                  <td>
+                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.lastName}" />
+                  </td>
+                  <td>
+                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.birthDateString}" />
+                  </td>
+                  <td>
+                    <h:commandLink class="action" value="Изменить" action="#{personsMB.edit(psn)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{personsMB.delete(psn)}" />
+                  </td>
+                </tr>
+              </ui:repeat>
+            </tbody>
+          </table>
+        </h:form>
+        <h:panelGroup rendered="#{empty personsMB.personList}">
+          <p>На данный момент нет ни одной записи.</p>
+        </h:panelGroup>
+        <h:form>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}" /></div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{personsMB.edit}">
+        <!-- Edit -->
+        <h2>Редактирование персоны</h2>
+        <h:form>
+          <h:outputText value="Фамилия" /><br />
+          <h:inputText value="#{personsMB.item.firstName}" class="textEdit" /><p />
+          <h:outputText value="Имя" /><br />
+          <h:inputText value="#{personsMB.item.middleName}" class="textEdit" /><p />
+          <h:outputText value="Отчество" /><br />
+          <h:inputText value="#{personsMB.item.lastName}" class="textEdit" /><p />
+          <h:outputText value="Дата рождения" /><br />
+          <h:inputText value="#{personsMB.item.birthDate}" class="textEdit">
+            <f:convertDateTime pattern="d.M.yyyy" />
+          </h:inputText><p />
+          <h:outputText value="Место рождения" /><br />
+          <h:inputText value="#{personsMB.item.birthPlace}" class="textEdit" /><p />
+          <h:outputText value="Пол" /><br />
+          <h:selectOneMenu value="#{personsMB.item.male}">
+            <f:selectItem itemLabel="мужской" itemValue="true"/>
+            <f:selectItem itemLabel="женский" itemValue="false"/>
+          </h:selectOneMenu><p />
+          <h:outputText value="Гражданство" /><br />
+          <h:selectOneMenu value="#{personsMB.item.foreign}">
+            <f:selectItem itemLabel="Россия" itemValue="false"/>
+            <f:selectItem itemLabel="другое" itemValue="true"/>
+          </h:selectOneMenu><p />
+          <div class="buttons">
+            <h:commandButton value="Сохранить" action="#{personsMB.save()}" />
+            <h:commandButton value="Отменить" action="#{personsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{personsMB.delete}">
+        <!-- Delete -->
+        <h2>Удаление персоны</h2>
+        <h:form>
+          <p>Персона "#{personsMB.item.fullName}" будет удалена!</p>
+          <div class="buttons">
+            <h:commandButton value="Удалить" action="#{personsMB.confirmDelete()}" />
+            <h:commandButton value="Отменить" action="#{personsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{personsMB.details}">
+        <!-- Details -->
+        <h2>Детали персоны</h2>
+        <h:form>
+          <p>#{personsMB.item.fullName}.</p>
+          <p>
+            Раздел пока в разработке.
+          </p>
+          <div class="buttons">
+            <h:commandButton value="Закрыть" action="#{personsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+    </ui:define>
+  </ui:composition>
+</html>
