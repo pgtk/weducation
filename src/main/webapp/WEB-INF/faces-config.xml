@@ -54,4 +54,9 @@
         <managed-bean-class>ru.edu.pgtk.weducation.jsf.PersonsMB</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>departmentProfilesMB</managed-bean-name>
+        <managed-bean-class>ru.edu.pgtk.weducation.jsf.DepartmentProfilesMB</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

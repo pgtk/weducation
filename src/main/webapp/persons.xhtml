@@ -19,8 +19,9 @@
           <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}" /></div>
           <p>
             <h:outputText value="Фамилия " />
-            <h:inputText value="#{personsMB.name}" class="textEdit" />
-            <h:commandButton action="#{personsMB.toggleFilter()}" value="Фильтр/Сброс" />
+            <h:inputText rendered="#{not personsMB.filter}" value="#{personsMB.name}" class="textEdit" />
+            <h:outputText rendered="#{personsMB.filter}" value="#{personsMB.name}" />
+            <h:commandButton action="#{personsMB.toggleFilter()}" value="#{personsMB.filterButtonLabel}" />
           </p>
         </h:form>
         <h:form id="listForm" rendered="#{not empty personsMB.personList}">
@@ -112,9 +113,10 @@
         <!-- Details -->
         <h2>Детали персоны</h2>
         <h:form>
-          <p>#{personsMB.item.fullName}.</p>
+          <h3>#{personsMB.item.fullName}</h3>
           <p>
-            Раздел пока в разработке.
+            Раздел пока в разработке. тут планируется сделать доступ к личным карточкам
+            и долее детальной информации (например, паспортные данные, законные представители).
           </p>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{personsMB.cancel()}" />

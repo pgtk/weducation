@@ -73,6 +73,18 @@
           </div>
         </h:form>
       </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{departmentsMB.details}">
+        <!-- Details -->
+        <h2>Детали отделения</h2>
+        <h:form>
+          <h3>#{departmentsMB.item.name}</h3>
+          <p><h:link outcome="departmentprofiles?departmentId=#{departmentsMB.item.id}"
+                     value="Редактирование профилей" /></p>
+          <div class="buttons">
+            <h:commandButton value="Закрыть" action="#{personsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
     </ui:define>
   </ui:composition>
 </html>

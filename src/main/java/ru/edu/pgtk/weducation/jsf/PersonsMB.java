@@ -10,7 +10,7 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
 
   @EJB
   private PersonsEJB ejb;
-  
+
   private int personCode;
   private String name;
   private boolean filter;
@@ -30,14 +30,24 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
   public void setName(String name) {
     this.name = name;
   }
-  
+
+  public boolean isFilter() {
+    return filter;
+  }
+
   public void toggleFilter() {
-    filter = !filter;
+    if ((null != name) && !name.isEmpty()) {
+      filter = !filter;
+    }
     if (!filter) {
       name = null;
     }
   }
   
+  public String getFilterButtonLabel() {
+    return (filter)? "Сброс" : "Фильтр";
+  }
+
   public void loadPerson() {
     try {
       if (personCode > 0) {
@@ -48,7 +58,7 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
       addMessage(e);
     }
   }
-  
+
   public List<Person> getPersonList() {
     if (filter && (null != name)) {
       return ejb.findByName(name);
@@ -56,12 +66,12 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
       return ejb.fetchAll();
     }
   }
-  
+
   public void add() {
     item = new Person();
     edit = true;
   }
-  
+
   public void save() {
     try {
       ejb.save(item);

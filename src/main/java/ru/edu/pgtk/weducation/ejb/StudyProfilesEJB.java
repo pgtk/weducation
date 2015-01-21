@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.entity.StudyProfile;
+import ru.edu.pgtk.weducation.entity.DepartmentProfile;
 
 /**
  * Корпоративный бин для профилей обучения
@@ -21,41 +21,38 @@ public class StudyProfilesEJB {
   @PersistenceContext
   EntityManager em;
 
-  public StudyProfile get(final int id) {
-    StudyProfile item = em.find(StudyProfile.class, id);
+  public DepartmentProfile get(final int id) {
+    DepartmentProfile item = em.find(DepartmentProfile.class, id);
     if (null != item) {
       return item;
     }
     throw new EJBException("StudyProfile not found with id " + id);
   }
 
-  public List<StudyProfile> fetchAll() {
-    TypedQuery<StudyProfile> query = em.createQuery("SELECT sp FROM StudyProfile sp", StudyProfile.class);
+  public List<DepartmentProfile> fetchAll() {
+    TypedQuery<DepartmentProfile> query = em.createQuery("SELECT sp FROM StudyProfile sp", DepartmentProfile.class);
     return query.getResultList();
   }
 
-  public List<StudyProfile> findByDepartment(final Department dep) {
-    TypedQuery<StudyProfile> q = em.createQuery(
-        "SELECT sp FROM StudyProfile sp WHERE (sp.department = :department)", StudyProfile.class);
+  public List<DepartmentProfile> findByDepartment(final Department dep) {
+    TypedQuery<DepartmentProfile> q = em.createQuery("SELECT sp FROM StudyProfile sp WHERE (sp.department = :department)", DepartmentProfile.class);
     q.setParameter("department", dep);
     return q.getResultList();
   }
 
-  public List<StudyProfile> findBySpeciality(final Speciality spc) {
-    TypedQuery<StudyProfile> q = em.createQuery(
-        "SELECT sp FROM StudyProfile sp WHERE (sp.speciality = :speciality)", StudyProfile.class);
+  public List<DepartmentProfile> findBySpeciality(final Speciality spc) {
+    TypedQuery<DepartmentProfile> q = em.createQuery("SELECT sp FROM StudyProfile sp WHERE (sp.speciality = :speciality)", DepartmentProfile.class);
     q.setParameter("speciality", spc);
     return q.getResultList();
   }
 
-  public List<StudyProfile> findByExtramural(final boolean extramural) {
-    TypedQuery<StudyProfile> q = em.createQuery(
-        "SELECT sp FROM StudyProfile sp WHERE (sp.extramural = :em)", StudyProfile.class);
+  public List<DepartmentProfile> findByExtramural(final boolean extramural) {
+    TypedQuery<DepartmentProfile> q = em.createQuery("SELECT sp FROM StudyProfile sp WHERE (sp.extramural = :em)", DepartmentProfile.class);
     q.setParameter("em", extramural);
     return q.getResultList();
   }
 
-  public void save(StudyProfile profile) {
+  public void save(DepartmentProfile profile) {
     if (profile.getDepartmentCode() > 0) {
       Department dep = em.find(Department.class, profile.getDepartmentCode());
       if (null != dep) {
@@ -79,8 +76,8 @@ public class StudyProfilesEJB {
     }
   }
 
-  public void delete(final StudyProfile profile) {
-    StudyProfile item = em.find(StudyProfile.class, profile.getId());
+  public void delete(final DepartmentProfile profile) {
+    DepartmentProfile item = em.find(DepartmentProfile.class, profile.getId());
     if (null != item) {
       em.remove(item);
     }

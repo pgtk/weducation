@@ -18,35 +18,39 @@ import javax.persistence.Transient;
  * @author Воронин Леонид
  */
 @Entity
-@Table(name = "studyprofiles")
-public class StudyProfile implements Serializable {
+@Table(name = "departmentprofiles")
+public class DepartmentProfile implements Serializable {
 
   @Id
-  @Column(name = "stp_pcode")
+  @Column(name = "dpr_pcode")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @ManyToOne
-  @JoinColumn(name = "stp_depcode", nullable = false)
+  @JoinColumn(name = "dpr_depcode", nullable = false)
   private Department department;
 
   @Transient
   private int departmentCode;
 
   @ManyToOne
-  @JoinColumn(name = "stp_spccode", nullable = false)
+  @JoinColumn(name = "dpr_spccode", nullable = false)
   private Speciality speciality;
 
   @Transient
   private int specialityCode;
 
-  @Column(name = "stp_extramural", nullable = false)
+  @Column(name = "dpr_extramural", nullable = false)
   private boolean extramural;
 
   @PostLoad
   private void updateCodes() {
     specialityCode = speciality.getId();
     departmentCode = department.getId();
+  }
+  
+  public String getExtramuralString() {
+    return (extramural)? "заочная" : "очная";
   }
 
   public int getId() {
