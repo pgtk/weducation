@@ -30,24 +30,28 @@ public class StudyProfilesEJB {
   }
 
   public List<DepartmentProfile> fetchAll() {
-    TypedQuery<DepartmentProfile> query = em.createQuery("SELECT sp FROM StudyProfile sp", DepartmentProfile.class);
+    TypedQuery<DepartmentProfile> query = em.createQuery(
+            "SELECT dp FROM DepartmentProfile dp", DepartmentProfile.class);
     return query.getResultList();
   }
 
   public List<DepartmentProfile> findByDepartment(final Department dep) {
-    TypedQuery<DepartmentProfile> q = em.createQuery("SELECT sp FROM StudyProfile sp WHERE (sp.department = :department)", DepartmentProfile.class);
+    TypedQuery<DepartmentProfile> q = em.createQuery(
+            "SELECT dp FROM DepartmentProfile dp WHERE (dp.department = :department)", DepartmentProfile.class);
     q.setParameter("department", dep);
     return q.getResultList();
   }
 
   public List<DepartmentProfile> findBySpeciality(final Speciality spc) {
-    TypedQuery<DepartmentProfile> q = em.createQuery("SELECT sp FROM StudyProfile sp WHERE (sp.speciality = :speciality)", DepartmentProfile.class);
+    TypedQuery<DepartmentProfile> q = em.createQuery(
+            "SELECT dp FROM DepartmentProfile dp WHERE (dp.speciality = :speciality)", DepartmentProfile.class);
     q.setParameter("speciality", spc);
     return q.getResultList();
   }
 
   public List<DepartmentProfile> findByExtramural(final boolean extramural) {
-    TypedQuery<DepartmentProfile> q = em.createQuery("SELECT sp FROM StudyProfile sp WHERE (sp.extramural = :em)", DepartmentProfile.class);
+    TypedQuery<DepartmentProfile> q = em.createQuery(
+            "SELECT dp FROM DepartmentProfile dp WHERE (dp.extramural = :em)", DepartmentProfile.class);
     q.setParameter("em", extramural);
     return q.getResultList();
   }

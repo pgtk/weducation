@@ -52,6 +52,11 @@ public class DepartmentProfile implements Serializable {
   public String getExtramuralString() {
     return (extramural)? "заочная" : "очная";
   }
+  
+  public String getNameForList() {
+    return department.getName() + " (" + speciality.getShortName() +
+            ", " + getExtramuralString() + " форма)";
+  }
 
   public int getId() {
     return id;

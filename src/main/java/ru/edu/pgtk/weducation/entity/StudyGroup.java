@@ -31,7 +31,7 @@ public class StudyGroup implements Serializable {
   @Column(name = "grp_master", length = 128)
   private String master;
 
-  @Column(name = "grp_curse", nullable = false)
+  @Column(name = "grp_course", nullable = false)
   private int course;
 
   @Column(name = "grp_year", nullable = false)
@@ -42,6 +42,9 @@ public class StudyGroup implements Serializable {
 
   @Column(name = "grp_extramural", nullable = false)
   private boolean extramural;
+  
+  @Column(name = "grp_active", nullable = false)
+  private boolean active;
 
   @ManyToOne
   @JoinColumn(name = "grp_depcode", nullable = false)
@@ -115,12 +118,23 @@ public class StudyGroup implements Serializable {
     this.commercial = commercial;
   }
 
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
+  }
+
   public Department getDepartment() {
     return department;
   }
 
   public void setDepartment(Department department) {
     this.department = department;
+    if (department != null) {
+      departmentCode = department.getId();
+    }
   }
 
   public Speciality getSpeciality() {
@@ -129,6 +143,9 @@ public class StudyGroup implements Serializable {
 
   public void setSpeciality(Speciality speciality) {
     this.speciality = speciality;
+    if (speciality != null) {
+      specialityCode = speciality.getId();
+    }
   }
 
   public StudyPlan getPlan() {
@@ -137,6 +154,9 @@ public class StudyGroup implements Serializable {
 
   public void setPlan(StudyPlan plan) {
     this.plan = plan;
+    if (plan != null) {
+      planCode = plan.getId();
+    }
   }
 
   public boolean isExtramural() {
