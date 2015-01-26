@@ -109,19 +109,22 @@ public class StudyCard implements Serializable {
 
   @Transient
   private int groupCode;
-  
+
   @ManyToOne
   @JoinColumn(name = "crd_plncode", nullable = false)
   private StudyPlan plan;
-  
+
   @Transient
   private int planCode;
 
   @Column(name = "crd_active", nullable = false)
   private boolean active;
-  
+
   @Column(name = "crd_extramural", nullable = false)
   private boolean extramural;
+
+  @Column(name = "crd_commercial", nullable = false)
+  private boolean commercial;
 
   @PostLoad
   private void updateCodes() {
@@ -138,6 +141,15 @@ public class StudyCard implements Serializable {
 
   public int getId() {
     return id;
+  }
+
+  public String getExtramuralString() {
+    return (extramural) ? "заочная" : "очная";
+  }
+
+  public String getNameForList() {
+    return speciality.getKey() + " " + speciality.getShortName() + " ("
+            + getExtramuralString() + ")";
   }
 
   public Date getBeginDate() {
@@ -403,5 +415,13 @@ public class StudyCard implements Serializable {
 
   public void setExtramural(boolean extramural) {
     this.extramural = extramural;
+  }
+
+  public boolean isCommercial() {
+    return commercial;
+  }
+
+  public void setCommercial(boolean commercial) {
+    this.commercial = commercial;
   }
 }

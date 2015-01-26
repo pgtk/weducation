@@ -61,11 +61,11 @@
         <h2>Редактирование группы</h2>
         <h:form>
           <h:outputText value="Наименование" /><br />
+          <h:inputText value="#{studyGroupsMB.item.name}" class="textEdit" /><p />
           <h:selectBooleanCheckbox value="#{studyGroupsMB.item.extramural}">
             <f:ajax event="change" execute="@form" render="plan globalMessages" />
           </h:selectBooleanCheckbox>
           <h:outputText value="заочная форма обучения" /><p />
-          <h:inputText value="#{studyGroupsMB.item.name}" class="textEdit" /><p />
           <h:outputText value="Специальность" /><br />
           <h:selectOneMenu id="speciality" value="#{studyGroupsMB.item.specialityCode}"
                            valueChangeListener="#{studyGroupsMB.changeSpeciality}">

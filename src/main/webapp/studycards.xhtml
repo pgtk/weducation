@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <f:metadata>
+    <f:viewParam id="personId" name="personId" value="#{studyCardsMB.personCode}" />
+    <f:viewAction action="#{studyCardsMB.loadPerson()}" />
+  </f:metadata>  
+
+  <ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+      <p>
+        <h:link rendered="#{studyCardsMB.personCode > 0}" 
+                class="action" outcome="persons" value="Персоны" />
+      </p>
+      <h:panelGroup layout="block" rendered="#{studyCardsMB.browse}">
+        <!-- List -->
+        <h2>Личные карточки</h2>
+        <h:form>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{studyCardsMB.add()}" /></div>
+        </h:form>
+        <h:form id="listForm" rendered="#{not empty studyCardsMB.studyCards}">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th width="40%">Специальность</th>
+                <th width="40%">Группа</th>
+                <th width="20%">Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ui:repeat value="#{studyCardsMB.studyCards}" var="card">
+                <tr>
+                  <td>
+                    #{card.nameForList}
+                  </td>
+                  <td>
+                    #{card.group.name}
+                  </td>
+                  <td>
+                    <h:commandLink class="action" value="Изменить" action="#{studyCardsMB.edit(card)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{studyCardsMB.delete(card)}" />
+                  </td>
+                </tr>
+              </ui:repeat>
+            </tbody>
+          </table>
+        </h:form>
+        <h:panelGroup rendered="#{empty studyCardsMB.studyCards}">
+          <p>На данный момент нет ни одной записи.</p>
+        </h:panelGroup>
+        <h:form>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{studyCardsMB.add()}" /></div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{studyCardsMB.edit}">
+        <!-- Edit -->
+        <h2>Редактирование личной карточки</h2>
+        <h:form>
+          <h:outputText value="Наименование учебного заведения" /><br />
+          <h:selectOneMenu value="#{studyCardsMB.item.schoolCode}">
+            <f:selectItems value="#{schoolsEJB.fetchAll()}" var="scl" 
+                           itemLabel="#{scl.shortName}" itemValue="#{scl.id}" />
+          </h:selectOneMenu><p />
+          <h:selectBooleanCheckbox value="#{studyCardsMB.item.extramural}">
+            <f:ajax event="change" execute="@form" render="plan globalMessages" />
+          </h:selectBooleanCheckbox>
+          <h:outputText value="Эта личная карточка" /><br />
+          <h:selectOneMenu value="#{studyCardsMB.item.active}">
+            <f:selectItem itemLabel="Актуальная" itemValue="true" />
+            <f:selectItem itemLabel="Находится в архиве" itemValue="false" />
+          </h:selectOneMenu><p />
+          <h:outputText value="заочная форма обучения" /><p />
+          <h:outputText value="Специальность" /><br />
+          <h:selectOneMenu id="speciality" value="#{studyCardsMB.item.specialityCode}"
+                           valueChangeListener="#{studyCardsMB.changeSpeciality}">
+            <f:selectItems value="#{specialitiesEJB.fetchAll()}" var="spc" 
+                           itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
+            <f:ajax event="change" execute="@form" render="plan group globalMessages" />
+          </h:selectOneMenu><p />
+          <h:outputText value="Группа" /><br />
+          <h:selectOneMenu id="group" value="#{studyCardsMB.item.groupCode}">
+            <f:selectItems value="#{studyCardsMB.studyGroups}" var="grp" 
+                           itemLabel="#{grp.name}" itemValue="#{grp.id}" />
+          </h:selectOneMenu><p />
+          <h:outputText value="Учебный план" /><br />
+          <h:selectOneMenu id="plan" value="#{studyCardsMB.item.planCode}">
+            <f:selectItems value="#{studyCardsMB.studyPlans}" var="plan" 
+                           itemLabel="#{plan.nameForList}" itemValue="#{plan.id}" />
+          </h:selectOneMenu><p />
+          <h:outputText value="Документ о предыдущем образовании" /><br />
+          <h:inputText value="#{studyCardsMB.item.documentName}" class="textEdit" /><p />
+          <h:outputText value="Учреждение, выдавшее документ" /><br />
+          <h:inputText value="#{studyCardsMB.item.documentOrganization}" class="textEdit" /><p />
+          <h:outputText value="Дата выдачи документа" /><br />
+          <h:inputText value="#{studyCardsMB.item.documentDate}" class="textEdit">
+            <f:convertDateTime pattern="dd.MM.yyyy" />
+          </h:inputText><p />
+          <h:outputText value="Дата начала обучения" /><br />
+          <h:inputText value="#{studyCardsMB.item.beginDate}" class="textEdit">
+            <f:convertDateTime pattern="dd.MM.yyyy" />
+          </h:inputText><p />
+          <h:selectBooleanCheckbox value="#{studyCardsMB.item.commercial}" />
+          <h:outputText value="обучение с полным возмещением затрат" /><p />
+          <h:outputText value="Дата окончания обучения" /><br />
+          <h:inputText value="#{studyCardsMB.item.endDate}" class="textEdit">
+            <f:convertDateTime pattern="dd.MM.yyyy" />
+          </h:inputText><p />
+          <h:selectBooleanCheckbox value="#{studyCardsMB.item.remanded}" />
+          <h:outputText value="обучение не было завершено" /><p />
+          <!-- Если обучение было завершено -->
+          <h:selectBooleanCheckbox value="#{studyCardsMB.item.red}" />
+          <h:outputText value="отличник учебы" /><p />
+          <h:outputText value="Продолжительность итоговых испытаний (недель)" /><br />
+          <h:inputText value="#{studyCardsMB.item.diplomeLength}" class="textEdit" /><p />
+          <h:outputText value="Председатель ГАК" /><br />
+          <h:inputText value="#{studyCardsMB.item.comissionDirector}" class="textEdit" /><p />
+          <h:outputText value="Дата защиты" /><br />
+          <h:inputText value="#{studyCardsMB.item.comissionDate}" class="textEdit">
+            <f:convertDateTime pattern="dd.MM.yyyy" />
+          </h:inputText><p />
+          <h:outputText value="Итоговое испытание по окончании обучения" /><br />
+          <h:selectOneMenu value="#{studyCardsMB.item.gosExam}">
+            <f:selectItem itemLabel="Государственный экзамен" itemValue="true" />
+            <f:selectItem itemLabel="Дипломирование" itemValue="false" />
+          </h:selectOneMenu><p />
+          <!-- может выводить только если указано ипломирование? -->
+          <h:outputText value="Тема дипломного проекта" /><br />
+          <h:inputText value="#{studyCardsMB.item.diplomeTheme}" class="textEdit" /><p />
+          <h:outputText value="Регистрационный номер диплома" /><br />
+          <h:inputText value="#{studyCardsMB.item.registrationNumber}" class="textEdit" /><p />
+          <h:outputText value="Серия и номер диплома" /><br />
+          <h:inputText value="#{studyCardsMB.item.diplomeNumber}" class="textEdit" /><p />
+          <h:outputText value="Серия и номер приложения к диплому" /><br />
+          <h:inputText value="#{studyCardsMB.item.appendixNumber}" class="textEdit" /><p />
+          <!-- Если обучение не было завершено -->
+          <h:outputText value="Причина отчисления" /><br />
+          <h:inputText value="#{studyCardsMB.item.remandReason}" class="textEdit" /><p />
+          <h:outputText value="Приказ об отчислении" /><br />
+          <h:inputText value="#{studyCardsMB.item.remandCommand}" class="textEdit" /><p />
+          <!-- Будь то диплом или справка, дата выдачи будет храниться тут -->
+          <h:outputText value="Дата выдачи документа об обучении" /><br />
+          <h:inputText value="#{studyCardsMB.item.diplomeDate}" class="textEdit">
+            <f:convertDateTime pattern="dd.MM.yyyy" />
+          </h:inputText><p />
+          <div class="buttons">
+            <h:commandButton value="Сохранить" action="#{studyCardsMB.save()}" />
+            <h:commandButton value="Отменить" action="#{studyCardsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{studyCardsMB.delete}">
+        <!-- Delete -->
+        <h2>Удаление личной карточки</h2>
+        <h:form>
+          <p>Карточка "#{studyCardsMB.item.nameForList}" будет удалена!</p>
+          <div class="buttons">
+            <h:commandButton value="Удалить" action="#{studyCardsMB.confirmDelete()}" />
+            <h:commandButton value="Отменить" action="#{studyCardsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup rendered="#{studyCardsMB.details}">
+        <!-- Details -->
+        <h2>Детали личной карточки</h2>
+        <h:form>
+          <p>Раздел пока в разработке</p>
+          <div class="buttons">
+            <h:commandButton value="Закрыть" action="#{studyCardsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+    </ui:define>
+  </ui:composition>
+</html>

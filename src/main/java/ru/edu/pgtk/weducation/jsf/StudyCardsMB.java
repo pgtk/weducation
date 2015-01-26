@@ -1,63 +1,59 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;
-import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
+import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
-import ru.edu.pgtk.weducation.entity.Department;
+import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Speciality;
+import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
-public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializable {
+public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable {
 
   @EJB
-  private transient StudyGroupsEJB ejb;
+  private transient StudyCardsEJB ejb;
   @EJB
-  private transient DepartmentsEJB depejb;
+  private transient PersonsEJB personEJB;
+  @EJB
+  private transient StudyGroupsEJB groupsEJB;
   @EJB
   private transient StudyPlansEJB plansEJB;
   @EJB
-  private transient SpecialitiesEJB spcejb;
+  private transient SpecialitiesEJB specialitiesEJB;
 
-  private Department department;
+  private Person person;
   private Speciality speciality;
-  private int departmentCode;
+  private int personCode;
 
-  public int getDepartmentCode() {
-    return departmentCode;
+  public int getPersonCode() {
+    return personCode;
   }
 
-  public void setDepartmentCode(int departmentCode) {
-    this.departmentCode = departmentCode;
+  public void setPersonCode(int personCode) {
+    this.personCode = personCode;
   }
 
-  public Department getDepartment() {
-    return department;
+  public Person getPerson() {
+    return person;
   }
 
-  public void loadDepartment() {
-    if (departmentCode > 0) {
-      department = depejb.get(departmentCode);
-    } else {
-      department = null;
-    }
-  }
-
-  public void changeDepartment(ValueChangeEvent event) {
+  public void loadPerson() {
     try {
-      int code = (Integer) event.getNewValue();
-      if (code > 0) {
-        department = depejb.get(code);
+      if (personCode > 0) {
+        person = personEJB.get(personCode);
       } else {
-        department = null;
+        person = null;
       }
     } catch (Exception e) {
-      department = null;
+      person = null;
       addMessage(e);
     }
   }
@@ -66,7 +62,7 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     try {
       int code = (Integer) event.getNewValue();
       if (code > 0) {
-        speciality = spcejb.get(code);
+        speciality = specialitiesEJB.get(code);
       } else {
         speciality = null;
       }
@@ -76,24 +72,19 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     }
   }
 
-  public void add() {
-    item = new StudyGroup();
-    edit = true;
-  }
-
-  public List<StudyGroup> getStudyGroups() {
-    if (null != department) {
-      return ejb.findByDepartment(department);
+  public List<StudyCard> getStudyCards() {
+    if (null != person) {
+      return ejb.findByPerson(person);
     } else {
-      return ejb.fetchAll();
+      return new ArrayList<>();
     }
   }
 
-  public List<Speciality> getSpecialities() {
-    if (null != department) {
-      return spcejb.findByDepartment(department);
+  public List<StudyGroup> getStudyGroups() {
+    if (null != speciality) {
+      return groupsEJB.findBySpeciality(speciality, item.isExtramural());
     } else {
-      return spcejb.fetchAll();
+      return new ArrayList<>();
     }
   }
 
@@ -101,7 +92,15 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     if (null != speciality) {
       return plansEJB.findBySpeciality(speciality, item.isExtramural());
     } else {
-      return plansEJB.fetchAll();
+      return new ArrayList<>();
+    }
+  }
+
+  public void add() {
+    item = new StudyCard();
+    edit = true;
+    if (null != person) {
+      item.setPerson(person);
     }
   }
 
@@ -124,4 +123,5 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
       addMessage(e);
     }
   }
+
 }

@@ -64,4 +64,9 @@
         <managed-bean-class>ru.edu.pgtk.weducation.jsf.StudyGroupsMB</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>studyCardsMB</managed-bean-name>
+        <managed-bean-class>ru.edu.pgtk.weducation.jsf.StudyCardsMB</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

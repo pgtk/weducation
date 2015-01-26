@@ -16,10 +16,10 @@ import ru.edu.pgtk.weducation.entity.StudyGroup;
 @Stateless
 @Named("studyCardsEJB")
 public class StudyCardsEJB {
-
+  
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
-
+  
   public StudyCard get(final int id) {
     StudyCard result = em.find(StudyCard.class, id);
     if (null != result) {
@@ -27,26 +27,26 @@ public class StudyCardsEJB {
     }
     throw new EJBException("Card not found with id " + id);
   }
-
+  
   public List<StudyCard> fetchAll() {
     TypedQuery<StudyCard> q = em.createQuery("SELECT c FROM StudyCard c", StudyCard.class);
     return q.getResultList();
   }
-
+  
   public List<StudyCard> findByPerson(final Person person) {
     TypedQuery<StudyCard> q = em.createQuery(
             "SELECT c FROM StudyCard c WHERE c.person = :psn", StudyCard.class);
     q.setParameter("psn", person);
     return q.getResultList();
   }
-
+  
   public List<StudyCard> findByGroup(final StudyGroup group) {
     TypedQuery<StudyCard> q = em.createQuery(
             "SELECT c FROM StudyCard c WHERE c.group = :grp", StudyCard.class);
     q.setParameter("grp", group);
     return q.getResultList();
   }
-
+  
   public StudyCard save(StudyCard item) {
     if (item.getSchoolCode() > 0) {
       School school = em.find(School.class, item.getSchoolCode());
@@ -80,6 +80,13 @@ public class StudyCardsEJB {
       return item;
     } else {
       return em.merge(item);
+    }
+  }
+  
+  public void delete(final StudyCard item) {
+    StudyCard sc = em.find(StudyCard.class, item.getId());
+    if (null != sc) {
+      em.remove(sc);
     }
   }
 }
