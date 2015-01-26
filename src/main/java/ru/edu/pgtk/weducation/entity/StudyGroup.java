@@ -42,7 +42,7 @@ public class StudyGroup implements Serializable {
 
   @Column(name = "grp_extramural", nullable = false)
   private boolean extramural;
-  
+
   @Column(name = "grp_active", nullable = false)
   private boolean active;
 

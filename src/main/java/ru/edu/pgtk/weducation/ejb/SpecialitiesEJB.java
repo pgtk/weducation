@@ -38,11 +38,11 @@ public class SpecialitiesEJB {
   public List<Speciality> findByDepartment(final Department department) {
     TypedQuery<Speciality> query = em.createQuery(
             "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.department = :dep) "
-                    + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
+            + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
   }
-  
+
   public void save(Speciality speciality) {
     if (speciality.getId() == 0) {
       em.persist(speciality);

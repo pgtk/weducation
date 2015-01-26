@@ -35,32 +35,32 @@ public class StudyCard implements Serializable {
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date documentDate;
 
-  @Column(name = "crd_docname", nullable = false)
+  @Column(name = "crd_docname", nullable = false, length = 128)
   private String documentName;
 
-  @Column(name = "crd_docorganization", nullable = false)
+  @Column(name = "crd_docorganization", nullable = false, length = 255)
   private String documentOrganization;
 
   @Column(name = "crd_comissiondate")
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date comissionDate;
 
-  @Column(name = "crd_comissiondirector")
+  @Column(name = "crd_comissiondirector", length = 128)
   private String comissionDirector;
 
   @Column(name = "crd_diplomelength")
   private float diplomeLength;
 
-  @Column(name = "crd_diplometheme")
+  @Column(name = "crd_diplometheme", length = 255)
   private String diplomeTheme;
 
-  @Column(name = "crd_diplomenumber")
+  @Column(name = "crd_diplomenumber", length = 50)
   private String diplomeNumber;
 
-  @Column(name = "crd_appendixnumber")
+  @Column(name = "crd_appendixnumber", length = 50)
   private String appendixNumber;
 
-  @Column(name = "crd_regnumber")
+  @Column(name = "crd_regnumber", length = 50)
   private String registrationNumber;
 
   @Column(name = "crd_diplomedate")
@@ -76,10 +76,10 @@ public class StudyCard implements Serializable {
   @Column(name = "crd_remanded", nullable = false)
   private boolean remanded;
 
-  @Column(name = "crd_remandreason")
+  @Column(name = "crd_remandreason", length = 128)
   private String remandReason;
 
-  @Column(name = "crd_remandcommand")
+  @Column(name = "crd_remandcommand", length = 128)
   private String remandCommand;
 
   @ManyToOne
@@ -109,6 +109,13 @@ public class StudyCard implements Serializable {
 
   @Transient
   private int groupCode;
+  
+  @ManyToOne
+  @JoinColumn(name = "crd_plncode", nullable = false)
+  private StudyPlan plan;
+  
+  @Transient
+  private int planCode;
 
   @Column(name = "crd_active", nullable = false)
   private boolean active;
@@ -124,6 +131,9 @@ public class StudyCard implements Serializable {
       groupCode = group.getId();
     }
     specialityCode = speciality.getId();
+    if (null != plan) {
+      planCode = plan.getId();
+    }
   }
 
   public int getId() {
@@ -280,6 +290,11 @@ public class StudyCard implements Serializable {
 
   public void setSchool(School school) {
     this.school = school;
+    if (school != null) {
+      schoolCode = school.getId();
+    } else {
+      schoolCode = 0;
+    }
   }
 
   public int getSchoolCode() {
@@ -296,6 +311,11 @@ public class StudyCard implements Serializable {
 
   public void setPerson(Person person) {
     this.person = person;
+    if (null != person) {
+      personCode = person.getId();
+    } else {
+      personCode = 0;
+    }
   }
 
   public Speciality getSpeciality() {
@@ -304,6 +324,11 @@ public class StudyCard implements Serializable {
 
   public void setSpeciality(Speciality speciality) {
     this.speciality = speciality;
+    if (null != speciality) {
+      specialityCode = speciality.getId();
+    } else {
+      specialityCode = 0;
+    }
   }
 
   public StudyGroup getGroup() {
@@ -312,6 +337,32 @@ public class StudyCard implements Serializable {
 
   public void setGroup(StudyGroup group) {
     this.group = group;
+    if (null != group) {
+      groupCode = group.getId();
+    } else {
+      groupCode = 0;
+    }
+  }
+
+  public StudyPlan getPlan() {
+    return plan;
+  }
+
+  public void setPlan(StudyPlan plan) {
+    this.plan = plan;
+    if (null != plan) {
+      planCode = plan.getId();
+    } else {
+      planCode = 0;
+    }
+  }
+
+  public int getPlanCode() {
+    return planCode;
+  }
+
+  public void setPlanCode(int planCode) {
+    this.planCode = planCode;
   }
 
   public boolean isActive() {

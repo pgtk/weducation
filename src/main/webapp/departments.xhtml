@@ -50,12 +50,12 @@
         <!-- Edit -->
         <h2>Редактирование отделения</h2>
         <h:form>
-            <h:outputText value="Наименование" /><br />
-            <h:inputText value="#{departmentsMB.item.name}" class="textEdit" /><p />
-            <h:outputText value="Зав. отделением" /><br />
-            <h:inputText value="#{departmentsMB.item.master}" class="textEdit" /><p />
-            <h:outputText value="Секретарь" /><br />
-            <h:inputText value="#{departmentsMB.item.secretar}" class="textEdit" /><p />
+          <h:outputText value="Наименование" /><br />
+          <h:inputText value="#{departmentsMB.item.name}" class="textEdit" /><p />
+          <h:outputText value="Зав. отделением" /><br />
+          <h:inputText value="#{departmentsMB.item.master}" class="textEdit" /><p />
+          <h:outputText value="Секретарь" /><br />
+          <h:inputText value="#{departmentsMB.item.secretar}" class="textEdit" /><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{departmentsMB.save()}" />
             <h:commandButton value="Отменить" action="#{departmentsMB.cancel()}" />

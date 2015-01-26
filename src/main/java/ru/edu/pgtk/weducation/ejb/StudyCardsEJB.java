@@ -82,5 +82,4 @@ public class StudyCardsEJB {
       return em.merge(item);
     }
   }
-
 }
