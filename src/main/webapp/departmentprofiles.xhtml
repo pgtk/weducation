@@ -30,8 +30,8 @@
                   <td>#{dp.speciality.nameForList}</td>
                   <td>#{dp.extramuralString}</td>
                   <td>
-                    <h:commandLink class="action" value="Изменить" action="#{departmentProfilesMB.edit(stp)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{departmentProfilesMB.delete(stp)}" />
+                    <h:commandLink class="action" value="Изменить" action="#{departmentProfilesMB.edit(dp)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{departmentProfilesMB.delete(dp)}" />
                   </td>
                 </tr>
               </ui:repeat>
@@ -71,8 +71,7 @@
         <!-- Delete -->
         <h2>Удаление профиля обучения</h2>
         <h:form>
-          <p>Профиль обучения для специальности #{departmentProfilesMB.item.speciality.nameForList} 
-            для отделения #{departmentProfilesMB.item.department.name} будет удален!</p>
+          <p>Профиль обучения #{departmentProfilesMB.item.nameForList} будет удален!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{departmentProfilesMB.confirmDelete()}" />
             <h:commandButton value="Отменить" action="#{departmentProfilesMB.cancel()}" />

@@ -47,13 +47,6 @@ public class StudyGroup implements Serializable {
   private boolean active;
 
   @ManyToOne
-  @JoinColumn(name = "grp_depcode", nullable = false)
-  private Department department;
-
-  @Transient
-  private int departmentCode;
-
-  @ManyToOne
   @JoinColumn(name = "grp_spccode", nullable = false)
   private Speciality speciality;
 
@@ -70,7 +63,6 @@ public class StudyGroup implements Serializable {
   @PostLoad
   private void updateCodes() {
     planCode = plan.getId();
-    departmentCode = department.getId();
     specialityCode = speciality.getId();
   }
 
@@ -126,17 +118,6 @@ public class StudyGroup implements Serializable {
     this.active = active;
   }
 
-  public Department getDepartment() {
-    return department;
-  }
-
-  public void setDepartment(Department department) {
-    this.department = department;
-    if (department != null) {
-      departmentCode = department.getId();
-    }
-  }
-
   public Speciality getSpeciality() {
     return speciality;
   }
@@ -165,14 +146,6 @@ public class StudyGroup implements Serializable {
 
   public void setExtramural(boolean extramural) {
     this.extramural = extramural;
-  }
-
-  public int getDepartmentCode() {
-    return departmentCode;
-  }
-
-  public void setDepartmentCode(int departmentCode) {
-    this.departmentCode = departmentCode;
   }
 
   public int getSpecialityCode() {

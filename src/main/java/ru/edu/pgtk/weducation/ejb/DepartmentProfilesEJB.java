@@ -14,9 +14,10 @@ import ru.edu.pgtk.weducation.entity.Speciality;
 @Stateless
 @Named("departmentProfilesEJB")
 public class DepartmentProfilesEJB {
+
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
-  
+
   public DepartmentProfile get(final int id) {
     DepartmentProfile result = em.find(DepartmentProfile.class, id);
     if (null != result) {
@@ -24,21 +25,21 @@ public class DepartmentProfilesEJB {
     }
     throw new EJBException("DepartmentProfile not found with id " + id);
   }
-  
+
   public List<DepartmentProfile> fetchAll() {
     TypedQuery<DepartmentProfile> q = em.createQuery(
             "SELECT dp FROM DepartmentProfile dp ORDER BY dp.department, dp.speciality", DepartmentProfile.class);
     return q.getResultList();
   }
-  
+
   public List<DepartmentProfile> findByDepartment(final Department department) {
     TypedQuery<DepartmentProfile> q = em.createQuery(
             "SELECT dp FROM DepartmentProfile dp WHERE (dp.department = :dep) "
-                    + "ORDER BY dp.department, dp.speciality", DepartmentProfile.class);
+            + "ORDER BY dp.department, dp.speciality", DepartmentProfile.class);
     q.setParameter("dep", department);
     return q.getResultList();
   }
-  
+
   public DepartmentProfile save(DepartmentProfile item) {
     if (item.getDepartmentCode() > 0) {
       Department dep = em.find(Department.class, item.getDepartmentCode());
@@ -67,7 +68,7 @@ public class DepartmentProfilesEJB {
       return em.merge(item);
     }
   }
-  
+
   public void delete(final DepartmentProfile item) {
     DepartmentProfile dp = em.find(DepartmentProfile.class, item.getId());
     if (null != dp) {

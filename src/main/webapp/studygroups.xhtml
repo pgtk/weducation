@@ -26,7 +26,8 @@
           <table id="dataTable">
             <thead>
               <tr>
-                <th width="80%">Наименование</th>
+                <th width="40%">Наименование</th>
+                <th width="40%">Куратор</th>
                 <th width="20%">Действия</th>
               </tr>
             </thead>
@@ -35,6 +36,9 @@
                 <tr>
                   <td>
                     #{sg.name}
+                  </td>
+                  <td>
+                    #{sg.master}
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{studyGroupsMB.edit(sg)}" />
@@ -57,7 +61,23 @@
         <h2>Редактирование группы</h2>
         <h:form>
           <h:outputText value="Наименование" /><br />
+          <h:selectBooleanCheckbox value="#{studyGroupsMB.item.extramural}">
+            <f:ajax event="change" execute="@form" render="plan globalMessages" />
+          </h:selectBooleanCheckbox>
+          <h:outputText value="заочная форма обучения" /><p />
           <h:inputText value="#{studyGroupsMB.item.name}" class="textEdit" /><p />
+          <h:outputText value="Специальность" /><br />
+          <h:selectOneMenu id="speciality" value="#{studyGroupsMB.item.specialityCode}"
+                           valueChangeListener="#{studyGroupsMB.changeSpeciality}">
+            <f:selectItems value="#{studyGroupsMB.specialities}" var="spc" 
+                           itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
+            <f:ajax event="change" execute="@form" render="plan globalMessages" />
+          </h:selectOneMenu><p />
+          <h:outputText value="Учебный план" /><br />
+          <h:selectOneMenu id="plan" value="#{studyGroupsMB.item.planCode}">
+            <f:selectItems value="#{studyGroupsMB.studyPlans}" var="plan" 
+                           itemLabel="#{plan.nameForList}" itemValue="#{plan.id}" />
+          </h:selectOneMenu><p />
           <h:outputText value="Год формирования" /><br />
           <h:inputText value="#{studyGroupsMB.item.year}" class="textEdit" /><p />
           <h:outputText value="Курс" /><br />
@@ -69,18 +89,6 @@
           </h:selectOneMenu><p />
           <h:selectBooleanCheckbox value="#{studyGroupsMB.item.commercial}" />
           <h:outputText value="обучение с полным возмещением затрат" /><p />
-          <h:outputText value="Учебный профиль" /><br />
-          <h:selectOneMenu value="#{studyGroupsMB.profileCode}"
-                           valueChangeListener="#{studyGroupsMB.loadProfile}">
-            <f:selectItems value="#{studyGroupsMB.departmentProfiles}" var="profile" 
-                           itemLabel="#{profile.nameForList}" itemValue="#{profile.id}" />
-            <f:ajax event="change" execute="@form" render="planCombo" />
-          </h:selectOneMenu><p />
-          <h:outputText value="Учебный план" /><br />
-          <h:selectOneMenu id="planCombo" value="#{studyGroupsMB.item.planCode}">
-            <f:selectItems value="#{studyGroupsMB.studyPlans}" var="plan" 
-                           itemLabel="#{plan.nameForList}" itemValue="#{plan.id}" />
-          </h:selectOneMenu><p />
           <h:outputText value="Куратор" /><br />
           <h:inputText value="#{studyGroupsMB.item.master}" class="textEdit" /><p />
           <div class="buttons">

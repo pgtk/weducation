@@ -48,14 +48,14 @@ public class DepartmentProfile implements Serializable {
     specialityCode = speciality.getId();
     departmentCode = department.getId();
   }
-  
+
   public String getExtramuralString() {
-    return (extramural)? "заочная" : "очная";
+    return (extramural) ? "заочная" : "очная";
   }
-  
+
   public String getNameForList() {
-    return department.getName() + " (" + speciality.getShortName() +
-            ", " + getExtramuralString() + " форма)";
+    return department.getName() + " (" + speciality.getShortName()
+            + ", " + getExtramuralString() + " форма)";
   }
 
   public int getId() {
@@ -68,6 +68,11 @@ public class DepartmentProfile implements Serializable {
 
   public void setDepartment(Department department) {
     this.department = department;
+    if (department != null) {
+      departmentCode = department.getId();
+    } else {
+      departmentCode = 0;
+    }
   }
 
   public Speciality getSpeciality() {
@@ -76,6 +81,11 @@ public class DepartmentProfile implements Serializable {
 
   public void setSpeciality(Speciality speciality) {
     this.speciality = speciality;
+    if (speciality != null) {
+      specialityCode = speciality.getId();
+    } else {
+      specialityCode = 0;
+    }
   }
 
   public int getDepartmentCode() {

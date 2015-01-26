@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;
-import ru.edu.pgtk.weducation.ejb.DepartmentProfilesEJB;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.entity.Department;
-import ru.edu.pgtk.weducation.entity.DepartmentProfile;
+import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
@@ -18,14 +18,14 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
   @EJB
   private StudyGroupsEJB ejb;
   @EJB
-  private DepartmentsEJB dejb;
-  @EJB
-  private DepartmentProfilesEJB pejb;
+  private DepartmentsEJB depejb;
   @EJB
   private StudyPlansEJB plansEJB;
+  @EJB
+  private SpecialitiesEJB spcejb;
 
   private Department department;
-  private DepartmentProfile profile;
+  private Speciality speciality;
   private int departmentCode;
   private int profileCode;
 
@@ -35,6 +35,10 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
 
   public void setDepartmentCode(int departmentCode) {
     this.departmentCode = departmentCode;
+  }
+
+  public Department getDepartment() {
+    return department;
   }
 
   public int getProfileCode() {
@@ -47,26 +51,42 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
 
   public void loadDepartment() {
     if (departmentCode > 0) {
-      department = dejb.get(departmentCode);
+      department = depejb.get(departmentCode);
     } else {
       department = null;
     }
   }
-  
-  public void loadProfile(ValueChangeEvent event) {
-    int code = (Integer)event.getNewValue();
-    if (code > 0) {
-      profile = pejb.get(code);
-    } else {
-      profile = null;
+
+  public void changeDepartment(ValueChangeEvent event) {
+    try {
+      int code = (Integer) event.getNewValue();
+      if (code > 0) {
+        department = depejb.get(code);
+      } else {
+        department = null;
+      }
+    } catch (Exception e) {
+      department = null;
+      addMessage(e);
+    }
+  }
+
+  public void changeSpeciality(ValueChangeEvent event) {
+    try {
+      int code = (Integer) event.getNewValue();
+      if (code > 0) {
+        speciality = spcejb.get(code);
+      } else {
+        speciality = null;
+      }
+    } catch (Exception e) {
+      speciality = null;
+      addMessage(e);
     }
   }
 
   public void add() {
     item = new StudyGroup();
-    if (null != department) {
-      item.setDepartment(department);
-    }
     edit = true;
   }
 
@@ -77,31 +97,25 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
       return ejb.fetchAll();
     }
   }
-  
-  public List<StudyPlan> getStudyPlans() {
-    if (null != profile) {
-      return plansEJB.findBySpeciality(profile.getSpeciality(), profile.isExtramural());
+
+  public List<Speciality> getSpecialities() {
+    if (null != department) {
+      return spcejb.findByDepartment(department);
     } else {
-      return plansEJB.fetchAll();
+      return spcejb.fetchAll();
     }
   }
-  
-  public List<DepartmentProfile> getDepartmentProfiles() {
-    if (null != department) {
-      return pejb.findByDepartment(department);
+
+  public List<StudyPlan> getStudyPlans() {
+    if (null != speciality) {
+      return plansEJB.findBySpeciality(speciality, item.isExtramural());
     } else {
-      return pejb.fetchAll();
+      return plansEJB.fetchAll();
     }
   }
 
   public void save() {
     try {
-      if (profileCode > 0) {
-        DepartmentProfile dp = pejb.get(profileCode);
-        item.setDepartment(dp.getDepartment());
-        item.setSpeciality(dp.getSpeciality());
-        item.setExtramural(dp.isExtramural());
-      }
       ejb.save(item);
       resetState();
     } catch (Exception e) {

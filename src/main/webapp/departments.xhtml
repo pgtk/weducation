@@ -25,10 +25,10 @@
               <ui:repeat value="#{departmentsEJB.fetchAll()}" var="dep">
                 <tr>
                   <td>
-                    #{dep.name}
+                    <h:commandLink value="#{dep.name}" action="#{departmentsMB.details(dep)}" />
                   </td>
                   <td>
-                    #{dep.master}
+                    <h:commandLink value="#{dep.master}" action="#{departmentsMB.details(dep)}" />
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{departmentsMB.edit(dep)}" />
@@ -78,8 +78,8 @@
         <h2>Детали отделения</h2>
         <h:form>
           <h3>#{departmentsMB.item.name}</h3>
-          <p><h:link outcome="departmentprofiles?departmentId=#{departmentsMB.item.id}"
-                     value="Редактирование профилей" /></p>
+          <p><h:link outcome="studygroups?departmentId=#{departmentsMB.item.id}"
+                     value="Редактирование групп" /></p>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{personsMB.cancel()}" />
           </div>

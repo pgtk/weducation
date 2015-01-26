@@ -35,23 +35,15 @@ public class StudyGroupsEJB {
   
   public List<StudyGroup> findByDepartment(final Department department) {
     TypedQuery<StudyGroup> q = em.createQuery(
-            "SELECT sg FROM StudyGroup sg WHERE (sg.department = :dep) "
+            "SELECT sg FROM StudyGroup sg, DepartmentProfile dp "
+                    + "WHERE (sg.speciality = dp.speciality) AND "
+                    + "(sg.extramural = dp.extramural) AND (dp.department = :dep) "
                     + "ORDER BY sg.course, sg.name", StudyGroup.class);
     q.setParameter("dep", department);
     return q.getResultList();
   }
   
   public StudyGroup save(StudyGroup item) {
-    if (item.getDepartmentCode() > 0) {
-      Department dep = em.find(Department.class, item.getDepartmentCode());
-      if (null != dep) {
-        item.setDepartment(dep);
-      } else {
-        throw new EJBException("Department not found with id " + item.getDepartmentCode());
-      }
-    } else {
-      throw new EJBException("Wrong Department code " + item.getDepartmentCode());
-    }
     if (item.getSpecialityCode() > 0) {
       Speciality spc = em.find(Speciality.class, item.getSpecialityCode());
       if (null != spc) {

@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 
 /**
@@ -34,6 +35,14 @@ public class SpecialitiesEJB {
     return query.getResultList();
   }
 
+  public List<Speciality> findByDepartment(final Department department) {
+    TypedQuery<Speciality> query = em.createQuery(
+            "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.department = :dep) "
+                    + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
+    query.setParameter("dep", department);
+    return query.getResultList();
+  }
+  
   public void save(Speciality speciality) {
     if (speciality.getId() == 0) {
       em.persist(speciality);
