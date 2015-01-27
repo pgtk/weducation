@@ -10,7 +10,7 @@ import ru.edu.pgtk.weducation.entity.StudyPlan;
 public class StudyModulesMB extends GenericBean<StudyModule> implements Serializable {
 
   @EJB
-  private StudyModulesEJB ejb;
+  private transient StudyModulesEJB ejb;
 
   private StudyPlan plan = null;
   private int planCode;

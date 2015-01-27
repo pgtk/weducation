@@ -13,8 +13,9 @@
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <p>
-        <h:link rendered="#{studyCardsMB.personCode > 0}" 
-                class="action" outcome="persons" value="Персоны" />
+        <h:link class="action" outcome="persons" value="Персоны" />
+        <h:link rendered="#{studyCardsMB.personCode > 0}" class="action" 
+                outcome="persons?id=#{studyCardsMB.personCode}" value="#{studyCardsMB.person.fullName}" />
       </p>
       <h:panelGroup layout="block" rendered="#{studyCardsMB.browse}">
         <!-- List -->
