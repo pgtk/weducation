@@ -1,0 +1,27 @@
+-- Update cards table
+--ALTER TABLE cards ADD COLUMN cdr_commercial boolean NOT NULL DEFAULT false;
+ALTER TABLE cards ALTER COLUMN crd_extramural SET NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_extramural SET DEFAULT false;
+ALTER TABLE cards ALTER COLUMN crd_remanded SET NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_remanded SET DEFAULT false;
+ALTER TABLE cards ALTER COLUMN crd_gosexam SET NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_red SET NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_bdate SET NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_bdate DROP DEFAULT;
+ALTER TABLE cards ALTER COLUMN crd_edate DROP DEFAULT;
+ALTER TABLE cards ALTER COLUMN crd_edate DROP NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_docdate DROP DEFAULT;
+ALTER TABLE cards ALTER COLUMN crd_docdate DROP NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_comissiondate DROP DEFAULT;
+ALTER TABLE cards ALTER COLUMN crd_comissiondate DROP NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_diplomedate DROP DEFAULT;
+ALTER TABLE cards ALTER COLUMN crd_diplomedate DROP NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_docdate DROP DEFAULT;
+ALTER TABLE cards ALTER COLUMN crd_docdate DROP NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_extramural SET NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_extramural SET NOT NULL;
+ALTER TABLE cards ALTER COLUMN crd_extramural SET NOT NULL;
+
+-- Update schools table
+ALTER TABLE schools RENAME COLUMN scl_name TO scl_fullname;
+ALTER TABLE schools ADD COLUMN scl_current boolean NOT NULL DEFAULT false;

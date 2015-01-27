@@ -30,6 +30,9 @@ public class School implements Serializable {
 
   @Column(name = "scl_director", length = 128, nullable = false)
   private String director;
+  
+  @Column(name = "scl_place", nullable = false, length = 128)
+  private String place;
 
   @Column(name = "scl_current", nullable = false)
   private boolean current;
@@ -60,6 +63,14 @@ public class School implements Serializable {
 
   public void setDirector(String director) {
     this.director = director;
+  }
+
+  public String getPlace() {
+    return place;
+  }
+
+  public void setPlace(String place) {
+    this.place = place;
   }
 
   public boolean isCurrent() {

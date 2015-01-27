@@ -62,7 +62,7 @@ public class StudyModulesEJB {
     }
   }
 
-  public void delete(StudyModule item) {
+  public void delete(final StudyModule item) {
     StudyModule sm = em.find(StudyModule.class, item.getId());
     if (null != sm) {
       em.remove(item);

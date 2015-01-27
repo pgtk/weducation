@@ -65,14 +65,14 @@
             <f:selectItems value="#{schoolsEJB.fetchAll()}" var="scl" 
                            itemLabel="#{scl.shortName}" itemValue="#{scl.id}" />
           </h:selectOneMenu><p />
-          <h:selectBooleanCheckbox value="#{studyCardsMB.item.extramural}">
-            <f:ajax event="change" execute="@form" render="plan globalMessages" />
-          </h:selectBooleanCheckbox>
           <h:outputText value="Эта личная карточка" /><br />
           <h:selectOneMenu value="#{studyCardsMB.item.active}">
             <f:selectItem itemLabel="Актуальная" itemValue="true" />
             <f:selectItem itemLabel="Находится в архиве" itemValue="false" />
           </h:selectOneMenu><p />
+          <h:selectBooleanCheckbox value="#{studyCardsMB.item.extramural}">
+            <f:ajax event="change" execute="@form" render="plan globalMessages" />
+          </h:selectBooleanCheckbox>
           <h:outputText value="заочная форма обучения" /><p />
           <h:outputText value="Специальность" /><br />
           <h:selectOneMenu id="speciality" value="#{studyCardsMB.item.specialityCode}"
