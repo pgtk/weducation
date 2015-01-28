@@ -51,10 +51,12 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
         person = personEJB.get(personCode);
       } else {
         person = null;
+        error = true;
       }
     } catch (Exception e) {
       person = null;
       addMessage(e);
+      error = true;
     }
   }
 
@@ -72,6 +74,14 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     }
   }
 
+  public List<Speciality> getSpecialities() {
+    if (item.isActive()) {
+      return specialitiesEJB.fetchActual();
+    } else {
+      return specialitiesEJB.fetchAll();
+    }
+  }
+
   public List<StudyCard> getStudyCards() {
     if (null != person) {
       return ejb.findByPerson(person);
@@ -84,7 +94,11 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     if (null != speciality) {
       return groupsEJB.findBySpeciality(speciality, item.isExtramural());
     } else {
-      return new ArrayList<>();
+      List<StudyGroup> result = new ArrayList<>();
+      if (null != item.getGroup()) {
+        result.add(item.getGroup());
+      }
+      return result;
     }
   }
 
@@ -92,7 +106,11 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     if (null != speciality) {
       return plansEJB.findBySpeciality(speciality, item.isExtramural());
     } else {
-      return new ArrayList<>();
+      List<StudyPlan> result = new ArrayList<>();
+      if (null != item.getPlan()) {
+        result.add(item.getPlan());
+      }
+      return result;
     }
   }
 
@@ -123,5 +141,4 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
       addMessage(e);
     }
   }
-
 }

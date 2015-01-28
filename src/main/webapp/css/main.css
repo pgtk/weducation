@@ -36,6 +36,100 @@ p {
   margin-bottom: 5px;
 }
 
+/** Стили для верхней панели и выпадающего меню */
+#top-panel {
+  display: block;
+  position: fixed;
+  height: 30px;
+  top: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  z-index: 800;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 0;
+  background: #04060c;
+  color: #c5b5a5;
+  line-height: 30px;
+  font-size: 14px;
+  font-family: sans-serif;
+  -o-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
+  -moz-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
+  -webkit-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
+  box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
+}
+
+#top-panel a,#top-panel a:visited {
+  text-decoration: none;
+  color: #d5d5d5;
+}
+
+#top-panel a:hover {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+/** Dropdown menu */
+#top-menu {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#top-menu ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #04060c;
+}
+
+#top-menu ul li{
+  float:left;
+  position:relative;
+}
+#top-menu ul li a{
+  display: inline-block;
+  padding: 0 5px 0 5px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #d5d5d5;
+}
+#top-menu ul li:hover{
+  height: 100%;
+  background-color: #34363c;
+}
+#top-menu ul li:hover a {
+  color: #ffffff;
+}
+#top-menu ul li ul{
+  display:none;
+}
+#top-menu ul li:hover ul{
+  display: inline-block;
+  position: absolute;
+  width: 200px;
+  background-color: #34363c;  
+}
+#top-menu ul li:hover ul a{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #d5d5d5;
+  display: inline-block;
+  width:100%;
+}
+#top-menu ul li ul li{
+  width:100%;
+}
+#top-menu ul li:hover ul a:hover{
+  background-color: #64666c;
+  color: #ffffff;
+}
+/** Конец стилей для dropdown menu */
+
+
+
 .groupHeader {
   font-family: verdana, tahoma, arial;
   font-size: 16px;
@@ -48,18 +142,8 @@ p {
   margin-right: 20px;
 }
 
-div#menu ul {
-  overflow: hidden;
-}
-
-div#menu ul li {
-   float: left;
-   list-style: none;
-   margin-left: 10px;
-}
-
-
-.panel {
+div.roundbox {
+  font-size: 16px;
   text-decoration: none;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -72,8 +156,33 @@ div#menu ul li {
   padding: 5px;
   margin: 0px 0px 20px 0px;
   width: 100%;	
+}
+
+div.buttons {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 50px;
+}
+
+div#breadcrumb, div#find {
   border-color: #dfded0;
   background-color: #efeee0;
+}
+
+div#breadcrumb a {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+div#success {
+  border-color: #59d959;
+  background-color: #79f979;
+}
+
+div#error {
+  border-color: #d95959;
+  background-color: #f97979;
 }
 
 #header h1 {
@@ -89,45 +198,6 @@ div#menu ul li {
   top: 20px;
   clear:both; /*No floating elements are allowed on left or right*/
   text-align:center;
-}
-
-div#success {
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid;
-  display: block;
-  top: 10px;
-  left: 0;
-  bottom: 20px;
-  padding: 5px;
-  margin: 0px 0px 20px 0px;
-  width: 100%;	
-  border-color: #59d959;
-  background-color: #79f979;
-}
-
-div#error {
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid;
-  display: block;
-  top: 10px;
-  left: 0;
-  bottom: 20px;
-  padding: 5px;
-  margin: 0px 0px 20px 0px;
-  width: 100%;	
-  border-color: #d95959;
-  background-color: #f97979;
-}
-
-div.buttons {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  margin-left: 50px;
 }
 
 .error {

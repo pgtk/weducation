@@ -16,12 +16,14 @@ public abstract class GenericBean<T> {
   protected boolean edit;
   protected boolean delete;
   protected boolean details;
+  protected boolean error;
 
   @PostConstruct
   protected void resetState() {
     edit = false;
     delete = false;
     details = false;
+    error = false;
     item = null;
   }
 
@@ -49,11 +51,15 @@ public abstract class GenericBean<T> {
   }
 
   public boolean isBrowse() {
-    return !(edit || delete || details);
+    return !(error || edit || delete || details);
   }
 
   public boolean isDetails() {
     return details;
+  }
+
+  public boolean isError() {
+    return error;
   }
 
   public void cancel() {

@@ -17,12 +17,12 @@
         <h2>Персоны</h2>
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}" /></div>
-          <p>
+          <div class="roundbox" id="find">
             <h:outputText value="Фамилия " />
             <h:inputText rendered="#{not personsMB.filter}" value="#{personsMB.name}" class="textEdit" />
             <h:outputText rendered="#{personsMB.filter}" value="#{personsMB.name}" />
             <h:commandButton action="#{personsMB.toggleFilter()}" value="#{personsMB.filterButtonLabel}" />
-          </p>
+          </div>
         </h:form>
         <h:form id="listForm" rendered="#{not empty personsMB.personList}">
           <table id="dataTable">

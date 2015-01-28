@@ -1,40 +1,56 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
 
-<h:head>
-	<title>Weducation</title>
-	<link href="#{request.contextPath}/css/main.css" rel="stylesheet" type="text/css" />
-</h:head>
-<h:body>
-	<div id="container">
-		<div id="menu">
-			<!-- Top menu -->
-      <ul>
-        <li><h:link value="Формы аттестации" outcome="/examforms" /></li>
-        <li><h:link value="Специальности" outcome="/specialities" /></li>
-        <li><h:link value="Учебные заведения" outcome="/schools" /></li>
-        <li><h:link value="Отделения" outcome="/departments" /></li>
-        <li><h:link value="Профили обучения" outcome="/departmentprofiles" /></li>
-        <li><h:link value="Персоны" outcome="/persons" /></li>
-        <li><h:link value="Группы" outcome="/studygroups" /></li>
-        <li><h:link value="Переименования" outcome="/renamings" /></li>
-        <li><h:link value="Учебные планы" outcome="/studyplans" /></li>
-      </ul>
-		</div>
-		<div id="content">
-      <h:messages id="globalMessages" globalOnly="true" class="errorMessage" />
-			<ui:insert name="content">
-				Приветствуем вас на главной странице приложения инвентаризации.
-			</ui:insert>
-		</div>
-		<div id="footer">
-				<hr/>
-				&#169; 2014 Воронин Леонид.
-			<!-- bottom menu, etc -->
-		</div>
-	</div>
-</h:body>
+  <h:head>
+    <title>Weducation</title>
+    <link href="#{request.contextPath}/css/main.css" rel="stylesheet" type="text/css" />
+  </h:head>
+  <h:body>
+    <!-- Top menu -->
+    <div id="top-panel">
+      <div id="top-menu">
+        <ul>
+          <li><a href="#">Справка</a>
+            <ul>
+              <li><h:link value="О проекте" outcome="/about" /></li>
+            </ul>
+          </li>
+          <li><a href="#">Данные</a>
+            <ul>
+              <li><h:link value="Персоны" outcome="/persons" /></li>
+              <li><h:link value="Группы" outcome="/studygroups" /></li>
+              <li><h:link value="Учебные планы" outcome="/studyplans" /></li>
+            </ul>
+          </li>
+          <li><a href="#">Администрирование</a>
+            <ul>
+              <li><h:link value="Учебные заведения" outcome="/schools" /></li>
+              <li><h:link value="Формы аттестации" outcome="/examforms" /></li>
+              <li><h:link value="Профили обучения" outcome="/departmentprofiles" /></li>
+              <li><h:link value="Переименования" outcome="/renamings" /></li>
+              <li><h:link value="Специальности" outcome="/specialities" /></li>
+              <li><h:link value="Отделения" outcome="/departments" /></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- End top menu -->
+    <div id="container">
+      <div id="content">
+        <h:messages id="globalMessages" globalOnly="true" class="errorMessage" />
+        <ui:insert name="content">
+          Это место свободно для вашей рекламы.
+        </ui:insert>
+      </div>
+      <div id="footer">
+        <hr/>
+        &#169; 2014 Воронин Леонид.
+        <!-- bottom menu, etc -->
+      </div>
+    </div>
+  </h:body>
 </html>

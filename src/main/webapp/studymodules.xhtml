@@ -12,10 +12,10 @@
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <p>
-        <h:link class="action" outcome="studyplans" value="Учебные планы" />
-        <h:link class="action" outcome="studyplans?id=#{studyModulesMB.plan.id}" value="#{studyModulesMB.plan.name} " />
-      </p>
+      <div class="roundbox" id="breadcrumb">
+        <h:link outcome="studyplans" value="Учебные планы" />
+        <h:link outcome="studyplans?id=#{studyModulesMB.plan.id}" value="#{studyModulesMB.plan.name} " />
+      </div>
       <h:panelGroup layout="block" rendered="#{studyModulesMB.browse}">
         <!-- List -->
         <h2>Профессиональные модули</h2>

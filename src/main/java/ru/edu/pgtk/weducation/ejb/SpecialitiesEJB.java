@@ -34,6 +34,12 @@ public class SpecialitiesEJB {
     TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s ORDER BY s.key, s.fullName", Speciality.class);
     return query.getResultList();
   }
+  
+  public List<Speciality> fetchActual() {
+    TypedQuery<Speciality> query = em.createQuery(
+            "SELECT s FROM Speciality s WHERE (s.actual = true) ORDER BY s.key, s.fullName", Speciality.class);
+    return query.getResultList();
+  }
 
   public List<Speciality> findByDepartment(final Department department) {
     TypedQuery<Speciality> query = em.createQuery(

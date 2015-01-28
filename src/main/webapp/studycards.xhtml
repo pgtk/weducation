@@ -12,10 +12,13 @@
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <p>
-        <h:link rendered="#{studyCardsMB.personCode > 0}" 
-                class="action" outcome="persons" value="Персоны" />
-      </p>
+      <h:panelGroup rendered="#{studyCardsMB.personCode > 0}">
+        <div class="roundbox" id="breadcrumb">
+          <h:link rendered="#{studyCardsMB.personCode > 0}" outcome="persons" value="Персоны" />
+          <h:link rendered="#{studyCardsMB.personCode > 0}" outcome="persons?id=#{studyCardsMB.person.id}"
+                  value="#{studyCardsMB.person.fullName}" />
+        </div>
+      </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{studyCardsMB.browse}">
         <!-- List -->
         <h2>Личные карточки</h2>
@@ -69,6 +72,7 @@
           <h:selectOneMenu value="#{studyCardsMB.item.active}">
             <f:selectItem itemLabel="Актуальная" itemValue="true" />
             <f:selectItem itemLabel="Находится в архиве" itemValue="false" />
+            <f:ajax event="change" execute="@form" render="speciality globalMessages" />
           </h:selectOneMenu><p />
           <h:selectBooleanCheckbox value="#{studyCardsMB.item.extramural}">
             <f:ajax event="change" execute="@form" render="plan globalMessages" />
@@ -77,12 +81,13 @@
           <h:outputText value="Специальность" /><br />
           <h:selectOneMenu id="speciality" value="#{studyCardsMB.item.specialityCode}"
                            valueChangeListener="#{studyCardsMB.changeSpeciality}">
-            <f:selectItems value="#{specialitiesEJB.fetchAll()}" var="spc" 
+            <f:selectItems value="#{studyCardsMB.specialities}" var="spc" 
                            itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
             <f:ajax event="change" execute="@form" render="plan group globalMessages" />
           </h:selectOneMenu><p />
           <h:outputText value="Группа" /><br />
           <h:selectOneMenu id="group" value="#{studyCardsMB.item.groupCode}">
+            <f:selectItem itemLabel="Не привязывать к группе" itemValue="0" />
             <f:selectItems value="#{studyCardsMB.studyGroups}" var="grp" 
                            itemLabel="#{grp.name}" itemValue="#{grp.id}" />
           </h:selectOneMenu><p />
@@ -172,6 +177,15 @@
             <h:commandButton value="Закрыть" action="#{studyCardsMB.cancel()}" />
           </div>
         </h:form>
+      </h:panelGroup>
+      <h:panelGroup rendered="#{studyCardsMB.error}">
+        <!-- Error -->
+        <h2>Ошибка!</h2>
+        <div class="roundbox" id="error">
+          Вы оказались там где быть не должны! Либо что-то случилось, либо одно из двух :-).
+          Если вы уверены в том, что всё делали правильно, сообщите разработчику об этой ошибке.
+        </div>
+        <p><h:link outcome="/index" value="Перейти на главную страницу" /></p>
       </h:panelGroup>
     </ui:define>
   </ui:composition>

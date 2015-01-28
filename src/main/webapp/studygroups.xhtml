@@ -12,10 +12,11 @@
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <p>
-        <h:link rendered="#{studyGroupsMB.departmentCode > 0}" 
-                class="action" outcome="departments" value="Отделения" />
-      </p>
+      <h:panelGroup rendered="#{studyGroupsMB.departmentCode > 0}">
+        <div class="roundbox" id="breadcrumb">
+          <h:link rendered="#{studyGroupsMB.departmentCode > 0}" outcome="departments" value="Отделения" />
+        </div>
+      </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{studyGroupsMB.browse}">
         <!-- List -->
         <h2>Группы</h2>

@@ -12,6 +12,7 @@ import ru.edu.pgtk.weducation.entity.School;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.StudyPlan;
 
 @Stateless
 @Named("studyCardsEJB")
@@ -74,6 +75,15 @@ public class StudyCardsEJB {
       if (null != spc) {
         item.setSpeciality(spc);
       }
+    }
+    if (item.getPlanCode() > 0) {
+      StudyPlan pln = em.find(StudyPlan.class, item.getPlanCode());
+      if (null != pln) {
+        item.setPlan(pln);
+      }
+    }
+    if((null != item.getGroup()) && (item.getPlan().getId() != item.getGroup().getPlanCode())) {
+      throw new EJBException("Указанный явно учебный план отличается от учебного плана группы!");
     }
     if (item.getId() == 0) {
       em.persist(item);
