@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+  <ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+      <h1>Импорт учебного плана</h1>
+      <h:panelGroup rendered="#{not importPlanMB.uploaded}">
+        <h:form id="uploadForm" enctype="multipart/form-data">
+          Выберите для загрузки файл учебного плана, созданный в программе РУП СПО (файл с расширением .osf)<br />
+          <h:inputFile id="file" value="#{importPlanMB.file}" /><p />
+          <div class="buttons">
+            <h:commandButton value="Загрузить" action="#{importPlanMB.upload()}"/>
+            <h:button value="Отмена" outcome="/index" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup rendered="#{importPlanMB.uploaded}">
+        <!-- file was uploaded. show info -->
+        <h:outputText value="Размер файла: #{importPlanMB.size}" /><p />
+        <h:outputText value="Тип содержимого файла: #{importPlanMB.contentType}" /><p />
+        <h:outputText value="Оригинальное имя файла: #{importPlanMB.fileName}" /><p />
+        <div class="buttons">
+          <h:button value="Отмена" outcome="/index" />
+        </div>
+      </h:panelGroup>
+    </ui:define>
+  </ui:composition>
+</html>
