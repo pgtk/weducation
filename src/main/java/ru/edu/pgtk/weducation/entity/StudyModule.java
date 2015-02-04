@@ -37,7 +37,7 @@ public class StudyModule implements Serializable {
   private int planCode;
   
   @ManyToOne
-  @JoinColumn(name = "lod_exfcode")
+  @JoinColumn(name = "mod_exfcode")
   private ExamForm examForm;
 
   @Transient
