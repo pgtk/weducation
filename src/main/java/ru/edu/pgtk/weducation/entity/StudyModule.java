@@ -35,16 +35,45 @@ public class StudyModule implements Serializable {
 
   @Transient
   private int planCode;
+  
+  @ManyToOne
+  @JoinColumn(name = "lod_exfcode")
+  private ExamForm examForm;
+
+  @Transient
+  private int examFormCode;
 
   @PostLoad
   private void updateCodes() {
     planCode = plan.getId();
+    examFormCode = examForm.getId();
   }
-
+  
   public int getId() {
     return id;
   }
 
+  public ExamForm getExamForm() {
+    return examForm;
+  }
+
+  public void setExamForm(ExamForm examForm) {
+    this.examForm = examForm;
+    if (null != examForm) {
+      examFormCode = examForm.getId();
+    } else {
+      examFormCode = 0;
+    }
+  }
+
+  public int getExamFormCode() {
+    return examFormCode;
+  }
+
+  public void setExamFormCode(int examFormCode) {
+    this.examFormCode = examFormCode;
+  }
+  
   public String getName() {
     return name;
   }
@@ -59,6 +88,11 @@ public class StudyModule implements Serializable {
 
   public void setPlan(StudyPlan plan) {
     this.plan = plan;
+    if (null != plan) {
+      planCode = plan.getId();
+    } else {
+      planCode = 0;
+    }
   }
 
   public int getPlanCode() {
