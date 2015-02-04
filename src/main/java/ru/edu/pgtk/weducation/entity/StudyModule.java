@@ -35,7 +35,7 @@ public class StudyModule implements Serializable {
 
   @Transient
   private int planCode;
-  
+
   @ManyToOne
   @JoinColumn(name = "mod_exfcode")
   private ExamForm examForm;
@@ -46,9 +46,11 @@ public class StudyModule implements Serializable {
   @PostLoad
   private void updateCodes() {
     planCode = plan.getId();
-    examFormCode = examForm.getId();
+    if (null != examForm) {
+      examFormCode = examForm.getId();
+    }
   }
-  
+
   public int getId() {
     return id;
   }
@@ -73,7 +75,7 @@ public class StudyModule implements Serializable {
   public void setExamFormCode(int examFormCode) {
     this.examFormCode = examFormCode;
   }
-  
+
   public String getName() {
     return name;
   }

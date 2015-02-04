@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
@@ -45,7 +46,7 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
   }
   
   public String getFilterButtonLabel() {
-    return (filter)? "Сброс" : "Фильтр";
+    return (filter)? "Новый поиск" : "Поиск";
   }
 
   public void loadPerson() {
@@ -63,7 +64,7 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
     if (filter && (null != name)) {
       return ejb.findByName(name);
     } else {
-      return ejb.fetchAll();
+      return new ArrayList<>();
     }
   }
 

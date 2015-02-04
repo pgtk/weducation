@@ -28,10 +28,9 @@
           <table id="dataTable">
             <thead>
               <tr>
-                <th width="20%">Фамилия</th>
-                <th width="20%">Имя</th>
-                <th width="20%">Отчество</th>
+                <th width="30%">Фамилия Имя Отчество</th>
                 <th width="20%">Дата рождения</th>
+                <th width="30%">Место рождения</th>
                 <th width="20%">Действия</th>
               </tr>
             </thead>
@@ -39,16 +38,13 @@
               <ui:repeat value="#{personsMB.personList}" var="psn">
                 <tr>
                   <td>
-                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.firstName}" />
-                  </td>
-                  <td>
-                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.middleName}" />
-                  </td>
-                  <td>
-                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.lastName}" />
+                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.fullName}" />
                   </td>
                   <td>
                     <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.birthDateString}" />
+                  </td>
+                  <td>
+                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.birthPlace}" />
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{personsMB.edit(psn)}" />
@@ -60,7 +56,7 @@
           </table>
         </h:form>
         <h:panelGroup rendered="#{empty personsMB.personList}">
-          <p>На данный момент нет ни одной записи.</p>
+          <p>Нет записей, удовлетворяющих вашему критерию поиска.</p>
         </h:panelGroup>
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}" /></div>
