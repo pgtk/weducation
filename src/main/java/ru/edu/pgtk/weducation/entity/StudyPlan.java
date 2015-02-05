@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import ru.edu.pgtk.weducation.utils.Utils;
 
 @Entity
 @Table(name = "plans")
@@ -29,6 +32,16 @@ public class StudyPlan implements Serializable {
 
   @Column(name = "pln_extramural", nullable = false)
   private boolean extramural;
+  
+  @Column(name = "pln_years", nullable = false)
+  private int years;
+  
+  @Column(name = "pln_months", nullable = false)
+  private int months;
+  
+  @Column(name = "pln_date")
+  @Temporal(javax.persistence.TemporalType.DATE)
+  private Date date;
 
   @ManyToOne
   @JoinColumn(name = "pln_spccode", nullable = false)
@@ -45,9 +58,13 @@ public class StudyPlan implements Serializable {
   public int getId() {
     return id;
   }
+  
+  public String getLength() {
+    return Utils.getYearString(years) + " " + Utils.getMonthString(months);
+  }
 
   public String getExtramural() {
-    return (extramural) ? "заочная форма" : "очная форма";
+    return ((extramural) ? "заочная" : "очная") + " форма";
   }
 
   public String getNameForList() {
@@ -92,5 +109,29 @@ public class StudyPlan implements Serializable {
 
   public void setSpecialityCode(int specialityCode) {
     this.specialityCode = specialityCode;
+  }
+
+  public int getYears() {
+    return years;
+  }
+
+  public void setYears(int years) {
+    this.years = years;
+  }
+
+  public int getMonths() {
+    return months;
+  }
+
+  public void setMonths(int months) {
+    this.months = months;
+  }
+
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
   }
 }

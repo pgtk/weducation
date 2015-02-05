@@ -37,9 +37,6 @@ public class Speciality implements Serializable {
   @Column(name = "spc_specialization", nullable = false, length = 128)
   private String specialization;
 
-  @Column(name = "spc_length", nullable = false, length = 50)
-  private String leanLength;
-
   @Column(name = "spc_actual", nullable = false)
   private boolean actual;
 
@@ -89,14 +86,6 @@ public class Speciality implements Serializable {
 
   public void setSpecialization(String specialization) {
     this.specialization = specialization;
-  }
-
-  public String getLeanLength() {
-    return leanLength;
-  }
-
-  public void setLeanLength(String leanLength) {
-    this.leanLength = leanLength;
   }
 
   public boolean isActual() {

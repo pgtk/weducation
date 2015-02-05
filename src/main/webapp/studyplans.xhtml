@@ -60,6 +60,14 @@
           <h:inputText value="#{studyPlansMB.item.name}" class="textEdit" /><p />
           <h:outputText value="Описание" /><br />
           <h:inputText value="#{studyPlansMB.item.description}" class="textEdit" /><p />
+          <h:outputText value="Количество полных лет обучения" /><br />
+          <h:inputText value="#{studyPlansMB.item.years}" class="textEdit" /><p />
+          <h:outputText value="Количество полных месяцев обучения" /><br />
+          <h:inputText value="#{studyPlansMB.item.months}" class="textEdit" /><p />
+          <h:outputText value="Дата утверждения плана" /><br />
+          <h:inputText value="#{studyPlansMB.item.date}" class="textEdit">
+            <f:convertDateTime pattern="dd.MM.yyyy" />
+          </h:inputText><p />
           <h:selectBooleanCheckbox value="#{studyPlansMB.item.extramural}" />
           <h:outputText value="заочная форма обучения" /><p />
           <h:outputText value="Специальность" /><br />

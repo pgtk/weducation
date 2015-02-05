@@ -1,11 +1,10 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
-import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.utils.PlanXMLParser;
+import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.utils.PlanParser;
 
 public class ImportPlanMB {
 
@@ -15,7 +14,7 @@ public class ImportPlanMB {
   private String fileName;
   private long size;
   private boolean uploaded;
-  private PlanXMLParser parser;
+  private PlanParser parser;
 
   private void addMessage(final Exception e) {
     FacesContext context = FacesContext.getCurrentInstance();
@@ -29,32 +28,7 @@ public class ImportPlanMB {
       size = file.getSize();
       fileName = file.getSubmittedFileName();
       uploaded = true;
-      parser = new PlanXMLParser(file.getInputStream());
-//      if (parser.isCorrectXML()) {
-        // Получаем курсы...
-//        List<Course> courses = parser.getCourses();
-//        for (Course c : courses) {
-        //Найден курс
-//        }
-        //Получаем модули и дисциплины...
-//        List<Module> modules = parser.getModules();
-//        for (Module m : modules) {
-        //Найден модуль
-//          for (Subject s : m.getSubjects()) {
-        // Дисциплина
-//            for (SubjectLoad l : s.getLoad()) {
-        // Нагрузка по дисциплине
-//            }
-//          }
-//          for (Practice p : m.getPractices()) {
-        // Практика
-//            for (PracticeLoad l : p.getLoad()) {
-        // Нагрузка по практике
-//            }
-//          }
-//        }
-//      }
-
+      parser = new PlanParser(file.getInputStream());
     } catch (Exception e) {
       addMessage(e);
     }
@@ -86,10 +60,12 @@ public class ImportPlanMB {
 
   public String getPlanTitle() {
     try {
-      if ((null != parser) && (parser.isCorrectXML())) {
-        Speciality spec = parser.getSpeciality();
+      if ((null != parser) && (parser.isCorrect())) {
+        StudyPlan sp = parser.getStudyPlan();
         return "Обнаружен учебный план специальности \""
-                + spec.getKey() + " " + spec.getFullName() + "\". Квалификация - " + spec.getKvalification();
+                + sp.getName() + " " + sp.getDescription() + 
+                "\". Срок обучения - " + sp.getLength() + ", " +
+                sp.getExtramural();
       } else {
         return "Документ не содержит учебных планов!";
       }
