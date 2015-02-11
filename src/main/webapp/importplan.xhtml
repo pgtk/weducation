@@ -9,6 +9,8 @@
       <h1>Импорт учебного плана</h1>
       <h:panelGroup rendered="#{not importPlanMB.uploaded}">
         <h:form id="uploadForm" enctype="multipart/form-data">
+          <h:selectBooleanCheckbox value="#{importPlanMB.createSpeciality}" />
+          <h:outputLabel value="Автоматически создавать специальности" /><p />
           Выберите для загрузки файл учебного плана, созданный в программе РУП СПО (файл с расширением .osf)<br />
           <h:inputFile id="file" value="#{importPlanMB.file}" /><p />
           <div class="buttons">
@@ -19,10 +21,10 @@
       </h:panelGroup>
       <h:panelGroup rendered="#{importPlanMB.uploaded}">
         <!-- file was uploaded. show info -->
-        <h:outputText value="Размер файла: #{importPlanMB.size}" /><p />
-        <h:outputText value="Тип содержимого файла: #{importPlanMB.contentType}" /><p />
-        <h:outputText value="Оригинальное имя файла: #{importPlanMB.fileName}" /><p />
+        <p>Учебный план был успешно импортирован. Обязательно проверьте нагрузку
+        и вид аттестации в семестровой нагрузке и модулях.</p>
         <h:outputText value="#{importPlanMB.planTitle}" /><p />
+        <p>#{importPlanMB.semesters}</p>
         <div class="buttons">
           <h:button value="Отмена" outcome="/index" />
         </div>

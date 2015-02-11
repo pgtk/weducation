@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.SubjectLoadEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
+import ru.edu.pgtk.weducation.entity.ExamForm;
 import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.entity.SubjectLoad;
 
@@ -44,6 +45,10 @@ public class SubjectLoadMB extends GenericBean<SubjectLoad> implements Serializa
 
   public List<SubjectLoad> getSubjectLoad() {
     return ejb.findBySubject(subject);
+  }
+
+  public ExamForm[] getExamForms() {
+    return ExamForm.values();
   }
 
   public void add() {

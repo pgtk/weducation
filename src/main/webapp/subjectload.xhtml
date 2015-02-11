@@ -90,10 +90,9 @@
           <h:outputText value="Нагрузка на курсовое проектирование" /><br />
           <h:inputText value="#{subjectLoadMB.item.courseProjectLoad}" class="textEdit" /><p />
           <h:outputText value="Форма аттестации" /><br />
-          <h:selectOneMenu value="#{subjectLoadMB.item.examFormCode}">
-            <f:selectItem itemLabel="Не предусмотрено" itemValue="0" />
-            <f:selectItems value="#{examFormsEJB.fetchAll()}" var="exam" 
-                           itemLabel="#{exam.name}" itemValue="#{exam.id}" />
+          <h:selectOneMenu value="#{subjectLoadMB.item.examForm}">
+            <f:selectItems value="#{subjectLoadMB.examForms}" var="exam" 
+                           itemLabel="#{exam.description}" itemValue="#{exam}" />
           </h:selectOneMenu><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{subjectLoadMB.save()}" />

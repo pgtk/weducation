@@ -108,6 +108,25 @@ public class XMLDocument {
     }
   }
 
+  public Node getChildNode(Node node, String tagName) {
+    try {
+      if (node.hasChildNodes()) {
+        // Если есть дочерние элементы, то получаем их
+        NodeList nodes = node.getChildNodes();
+        for (int n = 0; n < nodes.getLength(); n++) {
+          // Пробегаем по ним циклом и отбираем только те, имя которых соответствует требуемому
+          if (nodes.item(n).getNodeName().contentEquals(tagName)) {
+            return(nodes.item(n));
+          }
+        }
+      }
+      return null;
+    } catch (NullPointerException e) {
+      throw new EJBException("NullPointerException при поиске дочерних элементов с именем " + tagName);
+    }
+  }
+  
+  
   /**
    * Возвращает значение атрибута тега по имени атрибута
    *

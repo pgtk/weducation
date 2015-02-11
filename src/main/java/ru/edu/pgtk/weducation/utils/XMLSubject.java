@@ -8,14 +8,14 @@ import java.util.List;
  *
  * @author Воронин Леонид
  */
-public class Subject {
+public class XMLSubject {
 
   private String index = "";    // индекс (ЕН, ОП)
   private String name = "";     // Наименование предмета
-  private Module module = null; // родительский элемент
-  private List<SubjectLoad> load = new ArrayList<>(); // список нагрузки по семестрам
+  private XMLModule module = null; // родительский элемент
+  private List<XMLSubjectLoad> load = new ArrayList<>(); // список нагрузки по семестрам
 
-  public Subject() {
+  public XMLSubject() {
     super();
   }
 
@@ -24,17 +24,17 @@ public class Subject {
     return "Subject [index=" + index + ", name=" + name + ", load=" + load + "]";
   }
 
-  public Subject(Module module, String index, String name) {
+  public XMLSubject(XMLModule module, String index, String name) {
     this.index = index;
     this.name = name;
     this.module = module;
   }
 
-  public void addLoad(SubjectLoad subjLoad) {
+  public void addLoad(XMLSubjectLoad subjLoad) {
     load.add(subjLoad);
   }
 
-  public List<SubjectLoad> getLoad() {
+  public List<XMLSubjectLoad> getLoad() {
     return load;
   }
 
@@ -58,11 +58,11 @@ public class Subject {
     this.name = name;
   }
 
-  public Module getModule() {
+  public XMLModule getModule() {
     return module;
   }
 
-  public void setModule(Module module) {
+  public void setModule(XMLModule module) {
     this.module = module;
   }
 }

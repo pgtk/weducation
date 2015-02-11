@@ -8,17 +8,17 @@ import java.util.List;
  *
  * @author Воронин Леонид
  */
-public class Practice {
+public class XMLPractice {
 
   private String index = "";             // индекс (ЕН, ОП)
   private String name = "";              // Наименование практики
-  private Module module = null;          // родительский элемент (модуль, которому принадлежит практика)
-  private List<PracticeLoad> load = new ArrayList<>(); // список нагрузки по семестрам
+  private XMLModule module = null;          // родительский элемент (модуль, которому принадлежит практика)
+  private List<XMLPracticeLoad> load = new ArrayList<>(); // список нагрузки по семестрам
 
   /**
    * Конструктор без параметров.
    */
-  public Practice() {
+  public XMLPractice() {
     super();
   }
 
@@ -29,7 +29,7 @@ public class Practice {
    * @param index индекс практики (Всякие там ПР.02 и т.п.)
    * @param name наименование практики
    */
-  public Practice(Module module, String index, String name) {
+  public XMLPractice(XMLModule module, String index, String name) {
     super();
     this.module = module;
     this.index = index;
@@ -49,7 +49,7 @@ public class Practice {
     return "Practice [index=" + index + ", name=" + name + ", load=" + load +"]";
   }
 
-  public void addLoad(PracticeLoad item) {
+  public void addLoad(XMLPracticeLoad item) {
     load.add(item);
   }
 
@@ -69,19 +69,19 @@ public class Practice {
     this.name = name;
   }
 
-  public Module getModule() {
+  public XMLModule getModule() {
     return module;
   }
 
-  public void setModule(Module module) {
+  public void setModule(XMLModule module) {
     this.module = module;
   }
 
-  public List<PracticeLoad> getLoad() {
+  public List<XMLPracticeLoad> getLoad() {
     return load;
   }
 
-  public void setLoad(List<PracticeLoad> load) {
+  public void setLoad(List<XMLPracticeLoad> load) {
     this.load = load;
   }
 }

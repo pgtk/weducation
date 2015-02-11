@@ -8,18 +8,18 @@ import java.util.List;
  *
  * @author Воронин Леонид
  */
-public class Course {
+public class XMLCourse {
 
   private int number = 0;           // номер курсе учебного плана
-  private List<Semester> semesters; // семестры курса
+  private List<XMLSemester> semesters; // семестры курса
 
-  public Course(int number) {
+  public XMLCourse(int number) {
     super();
     this.number = number;
     semesters = new ArrayList<>();
   }
   
-  public Course() {
+  public XMLCourse() {
     super();
     semesters = new ArrayList<>();
   }
@@ -32,15 +32,15 @@ public class Course {
     this.number = number;
   }
 
-  public List<Semester> getSemesters() {
+  public List<XMLSemester> getSemesters() {
     return semesters;
   }
 
-  public void setSemesters(List<Semester> semesters) {
+  public void setSemesters(List<XMLSemester> semesters) {
     this.semesters = semesters;
   }
   
-  public void addSemester(Semester semester) {
+  public void addSemester(XMLSemester semester) {
     semesters.add(semester);
   }
   

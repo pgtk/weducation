@@ -5,6 +5,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Department;
@@ -47,6 +48,20 @@ public class SpecialitiesEJB {
             + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
+  }
+  
+  public Speciality findByKey(final String key) {
+    try {
+    TypedQuery<Speciality> query = em.createQuery(
+            "SELECT s FROM Speciality s WHERE (s.key = :k) ", Speciality.class);
+    query.setParameter("k", key);
+    return query.getSingleResult();
+    } catch (NoResultException e) {
+      return null;
+    } catch (Exception e) {
+      throw new EJBException("Exception class " + e.getClass().getName() + 
+              " with message " + e.getMessage());
+    }
   }
 
   public void save(Speciality speciality) {

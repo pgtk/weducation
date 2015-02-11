@@ -7,18 +7,18 @@ import ru.edu.pgtk.weducation.entity.ExamForm;
  *
  * @author Воронин Леонид
  */
-public class PracticeLoad {
+public class XMLPracticeLoad {
 
   private int semester = 0; // Номер семестра от 1 до 8 для техникума
   private int hours = 0;    // Нагрузка в часах
   private int weeks = 0;    // Продолжительность (недель)
   private ExamForm examType = ExamForm.OTHER; // Тип экзамена. пока пусть будет неизвестный, потом разберемся.
-  private Practice practice = null; // Практика, для которой задается эта нагрузка.
+  private XMLPractice practice = null; // Практика, для которой задается эта нагрузка.
 
   /**
    * Конструктор без параметров.
    */
-  public PracticeLoad() {
+  public XMLPracticeLoad() {
     super();
   }
 
@@ -29,7 +29,7 @@ public class PracticeLoad {
    * @param hours количество часов нагрузки
    * @param weeks продолжительность практики в неделях
    */
-  public PracticeLoad(Practice practice, int semester, int hours, int weeks) {
+  public XMLPracticeLoad(XMLPractice practice, int semester, int hours, int weeks) {
     super();
     this.practice = practice;
     this.semester = semester;
@@ -75,11 +75,11 @@ public class PracticeLoad {
     this.examType = examType;
   }
 
-  public Practice getPractice() {
+  public XMLPractice getPractice() {
     return practice;
   }
 
-  public void setPractice(Practice practice) {
+  public void setPractice(XMLPractice practice) {
     this.practice = practice;
   }
 }

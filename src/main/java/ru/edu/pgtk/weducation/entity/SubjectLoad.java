@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -49,6 +50,13 @@ public class SubjectLoad implements Serializable {
   @Column(name = "lod_exfcode")
   private ExamForm examForm = ExamForm.NONE;
 
+  @PostLoad
+  private void updateCodes() {
+    if (null != subject) {
+      subjectCode = subject.getId();
+    }
+  }
+  
   public int getId() {
     return id;
   }

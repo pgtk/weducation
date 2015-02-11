@@ -23,6 +23,8 @@ public class PlanParser {
   public static String GYP = "GYP";
   public static String PLAN = "Plan";
   public static String BLOCK = "block";
+  public static String KV_EXAMS = "kv_exams";
+  public static String ITEM = "item";
   public static String DISC = "disc";
   public static String PRACTICE = "practice";
   public static String INDEX = "index";
@@ -76,19 +78,19 @@ public class PlanParser {
   }
 
   /**
-   * Возвращает список курсов, в виде экземпляров класса Course
+   * Возвращает список курсов, в виде экземпляров класса XMLCourse
    *
-   * @return список экземпляров класса Course а-ля ArrayList
+   * @return список экземпляров класса XMLCourse а-ля ArrayList
    */
-  public List<Course> getCourses() {
+  public List<XMLCourse> getCourses() {
     try {
-      List<Course> result = new ArrayList<>();
+      List<XMLCourse> result = new ArrayList<>();
       // Получим элемент документа (тег GYP)
       Node gyp = plan.getRootNode(GYP);
       // Получим все его дочерние элементы (курсы)
       for (Node cn : plan.getChildNodes(gyp, COURSE)) {
-        // Создадим для каждого курса экземпляр Java класса Course
-        Course c = new Course(toInt(plan.getAttributeValue(cn, NUM), 0));
+        // Создадим для каждого курса экземпляр Java класса XMLCourse
+        XMLCourse c = new XMLCourse(toInt(plan.getAttributeValue(cn, NUM), 0));
         // Получим список семестров курса и пробежимся по ним в цикле
         for (Node sn : plan.getChildNodes(cn, IMESTER)) {
           // Считаем параметры семестра (номер и график недельной нагрузки)
@@ -96,7 +98,7 @@ public class PlanParser {
           String graph = plan.getAttributeValue(sn, GRAF).replace("I", "");
           // Если количество недель равно нулю, то нам такой семестр не нужен
           if (graph.length() > 0) {
-            c.addSemester(new Semester(number, graph.length()));
+            c.addSemester(new XMLSemester(number, graph.length()));
           }
         }
         // Если в курсе нет семестров, то нам такой курс не нужен
@@ -110,6 +112,12 @@ public class PlanParser {
     }
   }
 
+  /**
+   * Читает заголовок учебного плана и возвращает его в виде класса
+   * "Специальность".
+   *
+   * @return экземпляр класса Speciality
+   */
   public Speciality getSpeciality() {
     try {
       Node title = plan.getRootNode(TITLE);
@@ -117,12 +125,34 @@ public class PlanParser {
       sp.setKey(plan.getAttributeValue(title, SPEC_KEY));
       sp.setFullName(plan.getAttributeValue(title, SPEC_NAME));
       sp.setKvalification(plan.getAttributeValue(title, SPEC_KV));
+      sp.setShortName("FIXME");
+      sp.setSpecialization("не предусмотрено");
       return sp;
     } catch (NullPointerException e) {
       throw new EJBException("NullPointerException в процессе получения информации о специальности!");
     }
   }
 
+  /**
+   * Возвращает шифр специальности
+   *
+   * @return Шифр специальности в виде строки
+   */
+  public String getSpecialityKey() {
+    try {
+      Node title = plan.getRootNode(TITLE);
+      return plan.getAttributeValue(title, SPEC_KEY);
+    } catch (NullPointerException e) {
+      throw new EJBException("NullPointerException в процессе получения информации о специальности!");
+    }
+  }
+
+  /**
+   * Читает заголовок учебного плана и возвращает его в виде специального типа
+   * "Учебный план".
+   *
+   * @return экземпляр класса StudyPlan
+   */
   public StudyPlan getStudyPlan() {
     try {
       Node title = plan.getRootNode(TITLE);
@@ -150,21 +180,28 @@ public class PlanParser {
    *
    * @return
    */
-  public List<Module> getModules() {
+  public List<XMLModule> getModules() {
     try {
-      List<Module> result = new ArrayList<>();
+      List<XMLModule> result = new ArrayList<>();
       // Получим элемент документа (тег Plan)
       Node p = plan.getRootNode(PLAN);
       // Получим все его дочерние элементы (модули)
       for (Node moduleNode : plan.getChildNodes(p, BLOCK)) {
-        // Создадим для каждого модуля экземпляр Java класса Module
-        Module m = new Module(plan.getAttributeValue(moduleNode, INDEX), plan.getAttributeValue(moduleNode, NAME));
+        // Создадим для каждого модуля экземпляр Java класса XMLModule
+        XMLModule m = new XMLModule(
+                toInt(plan.getAttributeValue(moduleNode, TYPE), 0),
+                plan.getAttributeValue(moduleNode, INDEX),
+                plan.getAttributeValue(moduleNode, NAME));
+        Node kvex = plan.getChildNode(moduleNode, KV_EXAMS);
+        if (null != kvex) {
+          m.setKvExams(plan.getChildNodes(kvex, ITEM).size());
+        }
         // Получим список дисциплин модуля и пробежимся по ним в цикле
         for (Node subjectNode : plan.getChildNodes(moduleNode, DISC)) {
           // Считаем параметры дисциплины
           String index = plan.getAttributeValue(subjectNode, INDEX);
           String name = plan.getAttributeValue(subjectNode, NAME);
-          Subject subject = new Subject(m, index, name);
+          XMLSubject subject = new XMLSubject(m, index, name);
           // Считаем расчасовку. Для этого - пробежимся по блокам semesters_info. Вообще, блок один, но вдруг их несколько...
           for (Node semesterInfoNode : plan.getChildNodes(subjectNode, SEMESTERS)) {
             // для каждого блока semesters_info найдем дочерние элементы. Это и будет расчасовка.
@@ -176,7 +213,7 @@ public class PlanParser {
               int cpr = toInt(plan.getAttributeValue(loadNode, KP), 0);
               // Вычисляем максимальнеую нагрузку
               int max = aud + sam;
-              SubjectLoad load = new SubjectLoad(subject, toInt(plan.getAttributeValue(loadNode, NUM), 0),
+              XMLSubjectLoad load = new XMLSubjectLoad(subject, toInt(plan.getAttributeValue(loadNode, NUM), 0),
                       max, aud, thr, cpr);
               // Предполагаем, что нет никакой формы контроля
               load.setExamType(ExamForm.NONE);
@@ -203,7 +240,7 @@ public class PlanParser {
         // Добавляем информацию о практиках
         for (Node practiceNode : plan.getChildNodes(moduleNode, PRACTICE)) {
           // Считаем параметры практики
-          Practice practice = new Practice(m, plan.getAttributeValue(practiceNode, INDEX),
+          XMLPractice practice = new XMLPractice(m, plan.getAttributeValue(practiceNode, INDEX),
                   plan.getAttributeValue(practiceNode, NAME));
           // Теперь распарсим семестровую нагрузку
           for (Node semesterInfoNode : plan.getChildNodes(practiceNode, SEMESTERS)) {
@@ -212,7 +249,7 @@ public class PlanParser {
               // Если расчасовка найдена, то парсим
               int hours = toInt(plan.getAttributeValue(loadNode, "hours"), 0);
               int weeks = toInt(plan.getAttributeValue(loadNode, "weeks"), 0);
-              PracticeLoad load = new PracticeLoad(practice, toInt(plan.getAttributeValue(loadNode, NUM), 0),
+              XMLPracticeLoad load = new XMLPracticeLoad(practice, toInt(plan.getAttributeValue(loadNode, NUM), 0),
                       hours, weeks);
               // Предполагаем, что нет никакой формы контроля
               load.setExamType(ExamForm.NONE);

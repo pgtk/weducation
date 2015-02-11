@@ -6,13 +6,13 @@ import ru.edu.pgtk.weducation.entity.ExamForm;
  * Класс для инкапсуляции информации о семестровой нагрузке по дисциплине.
  * 
  * Module.java - информация о модуле или блоке дисциплин.
- * Subject.java - информация о дисциплине (в одном блоке несколько дисциплин).
- * Этот класс будет зранить количество часов аудиторной, максимальной и теоретической нагрузки
- * по дисциплине за какой-либо семестр.
+ XMLSubject.java - информация о дисциплине (в одном блоке несколько дисциплин).
+ Этот класс будет зранить количество часов аудиторной, максимальной и теоретической нагрузки
+ по дисциплине за какой-либо семестр.
  * 
  * @author Воронин Леонид
  */
-public class SubjectLoad {
+public class XMLSubjectLoad {
   
   private int semester = 0; // Номер семестра от 1 до 8 для техникума
   private int maxLoad = 0;  // Максимальная нагрузка по дисциплине
@@ -20,12 +20,12 @@ public class SubjectLoad {
   private int thrLoad = 0;  // Теоретическая нагрузка (аудиторная - практика)
   private int cprLoad = 0;  // Курсовое проектирование
   private ExamForm examType = ExamForm.OTHER; // Тип экзамена. пока пусть будет неизвестный, потом разберемся.
-  private Subject subject = null; // Тут будет дисциплина.
+  private XMLSubject subject = null; // Тут будет дисциплина.
   
   /*
    * Конструктор без параметров
    */
-  public SubjectLoad() {
+  public XMLSubjectLoad() {
     super();
   }
   
@@ -38,7 +38,7 @@ public class SubjectLoad {
    * @param thr количество часов теории (аудиторная минус практика и курсовые)
    * @param cpr курсовое проектирование
    */
-  public SubjectLoad(Subject subj, int num, int max, int aud, int thr, int cpr) {
+  public XMLSubjectLoad(XMLSubject subj, int num, int max, int aud, int thr, int cpr) {
     super();
     subject = subj;
     semester = num;
@@ -62,11 +62,11 @@ public class SubjectLoad {
     this.cprLoad = cprLoad;
   }
 
-  public Subject getSubject() {
+  public XMLSubject getSubject() {
     return subject;
   }
 
-  public void setSubject(Subject subject) {
+  public void setSubject(XMLSubject subject) {
     this.subject = subject;
   }
   

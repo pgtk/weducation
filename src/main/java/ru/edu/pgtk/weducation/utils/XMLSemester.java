@@ -5,21 +5,20 @@ package ru.edu.pgtk.weducation.utils;
  *
  * @author Воронин Леонид
  */
-public class Semester {
+public class XMLSemester {
   private int number = 0;    // Номер семестра
   private int weeks = 0;     // количество недель
 
-  public Semester() {
+  public XMLSemester() {
     super();
   }
   
   /**
    * Конструктор с параметрами
    * @param num номер семестра
-   * @param start номер недели с которой начинается семестр
    * @param count количество недель в семестре
    */
-  public Semester(int num, int count) {
+  public XMLSemester(int num, int count) {
     number = num;
     weeks = count;
   }
