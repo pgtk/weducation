@@ -7,7 +7,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.ExamForm;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
@@ -56,16 +55,6 @@ public class StudyModulesEJB {
       }
     } else {
       throw new EJBException("Wrond StudyPlan code " + item.getPlanCode());
-    }
-    if (item.getExamFormCode() > 0) {
-      ExamForm ef = em.find(ExamForm.class, item.getExamFormCode());
-      if (null != ef) {
-        item.setExamForm(ef);
-      } else {
-        throw new EJBException("ExamForm not found with id " + item.getExamFormCode());
-      }
-    } else {
-      throw new EJBException("Wrong ExamForm code " + item.getExamFormCode());
     }
     if (item.getId() == 0) {
       em.persist(item);

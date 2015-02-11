@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -47,20 +46,8 @@ public class SubjectLoad implements Serializable {
   @Column(name = "lod_maximum", nullable = false)
   private int maximumLoad;
 
-  @ManyToOne
-  @JoinColumn(name = "lod_exfcode")
-  private ExamForm examForm;
-
-  @Transient
-  private int examFormCode;
-
-  @PostLoad
-  private void updateCodes() {
-    if (null != examForm) {
-      examFormCode = examForm.getId();
-    }
-    subjectCode = subject.getId();
-  }
+  @Column(name = "lod_exfcode")
+  private ExamForm examForm = ExamForm.NONE;
 
   public int getId() {
     return id;
@@ -133,18 +120,5 @@ public class SubjectLoad implements Serializable {
 
   public void setExamForm(ExamForm examForm) {
     this.examForm = examForm;
-    if (null != examForm) {
-      examFormCode = examForm.getId();
-    } else {
-      examFormCode = 0;
-    }
-  }
-
-  public int getExamFormCode() {
-    return examFormCode;
-  }
-
-  public void setExamFormCode(int examFormCode) {
-    this.examFormCode = examFormCode;
   }
 }

@@ -3,10 +3,15 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.entity.ExamForm;
 
+@ManagedBean(name = "studyModulesMB")
+@ViewScoped
 public class StudyModulesMB extends GenericBean<StudyModule> implements Serializable {
 
   @EJB
@@ -45,6 +50,10 @@ public class StudyModulesMB extends GenericBean<StudyModule> implements Serializ
   
   public List<StudyModule> getStudyModules() {
     return ejb.findByPlan(plan);
+  }
+  
+  public ExamForm[] getExamForms() {
+    return ExamForm.values();
   }
 
   public void add() {

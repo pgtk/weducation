@@ -3,12 +3,16 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 
+@ManagedBean(name = "subjectsMB")
+@ViewScoped
 public class SubjectsMB extends GenericBean<Subject> implements Serializable {
 
   @EJB

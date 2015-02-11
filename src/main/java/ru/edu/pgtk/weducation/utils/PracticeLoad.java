@@ -1,5 +1,7 @@
 package ru.edu.pgtk.weducation.utils;
 
+import ru.edu.pgtk.weducation.entity.ExamForm;
+
 /**
  * Класс для реализации семестровой нагрузки по практике.
  *
@@ -10,7 +12,7 @@ public class PracticeLoad {
   private int semester = 0; // Номер семестра от 1 до 8 для техникума
   private int hours = 0;    // Нагрузка в часах
   private int weeks = 0;    // Продолжительность (недель)
-  private ExamType examType = ExamType.UNKN; // Тип экзамена. пока пусть будет неизвестный, потом разберемся.
+  private ExamForm examType = ExamForm.OTHER; // Тип экзамена. пока пусть будет неизвестный, потом разберемся.
   private Practice practice = null; // Практика, для которой задается эта нагрузка.
 
   /**
@@ -65,11 +67,11 @@ public class PracticeLoad {
     this.weeks = weeks;
   }
 
-  public ExamType getExamType() {
+  public ExamForm getExamType() {
     return examType;
   }
 
-  public void setExamType(ExamType examType) {
+  public void setExamType(ExamForm examType) {
     this.examType = examType;
   }
 

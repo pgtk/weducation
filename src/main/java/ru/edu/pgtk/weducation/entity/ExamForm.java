@@ -1,39 +1,33 @@
 package ru.edu.pgtk.weducation.entity;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.ejb.EJBException;
 
 /**
- * Класс форм итоговой аттестации.
+ * Форма контроля успеваемости (экхамен, зачет и т.п.).
  *
  * @author Воронин Леонид
  */
-@Entity
-@Table(name = "examforms")
-public class ExamForm implements Serializable {
+public enum ExamForm {
 
-  @Id
-  @Column(name = "exf_pcode")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  NONE, EXAM, DIFZACHET, ZACHET, KOMPLEX, KVALIFEXAM, OTHER;
 
-  @Column(name = "exf_name", nullable = false, length = 128)
-  private String name;
-
-  public int getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  public String getDescription() throws EJBException {
+    switch (this) {
+      case NONE:
+        return "не предусмотрено";
+      case EXAM:
+        return "экзамен";
+      case DIFZACHET:
+        return "диф. зачет";
+      case ZACHET:
+        return "зачет";
+      case KOMPLEX:
+        return "комплексный экзамен";
+      case KVALIFEXAM:
+        return "квалификационный экзамен";
+      case OTHER:
+        return "другое";
+    }
+    throw new EJBException("Попытка вернуть описание для неизвестной формы контроля!");
   }
 }

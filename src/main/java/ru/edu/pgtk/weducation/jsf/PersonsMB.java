@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.entity.Person;
 
+@ManagedBean(name = "personsMB")
+@ViewScoped
 public class PersonsMB extends GenericBean<Person> implements Serializable {
 
   @EJB

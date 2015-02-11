@@ -7,7 +7,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.ExamForm;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.entity.SubjectLoad;
@@ -59,16 +58,6 @@ public class SubjectLoadEJB {
       }
     } else {
       throw new EJBException("Wrong Subject code " + item.getSubjectCode());
-    }
-    if (item.getExamFormCode() > 0) {
-      ExamForm ef = em.find(ExamForm.class, item.getExamFormCode());
-      if (null != ef) {
-        item.setExamForm(ef);
-      } else {
-        throw new EJBException("ExamForm not found with id " + item.getSubjectCode());
-      }
-    } else {
-      item.setExamForm(null);
     }
     if (item.getId() == 0) {
       em.persist(item);

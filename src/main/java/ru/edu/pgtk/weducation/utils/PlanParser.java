@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.utils;
 
+import ru.edu.pgtk.weducation.entity.ExamForm;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -178,18 +179,18 @@ public class PlanParser {
               SubjectLoad load = new SubjectLoad(subject, toInt(plan.getAttributeValue(loadNode, NUM), 0),
                       max, aud, thr, cpr);
               // Предполагаем, что нет никакой формы контроля
-              load.setExamType(ExamType.NONE);
+              load.setExamType(ExamForm.NONE);
               // Корректируем форму контроля, в зависимости от обнаруженной информации об экзамене
               if (toInt(plan.getAttributeValue(loadNode, "count_ex"), 0) > 0) {
-                load.setExamType(ExamType.EXAM);
+                load.setExamType(ExamForm.EXAM);
               }
               // или дифзачете
               if (toInt(plan.getAttributeValue(loadNode, "count_zdif"), 0) > 0) {
-                load.setExamType(ExamType.ZDIF);
+                load.setExamType(ExamForm.DIFZACHET);
               }
               // Если у нас указан другой тип формы контроля, то предполагаем, что это контрольная
               if (toInt(plan.getAttributeValue(loadNode, "count_Other"), 0) > 0) {
-                load.setExamType(ExamType.KNTR);
+                load.setExamType(ExamForm.OTHER);
               }
               if (max > 0) {
                 // Если максимальная нагрузка больше нуля, то добавляем расчасовку
@@ -214,22 +215,22 @@ public class PlanParser {
               PracticeLoad load = new PracticeLoad(practice, toInt(plan.getAttributeValue(loadNode, NUM), 0),
                       hours, weeks);
               // Предполагаем, что нет никакой формы контроля
-              load.setExamType(ExamType.NONE);
+              load.setExamType(ExamForm.NONE);
               // Корректируем форму контроля, в зависимости от обнаруженной информации об экзамене
               if (toInt(plan.getAttributeValue(loadNode, "count_ex"), 0) > 0) {
-                load.setExamType(ExamType.EXAM);
+                load.setExamType(ExamForm.EXAM);
               }
               // или дифзачете
               if (toInt(plan.getAttributeValue(loadNode, "count_zdif"), 0) > 0) {
-                load.setExamType(ExamType.ZDIF);
+                load.setExamType(ExamForm.DIFZACHET);
               }
               // или зачете
               if (toInt(plan.getAttributeValue(loadNode, "count_z"), 0) > 0) {
-                load.setExamType(ExamType.ZCHT);
+                load.setExamType(ExamForm.ZACHET);
               }
               // Если у нас указан другой тип формы контроля, то предполагаем, что это контрольная
               if (toInt(plan.getAttributeValue(loadNode, "count_Other"), 0) > 0) {
-                load.setExamType(ExamType.KNTR);
+                load.setExamType(ExamForm.OTHER);
               }
               if (hours > 0) {
                 // Если максимальная нагрузка больше нуля, то добавляем расчасовку

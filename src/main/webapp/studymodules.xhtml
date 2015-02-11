@@ -59,10 +59,9 @@
           <h:outputText value="Наименование" /><br />
           <h:inputText value="#{studyModulesMB.item.name}" class="textEdit" /><p />
           <h:outputText value="Форма аттестации по итогам модуля" /><br />
-          <h:selectOneMenu value="#{studyModulesMB.item.examFormCode}">
-            <f:selectItem itemLabel="Не предусмотрено" itemValue="0" />
-            <f:selectItems value="#{examFormsEJB.fetchAll()}" var="exam" 
-                           itemLabel="#{exam.name}" itemValue="#{exam.id}" />
+          <h:selectOneMenu value="#{studyModulesMB.item.examForm}">
+            <f:selectItems value="#{studyModulesMB.examForms}" var="exam" 
+                           itemLabel="#{exam.description}" itemValue="#{exam}" />
           </h:selectOneMenu><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{studyModulesMB.save()}" />

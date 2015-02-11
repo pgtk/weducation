@@ -1,5 +1,7 @@
 package ru.edu.pgtk.weducation.utils;
 
+import ru.edu.pgtk.weducation.entity.ExamForm;
+
 /**
  * Класс для инкапсуляции информации о семестровой нагрузке по дисциплине.
  * 
@@ -17,7 +19,7 @@ public class SubjectLoad {
   private int audLoad = 0;  // Аудиторная нагрузка (максимальная - самостоятельная)
   private int thrLoad = 0;  // Теоретическая нагрузка (аудиторная - практика)
   private int cprLoad = 0;  // Курсовое проектирование
-  private ExamType examType = ExamType.UNKN; // Тип экзамена. пока пусть будет неизвестный, потом разберемся.
+  private ExamForm examType = ExamForm.OTHER; // Тип экзамена. пока пусть будет неизвестный, потом разберемся.
   private Subject subject = null; // Тут будет дисциплина.
   
   /*
@@ -100,11 +102,11 @@ public class SubjectLoad {
     this.thrLoad = thrLoad;
   }
 
-  public ExamType getExamType() {
+  public ExamForm getExamType() {
     return examType;
   }
 
-  public void setExamType(ExamType examType) {
+  public void setExamType(ExamForm examType) {
     this.examType = examType;
   }
 }

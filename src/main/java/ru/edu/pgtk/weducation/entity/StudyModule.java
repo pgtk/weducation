@@ -36,19 +36,12 @@ public class StudyModule implements Serializable {
   @Transient
   private int planCode;
 
-  @ManyToOne
-  @JoinColumn(name = "mod_exfcode")
-  private ExamForm examForm;
-
-  @Transient
-  private int examFormCode;
+  @Column(name = "mod_exfcode")
+  private ExamForm examForm = ExamForm.NONE;
 
   @PostLoad
   private void updateCodes() {
     planCode = plan.getId();
-    if (null != examForm) {
-      examFormCode = examForm.getId();
-    }
   }
 
   public int getId() {
@@ -61,19 +54,6 @@ public class StudyModule implements Serializable {
 
   public void setExamForm(ExamForm examForm) {
     this.examForm = examForm;
-    if (null != examForm) {
-      examFormCode = examForm.getId();
-    } else {
-      examFormCode = 0;
-    }
-  }
-
-  public int getExamFormCode() {
-    return examFormCode;
-  }
-
-  public void setExamFormCode(int examFormCode) {
-    this.examFormCode = examFormCode;
   }
 
   public String getName() {

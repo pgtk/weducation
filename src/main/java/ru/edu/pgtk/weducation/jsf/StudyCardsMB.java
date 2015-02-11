@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
@@ -16,6 +18,8 @@ import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
+@ManagedBean(name = "studyCardsMB")
+@ViewScoped
 public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable {
 
   @EJB

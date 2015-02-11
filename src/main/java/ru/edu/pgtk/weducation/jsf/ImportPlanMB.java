@@ -1,15 +1,18 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.utils.PlanParser;
 
+@ManagedBean(name = "importPlanMB")
+@ViewScoped
 public class ImportPlanMB {
 
   private Part file;
-  private String fileContent;
   private String contentType;
   private String fileName;
   private long size;

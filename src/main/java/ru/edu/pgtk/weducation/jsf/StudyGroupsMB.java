@@ -3,6 +3,8 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
@@ -13,6 +15,8 @@ import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
+@ManagedBean(name = "studyGroupsMB")
+@ViewScoped
 public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializable {
 
   @EJB
