@@ -16,9 +16,13 @@ import ru.edu.pgtk.weducation.entity.ExamForm;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.entity.SubjectLoad;
 import ru.edu.pgtk.weducation.utils.XMLCourse;
 import ru.edu.pgtk.weducation.utils.PlanParser;
 import ru.edu.pgtk.weducation.utils.XMLModule;
+import ru.edu.pgtk.weducation.utils.XMLSubject;
+import ru.edu.pgtk.weducation.utils.XMLSubjectLoad;
 
 @ManagedBean(name = "importPlanMB")
 @ViewScoped
@@ -26,7 +30,6 @@ public class ImportPlanMB {
 
   private Part file;
   private boolean uploaded;
-  private boolean createSpeciality;
   private PlanParser parser;
   @EJB
   private SpecialitiesEJB specialitiesEJB;
@@ -55,7 +58,7 @@ public class ImportPlanMB {
         //Импорт плана из файла и сохранение в базу
         Speciality spc = specialitiesEJB.findByKey(parser.getSpecialityKey());
         // Если специальности не найдено, то...
-        if ((null == spc) && createSpeciality) {
+        if (null == spc) {
           spc = parser.getSpeciality();
           specialitiesEJB.save(spc);
         }
@@ -65,7 +68,7 @@ public class ImportPlanMB {
         plansEJB.save(sp);
         // Импорт модулей
         for(XMLModule mod: parser.getModules()) {
-          StudyModule sm;
+          StudyModule sm = null;
           if (mod.getType() == 2) {
             sm = new StudyModule();
             sm.setName(mod.getName());
@@ -76,7 +79,26 @@ public class ImportPlanMB {
             modulesEJB.save(sm);
           }
           // Импорт дисциплин
-          
+          for (XMLSubject xs: mod.getSubjects()) {
+            Subject s = new Subject();
+            s.setFullName(xs.getName());
+            s.setShortName("FIXME");
+            s.setPlan(sp);
+            s.setModule(sm);
+            subjectsEJB.save(s);
+            // Нагрузка
+            for (XMLSubjectLoad xsl: xs.getLoad()) {
+              SubjectLoad sl = new SubjectLoad();
+              sl.setSubject(s);
+              sl.setMaximumLoad(xsl.getMaxLoad());
+              sl.setAuditoryLoad(xsl.getAudLoad());
+              sl.setCourseProjectLoad(xsl.getCprLoad());
+              sl.setSemester(xsl.getSemester());
+              sl.setCourse((sl.getSemester()+1)/2);
+              sl.setExamForm(xsl.getExamType());
+              loadEJB.save(sl);
+            }
+          }
           // Импорт практик
         }
       }
@@ -96,14 +118,6 @@ public class ImportPlanMB {
 
   public boolean isUploaded() {
     return uploaded;
-  }
-
-  public boolean isCreateSpeciality() {
-    return createSpeciality;
-  }
-
-  public void setCreateSpeciality(boolean createSpeciality) {
-    this.createSpeciality = createSpeciality;
   }
 
   public String getPlanTitle() {
