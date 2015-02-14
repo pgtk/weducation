@@ -13,6 +13,7 @@ import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectLoadEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.ExamForm;
+import ru.edu.pgtk.weducation.entity.Practic;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
@@ -21,13 +22,15 @@ import ru.edu.pgtk.weducation.entity.SubjectLoad;
 import ru.edu.pgtk.weducation.utils.XMLCourse;
 import ru.edu.pgtk.weducation.utils.PlanParser;
 import ru.edu.pgtk.weducation.utils.XMLModule;
+import ru.edu.pgtk.weducation.utils.XMLPractice;
+import ru.edu.pgtk.weducation.utils.XMLPracticeLoad;
 import ru.edu.pgtk.weducation.utils.XMLSubject;
 import ru.edu.pgtk.weducation.utils.XMLSubjectLoad;
 
 @ManagedBean(name = "importPlanMB")
 @ViewScoped
 public class ImportPlanMB {
-
+  
   private Part file;
   private boolean uploaded;
   private PlanParser parser;
@@ -43,13 +46,13 @@ public class ImportPlanMB {
   private SubjectsEJB subjectsEJB;
   @EJB
   private SubjectLoadEJB loadEJB;
-
+  
   private void addMessage(final Exception e) {
     FacesContext context = FacesContext.getCurrentInstance();
     String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
   }
-
+  
   public void upload() {
     try {
       uploaded = true;
@@ -67,7 +70,7 @@ public class ImportPlanMB {
         sp.setSpeciality(spc);
         plansEJB.save(sp);
         // Импорт модулей
-        for(XMLModule mod: parser.getModules()) {
+        for (XMLModule mod : parser.getModules()) {
           StudyModule sm = null;
           if (mod.getType() == 2) {
             sm = new StudyModule();
@@ -79,7 +82,7 @@ public class ImportPlanMB {
             modulesEJB.save(sm);
           }
           // Импорт дисциплин
-          for (XMLSubject xs: mod.getSubjects()) {
+          for (XMLSubject xs : mod.getSubjects()) {
             Subject s = new Subject();
             s.setFullName(xs.getName());
             s.setShortName("FIXME");
@@ -87,19 +90,33 @@ public class ImportPlanMB {
             s.setModule(sm);
             subjectsEJB.save(s);
             // Нагрузка
-            for (XMLSubjectLoad xsl: xs.getLoad()) {
+            for (XMLSubjectLoad xsl : xs.getLoad()) {
               SubjectLoad sl = new SubjectLoad();
               sl.setSubject(s);
               sl.setMaximumLoad(xsl.getMaxLoad());
               sl.setAuditoryLoad(xsl.getAudLoad());
               sl.setCourseProjectLoad(xsl.getCprLoad());
               sl.setSemester(xsl.getSemester());
-              sl.setCourse((sl.getSemester()+1)/2);
+              sl.setCourse((sl.getSemester() + 1) / 2);
               sl.setExamForm(xsl.getExamType());
               loadEJB.save(sl);
             }
           }
           // Импорт практик
+          for (XMLPractice xp : mod.getPractices()) {
+            // Для каждой практики смотрим нагрузки
+            for (XMLPracticeLoad xpl : xp.getLoad()) {
+              // Формируем практику для новой базы
+              Practic p = new Practic();
+              p.setPlan(sp);
+              p.setModule(sm);
+              p.setName(xp.getName());
+              p.setLength(xpl.getWeeks());
+              p.setSemester(xpl.getSemester());
+              p.setCourse((p.getSemester() + 1) / 2);
+              practicsEJB.save(p);
+            }
+          }
         }
       }
     } catch (Exception e) {
@@ -107,19 +124,19 @@ public class ImportPlanMB {
       addMessage(e);
     }
   }
-
+  
   public Part getFile() {
     return file;
   }
-
+  
   public void setFile(Part file) {
     this.file = file;
   }
-
+  
   public boolean isUploaded() {
     return uploaded;
   }
-
+  
   public String getPlanTitle() {
     try {
       if ((null != parser) && (parser.isCorrect())) {
@@ -135,17 +152,17 @@ public class ImportPlanMB {
       return "Exception was occured with message " + e.getMessage();
     }
   }
-
-  public String getSemesters() {
+  
+  public String getInfo() {
     try {
       if ((null != parser) && (parser.isCorrect())) {
         StringBuilder sb = new StringBuilder();
-        for (XMLCourse c : parser.getCourses()) {
-          sb.append(c.toString());
+        for (XMLModule m : parser.getModules()) {
+          sb.append(m.toString());
         }
         return sb.toString();
       } else {
-        return "No courses information found!";
+        return "No details information found!";
       }
     } catch (Exception e) {
       return "Exception was occured with message " + e.getMessage();

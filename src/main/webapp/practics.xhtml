@@ -62,7 +62,11 @@
         <h:form>
           <h:outputText value="Наименование полное" /><br />
           <h:inputText value="#{practicsMB.item.name}" class="textEdit" /><p />
-          <h:outputText value="Продолжительность" /><br />
+          <h:outputText value="Курс" /><br />
+          <h:inputText value="#{practicsMB.item.course}" class="textEdit" /><p />
+          <h:outputText value="Семестр" /><br />
+          <h:inputText value="#{practicsMB.item.semester}" class="textEdit" /><p />
+          <h:outputText value="Продолжительность, недель" /><br />
           <h:inputText value="#{practicsMB.item.length}" class="textEdit" /><p />
           <h:outputText value="Профессиональный модуль" /><br />
           <h:selectOneMenu value="#{practicsMB.item.moduleCode}">
