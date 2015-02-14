@@ -5,21 +5,19 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
+import ru.edu.pgtk.weducation.ejb.FinalPracticsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
-import ru.edu.pgtk.weducation.entity.StudyModule;
+import ru.edu.pgtk.weducation.entity.FinalPractic;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
-import ru.edu.pgtk.weducation.entity.ExamForm;
 
-@ManagedBean(name = "studyModulesMB")
+@ManagedBean(name = "finalPracticsMB")
 @ViewScoped
-public class StudyModulesMB extends GenericBean<StudyModule> implements Serializable {
+public class FinalPracticsMB extends GenericBean<FinalPractic> implements Serializable {
 
   @EJB
-  private transient StudyModulesEJB ejb;
+  private FinalPracticsEJB ejb;
   @EJB
-  private transient StudyPlansEJB planEJB;
-
+  private StudyPlansEJB planEJB;
   private StudyPlan plan = null;
   private int planCode;
 
@@ -50,17 +48,13 @@ public class StudyModulesMB extends GenericBean<StudyModule> implements Serializ
       addMessage(e);
     }
   }
-  
-  public List<StudyModule> getStudyModules() {
+
+  public List<FinalPractic> getFinalPractics() {
     return ejb.findByPlan(plan);
-  }
-  
-  public ExamForm[] getExamForms() {
-    return ExamForm.values();
   }
 
   public void add() {
-    item = new StudyModule();
+    item = new FinalPractic();
     item.setPlan(plan);
     edit = true;
   }

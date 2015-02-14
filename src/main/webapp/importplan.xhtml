@@ -26,7 +26,7 @@
               <li>Импортируются практики.</li>
             </ul>
           </p>
-          Выберите для загрузки файл учебного плана, созданный в программе РУП СПО (файл с расширением .osf)<br />
+          <p>Выберите для загрузки файл учебного плана, созданный в программе РУП СПО</p>
           <h:inputFile id="file" value="#{importPlanMB.file}" /><p />
           <div class="buttons">
             <h:commandButton value="Загрузить" action="#{importPlanMB.upload()}"/>
@@ -38,10 +38,9 @@
         <!-- file was uploaded. show info -->
         <p>Учебный план был успешно импортирован. Обязательно проверьте нагрузку
         и вид аттестации в семестровой нагрузке и модулях.</p>
-        <h:outputText value="#{importPlanMB.planTitle}" /><p />
-        <p>#{importPlanMB.info}</p>
+        <p><h:outputText value="#{importPlanMB.planTitle}" /></p>
         <div class="buttons">
-          <h:button value="Отмена" outcome="/index" />
+          <h:button value="На главную" outcome="/index" />
         </div>
       </h:panelGroup>
     </ui:define>

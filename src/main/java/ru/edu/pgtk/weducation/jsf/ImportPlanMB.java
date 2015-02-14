@@ -19,7 +19,6 @@ import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.entity.SubjectLoad;
-import ru.edu.pgtk.weducation.utils.XMLCourse;
 import ru.edu.pgtk.weducation.utils.PlanParser;
 import ru.edu.pgtk.weducation.utils.XMLModule;
 import ru.edu.pgtk.weducation.utils.XMLPractice;
@@ -30,7 +29,7 @@ import ru.edu.pgtk.weducation.utils.XMLSubjectLoad;
 @ManagedBean(name = "importPlanMB")
 @ViewScoped
 public class ImportPlanMB {
-  
+
   private Part file;
   private boolean uploaded;
   private PlanParser parser;
@@ -46,13 +45,13 @@ public class ImportPlanMB {
   private SubjectsEJB subjectsEJB;
   @EJB
   private SubjectLoadEJB loadEJB;
-  
+
   private void addMessage(final Exception e) {
     FacesContext context = FacesContext.getCurrentInstance();
     String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
   }
-  
+
   public void upload() {
     try {
       uploaded = true;
@@ -124,19 +123,19 @@ public class ImportPlanMB {
       addMessage(e);
     }
   }
-  
+
   public Part getFile() {
     return file;
   }
-  
+
   public void setFile(Part file) {
     this.file = file;
   }
-  
+
   public boolean isUploaded() {
     return uploaded;
   }
-  
+
   public String getPlanTitle() {
     try {
       if ((null != parser) && (parser.isCorrect())) {
@@ -147,22 +146,6 @@ public class ImportPlanMB {
                 + sp.getExtramural();
       } else {
         return "Документ не содержит учебных планов!";
-      }
-    } catch (Exception e) {
-      return "Exception was occured with message " + e.getMessage();
-    }
-  }
-  
-  public String getInfo() {
-    try {
-      if ((null != parser) && (parser.isCorrect())) {
-        StringBuilder sb = new StringBuilder();
-        for (XMLModule m : parser.getModules()) {
-          sb.append(m.toString());
-        }
-        return sb.toString();
-      } else {
-        return "No details information found!";
       }
     } catch (Exception e) {
       return "Exception was occured with message " + e.getMessage();
