@@ -15,8 +15,15 @@
       <h:panelGroup layout="block" rendered="#{studyPlansMB.browse}">
         <!-- List -->
         <h2>Учебные планы</h2>
+        <p>
+          Если в списке вы не обнаруживаете нужного вам учебного плана, вам либо придется его добавить,
+          либо импортировать из файла программы РУП СПО.
+        </p>
         <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{studyPlansMB.add()}" /></div>
+          <div class="buttons">
+            <h:commandButton value="Добавить" action="#{studyPlansMB.add()}" />
+            <h:button outcome="/importplan" value="Импорт" />
+          </div>
         </h:form>
         <h:form id="listForm" rendered="#{not empty studyPlansEJB.fetchAll()}">
           <table id="dataTable">
@@ -49,7 +56,10 @@
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{studyPlansMB.add()}" /></div>
+          <div class="buttons">
+            <h:commandButton value="Добавить" action="#{studyPlansMB.add()}" />
+            <h:button outcome="/importplan" value="Импорт" />
+          </div>
         </h:form>
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{studyPlansMB.edit}">
