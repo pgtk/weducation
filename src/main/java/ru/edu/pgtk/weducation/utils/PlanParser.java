@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJBException;
 import org.w3c.dom.Node;
@@ -157,7 +158,13 @@ public class PlanParser {
     try {
       Node title = plan.getRootNode(TITLE);
       StudyPlan sp = new StudyPlan();
-      sp.setName(plan.getAttributeValue(title, SPEC_KEY));
+      sp.setExtramural(toInt(plan.getAttributeValue(title, ED_TYPE), 0) > 1);
+      StringBuilder planName = new StringBuilder(plan.getAttributeValue(title, SPEC_KEY));
+      planName.append(" от ").append(plan.getAttributeValue(title, PLAN_DATE));
+      if (sp.isExtramural()) {
+        planName.append(" заочная форма");
+      }
+      sp.setName(planName.toString());
       sp.setDescription(plan.getAttributeValue(title, SPEC_NAME));
       sp.setYears(toInt(plan.getAttributeValue(title, ED_YEAR), 0));
       sp.setMonths(toInt(plan.getAttributeValue(title, ED_MONTH), 0));
@@ -165,9 +172,9 @@ public class PlanParser {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         sp.setDate(sdf.parse(plan.getAttributeValue(title, PLAN_DATE)));
       } catch (ParseException e) {
-        // do nothing;
+        // Если распарсить дату не удалось, то ставим текущую
+        sp.setDate(new Date());
       }
-      sp.setExtramural(toInt(plan.getAttributeValue(title, ED_TYPE), 0) > 1);
       return sp;
     } catch (NullPointerException e) {
       throw new EJBException("NullPointerException в процессе получения информации о специальности!");

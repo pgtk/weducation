@@ -62,8 +62,12 @@ public class StudyGroup implements Serializable {
 
   @PostLoad
   private void updateCodes() {
-    planCode = plan.getId();
-    specialityCode = speciality.getId();
+    if (null != plan) {
+      planCode = plan.getId();
+    }
+    if (null != speciality) {
+      specialityCode = speciality.getId();
+    }
   }
 
   public int getId() {

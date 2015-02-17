@@ -34,18 +34,6 @@ public class SubjectsEJB {
     throw new EJBException("StudyPlan not found with id " + id);
   }
   
-  public List<Subject> fetchAll() {
-    TypedQuery<Subject> q = em.createQuery("SELECT s FROM Subject s ORDER BY s.fullName", Subject.class);
-    return q.getResultList();
-  }
-  
-  public List<Subject> findByName(final String name) {
-    TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE s.fullName LIKE :name ORDER BY s.fullName", Subject.class);
-    q.setParameter("name", name);
-    return q.getResultList();
-  }
-  
   public List<Subject> findByPlan(final StudyPlan plan) {
     TypedQuery<Subject> q = em.createQuery(
             "SELECT s FROM Subject s WHERE (s.plan = :pln) ORDER BY s.fullName", Subject.class);

@@ -25,11 +25,6 @@ public class StudyModulesEJB {
     throw new EJBException("StudyModule not found with id " + id);
   }
   
-  public List<StudyModule> fetchAll() {
-    TypedQuery<StudyModule> q = em.createQuery("SELECT sm FROM StudyModule sm ORDER BY sm.name", StudyModule.class);
-    return q.getResultList();
-  }
-
   public List<StudyModule> findByPlan(final StudyPlan plan) {
     TypedQuery<StudyModule> q = em.createQuery(
             "SELECT sm FROM StudyModule sm WHERE (sm.plan = :pln) ORDER BY sm.name", StudyModule.class);

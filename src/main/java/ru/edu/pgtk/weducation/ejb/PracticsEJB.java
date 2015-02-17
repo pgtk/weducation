@@ -26,19 +26,6 @@ public class PracticsEJB {
     throw new EJBException("Practic not found with id " + id);
   }
 
-  public StudyPlan getPlan(final int id) {
-    StudyPlan result = em.find(StudyPlan.class, id);
-    if (null != result) {
-      return result;
-    }
-    throw new EJBException("Wrong StudyPlan id " + id);
-  }
-
-  public List<Practic> fetchAll() {
-    TypedQuery<Practic> q = em.createQuery("SELECT p FROM Practic p ORDER BY p.name", Practic.class);
-    return q.getResultList();
-  }
-
   public List<Practic> findByPlan(final StudyPlan plan) {
     TypedQuery<Practic> q = em.createQuery(
             "SELECT p FROM Practic p WHERE (p.plan = :pln) ORDER BY p.name", Practic.class);
@@ -48,8 +35,12 @@ public class PracticsEJB {
 
   public Practic save(Practic item) {
     if (item.getPlanCode() > 0) {
-      StudyPlan sp = getPlan(item.getPlanCode());
-      item.setPlan(sp);
+      StudyPlan sp = em.find(StudyPlan.class, item.getPlanCode());
+      if (null != sp) {
+        item.setPlan(sp);
+      } else {
+        throw new EJBException("StudyPlan not found with id " + item.getPlanCode());
+      }
     } else {
       throw new EJBException("Wrong StudyPlan id " + item.getPlanCode());
     }
