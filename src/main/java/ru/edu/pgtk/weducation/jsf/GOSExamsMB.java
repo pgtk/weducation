@@ -1,27 +1,33 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
+import ru.edu.pgtk.weducation.ejb.GOSExamsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
-import ru.edu.pgtk.weducation.entity.StudyModule;
+import ru.edu.pgtk.weducation.entity.GOSExam;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
-import ru.edu.pgtk.weducation.entity.ExamForm;
 
-@ManagedBean(name = "studyModulesMB")
+@ManagedBean(name = "gosexamsMB")
 @ViewScoped
-public class StudyModulesMB extends GenericBean<StudyModule> implements Serializable {
+public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
 
   @EJB
-  private transient StudyModulesEJB ejb;
+  private GOSExamsEJB ejb;
   @EJB
   private transient StudyPlansEJB planEJB;
-
   private StudyPlan plan = null;
   private int planCode;
+
+  public List<GOSExam> getGosexams() {
+    if (null != plan) {
+      return ejb.findByPlan(plan);
+    }
+    return new ArrayList<>();
+  }
 
   public StudyPlan getPlan() {
     return plan;
@@ -46,18 +52,9 @@ public class StudyModulesMB extends GenericBean<StudyModule> implements Serializ
       addMessage(e);
     }
   }
-  
-  public List<StudyModule> getStudyModules() {
-    return ejb.findByPlan(plan);
-  }
-  
-  public ExamForm[] getExamForms() {
-    return ExamForm.values();
-  }
 
   public void add() {
-    item = new StudyModule();
-    item.setPlan(plan);
+    item = new GOSExam();
     edit = true;
   }
 
@@ -72,7 +69,7 @@ public class StudyModulesMB extends GenericBean<StudyModule> implements Serializ
 
   public void confirmDelete() {
     try {
-      if ((null != item) && delete) {
+      if (delete && (item != null)) {
         ejb.delete(item);
       }
       resetState();

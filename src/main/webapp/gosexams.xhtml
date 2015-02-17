@@ -6,23 +6,23 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <f:metadata>
-    <f:viewParam id="planId" name="planId" value="#{studyModulesMB.planCode}" />
-    <f:viewAction action="#{studyModulesMB.loadPlan()}" />
+    <f:viewParam id="planId" name="planId" value="#{gosexamsMB.planCode}" />
+    <f:viewAction action="#{gosexamsMB.loadPlan()}" />
   </f:metadata>  
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <div class="roundbox" id="breadcrumb">
         <h:link outcome="studyplans" value="Учебные планы" />
-        <h:link outcome="studyplans?id=#{studyModulesMB.plan.id}" value="#{studyModulesMB.plan.name} " />
+        <h:link outcome="studyplans?id=#{gosexamsMB.plan.id}" value="#{gosexamsMB.plan.name} " />
       </div>
-      <h:panelGroup layout="block" rendered="#{studyModulesMB.browse}">
+      <h:panelGroup layout="block" rendered="#{gosexamsMB.browse}">
         <!-- List -->
         <h2>Профессиональные модули</h2>
         <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{studyModulesMB.add()}" /></div>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{gosexamsMB.add()}" /></div>
         </h:form>
-        <h:form id="listForm" rendered="#{not empty studyModulesMB.studyModules}">
+        <h:form id="listForm" rendered="#{not empty gosexamsMB.gosexams}">
           <table id="dataTable">
             <thead>
               <tr>
@@ -31,52 +31,52 @@
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{studyModulesMB.studyModules}" var="smd">
+              <ui:repeat value="#{gosexamsMB.gosexams}" var="smd">
                 <tr>
                   <td>
                     #{smd.name}
                   </td>
                   <td>
-                    <h:commandLink class="action" value="Изменить" action="#{studyModulesMB.edit(smd)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{studyModulesMB.delete(smd)}" />
+                    <h:commandLink class="action" value="Изменить" action="#{gosexamsMB.edit(smd)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{gosexamsMB.delete(smd)}" />
                   </td>
                 </tr>
               </ui:repeat>
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty studyModulesMB.studyModules}">
+        <h:panelGroup rendered="#{empty gosexamsMB.gosexams}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{studyModulesMB.add()}" /></div>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{gosexamsMB.add()}" /></div>
         </h:form>
       </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{studyModulesMB.edit}">
+      <h:panelGroup layout="block" rendered="#{gosexamsMB.edit}">
         <!-- Edit -->
         <h2>Редактирование профессионального модуля</h2>
         <h:form>
           <h:outputText value="Наименование" /><br />
-          <h:inputText value="#{studyModulesMB.item.name}" class="textEdit" /><p />
+          <h:inputText value="#{gosexamsMB.item.name}" class="textEdit" /><p />
           <h:outputText value="Форма аттестации по итогам модуля" /><br />
-          <h:selectOneMenu value="#{studyModulesMB.item.examForm}">
-            <f:selectItems value="#{studyModulesMB.examForms}" var="exam" 
+          <h:selectOneMenu value="#{gosexamsMB.item.examForm}">
+            <f:selectItems value="#{gosexamsMB.examForms}" var="exam" 
                            itemLabel="#{exam.description}" itemValue="#{exam}" />
           </h:selectOneMenu><p />
           <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{studyModulesMB.save()}" />
-            <h:commandButton value="Отменить" action="#{studyModulesMB.cancel()}" />
+            <h:commandButton value="Сохранить" action="#{gosexamsMB.save()}" />
+            <h:commandButton value="Отменить" action="#{gosexamsMB.cancel()}" />
           </div>
         </h:form>
       </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{studyModulesMB.delete}">
+      <h:panelGroup layout="block" rendered="#{gosexamsMB.delete}">
         <!-- Delete -->
         <h2>Удаление профессионального модуля</h2>
         <h:form>
-          <p>Профессиональный подуль "#{studyModulesMB.item.name}" будет удален!</p>
+          <p>Профессиональный подуль "#{gosexamsMB.item.name}" будет удален!</p>
           <div class="buttons">
-            <h:commandButton value="Удалить" action="#{studyModulesMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{studyModulesMB.cancel()}" />
+            <h:commandButton value="Удалить" action="#{gosexamsMB.confirmDelete()}" />
+            <h:commandButton value="Отменить" action="#{gosexamsMB.cancel()}" />
           </div>
         </h:form>
       </h:panelGroup>
