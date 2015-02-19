@@ -31,13 +31,13 @@ public class StudyPlansEJB {
   }
 
   public List<StudyPlan> fetchAll() {
-    TypedQuery<StudyPlan> q = em.createQuery("SELECT sp FROM StudyPlan sp", StudyPlan.class);
+    TypedQuery<StudyPlan> q = em.createQuery("SELECT sp FROM StudyPlan sp ORDER BY sp.speciality, sp.date", StudyPlan.class);
     return q.getResultList();
   }
 
   public List<StudyPlan> findBySpeciality(final Speciality spc) {
     TypedQuery<StudyPlan> q = em.createQuery(
-            "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec)", StudyPlan.class);
+            "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) ORDER BY sp.date", StudyPlan.class);
     q.setParameter("spec", spc);
     return q.getResultList();
   }

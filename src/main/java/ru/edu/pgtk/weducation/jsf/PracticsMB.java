@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.PracticsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
+import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.entity.Practic;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
@@ -19,7 +20,8 @@ public class PracticsMB extends GenericBean<Practic> implements Serializable {
   private PracticsEJB ejb;
   @EJB
   private StudyModulesEJB mejb;
-
+  @EJB
+  private StudyPlansEJB planEJB;
   private StudyPlan plan = null;
   private int planCode;
 
@@ -42,7 +44,7 @@ public class PracticsMB extends GenericBean<Practic> implements Serializable {
   public void loadPlan() {
     try {
       if (planCode > 0) {
-        plan = ejb.getPlan(planCode);
+        plan = planEJB.get(planCode);
       }
     } catch (Exception e) {
       addMessage(e);
@@ -56,13 +58,13 @@ public class PracticsMB extends GenericBean<Practic> implements Serializable {
   public List<StudyModule> getStudyModules() {
     return mejb.findByPlan(plan);
   }
-  
+
   public void add() {
     item = new Practic();
     item.setPlan(plan);
     edit = true;
   }
-  
+
   public void save() {
     try {
       ejb.save(item);
