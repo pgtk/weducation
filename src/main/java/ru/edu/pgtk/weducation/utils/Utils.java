@@ -28,6 +28,14 @@ public class Utils {
     return result;
   }
 
+  /**
+   * УНифицированный метод для изменения окончания в зависимости от числа
+   * @param value число
+   * @param prefix1 выражение, используемое при value=1 (день)
+   * @param prefix2 выражение, используемое при value=2..4 (дня)
+   * @param prefix3 выражение, используемое при остальных значениях value
+   * @return строка содержащее value и выражение в нужном склонении. Например, 2 дня
+   */
   private static String getStringPrefix(final int value, final String prefix1, 
           final String prefix2, final String prefix3) {
     int val = value;
@@ -49,5 +57,9 @@ public class Utils {
   
   public static String getYearString(final int year) {
     return getStringPrefix(year, " год", " года", " лет");
+  }
+  
+  public static String getWeekString(final int week) {
+    return getStringPrefix(week, "неделя", "недели", "недель");
   }
 }
