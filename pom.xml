@@ -72,7 +72,7 @@
           <propertyFile>liquibase.properties</propertyFile>
           <propertyFileWillOverride>true</propertyFileWillOverride>
           <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-          <changeLogFile>src/main/resources/liquibase/master.xml</changeLogFile>
+          <changeLogFile>sql/liquibase/master.xml</changeLogFile>
         </configuration>
         <executions>
           <execution>
