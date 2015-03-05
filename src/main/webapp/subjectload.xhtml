@@ -6,16 +6,16 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <f:metadata>
-    <f:viewParam id="subjectId" name="subjectId" value="#{subjectLoadMB.subjectCode}" />
+    <f:viewParam name="subjectId" value="#{subjectLoadMB.subjectCode}" />
     <f:viewAction action="#{subjectLoadMB.loadSubject()}" />
   </f:metadata>  
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <div class="roundbox" id="breadcrumb">
-        <h:link outcome="studyplans" value="Учебные планы " />
-        <h:link outcome="studyplans?id=#{subjectLoadMB.subject.plan.id}" value="#{subjectLoadMB.subject.plan.name} " />
-        <h:link outcome="subjects?planId=#{subjectLoadMB.subject.plan.id}" value="Дисциплины " />
+        <h:link outcome="/studyplans" value="Учебные планы " />
+        <h:link outcome="/studyplans?id=#{subjectLoadMB.subject.plan.id}" value="#{subjectLoadMB.subject.plan.name} " />
+        <h:link outcome="/subjects?planId=#{subjectLoadMB.subject.plan.id}" value="Дисциплины " />
       </div>
       <p>
         <h:outputText value="Дисциплина: #{subjectLoadMB.subject.fullName}" />

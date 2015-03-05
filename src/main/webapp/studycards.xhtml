@@ -7,15 +7,16 @@
 
   <f:metadata>
     <f:viewParam name="personId" value="#{studyCardsMB.personCode}" />
-    <f:viewAction action="#{studyCardsMB.loadPerson()}" />
+    <f:viewParam name="id" value="#{studyCardsMB.cardCode}" />
+    <f:viewAction action="#{studyCardsMB.preparePage()}" />
   </f:metadata>  
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <h:panelGroup rendered="#{studyCardsMB.personCode > 0}">
         <div class="roundbox" id="breadcrumb">
-          <h:link rendered="#{studyCardsMB.personCode > 0}" outcome="persons" value="Персоны" />
-          <h:link rendered="#{studyCardsMB.personCode > 0}" outcome="persons?id=#{studyCardsMB.person.id}"
+          <h:link rendered="#{studyCardsMB.personCode > 0}" outcome="/persons" value="Персоны" />
+          <h:link rendered="#{studyCardsMB.personCode > 0}" outcome="/persons?id=#{studyCardsMB.person.id}"
                   value="#{studyCardsMB.person.fullName}" />
         </div>
       </h:panelGroup>
@@ -38,7 +39,7 @@
               <ui:repeat value="#{studyCardsMB.studyCards}" var="card">
                 <tr>
                   <td>
-                    #{card.nameForList}
+                    <h:commandLink action="#{studyCardsMB.details(card)}" value="#{card.nameForList}" />
                   </td>
                   <td>
                     #{card.group.name}
@@ -172,7 +173,13 @@
         <!-- Details -->
         <h2>Детали личной карточки</h2>
         <h:form>
+          <h3>Информация</h3>
           <p>Раздел пока в разработке</p>
+          <h3>Итоговые оценки</h3>
+          <ul>
+            <li><h:link outcome="/finalmarks/modules?cardId=#{studyCardsMB.item.id}" value="По модулям" /></li>
+            <li><h:link outcome="/finalmarks/subjects?cardId=#{studyCardsMB.item.id}" value="По дисциплинам и МДК" /></li>
+          </ul>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{studyCardsMB.cancel()}" />
           </div>

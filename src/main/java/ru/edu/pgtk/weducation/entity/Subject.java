@@ -44,13 +44,25 @@ public class Subject implements Serializable {
 
   @Transient
   private int moduleCode;
+  
+  private void updatePlanCode() {
+    planCode = 0;
+    if (plan != null) {
+      planCode = plan.getId();
+    }
+  }
 
-  @PostLoad
-  private void updateCodes() {
-    planCode = plan.getId();
+  private void updateModuleCode() {
+    moduleCode = 0;
     if (module != null) {
       moduleCode = module.getId();
     }
+  }
+  
+  @PostLoad
+  private void updateCodes() {
+    updatePlanCode();
+    updateModuleCode();
   }
 
   public int getId() {
@@ -79,11 +91,7 @@ public class Subject implements Serializable {
 
   public void setPlan(StudyPlan plan) {
     this.plan = plan;
-    if (null != plan) {
-      planCode = plan.getId();
-    } else {
-      planCode = 0;
-    }
+    updatePlanCode();
   }
 
   public StudyModule getModule() {
@@ -92,11 +100,7 @@ public class Subject implements Serializable {
 
   public void setModule(StudyModule module) {
     this.module = module;
-    if (null != module) {
-      moduleCode = module.getId();
-    } else {
-      moduleCode = 0;
-    }
+    updateModuleCode();
   }
 
   public int getPlanCode() {

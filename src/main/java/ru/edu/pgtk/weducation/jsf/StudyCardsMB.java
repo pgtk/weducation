@@ -36,6 +36,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   private Person person;
   private Speciality speciality;
   private int personCode;
+  private int cardCode;
 
   public int getPersonCode() {
     return personCode;
@@ -45,14 +46,28 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     this.personCode = personCode;
   }
 
+  public int getCardCode() {
+    return cardCode;
+  }
+
+  public void setCardCode(int cardCode) {
+    this.cardCode = cardCode;
+  }
+
   public Person getPerson() {
     return person;
   }
 
-  public void loadPerson() {
+  public void preparePage() {
     try {
       if (personCode > 0) {
+        // Список личных карточек персоны
         person = personEJB.get(personCode);
+      } else if(cardCode > 0) {
+        // Детали личной карточки определенной персоны
+        item = ejb.get(cardCode);
+        person = item.getPerson();
+        details = true;
       } else {
         person = null;
         error = true;
@@ -69,6 +84,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
       int code = (Integer) event.getNewValue();
       if (code > 0) {
         speciality = specialitiesEJB.get(code);
+        item.setSpeciality(speciality);
       } else {
         speciality = null;
       }

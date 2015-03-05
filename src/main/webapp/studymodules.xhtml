@@ -6,15 +6,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <f:metadata>
-    <f:viewParam id="planId" name="planId" value="#{studyModulesMB.planCode}" />
+    <f:viewParam name="planId" value="#{studyModulesMB.planCode}" />
     <f:viewAction action="#{studyModulesMB.loadPlan()}" />
   </f:metadata>  
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <div class="roundbox" id="breadcrumb">
-        <h:link outcome="studyplans" value="Учебные планы" />
-        <h:link outcome="studyplans?id=#{studyModulesMB.plan.id}" value="#{studyModulesMB.plan.name} " />
+        <h:link outcome="/studyplans" value="Учебные планы" />
+        <h:link outcome="/studyplans?id=#{studyModulesMB.plan.id}" value="#{studyModulesMB.plan.name} " />
       </div>
       <h:panelGroup layout="block" rendered="#{studyModulesMB.browse}">
         <!-- List -->
@@ -73,7 +73,7 @@
         <!-- Delete -->
         <h2>Удаление профессионального модуля</h2>
         <h:form>
-          <p>Профессиональный подуль "#{studyModulesMB.item.name}" будет удален!</p>
+          <p>Профессиональный модуль "#{studyModulesMB.item.name}" будет удален!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{studyModulesMB.confirmDelete()}" />
             <h:commandButton value="Отменить" action="#{studyModulesMB.cancel()}" />

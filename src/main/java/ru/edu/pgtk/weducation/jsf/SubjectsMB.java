@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
+import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
@@ -16,9 +17,11 @@ import ru.edu.pgtk.weducation.entity.Subject;
 public class SubjectsMB extends GenericBean<Subject> implements Serializable {
 
   @EJB
-  private SubjectsEJB ejb;
+  private transient SubjectsEJB ejb;
   @EJB
-  private StudyModulesEJB mejb;
+  private transient StudyModulesEJB mejb;
+  @EJB
+  private transient StudyPlansEJB plans;
 
   private StudyPlan plan = null;
   private int planCode;
@@ -42,7 +45,7 @@ public class SubjectsMB extends GenericBean<Subject> implements Serializable {
   public void loadPlan() {
     try {
       if (planCode > 0) {
-        plan = ejb.getPlan(planCode);
+        plan = plans.get(planCode);
       }
     } catch (Exception e) {
       addMessage(e);

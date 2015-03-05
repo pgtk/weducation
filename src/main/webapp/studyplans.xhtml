@@ -108,11 +108,11 @@
         <h:form>
           <h3>Учебный план "#{studyPlansMB.item.name}"</h3>
           <ul>
-            <li><h:link outcome="studymodules?planId=#{studyPlansMB.item.id}" value="Профессиональные модули" /></li>
-            <li><h:link outcome="subjects?planId=#{studyPlansMB.item.id}" value="Дисциплины и МДК" /></li>
-            <li><h:link outcome="practics?planId=#{studyPlansMB.item.id}" value="Практики по модулям" /></li>
-            <li><h:link outcome="finalpractics?planId=#{studyPlansMB.item.id}" value="Итоговые практики" /></li>
-            <li><h:link outcome="gosexams?planId=#{studyPlansMB.item.id}" value="ГОС экзамены по дисциплинам" /></li>
+            <li><h:link outcome="/studymodules?planId=#{studyPlansMB.item.id}" value="Профессиональные модули" /></li>
+            <li><h:link outcome="/subjects?planId=#{studyPlansMB.item.id}" value="Дисциплины и МДК" /></li>
+            <li><h:link outcome="/practics?planId=#{studyPlansMB.item.id}" value="Практики по модулям" /></li>
+            <li><h:link outcome="/finalpractics?planId=#{studyPlansMB.item.id}" value="Итоговые практики" /></li>
+            <li><h:link outcome="/gosexams?planId=#{studyPlansMB.item.id}" value="ГОС экзамены по дисциплинам" /></li>
           </ul>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{studyPlansMB.cancel()}" />

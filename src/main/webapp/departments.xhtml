@@ -78,7 +78,7 @@
         <h2>Детали отделения</h2>
         <h:form>
           <h3>#{departmentsMB.item.name}</h3>
-          <p><h:link outcome="studygroups?departmentId=#{departmentsMB.item.id}"
+          <p><h:link outcome="/studygroups?departmentId=#{departmentsMB.item.id}"
                      value="Редактирование групп" /></p>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{departmentsMB.cancel()}" />

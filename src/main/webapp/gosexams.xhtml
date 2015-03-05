@@ -13,8 +13,8 @@
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <div class="roundbox" id="breadcrumb">
-        <h:link outcome="studyplans" value="Учебные планы" />
-        <h:link outcome="studyplans?id=#{gosexamsMB.plan.id}" value="#{gosexamsMB.plan.name} " />
+        <h:link outcome="/studyplans" value="Учебные планы" />
+        <h:link outcome="/studyplans?id=#{gosexamsMB.plan.id}" value="#{gosexamsMB.plan.name} " />
       </div>
       <h:panelGroup layout="block" rendered="#{gosexamsMB.browse}">
         <!-- List -->

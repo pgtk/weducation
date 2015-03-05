@@ -6,15 +6,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <f:metadata>
-    <f:viewParam id="planId" name="planId" value="#{subjectsMB.planCode}" />
+    <f:viewParam name="planId" value="#{subjectsMB.planCode}" />
     <f:viewAction action="#{subjectsMB.loadPlan()}" />
   </f:metadata>  
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <div class="roundbox" id="breadcrumb">
-        <h:link outcome="studyplans" value="Учебные планы" />
-        <h:link outcome="studyplans?id=#{subjectsMB.plan.id}" value="#{subjectsMB.plan.name} " />
+        <h:link outcome="/studyplans" value="Учебные планы" />
+        <h:link outcome="/studyplans?id=#{subjectsMB.plan.id}" value="#{subjectsMB.plan.name} " />
       </div>
       <h:panelGroup layout="block" rendered="#{subjectsMB.browse}">
         <!-- List -->
@@ -35,10 +35,10 @@
               <ui:repeat value="#{subjectsMB.subjects}" var="sub">
                 <tr>
                   <td>
-                    <h:link class="action" value="#{sub.fullName}" outcome="subjectload?subjectId=#{sub.id}" />
+                    <h:link class="action" value="#{sub.fullName}" outcome="/subjectload?subjectId=#{sub.id}" />
                   </td>
                   <td>
-                    <h:link class="action" value="#{sub.shortName}" outcome="subjectload?subjectId=#{sub.id}" />
+                    <h:link class="action" value="#{sub.shortName}" outcome="/subjectload?subjectId=#{sub.id}" />
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{subjectsMB.edit(sub)}" />

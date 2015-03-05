@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
@@ -26,18 +27,33 @@ public class SubjectsEJB {
     throw new EJBException("Subject not found with id " + id);
   }
 
-  public StudyPlan getPlan(final int id) {
-    StudyPlan result = em.find(StudyPlan.class, id);
-    if (null != result) {
-      return result;
-    }
-    throw new EJBException("StudyPlan not found with id " + id);
+  public int getMaxLoad(final Subject subject) {
+    TypedQuery<Long> q = em.createQuery(
+            "SELECT SUM(sl.maximumLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
+    q.setParameter("s", subject);
+    return q.getSingleResult().intValue();
+  }
+  
+  public int getAudLoad(final Subject subject) {
+    TypedQuery<Long> q = em.createQuery(
+            "SELECT SUM(sl.auditoryLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
+    q.setParameter("s", subject);
+    return q.getSingleResult().intValue();
   }
   
   public List<Subject> findByPlan(final StudyPlan plan) {
     TypedQuery<Subject> q = em.createQuery(
             "SELECT s FROM Subject s WHERE (s.plan = :pln) ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", plan);
+    return q.getResultList();
+  }
+  
+  public List<Subject> fetchForCard(final StudyCard card) {
+    TypedQuery<Subject> q = em.createQuery(
+            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
+                    + "(s.id NOT IN (SELECT fm.subject.id FROM FinalMark fm WHERE (fm.card = :c))) ORDER BY s.fullName", Subject.class);
+    q.setParameter("pln", card.getPlan());
+    q.setParameter("c", card);
     return q.getResultList();
   }
   

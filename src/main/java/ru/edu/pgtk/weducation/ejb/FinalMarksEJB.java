@@ -8,8 +8,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.smartcardio.Card;
 import ru.edu.pgtk.weducation.entity.FinalMark;
+import ru.edu.pgtk.weducation.entity.StudyCard;
 
 @Stateless
 @Named("finalMarksEJB")
@@ -30,14 +30,14 @@ public class FinalMarksEJB {
     throw new EJBException("FinalMark not found with id " + id);
   }
 
-  public List<FinalMark> fetchAll(final Card card) {
+  public List<FinalMark> fetchAll(final StudyCard card) {
     TypedQuery<FinalMark> q = em.createQuery(
             "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) ORDER BY fm.module.name, fm.subject.fullName", FinalMark.class);
     q.setParameter("c", card);
     return q.getResultList();
   }
 
-  public List<FinalMark> fetchModules(final Card card) {
+  public List<FinalMark> fetchModules(final StudyCard card) {
     TypedQuery<FinalMark> q = em.createQuery(
             "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) AND (fm.subject IS NULL)"
             + "ORDER BY fm.module.name", FinalMark.class);
@@ -45,7 +45,7 @@ public class FinalMarksEJB {
     return q.getResultList();
   }
 
-  public List<FinalMark> fetchSubjects(final Card card) {
+  public List<FinalMark> fetchSubjects(final StudyCard card) {
     TypedQuery<FinalMark> q = em.createQuery(
             "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) AND (fm.subject IS NOT NULL)"
             + "ORDER BY fm.subject.fullName", FinalMark.class);
