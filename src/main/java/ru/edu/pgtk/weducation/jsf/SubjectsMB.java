@@ -53,11 +53,11 @@ public class SubjectsMB extends GenericBean<Subject> implements Serializable {
   }
 
   public List<Subject> getSubjects() {
-    return ejb.findByPlan(plan);
+    return ejb.fetchAll(plan);
   }
 
   public List<StudyModule> getStudyModules() {
-    return mejb.findByPlan(plan);
+    return mejb.fetchAll(plan);
   }
 
   public void add() {

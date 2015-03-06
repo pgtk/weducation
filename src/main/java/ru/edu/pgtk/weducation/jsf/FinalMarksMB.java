@@ -14,7 +14,6 @@ import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.FinalMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyModule;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 
 @ViewScoped
@@ -30,17 +29,12 @@ public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable
   @EJB
   private transient SubjectsEJB subjects;
   private StudyCard card;
-  private StudyPlan plan;
   private int cardCode;
 
   public void loadCard() {
     try {
       if (cardCode > 0) {
         card = cards.get(cardCode);
-        plan = card.getPlan();
-        if ((plan == null) && (card.getGroup() != null)) {
-          plan = card.getGroup().getPlan();
-        }
       }
     } catch (Exception e) {
       addMessage(e);
@@ -53,16 +47,14 @@ public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable
 
   public List<FinalMark> getSubjectMarks() {
     if (card != null) {
-    return ejb.fetchSubjects(card);
-    } else {
-      addMessage("А карточка то NULL!!!");
+      return ejb.fetchSubjects(card);
     }
     return new ArrayList<>();
   }
 
   public List<StudyModule> getModules() {
-    if (null != plan) {
-      return modules.findByPlan(plan);
+    if (null != card) {
+      return modules.fetchForCard(card);
     }
     return new ArrayList<>();
   }
@@ -70,8 +62,6 @@ public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable
   public List<Subject> getSubjects() {
     if (null != card) {
       return subjects.fetchForCard(card);
-    } else {
-      addMessage("А карточка-то неизвестно какая!");
     }
     return new ArrayList<>();
   }

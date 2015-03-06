@@ -50,7 +50,7 @@ public class FinalPracticsMB extends GenericBean<FinalPractic> implements Serial
   }
 
   public List<FinalPractic> getFinalPractics() {
-    return ejb.findByPlan(plan);
+    return ejb.fetchAll(plan);
   }
 
   public void add() {

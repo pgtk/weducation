@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+
+<changeSet id="002-1" author="gooamoko">
+  <comment>
+    Создадим таблицу оценок за итоговые практики
+  </comment>
+  <sql>
+    CREATE TABLE fpmarks(
+      fpm_pcode serial,
+      fpm_fpccode int NOT NULL,
+      fpm_crdcode int NOT NULL,
+      fpm_mark int NOT NULL,
+      CONSTRAINT fpmarks_pk PRIMARY KEY(fpm_pcode),
+      CONSTRAINT fpmarks_finalpractics_fk FOREIGN KEY(fpm_fpccode) 
+        REFERENCES finalpractics(fpc_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+      CONSTRAINT fpmarks_cards_fk FOREIGN KEY(fpm_crdcode)
+        REFERENCES cards(crd_pcode) ON UPDATE CASCADE ON DELETE CASCADE);
+  </sql>
+</changeSet>
+
+</databaseChangeLog>

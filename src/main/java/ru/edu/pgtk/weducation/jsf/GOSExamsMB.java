@@ -35,7 +35,7 @@ public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
 
   public List<Subject> getSubjects() {
     if (null != plan) {
-      return subjectEJB.findByPlan(plan);
+      return subjectEJB.fetchAll(plan);
     }
     return new ArrayList<>();
   }

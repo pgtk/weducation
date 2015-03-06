@@ -70,10 +70,6 @@
             <f:selectItems value="#{finalMarksMB.modules}" var="module" 
                            itemLabel="#{module.name}" itemValue="#{module.id}" />
           </h:selectOneMenu><p />
-          <h:outputText value="Максимальная нагрузка" /><br />
-          <h:inputText value="#{finalMarksMB.item.maximumLoad}" class="textEdit" /><p />
-          <h:outputText value="Аудиторная нагрузка" /><br />
-          <h:inputText value="#{finalMarksMB.item.auditoryLoad}" class="textEdit" /><p />
           <h:outputText value="Итоговая оценка" /><br />
           <h:selectOneMenu value="#{finalMarksMB.item.mark}">
             <f:selectItem itemLabel="Удовлетворительно" itemValue="3" />

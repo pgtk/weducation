@@ -41,7 +41,7 @@ public class SubjectsEJB {
     return q.getSingleResult().intValue();
   }
   
-  public List<Subject> findByPlan(final StudyPlan plan) {
+  public List<Subject> fetchAll(final StudyPlan plan) {
     TypedQuery<Subject> q = em.createQuery(
             "SELECT s FROM Subject s WHERE (s.plan = :pln) ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", plan);

@@ -56,7 +56,7 @@ public class PracticsMB extends GenericBean<Practic> implements Serializable {
   }
 
   public List<StudyModule> getStudyModules() {
-    return mejb.findByPlan(plan);
+    return mejb.fetchAll(plan);
   }
 
   public void add() {

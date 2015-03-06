@@ -48,7 +48,7 @@ public class StudyModulesMB extends GenericBean<StudyModule> implements Serializ
   }
   
   public List<StudyModule> getStudyModules() {
-    return ejb.findByPlan(plan);
+    return ejb.fetchAll(plan);
   }
   
   public ExamForm[] getExamForms() {
