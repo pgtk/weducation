@@ -28,7 +28,7 @@ public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
 
   public List<GOSExam> getGosexams() {
     if (null != plan) {
-      return ejb.findByPlan(plan);
+      return ejb.fetchAll(plan);
     }
     return new ArrayList<>();
   }

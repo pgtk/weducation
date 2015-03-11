@@ -66,10 +66,13 @@
         <h2>Редактирование оценки по итоговой практике</h2>
         <h:form>
           <h:outputText value="Наименование практики" /><br />
-          <h:selectOneMenu value="#{finalPracticMarksMB.item.practicCode}">
+          <h:selectOneMenu rendered="#{finalPracticMarksMB.item.practicCode == 0}" 
+                           value="#{finalPracticMarksMB.item.practicCode}">
             <f:selectItems value="#{finalPracticMarksMB.practics}" var="practic" 
                            itemLabel="#{practic.name}" itemValue="#{practic.id}" />
-          </h:selectOneMenu><p />
+          </h:selectOneMenu>
+          <h:outputText rendered="#{finalPracticMarksMB.item.practicCode != 0}" 
+                        value="#{finalPracticMarksMB.item.practic.name}" /><p />
           <h:outputText value="Итоговая оценка" /><br />
           <h:selectOneMenu value="#{finalPracticMarksMB.item.mark}">
             <f:selectItem itemLabel="Удовлетворительно" itemValue="3" />

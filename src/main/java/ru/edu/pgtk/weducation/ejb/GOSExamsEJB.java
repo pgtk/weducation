@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.GOSExam;
+import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 
@@ -26,10 +27,20 @@ public class GOSExamsEJB {
     throw new EJBException("GOSExam not found with id " + id);
   }
   
-  public List<GOSExam> findByPlan(final StudyPlan plan) {
+  public List<GOSExam> fetchAll(final StudyPlan plan) {
     TypedQuery<GOSExam> q = em.createQuery(
             "SELECT g FROM GOSExam g WHERE (g.plan = :p) ORDER BY g.subject", GOSExam.class);
     q.setParameter("p", plan);
+    return q.getResultList();
+  }
+  
+  public List<Subject> fetchForCard(final StudyCard card) {
+    TypedQuery<Subject> q = em.createQuery(
+            "SELECT g.subject FROM GOSExam g WHERE (g.plan = :p)"
+                    + "AND (g.subject.id NOT IN (SELECT gm.subject.id FROM GOSMark gm WHERE (gm.card = :c)))"
+                    + "ORDER BY g.subject.fullName", Subject.class);
+    q.setParameter("p", card.getPlan());
+    q.setParameter("c", card);
     return q.getResultList();
   }
   

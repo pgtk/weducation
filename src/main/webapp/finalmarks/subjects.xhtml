@@ -74,11 +74,13 @@
         <h2>Редактирование итоговой оценки дисциплины и МДК</h2>
         <h:form>
           <h:outputText value="Наименование дисциплины или МДК" /><br />
-          <h:selectOneMenu value="#{finalMarksMB.item.subjectCode}" valueChangeListener="#{finalMarksMB.countLoad}">
+          <h:selectOneMenu rendered="#{finalMarksMB.item.subjectCode == 0}" 
+                           value="#{finalMarksMB.item.subjectCode}" valueChangeListener="#{finalMarksMB.countLoad}">
             <f:selectItems value="#{finalMarksMB.subjects}" var="subject" 
                            itemLabel="#{subject.fullName}" itemValue="#{subject.id}" />
             <f:ajax event="change" execute="@this" render="maxload audload globalMessages" />
-          </h:selectOneMenu><p />
+          </h:selectOneMenu>
+          <h:outputText rendered="#{finalMarksMB.item.subjectCode != 0}" value="#{finalMarksMB.item.subject.fullName}" /><p />
           <h:outputText value="Максимальная нагрузка" /><br />
           <h:inputText id="maxload" value="#{finalMarksMB.item.maximumLoad}" class="textEdit" /><p />
           <h:outputText value="Аудиторная нагрузка" /><br />
@@ -98,9 +100,9 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{finalMarksMB.delete}">
         <!-- Delete -->
-        <h2>Удаление итоговой оценки модуля</h2>
+        <h2>Удаление итоговой оценки дисциплины и МДК</h2>
         <h:form>
-          <p>Оценка за модуль "#{finalMarksMB.item.module.name}" будет удалена!</p>
+          <p>Оценка за дисциплину (МДК) "#{finalMarksMB.item.module.name}" будет удалена!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{finalMarksMB.confirmDelete()}" />
             <h:commandButton value="Отменить" action="#{finalMarksMB.cancel()}" />

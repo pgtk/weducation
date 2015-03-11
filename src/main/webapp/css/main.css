@@ -85,11 +85,11 @@ p {
 }
 
 #top-menu ul li{
-  float:left;
-  position:relative;
+  float: left;
+  position: relative;
 }
 #top-menu ul li a{
-  display: inline-block;
+  display: block;
   padding: 0 5px 0 5px;
   font-size: 14px;
   text-decoration: none;
@@ -106,7 +106,7 @@ p {
   display:none;
 }
 #top-menu ul li:hover ul{
-  display: inline-block;
+  display: block;
   position: absolute;
   width: 200px;
   background-color: #34363c;  
