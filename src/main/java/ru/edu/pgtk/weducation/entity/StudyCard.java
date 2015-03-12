@@ -66,6 +66,9 @@ public class StudyCard implements Serializable {
   @Column(name = "crd_diplomedate")
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date diplomeDate;
+  
+  @Column(name = "crd_diplomemark")
+  private int diplomeMark;
 
   @Column(name = "crd_red", nullable = false)
   private boolean red;
@@ -423,5 +426,13 @@ public class StudyCard implements Serializable {
 
   public void setCommercial(boolean commercial) {
     this.commercial = commercial;
+  }
+
+  public int getDiplomeMark() {
+    return diplomeMark;
+  }
+
+  public void setDiplomeMark(int diplomeMark) {
+    this.diplomeMark = diplomeMark;
   }
 }
