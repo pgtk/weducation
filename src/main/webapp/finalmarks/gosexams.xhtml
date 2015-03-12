@@ -15,19 +15,19 @@
       <div class="roundbox" id="breadcrumb">
         <h:link rendered="#{gosMarksMB.cardCode > 0}" outcome="/persons" value="Персоны" />
         <h:link rendered="#{gosMarksMB.cardCode > 0}" outcome="/persons?id=#{gosMarksMB.card.person.id}"
-                  value="#{gosMarksMB.card.person.fullName}" />
+                value="#{gosMarksMB.card.person.fullName}" />
         <h:link rendered="#{gosMarksMB.cardCode > 0}" outcome="/studycards?personId=#{gosMarksMB.card.person.id}"
-                  value="Личные карточки" />
+                value="Личные карточки" />
         <h:link rendered="#{gosMarksMB.cardCode > 0}" outcome="/studycards?id=#{gosMarksMB.card.id}"
                 value="#{gosMarksMB.card.nameForList}" />
       </div>
       <h:panelGroup layout="block" rendered="#{gosMarksMB.browse}">
         <!-- List -->
-        <h2>Оценки ГОС экзаменов отдельных дисциплин</h2>
+        <h2>Оценки за ГОС экзамен по дисциплинам</h2>
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{gosMarksMB.add()}" /></div>
         </h:form>
-        <h:form id="listForm" rendered="#{not empty gosMarksMB.gosMarks}">
+        <h:form id="listForm" rendered="#{not empty gosMarksMB.marks}">
           <table id="dataTable">
             <thead>
               <tr>
@@ -37,7 +37,7 @@
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{gosMarksMB.gosMarks}" var="mark">
+              <ui:repeat value="#{gosMarksMB.marks}" var="mark">
                 <tr>
                   <td>
                     #{mark.subject.fullName}
@@ -54,7 +54,7 @@
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty gosMarksMB.gosMarks}">
+        <h:panelGroup rendered="#{empty gosMarksMB.marks}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>
@@ -63,7 +63,7 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{gosMarksMB.edit}">
         <!-- Edit -->
-        <h2>Редактирование оценки ГОС экзамена дисциплины</h2>
+        <h2>Редактирование оценки за ГОС экзамен по дисциплине</h2>
         <h:form>
           <h:outputText value="Наименование дисциплины или МДК" /><br />
           <h:selectOneMenu rendered="#{gosMarksMB.item.subjectCode == 0}" 
@@ -87,7 +87,7 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{gosMarksMB.delete}">
         <!-- Delete -->
-        <h2>Удаление оценки ГОС экзамена по дисциплине</h2>
+        <h2>Удаление оценки за ГОС экзамен по дисциплине</h2>
         <h:form>
           <p>Оценка за ГОС экзамен по дисциплине "#{gosMarksMB.item.subject.fullName}" будет удалена!</p>
           <div class="buttons">

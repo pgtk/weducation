@@ -36,7 +36,7 @@ public class GOSMarksMB extends GenericBean<GOSMark> implements Serializable {
     }
   }
 
-  public List<GOSMark> getGosMarks() {
+  public List<GOSMark> getMarks() {
     if (null != card) {
       return ejb.fetchAll(card);
     }

@@ -27,7 +27,7 @@
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{finalPracticMarksMB.add()}" /></div>
         </h:form>
-        <h:form id="listForm" rendered="#{not empty finalPracticMarksMB.practicMarks}">
+        <h:form id="listForm" rendered="#{not empty finalPracticMarksMB.marks}">
           <table id="dataTable">
             <thead>
               <tr>
@@ -37,7 +37,7 @@
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{finalPracticMarksMB.practicMarks}" var="mark">
+              <ui:repeat value="#{finalPracticMarksMB.marks}" var="mark">
                 <tr>
                   <td>
                     #{mark.practic.name}
@@ -54,7 +54,7 @@
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty finalPracticMarksMB.practicMarks}">
+        <h:panelGroup rendered="#{empty finalPracticMarksMB.marks}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>

@@ -179,8 +179,9 @@
           <ul>
             <li><h:link outcome="/finalmarks/modules?cardId=#{studyCardsMB.item.id}" value="Модули" /></li>
             <li><h:link outcome="/finalmarks/subjects?cardId=#{studyCardsMB.item.id}" value="Дисциплины и МДК" /></li>
+            <li><h:link outcome="/finalmarks/courseworks?cardId=#{studyCardsMB.item.id}" value="Курсовые проекты" /></li>
             <li><h:link outcome="/finalmarks/gosexams?cardId=#{studyCardsMB.item.id}" value="ГОС экзамены по отдельным дисциплинам" /></li>
-            <li><h:link outcome="/finalmarks/practics?cardId=#{studyCardsMB.item.id}" value="По итоговым практикам" /></li>
+            <li><h:link outcome="/finalmarks/practics?cardId=#{studyCardsMB.item.id}" value="Итоговые практики" /></li>
           </ul>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{studyCardsMB.cancel()}" />

@@ -39,7 +39,7 @@ public class SubjectLoadEJB {
     return q.getResultList();
   }
   
-  public List<SubjectLoad> finaBySemester(final StudyPlan plan, final int semester) {
+  public List<SubjectLoad> findBySemester(final StudyPlan plan, final int semester) {
     TypedQuery<SubjectLoad> q = em.createQuery(
             "SELECT sl FROM SubjectLoad sl WHERE (sl.subject IN (SELECT s FROM Subject s WHERE (s.plan = :pln))) "
             + "AND (sl.semester = :sm) ORDER BY sl.course, sl.semester", SubjectLoad.class);

@@ -15,10 +15,10 @@ import ru.edu.pgtk.weducation.entity.Subject;
 @Stateless
 @Named("subjectsEJB")
 public class SubjectsEJB {
-  
+
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
-  
+
   public Subject get(final int id) {
     Subject result = em.find(Subject.class, id);
     if (null != result) {
@@ -33,30 +33,39 @@ public class SubjectsEJB {
     q.setParameter("s", subject);
     return q.getSingleResult().intValue();
   }
-  
+
   public int getAudLoad(final Subject subject) {
     TypedQuery<Long> q = em.createQuery(
             "SELECT SUM(sl.auditoryLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
     q.setParameter("s", subject);
     return q.getSingleResult().intValue();
   }
-  
+
   public List<Subject> fetchAll(final StudyPlan plan) {
     TypedQuery<Subject> q = em.createQuery(
             "SELECT s FROM Subject s WHERE (s.plan = :pln) ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", plan);
     return q.getResultList();
   }
-  
+
   public List<Subject> fetchForCard(final StudyCard card) {
     TypedQuery<Subject> q = em.createQuery(
             "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
-                    + "(s.id NOT IN (SELECT fm.subject.id FROM FinalMark fm WHERE (fm.card = :c))) ORDER BY s.fullName", Subject.class);
+            + "(s.id NOT IN (SELECT fm.subject.id FROM FinalMark fm WHERE (fm.card = :c))) ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", card.getPlan());
     q.setParameter("c", card);
     return q.getResultList();
   }
-  
+
+  public List<Subject> fetchCourseWorksForCard(final StudyCard card) {
+    TypedQuery<Subject> q = em.createQuery(
+            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
+            + "((SELECT COUNT(sl) FROM SubjectLoad sl WHERE (sl.subject = s) AND (sl.courseProjectLoad > 0)) > 0 )"
+            + " ORDER BY s.fullName", Subject.class);
+    q.setParameter("pln", card.getPlan());
+    return q.getResultList();
+  }
+
   public Subject save(Subject item) {
     if (item.getModuleCode() > 0) {
       StudyModule m = em.find(StudyModule.class, item.getModuleCode());
@@ -79,7 +88,7 @@ public class SubjectsEJB {
       return em.merge(item);
     }
   }
-  
+
   public void delete(Subject item) {
     Subject s = em.find(Subject.class, item.getId());
     if (null != s) {

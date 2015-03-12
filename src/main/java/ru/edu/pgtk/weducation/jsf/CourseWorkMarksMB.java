@@ -6,26 +6,26 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import ru.edu.pgtk.weducation.ejb.FinalPracticMarksEJB;
-import ru.edu.pgtk.weducation.ejb.FinalPracticsEJB;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
-import ru.edu.pgtk.weducation.entity.FinalPractic;
-import ru.edu.pgtk.weducation.entity.FinalPracticMark;
+import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
+import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.Subject;
 
 @ViewScoped
-@ManagedBean(name = "finalPracticMarksMB")
-public class FinalPracticMarksMB extends GenericBean<FinalPracticMark> implements Serializable {
-
+@ManagedBean(name = "courseWorkMarksMB")
+public class CourseWorkMarksMB extends GenericBean<CourseWorkMark> implements Serializable {
+  
   @EJB
-  private transient FinalPracticMarksEJB ejb;
+  private transient CourseWorkMarksEJB ejb;
   @EJB
   private transient StudyCardsEJB cards;
   @EJB
-  private transient FinalPracticsEJB practics;
+  private transient SubjectsEJB subjects;
   private StudyCard card;
   private int cardCode;
-
+  
   public void loadCard() {
     try {
       if (cardCode > 0) {
@@ -35,27 +35,27 @@ public class FinalPracticMarksMB extends GenericBean<FinalPracticMark> implement
       addMessage(e);
     }
   }
-
-  public List<FinalPracticMark> getMarks() {
+  
+  public List<CourseWorkMark> getMarks() {
     if (null != card) {
       return ejb.fetchAll(card);
     }
     return new ArrayList<>();
   }
-
-  public List<FinalPractic> getPractics() {
+  
+  public List<Subject> getSubjects() {
     if (null != card) {
-      return practics.fetchForCard(card);
+      return subjects.fetchCourseWorksForCard(card);
     }
     return new ArrayList<>();
   }
 
   public void add() {
-    item = new FinalPracticMark();
+    item = new CourseWorkMark();
     item.setCard(card);
     edit = true;
   }
-
+  
   public void save() {
     try {
       ejb.save(item);
