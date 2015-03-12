@@ -2,7 +2,7 @@ body {
   margin-top: 50px;
   background: #fffef0;
   font-family: Verdana, Helvetica, Arial;
-  font-size: 14px;
+  font-size: 16px;
   color: #04060c;
   padding: 0 10px
 }
@@ -27,11 +27,11 @@ h3 {
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 p {
-  font: 14px verdana, tahoma, arial;
+  font: 16px verdana, tahoma, arial;
   color: #04060c;
   margin-bottom: 5px;
 }
@@ -53,7 +53,7 @@ p {
   background: #04060c;
   color: #c5b5a5;
   line-height: 30px;
-  font-size: 14px;
+  font-size: 16px;
   font-family: sans-serif;
   -o-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
   -moz-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
@@ -91,7 +91,7 @@ p {
 #top-menu ul li a{
   display: block;
   padding: 0 5px 0 5px;
-  font-size: 14px;
+  font-size: 16px;
   text-decoration: none;
   color: #d5d5d5;
 }
@@ -132,7 +132,7 @@ p {
 
 .groupHeader {
   font-family: verdana, tahoma, arial;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   color: #505050;
 }
@@ -143,7 +143,7 @@ p {
 }
 
 div.roundbox {
-  font-size: 16px;
+  font-size: 18px;
   text-decoration: none;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -211,20 +211,20 @@ div#error {
 }
 
 .info, .disabled {
-  font-size: 14px;
+  font-size: 16px;
   color: #909090;
   text-decoration: none;
 }
 
 .enabled {
-  font-size: 14px;
+  font-size: 16px;
   color: #04060c;
   text-decoration: none;
 }
 
 input[type="button"],input[type="submit"],button,.button,a.button:link,a.button:visited {
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   font-family: Verdana, Helvetica, Arial, sans-serif;
   padding: .3em .6em;
   margin-left: 5px;
@@ -256,7 +256,7 @@ a:hover {
 }
 
 a.action {
-  font-size: 14px;
+  font-size: 16px;
   font-family: Verdana, Helvetica, Arial, sans-serif;
   text-decoration: none;
   margin-left: 10px;
@@ -273,7 +273,7 @@ table {
 
 #dataTable thead th {
   font-family: verdana, tahoma, arial;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: normal;
   text-align: center;
   background: #dfded0;

@@ -1,6 +1,5 @@
 package ru.edu.pgtk.weducation.utils;
 
-import com.sun.tools.internal.ws.processor.model.ModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +33,7 @@ public class ImportCard {
   private static final String SUBJECT = " дисциплины. ";
   private static final String PRACTIC = " практики. ";
 
-  private void logAndThrow(String message) throws ModelException {
+  private void logAndThrow(String message) {
     throw new EJBException(message);
   }
 
@@ -48,7 +47,7 @@ public class ImportCard {
    * @param groupCode код группы
    * @return
    */
-  private Speciality getSpeciality(String groupCode) throws ModelException {
+  private Speciality getSpeciality(String groupCode) {
     Speciality result = null;
     try {
       PreparedStatement stmt = con
@@ -81,7 +80,7 @@ public class ImportCard {
     return result;
   }
 
-  private Person getPerson(String personCode) throws ModelException {
+  private Person getPerson(String personCode) {
     Person result = null;
     try {
       PreparedStatement stmt = con.prepareStatement(
@@ -120,7 +119,7 @@ public class ImportCard {
     return result;
   }
 
-  private School getSchool(String personCode) throws ModelException {
+  private School getSchool(String personCode) {
     School result = null;
     try {
       PreparedStatement stmt = con
@@ -153,7 +152,7 @@ public class ImportCard {
     return result;
   }
 
-  private boolean prepareCard(String personCode) throws ModelException {
+  private boolean prepareCard(String personCode) {
     boolean result = false;
     try {
       PreparedStatement stmt = con.prepareStatement(
@@ -174,7 +173,8 @@ public class ImportCard {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         card.setBeginDate(sdf.parse("01.09." + rs.getString("st_inYear")));
         card.setEndDate(sdf.parse("30.06." + rs.getString("st_outYear")));
-        card.setRemanded(false);
+        int attributes = rs.getInt("st_Attributes");
+        card.setRemanded((attributes & 127) > 0);
         card.setRed(rs.getBoolean("st_isRed"));
         card.setComissionDirector(rs.getString("com_PDirector"));
         card.setComissionDate(rs.getDate("com_Date"));
@@ -215,7 +215,6 @@ public class ImportCard {
    * Импортирует карточки из одной базы данных в другую.
    *
    * @return количество успешно импортированных карточек
-   * @throws ModelException
    */
   public int importCards() {
     int count = 0;
