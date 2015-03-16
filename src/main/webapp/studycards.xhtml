@@ -183,6 +183,12 @@
             <li><h:link outcome="/finalmarks/gosexams?cardId=#{studyCardsMB.item.id}" value="ГОС экзамены по отдельным дисциплинам" /></li>
             <li><h:link outcome="/finalmarks/practics?cardId=#{studyCardsMB.item.id}" value="Итоговые практики" /></li>
           </ul>
+          <h3>Печать бланков</h3>
+          <ul>
+            <li><h:commandLink action="#{studyCardsMB.printDiplome()}" value="Диплом" /></li>
+            <li><h:commandLink action="#{studyCardsMB.printDiplomeCopy()}" value="Копия диплома" /></li>
+            <li><h:commandLink action="#{studyCardsMB.printDiplomeDuplicate()}" value="Дубликат диплома" /></li>
+          </ul>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{studyCardsMB.cancel()}" />
           </div>

@@ -1,11 +1,15 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
@@ -17,6 +21,7 @@ import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.reports.DiplomeBlanksEJB;
 
 @ManagedBean(name = "studyCardsMB")
 @ViewScoped
@@ -32,6 +37,8 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   private transient StudyPlansEJB plansEJB;
   @EJB
   private transient SpecialitiesEJB specialitiesEJB;
+  @EJB
+  private transient DiplomeBlanksEJB diplome;
 
   private Person person;
   private Speciality speciality;
@@ -58,12 +65,58 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     return person;
   }
 
+  private void getBlank(final boolean copy, final boolean duplicate) {
+    // Get the FacesContext
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    // Get HTTP response
+    ExternalContext ec = facesContext.getExternalContext();
+    // Set response headers
+    ec.responseReset();   // Reset the response in the first place
+    ec.setResponseContentType("application/pdf");  // Set only the content type
+    // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
+    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"diplome-" + item.getId() + ".pdf\"");
+    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
+      responseOutputStream.write(diplome.getDiplome(item, copy, duplicate));
+      responseOutputStream.flush();
+    } catch (IOException e) {
+      addMessage(e);
+    }
+    facesContext.responseComplete();
+  }
+
+  public void printDiplome() {
+    // Get the FacesContext
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    // Get HTTP response
+    ExternalContext ec = facesContext.getExternalContext();
+    // Set response headers
+    ec.responseReset();   // Reset the response in the first place
+    ec.setResponseContentType("application/pdf");  // Set only the content type
+    // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
+    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"diplome-" + item.getId() + ".pdf\"");
+    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
+      responseOutputStream.write(diplome.getDiplome(item, false, false));
+      responseOutputStream.flush();
+    } catch (IOException e) {
+      addMessage(e);
+    }
+    facesContext.responseComplete();
+  }
+
+  public void printDiplomeDuplicate() {
+    getBlank(false, true);
+  }
+
+  public void printDiplomeCopy() {
+    getBlank(true, false);
+  }
+
   public void preparePage() {
     try {
       if (personCode > 0) {
         // Список личных карточек персоны
         person = personEJB.get(personCode);
-      } else if(cardCode > 0) {
+      } else if (cardCode > 0) {
         // Детали личной карточки определенной персоны
         item = ejb.get(cardCode);
         person = item.getPerson();

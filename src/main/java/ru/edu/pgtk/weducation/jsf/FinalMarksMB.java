@@ -71,6 +71,7 @@ public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable
       int code = (Integer) event.getNewValue();
       if (code > 0) {
         Subject s = subjects.get(code);
+        item.setSubject(s);
         // Запишем модуль, к которому принадлежит дисциплина
         item.setModule(s.getModule());
         // Посчитаем кол-во часов аудиторной нагрузки

@@ -72,7 +72,7 @@
                            itemLabel="#{subject.fullName}" itemValue="#{subject.id}" />
           </h:selectOneMenu>
           <h:outputText rendered="#{courseWorkMarksMB.item.subjectCode != 0}" value="#{courseWorkMarksMB.item.subject.fullName}" /><p />
-          <h:outputText value="Итоговая оценка" /><br />
+          <h:outputText value="Тема работы" /><br />
           <h:inputText value="#{courseWorkMarksMB.item.theme}" /><p />
           <h:outputText value="Итоговая оценка" /><br />
           <h:selectOneMenu value="#{courseWorkMarksMB.item.mark}">

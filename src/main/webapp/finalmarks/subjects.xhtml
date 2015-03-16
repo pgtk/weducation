@@ -76,9 +76,10 @@
           <h:outputText value="Наименование дисциплины или МДК" /><br />
           <h:selectOneMenu rendered="#{finalMarksMB.item.subjectCode == 0}" 
                            value="#{finalMarksMB.item.subjectCode}" valueChangeListener="#{finalMarksMB.countLoad}">
+            <f:selectItem itemLabel="---- Выберите дисциплину ----" itemValue="0" />
             <f:selectItems value="#{finalMarksMB.subjects}" var="subject" 
                            itemLabel="#{subject.fullName}" itemValue="#{subject.id}" />
-            <f:ajax event="change" execute="@this" render="maxload audload globalMessages" />
+            <f:ajax event="change" execute="@this" render="@form" />
           </h:selectOneMenu>
           <h:outputText rendered="#{finalMarksMB.item.subjectCode != 0}" value="#{finalMarksMB.item.subject.fullName}" /><p />
           <h:outputText value="Максимальная нагрузка" /><br />

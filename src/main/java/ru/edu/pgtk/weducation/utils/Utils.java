@@ -1,5 +1,9 @@
 package ru.edu.pgtk.weducation.utils;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
  * Различные утилиты, вынесенные в отдельный класс
  *
@@ -62,4 +66,81 @@ public class Utils {
   public static String getWeekString(final int week) {
     return getStringPrefix(week, "неделя", "недели", "недель");
   }
+  
+	public static String getDateString(Date date) {
+		try {
+			if (date == null) {
+				return "null";
+			}
+			final String[] months = { "января", "февраля", "марта", "апреля",
+					"мая", "июня", "июля", "августа", "сентября", "октября",
+					"ноября", "декабря" };
+			Calendar c = new GregorianCalendar();
+			c.setTime(date);
+			int month = c.get(Calendar.MONTH);
+			int day = c.get(Calendar.DAY_OF_MONTH);
+			int year = c.get(Calendar.YEAR);
+			return day + " " + months[month] + " " + year;
+		} catch (Exception e) {
+			return "exception";
+		}
+	}
+
+	public static int getYear(Date date) {
+		if (date == null) {
+			return -1;
+		}
+		Calendar c = new GregorianCalendar();
+		c.setTime(date);
+		return c.get(Calendar.YEAR);
+	}
+
+	public static String getMarkString(int mark) {
+		String result;
+		switch (mark) {
+		case 0:
+			result = "x";
+			break;
+		case 1:
+			result = "неудовлетворительно";
+			break;
+		case 2:
+			result = "неудовлетворительно";
+			break;
+		case 3:
+			result = "удовлетворительно";
+			break;
+		case 4:
+			result = "хорошо";
+			break;
+		case 5:
+			result = "отлично";
+			break;
+		case 13:
+			result = "зачтено";
+			break;
+		default:
+			result = " ";
+		}
+		return result;
+	}
+
+	public static String getLenString(final float length) {
+		int ilength;
+    if (length < 5) {
+      ilength = (int) Math.floor(length);
+    } else {
+      ilength = (int) Math.ceil(length);
+    }
+		if (ilength > 20) {
+			ilength %= 10;
+		}
+		String prefix = " недель";
+		if (ilength == 1) {
+			prefix = " неделя";
+		} else if (ilength < 5) {
+			prefix = " недели";
+		}
+		return String.format("%2.1f %s", length, prefix);
+	}
 }

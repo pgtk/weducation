@@ -47,13 +47,13 @@ public class FinalMark implements Serializable {
 
   @Transient
   private int moduleCode;
-  
+
   private void updateModuleCode() {
     if (null != module) {
       moduleCode = module.getId();
     }
   }
-  
+
   private void updateSubjectCode() {
     if (null != subject) {
       subjectCode = subject.getId();
@@ -64,6 +64,10 @@ public class FinalMark implements Serializable {
   private void updateCodes() {
     updateModuleCode();
     updateSubjectCode();
+  }
+
+  public boolean isModuleMark() {
+    return (null != module) && (null == subject);
   }
 
   public int getId() {
