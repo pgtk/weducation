@@ -292,14 +292,21 @@ public class DiplomeBlanksEJB {
       // Добавляем итоговые оценки
       int aload = 0;
       int mload = 0;
-      for (FinalMark fm : finalMarks.fetchAll(card)) {
-        // Доработать список с учетом модулей
+      // Сначала добавляем дисциплины, не входящие в модули
+      for (FinalMark fm : finalMarks.fetchOnlySubjects(card)) {
         marks.add(new MarkItem(fm));
-        if (!fm.isModuleMark()) {
+        aload += fm.getAuditoryLoad();
+        mload += fm.getMaximumLoad();
+      }
+      // Потом добавим модули с их содержимым
+      for (FinalMark fm : finalMarks.fetchModules(card)) {
+        marks.add(new MarkItem(fm));
+        marks.add(new MarkItem("в том числе:", "", ""));
+        // Дисциплины конкретного модуля
+        for (FinalMark sfm : finalMarks.fetchModuleSubjects(card, fm.getModule())) {
+          marks.add(new MarkItem(sfm));
           aload += fm.getAuditoryLoad();
           mload += fm.getMaximumLoad();
-        } else {
-          marks.add(new MarkItem("в том числе:", "", ""));
         }
       }
       marks.add(new MarkItem("ВСЕГО часов теоретического обучения:", mload, 0));

@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.FinalMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyModule;
 
 @Stateless
 @Named("finalMarksEJB")
@@ -32,7 +33,7 @@ public class FinalMarksEJB {
 
   public List<FinalMark> fetchAll(final StudyCard card) {
     TypedQuery<FinalMark> q = em.createQuery(
-            "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) ORDER BY fm.module.name, fm.subject.fullName", FinalMark.class);
+            "SELECT fm FROM FinalMark fm WHERE (fm.card = :c)", FinalMark.class);
     q.setParameter("c", card);
     return q.getResultList();
   }
@@ -40,7 +41,24 @@ public class FinalMarksEJB {
   public List<FinalMark> fetchModules(final StudyCard card) {
     TypedQuery<FinalMark> q = em.createQuery(
             "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) AND (fm.subject IS NULL)"
-            + "ORDER BY fm.module.name", FinalMark.class);
+            + "AND (fm.module IS NOT NULL) ORDER BY fm.module.name", FinalMark.class);
+    q.setParameter("c", card);
+    return q.getResultList();
+  }
+  
+  public List<FinalMark> fetchModuleSubjects(final StudyCard card, final StudyModule module) {
+    TypedQuery<FinalMark> q = em.createQuery(
+            "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) AND (fm.module = :m) "
+                    + "ORDER BY fm.subject.fullName", FinalMark.class);
+    q.setParameter("c", card);
+    q.setParameter("m", module);
+    return q.getResultList();
+  }
+  
+  public List<FinalMark> fetchOnlySubjects(final StudyCard card) {
+    TypedQuery<FinalMark> q = em.createQuery(
+            "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) AND (fm.subject IS NOT NULL)"
+            + " AND (fm.module IS NULL) ORDER BY fm.subject.fullName", FinalMark.class);
     q.setParameter("c", card);
     return q.getResultList();
   }

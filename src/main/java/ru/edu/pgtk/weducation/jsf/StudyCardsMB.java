@@ -66,6 +66,14 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   }
 
   private void getBlank(final boolean copy, final boolean duplicate) {
+    StringBuilder fileName = new StringBuilder("diplome-");
+    if (copy) {
+      fileName.append("copy-");
+    }
+    if (duplicate) {
+      fileName.append("duplicate-");
+    }
+    fileName.append(item.getId()).append(".pdf");
     // Get the FacesContext
     FacesContext facesContext = FacesContext.getCurrentInstance();
     // Get HTTP response
@@ -74,7 +82,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     ec.responseReset();   // Reset the response in the first place
     ec.setResponseContentType("application/pdf");  // Set only the content type
     // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
-    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"diplome-" + item.getId() + ".pdf\"");
+    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
     try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
       responseOutputStream.write(diplome.getDiplome(item, copy, duplicate));
       responseOutputStream.flush();
@@ -85,22 +93,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   }
 
   public void printDiplome() {
-    // Get the FacesContext
-    FacesContext facesContext = FacesContext.getCurrentInstance();
-    // Get HTTP response
-    ExternalContext ec = facesContext.getExternalContext();
-    // Set response headers
-    ec.responseReset();   // Reset the response in the first place
-    ec.setResponseContentType("application/pdf");  // Set only the content type
-    // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
-    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"diplome-" + item.getId() + ".pdf\"");
-    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-      responseOutputStream.write(diplome.getDiplome(item, false, false));
-      responseOutputStream.flush();
-    } catch (IOException e) {
-      addMessage(e);
-    }
-    facesContext.responseComplete();
+    getBlank(false, false);
   }
 
   public void printDiplomeDuplicate() {
