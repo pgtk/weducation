@@ -11,6 +11,7 @@ import javax.ejb.EJBException;
 import org.w3c.dom.Node;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import static ru.edu.pgtk.weducation.utils.Utils.getShortName;
 import static ru.edu.pgtk.weducation.utils.Utils.toInt;
 
 /**
@@ -126,7 +127,7 @@ public class PlanParser {
       sp.setKey(plan.getAttributeValue(title, SPEC_KEY));
       sp.setFullName(plan.getAttributeValue(title, SPEC_NAME));
       sp.setKvalification(plan.getAttributeValue(title, SPEC_KV));
-      sp.setShortName("FIXME");
+      sp.setShortName(getShortName(sp.getFullName()));
       sp.setSpecialization("не предусмотрено");
       return sp;
     } catch (NullPointerException e) {

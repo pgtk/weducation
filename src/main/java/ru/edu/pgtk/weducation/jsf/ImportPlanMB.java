@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -20,6 +21,7 @@ import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.entity.SubjectLoad;
 import ru.edu.pgtk.weducation.utils.PlanParser;
+import static ru.edu.pgtk.weducation.utils.Utils.getShortName;
 import ru.edu.pgtk.weducation.utils.XMLModule;
 import ru.edu.pgtk.weducation.utils.XMLPractice;
 import ru.edu.pgtk.weducation.utils.XMLPracticeLoad;
@@ -28,30 +30,30 @@ import ru.edu.pgtk.weducation.utils.XMLSubjectLoad;
 
 @ManagedBean(name = "importPlanMB")
 @ViewScoped
-public class ImportPlanMB {
-
-  private Part file;
+public class ImportPlanMB implements Serializable {
+  
+  private transient Part file;
   private boolean uploaded;
-  private PlanParser parser;
+  private transient PlanParser parser;
   @EJB
-  private SpecialitiesEJB specialitiesEJB;
+  private transient SpecialitiesEJB specialitiesEJB;
   @EJB
-  private StudyPlansEJB plansEJB;
+  private transient StudyPlansEJB plansEJB;
   @EJB
-  private StudyModulesEJB modulesEJB;
+  private transient StudyModulesEJB modulesEJB;
   @EJB
-  private PracticsEJB practicsEJB;
+  private transient PracticsEJB practicsEJB;
   @EJB
-  private SubjectsEJB subjectsEJB;
+  private transient SubjectsEJB subjectsEJB;
   @EJB
-  private SubjectLoadEJB loadEJB;
-
+  private transient SubjectLoadEJB loadEJB;
+  
   private void addMessage(final Exception e) {
     FacesContext context = FacesContext.getCurrentInstance();
     String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
   }
-
+  
   public void upload() {
     try {
       uploaded = true;
@@ -84,7 +86,11 @@ public class ImportPlanMB {
           for (XMLSubject xs : mod.getSubjects()) {
             Subject s = new Subject();
             s.setFullName(xs.getName());
-            s.setShortName("FIXME");
+            if (xs.getName().length() <= 30) {
+              s.setShortName(xs.getName());
+            } else {
+              s.setShortName(getShortName(xs.getName()));
+            }
             s.setPlan(sp);
             s.setModule(sm);
             subjectsEJB.save(s);
@@ -123,19 +129,19 @@ public class ImportPlanMB {
       addMessage(e);
     }
   }
-
+  
   public Part getFile() {
     return file;
   }
-
+  
   public void setFile(Part file) {
     this.file = file;
   }
-
+  
   public boolean isUploaded() {
     return uploaded;
   }
-
+  
   public String getPlanTitle() {
     try {
       if ((null != parser) && (parser.isCorrect())) {

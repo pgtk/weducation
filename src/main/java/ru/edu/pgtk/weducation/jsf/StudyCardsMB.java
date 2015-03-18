@@ -82,7 +82,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     ec.responseReset();   // Reset the response in the first place
     ec.setResponseContentType("application/pdf");  // Set only the content type
     // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
-    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName.toString() + "\"");
     try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
       responseOutputStream.write(diplome.getDiplome(item, copy, duplicate));
       responseOutputStream.flush();

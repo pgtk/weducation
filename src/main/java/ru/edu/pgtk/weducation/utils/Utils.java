@@ -56,6 +56,28 @@ public class Utils {
     }
     return val + prefix3;
   }
+  
+  /**
+   * Получает сокращенное наименование дисциплины из полного.
+   * @param name полное наименование дисциплины
+   * @return Аббревиатура в виде строки
+   */
+  public static String getShortName(final String name) {
+    if ((null == name) || name.isEmpty()) {
+      throw new IllegalArgumentException("Empty strings and null is not allowed!");
+    }
+    // Копируем строку во временную переменную? заменяя дефис на пробел
+    String text = name.replace('-', ' ');
+    StringBuilder result = new StringBuilder();
+    // разбиваем строку на фрагменты и обрабатываем их
+    for (String piece: text.split(" ")) {
+      if (!piece.isEmpty()) {
+        // Если фрагмент - один символ, то копируем его в вывод. Иначе - берем заглавный первый символ
+        result.append((piece.length() > 1)? piece.substring(0, 1).toUpperCase() : piece);
+      }
+    }
+    return result.toString();
+  }
 
   public static String getMonthString(final int month) {
     return getStringPrefix(month, " месяц", " месяца", " месяцев");
