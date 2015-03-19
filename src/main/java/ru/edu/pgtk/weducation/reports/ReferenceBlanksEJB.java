@@ -1,19 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ru.edu.pgtk.weducation.reports;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -38,11 +31,14 @@ import ru.edu.pgtk.weducation.entity.Renaming;
 import ru.edu.pgtk.weducation.entity.School;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.getParagraph;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.getPt;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.wrapElement;
 import ru.edu.pgtk.weducation.utils.Utils;
 
 /**
- *
- * @author user
+ * Класс, формирующий pdf-документ справки об обучении
+ * @author Воронин Леонид
  */
 @Stateless
 public class ReferenceBlanksEJB {
@@ -66,85 +62,17 @@ public class ReferenceBlanksEJB {
   private RenamingsEJB renamings;
 
   /**
-   * Преобразует миллиметры в пункты из расчета, что один пункт равен 1/72
-   * дюйма.
-   *
-   * @param milimeters миллиметры
-   * @return дробное число пунктов
-   */
-  private float getPt(float milimeters) {
-    return milimeters * 72 / 25.4f;
-  }
-
-  /**
-   * Изготавливает "обертку" для элемента, помещая его в таблицу с одной
-   * ячейкой.
-   *
-   * @param element - элемент для обертывания
-   * @param minHeight - минимальная высота таблицы-обертки
-   * @return объект типа PdfPTable
-   */
-  private PdfPTable wrapElement(final Element element, final float minHeight) {
-    PdfPTable wrapperTable = new PdfPTable(1);
-    wrapperTable.setWidthPercentage(100.0f);
-    PdfPCell wrapperCell = new PdfPCell();
-    wrapperCell.setBorder(PdfPCell.NO_BORDER);
-    wrapperCell.setMinimumHeight(minHeight);
-    wrapperCell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-    wrapperCell.addElement(element);
-    wrapperTable.addCell(wrapperCell);
-    return wrapperTable;
-  }
-
-  /**
-   * Готовит параграф с требуемым выравниванием, текстом и шрифтом
-   *
-   * @param text текст
-   * @param font шрифт
-   * @param alignment выравнивание
-   * @return объект типа paragraph
-   */
-  private Paragraph getParagraph(String text, Font font, int alignment) {
-    Paragraph result = new Paragraph(text, font);
-    result.setAlignment(alignment);
-    result.setLeading(font.getSize() * 1.1f);
-    return result;
-  }
-
-  /**
-   * Выводит текст в заданные координаты относительно левого нижнего угла
-   *
-   * @param canvas канва документа
-   * @param font используемый шрифт
-   * @param text текст
-   * @param x координата X в миллиметрах
-   * @param y координата Y в миллиметрах
-   */
-  private void putText(final PdfContentByte canvas, final Font font,
-          final String text, final float x, final float y) {
-    canvas.saveState();
-    canvas.beginText();
-    canvas.moveText(getPt(x), getPt(y));
-    canvas.setFontAndSize(font.getBaseFont(), font.getSize());
-    canvas.showText(text);
-    canvas.endText();
-    canvas.restoreState();
-  }
-
-  /**
    * Подготавливает шрифты для использования в документе
    *
-   * @param regularSize размер обычного шрифта
-   * @param smallSize размер маленького шрифта
    * @throws IOException
    * @throws DocumentException
    */
-  private void prepareFonts(final int regularSize, final int smallSize)
+  private void prepareFonts()
           throws IOException, DocumentException {
     baseFont = BaseFont.createFont("fonts/times.ttf", BaseFont.IDENTITY_H,
             BaseFont.EMBEDDED);
-    regularFont = new Font(baseFont, regularSize);
-    smallFont = new Font(baseFont, smallSize);
+    smallFont = new Font(baseFont, 8);
+    regularFont = new Font(baseFont, 12);
     bigFont = new Font(baseFont, 16);
     hugeFont = new Font(baseFont, 20);
   }
@@ -285,9 +213,9 @@ public class ReferenceBlanksEJB {
    */
   public byte[] getBlank(final StudyCard card) {
     try {
-      prepareFonts(12, 8);
-      Document document = new Document(PageSize.A4, 15f, 15f,
-              75f, 15f);
+      prepareFonts();
+      Document document = new Document(PageSize.A4, 10f, 10f,
+              10f, 10f);
       PdfWriter writer = PdfWriter.getInstance(document, stream);
       document.open();
       document.addTitle("Справка об успеваемости");
@@ -297,7 +225,7 @@ public class ReferenceBlanksEJB {
       School scl = card.getSchool();
       Speciality spc = card.getSpeciality();
       Person psn = card.getPerson();
-      String sclName = scl.getFullName() + "\n" + scl.getPlace() + "\n\n";
+      String sclName = scl.getFullName() + "\n" + scl.getPlace();
       String comissionDate = Utils.getDateString(card.getComissionDate()) + " года";
       String diplomeDate = Utils.getDateString(card.getDiplomeDate()) + " года";
       String birthDate = Utils.getDateString(psn.getBirthDate()) + " года";
@@ -357,63 +285,91 @@ public class ReferenceBlanksEJB {
       PdfPTable mainTable = new PdfPTable(2);
       mainTable.setWidthPercentage(100.0f);
       mainTable.setWidths(new int[]{3, 6});
-      mainTable.setSpacingBefore(20f);
+//      mainTable.setSpacingBefore(20f);
       // Маленькая колонка (РОССИЙСКАЯ ФЕДЕРАЦИЯ...)
       PdfPCell innerCell1 = new PdfPCell();
       innerCell1.setBorder(PdfPCell.NO_BORDER);
-      innerCell1.addElement(getParagraph("РОССИЙСКАЯ\nФЕДЕРАЦИЯ\n\n\n", regularFont, Paragraph.ALIGN_CENTER));
-      innerCell1.addElement(getParagraph(sclName, regularFont, Paragraph.ALIGN_CENTER));
-
-//      innerCell1.addElement(wrapElement(new Phrase("РОССИЙСКАЯ ФЕДЕРАЦИЯ", smallFont), 100));
-//      innerCell1.addElement(wrapElement(getParagraph(sclName, regularFont, Paragraph.ALIGN_CENTER), 230));
-//      innerCell1.addElement(wrapElement(
-//              getParagraph(card.getRegistrationNumber(), regularFont,
-//                      Paragraph.ALIGN_CENTER), 50));
-//      innerCell1.addElement(wrapElement(
-//              getParagraph(diplomeDate, regularFont,
-//                      Paragraph.ALIGN_CENTER), 20));
-
+      innerCell1.addElement(getParagraph("РОССИЙСКАЯ\nФЕДЕРАЦИЯ", regularFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+              getParagraph(sclName, regularFont, Paragraph.ALIGN_CENTER),
+              150, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("\nСПРАВКА", hugeFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(getParagraph("ОБ УСПЕВАЕМОСТИ", bigFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+              getParagraph(card.getRegistrationNumber(), regularFont, Paragraph.ALIGN_CENTER),
+              50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(регистрационный номер)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+              getParagraph(diplomeDate, regularFont, Paragraph.ALIGN_CENTER),
+              30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(дата выдачи)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+              getParagraph(card.getRemandCommand(), regularFont, Paragraph.ALIGN_CENTER),
+              30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(номер приказа)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+              getParagraph(comissionDate, regularFont, Paragraph.ALIGN_CENTER),
+              30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(дата приказа)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+              getParagraph(card.getRemandReason(), regularFont, Paragraph.ALIGN_CENTER),
+              150, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(причина отчисления)", smallFont, Paragraph.ALIGN_CENTER));
       // Добавим данные о руководителе организации
       innerCell1.addElement(wrapElement(
-              getParagraph(schoolDirector, regularFont,
-                      Paragraph.ALIGN_RIGHT), 50.0f));
+              getParagraph("Руководитель образовательной организации", regularFont, Paragraph.ALIGN_CENTER),
+              130, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(wrapElement(
+              getParagraph(schoolDirector, regularFont, Paragraph.ALIGN_CENTER),
+              80, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
 
       // Большая колонка (СВЕДЕНИЯ О ЛИЧНОСТИ ОБЛАДАТЕЛЯ СПРАВКИ...)
       PdfPCell innerCell2 = new PdfPCell();
       innerCell2.setBorder(PdfPCell.NO_BORDER);
-      innerCell2.addElement(wrapElement(new Phrase("", smallFont), 20));
-      innerCell2
-              .addElement(wrapElement(
-                              getParagraph(psn.getFirstName(), regularFont,
-                                      Paragraph.ALIGN_CENTER), 50));
+      innerCell2.addElement(getParagraph("СВЕДЕНИЯ О ЛИЧНОСТИ ОБЛАДАТЕЛЯ СПРАВКИ", regularFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(psn.getMiddleName(), regularFont, Paragraph.ALIGN_CENTER),
-              50));
+              getParagraph(psn.getFullName(), regularFont, Paragraph.ALIGN_CENTER), 
+              30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(фамилия, имя, отчество)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(psn.getLastName(), regularFont,
-                      Paragraph.ALIGN_CENTER), 50));
+              getParagraph(birthDate, regularFont, Paragraph.ALIGN_CENTER), 
+              30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(дата рождения)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(birthDate, regularFont,
-                      Paragraph.ALIGN_CENTER), 50));
+              getParagraph(oldDocument, regularFont, Paragraph.ALIGN_CENTER), 
+              30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(предыдущий документ об образовании)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(oldDocument,
-                      regularFont, Paragraph.ALIGN_LEFT), 130));
+              getParagraph("СВЕДЕНИЯ ОБ ОБРАЗОВАТЕЛЬНОЙ ПРОГРАММЕ "
+                      + "СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ И О КВАЛИФИКАЦИИ", regularFont, Paragraph.ALIGN_CENTER), 
+              50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(wrapElement(
-              getParagraph(spc.getKvalification(), regularFont,
-                      Paragraph.ALIGN_CENTER), 40));
-      innerCell2
-              .addElement(wrapElement(
-                              getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER), 30));
-
+              getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER), 
+              50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(специальность)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell2.addElement(wrapElement(
+              getParagraph(spc.getSpecialization(), regularFont, Paragraph.ALIGN_CENTER), 
+              30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(специализация)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell2.addElement(wrapElement(
+              getParagraph(studyForm, regularFont, Paragraph.ALIGN_CENTER), 
+              30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(форма обучения)", smallFont, Paragraph.ALIGN_CENTER));
       // Добавим дополнительные сведения в колонку
+      innerCell2.addElement(wrapElement(
+              getParagraph("ДОПОЛНИТЕЛЬНЫЕ СВЕДЕНИЯ", regularFont, Paragraph.ALIGN_CENTER), 
+              50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       PdfPTable renamingTable = wrapElement(
-              prepareRenamingTable(renamings.findByDates(card.getBeginDate(), card.getEndDate())), 80.0f);
-      renamingTable.setSpacingBefore(20.0f);
+              prepareRenamingTable(renamings.findByDates(card.getBeginDate(), card.getEndDate())), 100.0f);
+      renamingTable.setSpacingBefore(10.0f);
       innerCell2.addElement(renamingTable);
-
       // Добавим таблицу курсовых в колонку
+      innerCell2.addElement(wrapElement(
+              getParagraph("СВЕДЕНИЯ О СОДЕРЖАНИИ И РЕЗУЛЬТАТАХ ОСВОЕНИЯ "
+                      + "ОБРАЗОВАТЕЛЬНОЙ ПРОГРАММЫ СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ",
+                      regularFont, Paragraph.ALIGN_CENTER), 60, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       PdfPTable courseWorkTable = wrapElement(
-              prepareCourseWorkTable(courseWorks.fetchAll(card)), 290.0f);
+              prepareCourseWorkTable(courseWorks.fetchAll(card)), 200.0f);
       innerCell2.addElement(courseWorkTable);
 
       // Добавляем колонки
