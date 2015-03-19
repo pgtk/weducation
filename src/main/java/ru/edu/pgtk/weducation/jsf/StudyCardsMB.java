@@ -22,6 +22,7 @@ import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.reports.DiplomeBlanksEJB;
+import ru.edu.pgtk.weducation.reports.ReferenceBlanksEJB;
 
 @ManagedBean(name = "studyCardsMB")
 @ViewScoped
@@ -39,6 +40,8 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   private transient SpecialitiesEJB specialitiesEJB;
   @EJB
   private transient DiplomeBlanksEJB diplome;
+  @EJB
+  private transient ReferenceBlanksEJB reference;
 
   private Person person;
   private Speciality speciality;
@@ -94,6 +97,27 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
 
   public void printDiplome() {
     getBlank(false, false);
+  }
+  
+  public void printReference() {
+    StringBuilder fileName = new StringBuilder("diplome-");
+    fileName.append(item.getId()).append(".pdf");
+    // Get the FacesContext
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    // Get HTTP response
+    ExternalContext ec = facesContext.getExternalContext();
+    // Set response headers
+    ec.responseReset();   // Reset the response in the first place
+    ec.setResponseContentType("application/pdf");  // Set only the content type
+    // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
+    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName.toString() + "\"");
+    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
+      responseOutputStream.write(reference.getBlank(item));
+      responseOutputStream.flush();
+    } catch (IOException e) {
+      addMessage(e);
+    }
+    facesContext.responseComplete();
   }
 
   public void printDiplomeDuplicate() {

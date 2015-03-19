@@ -82,13 +82,14 @@
           <h:outputText value="Специальность" /><br />
           <h:selectOneMenu id="speciality" value="#{studyCardsMB.item.specialityCode}"
                            valueChangeListener="#{studyCardsMB.changeSpeciality}">
+            <f:selectItem itemLabel="Определить из группы" itemValue="0"/>
             <f:selectItems value="#{studyCardsMB.specialities}" var="spc" 
                            itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
             <f:ajax event="change" execute="@form" render="plan group globalMessages" />
           </h:selectOneMenu><p />
           <h:outputText value="Группа" /><br />
           <h:selectOneMenu id="group" value="#{studyCardsMB.item.groupCode}">
-            <f:selectItem itemLabel="Не привязывать к группе" itemValue="0" />
+            <f:selectItem itemLabel="Нет группы" itemValue="0" />
             <f:selectItems value="#{studyCardsMB.studyGroups}" var="grp" 
                            itemLabel="#{grp.name}" itemValue="#{grp.id}" />
           </h:selectOneMenu><p />
@@ -188,6 +189,7 @@
             <li><h:commandLink action="#{studyCardsMB.printDiplome()}" value="Диплом" /></li>
             <li><h:commandLink action="#{studyCardsMB.printDiplomeCopy()}" value="Копия диплома" /></li>
             <li><h:commandLink action="#{studyCardsMB.printDiplomeDuplicate()}" value="Дубликат диплома" /></li>
+            <li><h:commandLink action="#{studyCardsMB.printReference()}" value="Справка об успеваемости" /></li>
           </ul>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{studyCardsMB.cancel()}" />

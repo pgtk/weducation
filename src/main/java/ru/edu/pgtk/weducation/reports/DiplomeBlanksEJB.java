@@ -266,7 +266,7 @@ public class DiplomeBlanksEJB {
       PdfWriter writer = PdfWriter.getInstance(document, stream);
       document.open();
       document.addTitle("Диплом о среднеспециальном образовании и приложение к нему.");
-      document.addAuthor("webschool");
+      document.addAuthor("weducation project");
 
       // Данные для вывода (возможно лучше тут считать всё с карточки)
       School scl = card.getSchool();
