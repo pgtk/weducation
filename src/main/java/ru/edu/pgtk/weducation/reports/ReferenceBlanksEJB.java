@@ -1,11 +1,11 @@
 package ru.edu.pgtk.weducation.reports;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -38,6 +38,7 @@ import ru.edu.pgtk.weducation.utils.Utils;
 
 /**
  * Класс, формирующий pdf-документ справки об обучении
+ *
  * @author Воронин Леонид
  */
 @Stateless
@@ -89,20 +90,29 @@ public class ReferenceBlanksEJB {
     PdfPTable table = new PdfPTable(2);
     table.setWidthPercentage(100.0f);
     table.setWidths(new int[]{12, 2});
+    table.setSpacingBefore(10f);
     PdfPCell nameCell;
     PdfPCell markCell;
     // Выводим заголовок таблицы
     nameCell = new PdfPCell(getParagraph("Курсовые проекты (работы)",
             smallFont, Paragraph.ALIGN_CENTER));
+    nameCell.setMinimumHeight(20f);
     nameCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+    nameCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
 //			nameCell.setPaddingRight(getPt(3));
 //			nameCell.setLeading(0.5f, 0.6f);
-    nameCell.setBorder(PdfPCell.NO_BORDER);
+//    nameCell.setBorder(PdfPCell.NO_BORDER);
+    nameCell.setBorderColor(BaseColor.BLACK);
+    nameCell.setBorderWidth(.5f);
     markCell = new PdfPCell(getParagraph("Оценка",
             smallFont, Paragraph.ALIGN_CENTER));
+    markCell.setMinimumHeight(20f);
     markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+    markCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
 //			markCell.setLeading(0.5f, 0.6f);
-    markCell.setBorder(PdfPCell.NO_BORDER);
+    markCell.setBorderColor(BaseColor.BLACK);
+    markCell.setBorderWidth(.5f);
+//    markCell.setBorder(PdfPCell.NO_BORDER);
     table.addCell(nameCell);
     table.addCell(markCell);
     // Выводим список курсовых проектов
@@ -113,12 +123,14 @@ public class ReferenceBlanksEJB {
       nameCell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 //			nameCell.setPaddingRight(getPt(3));
 //			nameCell.setLeading(0.5f, 0.6f);
-      nameCell.setBorder(PdfPCell.NO_BORDER);
+      nameCell.setBorderColor(BaseColor.BLACK);
+      nameCell.setBorderWidth(.5f);
       markCell = new PdfPCell(getParagraph(Utils.getMarkString(mark.getMark()),
               smallFont, Paragraph.ALIGN_CENTER));
       markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 //			markCell.setLeading(0.5f, 0.6f);
-      markCell.setBorder(PdfPCell.NO_BORDER);
+      markCell.setBorderColor(BaseColor.BLACK);
+      markCell.setBorderWidth(.5f);
       table.addCell(nameCell);
       table.addCell(markCell);
     }
@@ -136,21 +148,23 @@ public class ReferenceBlanksEJB {
     // Формируем заголовок
     nameCell = new PdfPCell(getParagraph("Наименование учебных предметов, курсов, дисциплин (модулей), практик",
             smallFont, Paragraph.ALIGN_CENTER));
+    nameCell.setMinimumHeight(30f);
     nameCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
     nameCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
-    nameCell.setPaddingRight(getPt(3));
-    nameCell.setLeading(0.5f, 0.7f);
-    nameCell.setBorder(PdfPCell.NO_BORDER);
+    nameCell.setBorderColor(BaseColor.BLACK);
+    nameCell.setBorderWidth(.5f);
     hoursCell = new PdfPCell(getParagraph("Общее количество часов", smallFont, Paragraph.ALIGN_CENTER));
+    hoursCell.setMinimumHeight(30f);
     hoursCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
     hoursCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
-    hoursCell.setLeading(0.5f, 0.7f);
-    hoursCell.setBorder(PdfPCell.NO_BORDER);
+    hoursCell.setBorderColor(BaseColor.BLACK);
+    hoursCell.setBorderWidth(.5f);
     markCell = new PdfPCell(getParagraph("Оценка", smallFont, Paragraph.ALIGN_CENTER));
+    markCell.setMinimumHeight(30f);
     markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
     markCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
-    markCell.setLeading(0.5f, 0.7f);
-    markCell.setBorder(PdfPCell.NO_BORDER);
+    markCell.setBorderColor(BaseColor.BLACK);
+    markCell.setBorderWidth(.5f);
     table.addCell(nameCell);
     table.addCell(hoursCell);
     table.addCell(markCell);
@@ -162,15 +176,18 @@ public class ReferenceBlanksEJB {
       nameCell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
       nameCell.setPaddingRight(getPt(3));
       nameCell.setLeading(0.5f, 0.7f);
-      nameCell.setBorder(PdfPCell.NO_BORDER);
+      nameCell.setBorderColor(BaseColor.BLACK);
+      nameCell.setBorderWidth(.5f);
       hoursCell = new PdfPCell(getParagraph(mark.load, smallFont, Paragraph.ALIGN_CENTER));
       hoursCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       hoursCell.setLeading(0.5f, 0.7f);
-      hoursCell.setBorder(PdfPCell.NO_BORDER);
+      hoursCell.setBorderColor(BaseColor.BLACK);
+      hoursCell.setBorderWidth(.5f);
       markCell = new PdfPCell(getParagraph(mark.mark, smallFont, Paragraph.ALIGN_CENTER));
       markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       markCell.setLeading(0.5f, 0.7f);
-      markCell.setBorder(PdfPCell.NO_BORDER);
+      markCell.setBorderColor(BaseColor.BLACK);
+      markCell.setBorderWidth(.5f);
       table.addCell(nameCell);
       table.addCell(hoursCell);
       table.addCell(markCell);
@@ -214,8 +231,8 @@ public class ReferenceBlanksEJB {
   public byte[] getBlank(final StudyCard card) {
     try {
       prepareFonts();
-      Document document = new Document(PageSize.A4, 10f, 10f,
-              10f, 10f);
+      Document document = new Document(PageSize.A4, getPt(5), getPt(5),
+              getPt(10), getPt(5));
       PdfWriter writer = PdfWriter.getInstance(document, stream);
       document.open();
       document.addTitle("Справка об успеваемости");
@@ -321,55 +338,53 @@ public class ReferenceBlanksEJB {
               130, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell1.addElement(wrapElement(
               getParagraph(schoolDirector, regularFont, Paragraph.ALIGN_CENTER),
-              80, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+              70, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
 
       // Большая колонка (СВЕДЕНИЯ О ЛИЧНОСТИ ОБЛАДАТЕЛЯ СПРАВКИ...)
       PdfPCell innerCell2 = new PdfPCell();
       innerCell2.setBorder(PdfPCell.NO_BORDER);
       innerCell2.addElement(getParagraph("СВЕДЕНИЯ О ЛИЧНОСТИ ОБЛАДАТЕЛЯ СПРАВКИ", regularFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(psn.getFullName(), regularFont, Paragraph.ALIGN_CENTER), 
+              getParagraph(psn.getFullName(), regularFont, Paragraph.ALIGN_CENTER),
               30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(getParagraph("(фамилия, имя, отчество)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(birthDate, regularFont, Paragraph.ALIGN_CENTER), 
+              getParagraph(birthDate, regularFont, Paragraph.ALIGN_CENTER),
               30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(getParagraph("(дата рождения)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(oldDocument, regularFont, Paragraph.ALIGN_CENTER), 
+              getParagraph(oldDocument, regularFont, Paragraph.ALIGN_CENTER),
               30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(getParagraph("(предыдущий документ об образовании)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
               getParagraph("СВЕДЕНИЯ ОБ ОБРАЗОВАТЕЛЬНОЙ ПРОГРАММЕ "
-                      + "СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ И О КВАЛИФИКАЦИИ", regularFont, Paragraph.ALIGN_CENTER), 
+                      + "СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ И О КВАЛИФИКАЦИИ", regularFont, Paragraph.ALIGN_CENTER),
               50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(wrapElement(
-              getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER), 
+              getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER),
               50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(getParagraph("(специальность)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(spc.getSpecialization(), regularFont, Paragraph.ALIGN_CENTER), 
+              getParagraph(spc.getSpecialization(), regularFont, Paragraph.ALIGN_CENTER),
               30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(getParagraph("(специализация)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-              getParagraph(studyForm, regularFont, Paragraph.ALIGN_CENTER), 
+              getParagraph(studyForm, regularFont, Paragraph.ALIGN_CENTER),
               30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(getParagraph("(форма обучения)", smallFont, Paragraph.ALIGN_CENTER));
       // Добавим дополнительные сведения в колонку
       innerCell2.addElement(wrapElement(
-              getParagraph("ДОПОЛНИТЕЛЬНЫЕ СВЕДЕНИЯ", regularFont, Paragraph.ALIGN_CENTER), 
+              getParagraph("ДОПОЛНИТЕЛЬНЫЕ СВЕДЕНИЯ", regularFont, Paragraph.ALIGN_CENTER),
               50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
-      PdfPTable renamingTable = wrapElement(
-              prepareRenamingTable(renamings.findByDates(card.getBeginDate(), card.getEndDate())), 100.0f);
-      renamingTable.setSpacingBefore(10.0f);
-      innerCell2.addElement(renamingTable);
+      innerCell2.addElement(wrapElement(prepareRenamingTable(
+              renamings.findByDates(card.getBeginDate(), card.getEndDate())), 150.0f));
       // Добавим таблицу курсовых в колонку
       innerCell2.addElement(wrapElement(
               getParagraph("СВЕДЕНИЯ О СОДЕРЖАНИИ И РЕЗУЛЬТАТАХ ОСВОЕНИЯ "
                       + "ОБРАЗОВАТЕЛЬНОЙ ПРОГРАММЫ СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ",
                       regularFont, Paragraph.ALIGN_CENTER), 60, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       PdfPTable courseWorkTable = wrapElement(
-              prepareCourseWorkTable(courseWorks.fetchAll(card)), 200.0f);
+              prepareCourseWorkTable(courseWorks.fetchAll(card)), 150.0f);
       innerCell2.addElement(courseWorkTable);
 
       // Добавляем колонки
