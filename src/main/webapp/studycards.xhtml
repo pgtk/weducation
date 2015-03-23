@@ -125,7 +125,7 @@
           <h:inputText value="#{studyCardsMB.item.diplomeLength}" class="textEdit" /><p />
           <h:outputText value="Председатель ГАК" /><br />
           <h:inputText value="#{studyCardsMB.item.comissionDirector}" class="textEdit" /><p />
-          <h:outputText value="Дата защиты" /><br />
+          <h:outputText value="Дата защиты (дата приказа для справки)" /><br />
           <h:inputText value="#{studyCardsMB.item.comissionDate}" class="textEdit">
             <f:convertDateTime pattern="dd.MM.yyyy" />
           </h:inputText><p />
@@ -137,7 +137,7 @@
           <!-- может выводить только если указано ипломирование? -->
           <h:outputText value="Тема дипломного проекта" /><br />
           <h:inputText value="#{studyCardsMB.item.diplomeTheme}" class="textEdit" /><p />
-          <h:outputText value="Регистрационный номер диплома" /><br />
+          <h:outputText value="Регистрационный номер диплома (или справки в случае отчисления)" /><br />
           <h:inputText value="#{studyCardsMB.item.registrationNumber}" class="textEdit" /><p />
           <h:outputText value="Серия и номер диплома" /><br />
           <h:inputText value="#{studyCardsMB.item.diplomeNumber}" class="textEdit" /><p />
@@ -186,10 +186,14 @@
           </ul>
           <h3>Печать бланков</h3>
           <ul>
-            <li><h:commandLink action="#{studyCardsMB.printDiplome()}" value="Диплом" /></li>
-            <li><h:commandLink action="#{studyCardsMB.printDiplomeCopy()}" value="Копия диплома" /></li>
-            <li><h:commandLink action="#{studyCardsMB.printDiplomeDuplicate()}" value="Дубликат диплома" /></li>
-            <li><h:commandLink action="#{studyCardsMB.printReference()}" value="Справка об успеваемости" /></li>
+            <h:panelGroup rendered="#{not studyCardsMB.item.remanded}">
+              <li><h:commandLink action="#{studyCardsMB.printDiplome()}" value="Диплом" /></li>
+              <li><h:commandLink action="#{studyCardsMB.printDiplomeCopy()}" value="Копия диплома" /></li>
+              <li><h:commandLink action="#{studyCardsMB.printDiplomeDuplicate()}" value="Дубликат диплома" /></li>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{studyCardsMB.item.remanded}">
+              <li><h:commandLink action="#{studyCardsMB.printReference()}" value="Справка об успеваемости" /></li>
+            </h:panelGroup>
           </ul>
           <div class="buttons">
             <h:commandButton value="Закрыть" action="#{studyCardsMB.cancel()}" />
