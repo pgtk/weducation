@@ -8,4 +8,5 @@
 
   <include file="sql/liquibase/v1/001.xml"/>
   <include file="sql/liquibase/v1/002.xml"/>
+  <include file="sql/liquibase/v1/003.xml"/>
 </databaseChangeLog>

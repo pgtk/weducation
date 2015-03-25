@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+
+<changeSet id="003-1" author="gooamoko">
+  <comment>
+    Создадим таблицу населенных пунктов
+  </comment>
+  <sql>
+    CREATE TABLE places(
+    plc_pcode serial,
+    plc_type int NOT NULL default 0,
+    plc_name varchar(255) NOT NULL,
+    CONSTRAINT places_pk PRIMARY KEY(plc_pcode) 
+    );
+  </sql>
+</changeSet>
+<changeSet id="003-2" author="gooamoko">
+  <comment>
+    Добавим в таблицу persons поле "psn_plccode"
+  </comment>
+  <sql>
+    ALTER TABLE persons ADD COLUMN psn_plccode int;
+  </sql>
+</changeSet>
+<changeSet id="003-3" author="gooamoko">
+  <comment>
+    Добавим в таблицу persons внешний ключ
+  </comment>
+  <sql>
+    ALTER TABLE persons ADD CONSTRAINT persons_places_fk FOREIGN KEY(psn_plccode) REFERENCES
+    places(plc_pcode) ON UPDATE CASCADE ON DELETE NO ACTION;
+  </sql>
+</changeSet>
+<changeSet id="003-4" author="gooamoko">
+  <comment>
+    Добавим в таблицу persons поле "адрес"
+  </comment>
+  <sql>
+    ALTER TABLE persons ADD COLUMN psn_address varchar(255);
+  </sql>
+</changeSet>
+</databaseChangeLog>

@@ -3,6 +3,7 @@ package ru.edu.pgtk.weducation.reports;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
@@ -83,5 +84,24 @@ public class PDFUtils {
     result.setLeading(font.getSize() * 1.1f);
     return result;
   }
-
+  
+    /**
+   * Выводит текст в заданные координаты относительно левого нижнего угла
+   *
+   * @param canvas канва документа
+   * @param font используемый шрифт
+   * @param text текст
+   * @param x координата X в миллиметрах
+   * @param y координата Y в миллиметрах
+   */
+  public static void putText(final PdfContentByte canvas, final Font font,
+          final String text, final float x, final float y) {
+    canvas.saveState();
+    canvas.beginText();
+    canvas.moveText(getPt(x), getPt(y));
+    canvas.setFontAndSize(font.getBaseFont(), font.getSize());
+    canvas.showText(text);
+    canvas.endText();
+    canvas.restoreState();
+  }
 }

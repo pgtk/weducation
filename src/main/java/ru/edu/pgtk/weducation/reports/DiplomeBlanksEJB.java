@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -35,6 +34,10 @@ import ru.edu.pgtk.weducation.entity.Renaming;
 import ru.edu.pgtk.weducation.entity.School;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.getParagraph;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.getPt;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.putText;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.wrapElement;
 import ru.edu.pgtk.weducation.utils.Utils;
 import static ru.edu.pgtk.weducation.utils.Utils.getMonthString;
 import static ru.edu.pgtk.weducation.utils.Utils.getYearString;
@@ -65,72 +68,6 @@ public class DiplomeBlanksEJB {
   private CourseWorkMarksEJB courseWorks;
   @EJB
   private RenamingsEJB renamings;
-
-  /**
-   * Преобразует миллиметры в пункты из расчета, что один пункт равен 1/72
-   * дюйма.
-   *
-   * @param milimeters миллиметры
-   * @return дробное число пунктов
-   */
-  private float getPt(float milimeters) {
-    return milimeters * 72 / 25.4f;
-  }
-
-  /**
-   * Изготавливает "обертку" для элемента, помещая его в таблицу с одной
-   * ячейкой.
-   *
-   * @param element - элемент для обертывания
-   * @param minHeight - минимальная высота таблицы-обертки
-   * @return объект типа PdfPTable
-   */
-  private PdfPTable wrapElement(final Element element, final float minHeight) {
-    PdfPTable wrapperTable = new PdfPTable(1);
-    wrapperTable.setWidthPercentage(100.0f);
-    PdfPCell wrapperCell = new PdfPCell();
-    wrapperCell.setBorder(PdfPCell.NO_BORDER);
-    wrapperCell.setMinimumHeight(minHeight);
-    wrapperCell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-    wrapperCell.addElement(element);
-    wrapperTable.addCell(wrapperCell);
-    return wrapperTable;
-  }
-
-  /**
-   * Готовит параграф с требуемым выравниванием, текстом и шрифтом
-   *
-   * @param text текст
-   * @param font шрифт
-   * @param alignment выравнивание
-   * @return объект типа paragraph
-   */
-  private Paragraph getParagraph(String text, Font font, int alignment) {
-    Paragraph result = new Paragraph(text, font);
-    result.setAlignment(alignment);
-    result.setLeading(font.getSize() * 1.1f);
-    return result;
-  }
-
-  /**
-   * Выводит текст в заданные координаты относительно левого нижнего угла
-   *
-   * @param canvas канва документа
-   * @param font используемый шрифт
-   * @param text текст
-   * @param x координата X в миллиметрах
-   * @param y координата Y в миллиметрах
-   */
-  private void putText(final PdfContentByte canvas, final Font font,
-          final String text, final float x, final float y) {
-    canvas.saveState();
-    canvas.beginText();
-    canvas.moveText(getPt(x), getPt(y));
-    canvas.setFontAndSize(font.getBaseFont(), font.getSize());
-    canvas.showText(text);
-    canvas.endText();
-    canvas.restoreState();
-  }
 
   /**
    * Подготавливает шрифты для использования в документе
