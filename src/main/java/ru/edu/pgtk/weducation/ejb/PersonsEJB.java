@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.ejb;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -15,6 +16,8 @@ public class PersonsEJB {
   
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
+  @EJB
+  private PlacesEJB places;
   
   public Person get(final int id) {
     Person result = em.find(Person.class, id);
@@ -39,6 +42,9 @@ public class PersonsEJB {
   }
   
   public Person save(Person item) {
+    if (item.getPlaceCode() > 0) {
+      item.setPlace(places.get(item.getPlaceCode()));
+    }
     if (item.getId() == 0) {
       em.persist(item);
       return item;

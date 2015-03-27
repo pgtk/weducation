@@ -28,7 +28,7 @@ public class Place implements Serializable {
   private String name;
 
   public String getFullName() {
-    return type.getDescription() + " " + name;
+    return type.getPrefix() + " " + name;
   }
 
   public PlaceType getType() {

@@ -88,6 +88,37 @@
             <f:selectItem itemLabel="Россия" itemValue="false"/>
             <f:selectItem itemLabel="другое" itemValue="true"/>
           </h:selectOneMenu><p />
+          <h:outputText value="Населенный пункт" /><br />
+          <h:selectOneMenu value="#{personsMB.item.placeCode}">
+            <f:selectItem itemLabel="Неизвестен" itemValue="0"/>
+            <f:selectItems value="#{placesEJB.fetchAll()}" var="place" itemLabel="#{place.fullName}" itemValue="#{place.id}"/>
+          </h:selectOneMenu><p />
+          <h:outputText value="Адрес" /><br />
+          <h:inputText value="#{personsMB.item.address}" class="textEdit" /><p />
+          <h:selectBooleanCheckbox value="#{personsMB.item.orphan}" />
+          <h:outputText value="Сирота" /><p />
+          <h:selectBooleanCheckbox value="#{personsMB.item.invalid}" />
+          <h:outputText value="Инвалид" /><p />
+          <h:outputText value="Телефон мобильный" /><br />
+          <h:inputText value="#{personsMB.item.mobilePhone}" class="textEdit" /><p />
+          <h:outputText value="Телефон домашний" /><br />
+          <h:inputText value="#{personsMB.item.homePhone}" class="textEdit" /><p />
+          <h:outputText value="Телефон рабочий" /><br />
+          <h:inputText value="#{personsMB.item.workPhone}" class="textEdit" /><p />
+          <h:outputText value="Серия паспорта" /><br />
+          <h:inputText value="#{personsMB.item.passportSeria}" class="textEdit" /><p />
+          <h:outputText value="Номер паспорта" /><br />
+          <h:inputText value="#{personsMB.item.passportNumber}" class="textEdit" /><p />
+          <h:outputText value="Кем выдан паспорт" /><br />
+          <h:inputText value="#{personsMB.item.passportDept}" class="textEdit" /><p />
+          <h:outputText value="Дата выдачи" /><br />
+          <h:inputText value="#{personsMB.item.passportDate}" class="textEdit">
+            <f:convertDateTime pattern="d.M.yyyy" />
+          </h:inputText><p />
+          <h:outputText value="ИНН" /><br />
+          <h:inputText value="#{personsMB.item.inn}" class="textEdit" /><p />
+          <h:outputText value="СНИЛС" /><br />
+          <h:inputText value="#{personsMB.item.snils}" class="textEdit" /><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{personsMB.save()}" />
             <h:commandButton value="Отменить" action="#{personsMB.cancel()}" />

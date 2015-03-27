@@ -9,9 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 /**
  * Класс для хранения информации о персоне.
@@ -49,9 +53,60 @@ public class Person implements Serializable {
   @Column(name = "psn_birthplace", nullable = false, length = 255)
   private String birthPlace;
   
+  @Column(name = "psn_orphan", nullable = false)
+  private boolean orphan;
+  
+  @Column(name = "psn_invalid", nullable = false)
+  private boolean invalid;
+  
+  @Column(name = "psn_passportseria", length = 6)
+  private String passportSeria;
+  
+  @Column(name = "psn_passportnumber", length = 10)
+  private String passportNumber;
+  
+  @Column(name = "psn_passportdate")
+  @Temporal(javax.persistence.TemporalType.DATE)
+  private Date passportDate;
+  
+  @Column(name = "psn_passportdept", length = 255)
+  private String passportDept;
+  
+  @Column(name = "psn_inn", length = 12)
+  private String inn;
+  
+  @Column(name = "psn_snils", length = 15)
+  private String snils;
+  
+  @Column(name = "psn_hphone", length = 15)
+  private String homePhone;
+  
+  @Column(name = "psn_wphone", length = 15)
+  private String workPhone;
+  
+  @Column(name = "psn_mphone", length = 15)
+  private String mobilePhone;
+  
+  @Column(name = "psn_address", length = 255)
+  private String address;
+  
+  @ManyToOne
+  @JoinColumn(name = "psn_plccode")
+  private Place place;
+  
+  @Transient
+  private int placeCode;
+  
   @OneToMany(mappedBy = "person")
   private List<Delegate> delegates;
 
+  @PostLoad()
+  private void updateCode() {
+    if (null != place) {
+      placeCode = place.getId();
+    }
+  }
+  
   public int getId() {
     return id;
   }
@@ -127,5 +182,118 @@ public class Person implements Serializable {
 
   public void setDelegates(List<Delegate> delegates) {
     this.delegates = delegates;
+  }
+
+  public boolean isOrphan() {
+    return orphan;
+  }
+
+  public void setOrphan(boolean orphan) {
+    this.orphan = orphan;
+  }
+
+  public boolean isInvalid() {
+    return invalid;
+  }
+
+  public void setInvalid(boolean invalid) {
+    this.invalid = invalid;
+  }
+
+  public String getPassportSeria() {
+    return passportSeria;
+  }
+
+  public void setPassportSeria(String passportSeria) {
+    this.passportSeria = passportSeria;
+  }
+
+  public String getPassportNumber() {
+    return passportNumber;
+  }
+
+  public void setPassportNumber(String passportNumber) {
+    this.passportNumber = passportNumber;
+  }
+
+  public Date getPassportDate() {
+    return passportDate;
+  }
+
+  public void setPassportDate(Date passportDate) {
+    this.passportDate = passportDate;
+  }
+
+  public String getPassportDept() {
+    return passportDept;
+  }
+
+  public void setPassportDept(String passportDept) {
+    this.passportDept = passportDept;
+  }
+
+  public String getInn() {
+    return inn;
+  }
+
+  public void setInn(String inn) {
+    this.inn = inn;
+  }
+
+  public String getSnils() {
+    return snils;
+  }
+
+  public void setSnils(String snils) {
+    this.snils = snils;
+  }
+
+  public String getHomePhone() {
+    return homePhone;
+  }
+
+  public void setHomePhone(String homePhone) {
+    this.homePhone = homePhone;
+  }
+
+  public String getWorkPhone() {
+    return workPhone;
+  }
+
+  public void setWorkPhone(String workPhone) {
+    this.workPhone = workPhone;
+  }
+
+  public String getMobilePhone() {
+    return mobilePhone;
+  }
+
+  public void setMobilePhone(String mobilePhone) {
+    this.mobilePhone = mobilePhone;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public Place getPlace() {
+    return place;
+  }
+
+  public void setPlace(Place place) {
+    this.place = place;
+    updateCode();
+  }
+
+  public int getPlaceCode() {
+    return placeCode;
+  }
+
+  public void setPlaceCode(int placeCode) {
+    this.placeCode = placeCode;
   }
 }
