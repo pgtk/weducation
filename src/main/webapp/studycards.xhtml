@@ -87,6 +87,11 @@
                            itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
             <f:ajax event="change" execute="@form" render="plan group globalMessages" />
           </h:selectOneMenu><p />
+          <!--
+          Надо пересмотреть управление группой, планом и специальностью.
+          Начать с группы и скрывать/отображать план и специальность в зависимости от того,
+          указана группа или нет.
+          -->
           <h:outputText value="Группа" /><br />
           <h:selectOneMenu id="group" value="#{studyCardsMB.item.groupCode}">
             <f:selectItem itemLabel="Нет группы" itemValue="0" />
@@ -110,6 +115,8 @@
           <h:inputText value="#{studyCardsMB.item.beginDate}" class="textEdit">
             <f:convertDateTime pattern="dd.MM.yyyy" />
           </h:inputText><p />
+          <h:outputText value="Номер студенческого билета" /><br />
+          <h:inputText value="#{studyCardsMB.item.biletNumber}" class="textEdit" /><p />
           <h:selectBooleanCheckbox value="#{studyCardsMB.item.commercial}" />
           <h:outputText value="обучение с полным возмещением затрат" /><p />
           <h:outputText value="Дата окончания обучения" /><br />

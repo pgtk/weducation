@@ -40,6 +40,9 @@ public class StudyCard implements Serializable {
 
   @Column(name = "crd_docorganization", nullable = false, length = 255)
   private String documentOrganization;
+  
+  @Column(name = "crd_biletnumber", length = 10)
+  private String biletNumber;
 
   @Column(name = "crd_comissiondate")
   @Temporal(javax.persistence.TemporalType.DATE)
@@ -434,5 +437,13 @@ public class StudyCard implements Serializable {
 
   public void setDiplomeMark(int diplomeMark) {
     this.diplomeMark = diplomeMark;
+  }
+
+  public String getBiletNumber() {
+    return biletNumber;
+  }
+
+  public void setBiletNumber(String biletNumber) {
+    this.biletNumber = biletNumber;
   }
 }

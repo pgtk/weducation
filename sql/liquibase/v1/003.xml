@@ -45,4 +45,48 @@
     ALTER TABLE persons ADD COLUMN psn_address varchar(255);
   </sql>
 </changeSet>
+<changeSet id="003-5" author="gooamoko">
+  <comment>
+    Добавим в таблицу persons поле "номер студенческого билета"
+  </comment>
+  <sql>
+    ALTER TABLE persons ADD COLUMN psn_biletnumber varchar(10);
+  </sql>
+</changeSet>
+<changeSet id="003-6" author="gooamoko">
+  <comment>
+    Удалим поле "номер студенческого билета"
+  </comment>
+  <sql>
+    ALTER TABLE persons DROP COLUMN psn_biletnumber;
+  </sql>
+</changeSet>
+<changeSet id="003-7" author="gooamoko">
+  <comment>
+    Создадим таблицу законных представителей (delegates)
+  </comment>
+  <sql>
+    CREATE TABLE delegates(
+    dlg_pcode serial,
+    dlg_fullname varchar(128) NOT NULL,
+    dlg_hphone varchar(20),
+    dlg_wphone varchar(20),
+    dlg_mphone varchar(20) NOT NULL,
+    dlg_job varchar(255) NOT NULL,
+    dlg_post varchar(255),
+    dlg_description varchar(255),
+    dlg_psncode int NOT NULL,
+    CONSTRAINT delegates_pk PRIMARY KEY(dlg_pcode),
+    CONSTRAINT delegates_persons_fk FOREIGN KEY(dlg_psncode) REFERENCES persons(psn_pcode) ON UPDATE CASCADE ON DELETE CASCADE);
+  </sql>
+</changeSet>
+<changeSet id="003-8" author="gooamoko">
+  <comment>
+    Добавим поле "номер студенческого билета" в таблицу личных карточек
+  </comment>
+  <sql>
+    ALTER TABLE cards ADD COLUMN crd_biletnumber varchar(10);
+  </sql>
+</changeSet>
+
 </databaseChangeLog>

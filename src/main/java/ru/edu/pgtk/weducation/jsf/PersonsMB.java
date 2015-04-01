@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
+import ru.edu.pgtk.weducation.entity.ForeignLanguage;
 import ru.edu.pgtk.weducation.entity.Person;
 
 @ManagedBean(name = "personsMB")
@@ -19,6 +20,10 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
   private int personCode;
   private String name;
   private boolean filter;
+
+  public ForeignLanguage[] getLanguages() {
+    return ForeignLanguage.values();
+  }
 
   public int getPersonCode() {
     return personCode;
@@ -48,9 +53,9 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
       name = null;
     }
   }
-  
+
   public String getFilterButtonLabel() {
-    return (filter)? "Новый поиск" : "Поиск";
+    return (filter) ? "Новый поиск" : "Поиск";
   }
 
   public void loadPerson() {

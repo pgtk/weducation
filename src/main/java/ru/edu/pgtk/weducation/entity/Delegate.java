@@ -27,17 +27,20 @@ public class Delegate implements Serializable {
   @Column(name = "dlg_fullname", nullable = false, length = 128)
   private String fullName;
 
-  @Column(name = "dlg_hphone", nullable = false, length = 20)
+  @Column(name = "dlg_hphone", length = 20)
   private String homePhone;
 
   @Column(name = "dlg_mphone", nullable = false, length = 20)
   private String mobilePhone;
 
-  @Column(name = "dlg_wphone", nullable = false, length = 20)
+  @Column(name = "dlg_wphone", length = 20)
   private String workPhone;
 
   @Column(name = "dlg_job", nullable = false, length = 255)
   private String job;
+
+  @Column(name = "dlg_post", length = 255)
+  private String post;
 
   @Column(name = "dlg_description", length = 255)
   private String description;
@@ -104,5 +107,13 @@ public class Delegate implements Serializable {
 
   public void setPerson(Person person) {
     this.person = person;
+  }
+
+  public String getPost() {
+    return post;
+  }
+
+  public void setPost(String post) {
+    this.post = post;
   }
 }

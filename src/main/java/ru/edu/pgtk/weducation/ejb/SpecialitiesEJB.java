@@ -35,7 +35,7 @@ public class SpecialitiesEJB {
     TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s ORDER BY s.key, s.fullName", Speciality.class);
     return query.getResultList();
   }
-  
+
   public List<Speciality> fetchActual() {
     TypedQuery<Speciality> query = em.createQuery(
             "SELECT s FROM Speciality s WHERE (s.actual = true) ORDER BY s.key, s.fullName", Speciality.class);
@@ -49,26 +49,41 @@ public class SpecialitiesEJB {
     query.setParameter("dep", department);
     return query.getResultList();
   }
-  
+
   public Speciality findByKey(final String key) {
     try {
-    TypedQuery<Speciality> query = em.createQuery(
-            "SELECT s FROM Speciality s WHERE (s.key = :k) ", Speciality.class);
-    query.setParameter("k", key);
-    return query.getSingleResult();
+      TypedQuery<Speciality> query = em.createQuery(
+              "SELECT s FROM Speciality s WHERE (s.key = :k) ", Speciality.class);
+      query.setParameter("k", key);
+      return query.getSingleResult();
     } catch (NoResultException e) {
       return null;
     } catch (Exception e) {
-      throw new EJBException("Exception class " + e.getClass().getName() + 
-              " with message " + e.getMessage());
+      throw new EJBException("Exception class " + e.getClass().getName()
+              + " with message " + e.getMessage());
     }
   }
 
-  public void save(Speciality speciality) {
+  public Speciality findLike(final Speciality sample) {
+    try {
+      TypedQuery<Speciality> query = em.createQuery(
+              "SELECT s FROM Speciality s WHERE (s.key = :k) AND (s.fullName = :fn)", Speciality.class);
+      query.setParameter("k", sample.getKey());
+      query.setParameter("fn", sample.getFullName());
+      return query.getSingleResult();
+    } catch (NoResultException e) {
+      return null;
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  public Speciality save(Speciality speciality) {
     if (speciality.getId() == 0) {
       em.persist(speciality);
+      return speciality;
     } else {
-      em.merge(speciality);
+      return em.merge(speciality);
     }
   }
 

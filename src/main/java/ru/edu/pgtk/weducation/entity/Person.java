@@ -90,6 +90,9 @@ public class Person implements Serializable {
   @Column(name = "psn_address", length = 255)
   private String address;
   
+  @Column(name = "psn_lngcode", nullable = false)
+  private ForeignLanguage language;
+  
   @ManyToOne
   @JoinColumn(name = "psn_plccode")
   private Place place;
@@ -295,5 +298,13 @@ public class Person implements Serializable {
 
   public void setPlaceCode(int placeCode) {
     this.placeCode = placeCode;
+  }
+
+  public ForeignLanguage getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(ForeignLanguage language) {
+    this.language = language;
   }
 }

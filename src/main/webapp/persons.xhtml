@@ -18,7 +18,7 @@
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}" /></div>
           <div class="roundbox" id="find">
-            <h:outputText value="Фамилия " />
+            <h:outputText value="Фамилия начинается с " />
             <h:inputText rendered="#{not personsMB.filter}" value="#{personsMB.name}" class="textEdit" />
             <h:outputText rendered="#{personsMB.filter}" value="#{personsMB.name}" />
             <h:commandButton action="#{personsMB.toggleFilter()}" value="#{personsMB.filterButtonLabel}" />
@@ -99,6 +99,10 @@
           <h:outputText value="Сирота" /><p />
           <h:selectBooleanCheckbox value="#{personsMB.item.invalid}" />
           <h:outputText value="Инвалид" /><p />
+          <h:outputText value="Изучаемый иностранный язык" /><br />
+          <h:selectOneMenu value="#{personsMB.item.language}">
+            <f:selectItems value="#{personsMB.languages}" var="lang" itemLabel="#{lang.description}" itemValue="#{lang}"/>
+          </h:selectOneMenu><p />
           <h:outputText value="Телефон мобильный" /><br />
           <h:inputText value="#{personsMB.item.mobilePhone}" class="textEdit" /><p />
           <h:outputText value="Телефон домашний" /><br />
