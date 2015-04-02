@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -22,13 +25,16 @@ import ru.edu.pgtk.weducation.ejb.PlacesEJB;
 import ru.edu.pgtk.weducation.ejb.SchoolsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
+import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.entity.Delegate;
+import ru.edu.pgtk.weducation.entity.ForeignLanguage;
 import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Place;
 import ru.edu.pgtk.weducation.entity.PlaceType;
 import ru.edu.pgtk.weducation.entity.School;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
 
 @Stateless
 public class ImportCardEJB {
@@ -45,6 +51,8 @@ public class ImportCardEJB {
   private StudyCardsEJB cards;
   @EJB
   private DelegatesEJB delegates;
+  @EJB
+  private StudyGroupsEJB groups;
   private Connection con;
 
   private static final String NOT_FOUND = "Запрос не вернул ни одной записи.";
@@ -55,6 +63,7 @@ public class ImportCardEJB {
   private static final String CARD = " личной карточки. ";
   private static final String PERSON = " персоны. ";
   private static final String SPECIALITY = " специальности. ";
+  private static final Date FAKE_DATE = new Date();
 
   @PostConstruct
   private void openConnection() {
@@ -96,17 +105,12 @@ public class ImportCardEJB {
         if (rs.first()) {
           // Что-то нашли, выбираем данные
           Speciality result = new Speciality();
-          result.setKey(rs.getString("sp_Fullkey"));
+          result.setKey(rs.getString("sp_Key"));
           result.setFullName(rs.getString("sp_name"));
           result.setShortName(rs.getString("sp_shortName"));
           result.setKvalification(rs.getString("sp_kvalification"));
           result.setSpecialization(rs.getString("sp_specialization"));
-          // А может такая специальность есть?
-          Speciality existing = specialities.findLike(result);
-          if (null != existing) {
-            return existing;
-          }
-          return specialities.save(result);
+          return result;
         }
       }
       throw new EJBException(ERROR + SPECIALITY + NOT_FOUND);
@@ -114,6 +118,55 @@ public class ImportCardEJB {
       throw new EJBException(ERROR + SPECIALITY + e.getMessage());
     } catch (NullPointerException e) {
       throw new EJBException(ERROR + SPECIALITY + NULL);
+    }
+  }
+
+  private School getSchool(final String personCode) {
+    try {
+      PreparedStatement stmt = con.prepareStatement(
+              "SELECT schools.* FROM students, schools WHERE (st_sccode = sc_pcode) AND (st_pcode=?);",
+              ResultSet.TYPE_SCROLL_INSENSITIVE,
+              ResultSet.CONCUR_READ_ONLY);
+      stmt.setString(1, personCode);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.first()) {
+          School result = new School();
+          result.setFullName(rs.getString("sc_Name"));
+          result.setShortName(rs.getString("sc_ShortName"));
+          result.setPlace(rs.getString("sc_place"));
+          result.setDirector(rs.getString("sc_DName"));
+          return result;
+        }
+      }
+      throw new EJBException(ERROR + SCHOOL + NOT_FOUND);
+    } catch (SQLException e) {
+      throw new EJBException(ERROR + SCHOOL + e.getMessage());
+    } catch (NullPointerException e) {
+      throw new EJBException(ERROR + SCHOOL + NULL);
+    }
+  }
+
+  private Place getPlace(final String personCode) {
+    try {
+      PreparedStatement stmt = con.prepareStatement(
+              "SELECT * FROM places, Students WHERE (pl_pcode = st_plcode) AND (st_pcode = ?);",
+              ResultSet.TYPE_SCROLL_INSENSITIVE,
+              ResultSet.CONCUR_READ_ONLY);
+      stmt.setString(1, personCode);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.first()) {
+          // Читаем поля записи
+          Place result = new Place();
+          result.setName(rs.getString("pl_Name"));
+          result.setType(PlaceType.forValue(rs.getInt("pl_kind") - 1));
+          return result;
+        }
+      }
+      throw new EJBException(ERROR + PLACE + NOT_FOUND);
+    } catch (SQLException e) {
+      throw new EJBException(ERROR + PLACE + e.getMessage());
+    } catch (NullPointerException e) {
+      throw new EJBException(ERROR + PLACE + NULL);
     }
   }
 
@@ -137,22 +190,15 @@ public class ImportCardEJB {
           result.setMale(rs.getBoolean("st_ismale"));
           result.setForeign(false);
           result.setInvalid(false);
-          result.setHomePhone(rs.getString("st_HomePhone"));
-          result.setWorkPhone(rs.getString("st_WorkPhone"));
-          result.setMobilePhone(rs.getString("st_CellPhone"));
+          result.setPhones(rs.getString("st_Phones"));
           result.setPassportDate(rs.getDate("st_passptDate"));
           result.setPassportDept(rs.getString("st_passptDept"));
-          result.setPlace(getPlace(rs.getString("st_plcode")));
           result.setAddress(rs.getString("st_Address"));
           result.setInn(rs.getString("st_INN"));
           result.setSnils(rs.getString("st_socialNum"));
-          result.setOrphan(rs.getBoolean("st_isParentLess"));
-          // А может такая персона уже есть? Вернем существующую.
-          Person existing = persons.findLike(result);
-          if (existing != null) {
-            return existing;
-          }
-          return persons.save(result);
+          result.setOrphan(rs.getBoolean("st_ParentLess"));
+          result.setLanguage(ForeignLanguage.forValue(rs.getInt("st_Lang") - 1));
+          return result;
         }
       }
       throw new EJBException(ERROR + PERSON + NOT_FOUND);
@@ -162,7 +208,7 @@ public class ImportCardEJB {
       throw new EJBException(ERROR + PERSON + NULL);
     }
   }
-  
+
   private List<Delegate> getDelegates(final String personCode) {
     List<Delegate> result = new ArrayList<>();
     try {
@@ -172,14 +218,12 @@ public class ImportCardEJB {
               ResultSet.CONCUR_READ_ONLY);
       stmt.setString(1, personCode);
       try (ResultSet rs = stmt.executeQuery()) {
-        while(rs.next()) {
+        while (rs.next()) {
           Delegate item = new Delegate();
           item.setFullName(rs.getString("pr_Name"));
           item.setJob(rs.getString("pr_JobPlace"));
           item.setPost(rs.getString("pr_Job"));
-          item.setWorkPhone(rs.getString("pr_WorkPhone"));
-          item.setMobilePhone(rs.getString("pr_CellPhone"));
-          item.setHomePhone(rs.getString("pr_HomePhone"));
+          item.setPhones(rs.getString("pr_Phones"));
           item.setDescription(rs.getString("pr_Note"));
           result.add(item);
         }
@@ -192,62 +236,71 @@ public class ImportCardEJB {
     return result;
   }
 
-  private School getSchool(final String personCode) {
+  private StudyCard getCard(final String personCode) {
     try {
       PreparedStatement stmt = con.prepareStatement(
-              "SELECT * FROM students, schools WHERE (st_sccode = sc_pcode) AND (st_pcode=?);",
+              "SELECT *, "
+              + "(SELECT com_PDirector FROM comissions, sessions WHERE (ss_comcode = com_pcode) AND (ss_stcode = st_pcode)) AS com_PDirector, "
+              + "(SELECT com_Date FROM comissions, sessions WHERE (ss_comcode = com_pcode) AND (ss_stcode = st_pcode)) AS com_Date "
+              + "FROM students LEFT JOIN commands ON (cm_stcode = st_pcode) "
+              + "WHERE (st_pcode= ?)",
               ResultSet.TYPE_SCROLL_INSENSITIVE,
               ResultSet.CONCUR_READ_ONLY);
       stmt.setString(1, personCode);
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.first()) {
-          School result = new School();
-          result.setFullName(rs.getString("sc_Name"));
-          result.setShortName(rs.getString("sc_ShortName"));
-          result.setPlace(rs.getString("sc_place"));
-          result.setDirector(rs.getString("sc_DName"));
-          // Попробуем найти существующую...
-          School existing = schools.findLike(result);
-          if (null != existing) {
-            return existing;
+          StudyCard card = new StudyCard();
+          SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+          try {
+            card.setBeginDate(sdf.parse("01.09." + rs.getString("st_inYear")));
+          } catch (ParseException | NullPointerException e) {
+            card.setBeginDate(FAKE_DATE);
           }
-          return schools.save(result);
+          try {
+            card.setEndDate(sdf.parse("30.06." + rs.getString("st_outYear")));
+          } catch (ParseException | NullPointerException e) {
+            card.setEndDate(FAKE_DATE);
+          }
+          try {
+            card.setDocumentDate(sdf.parse("25.06." + rs.getString("st_documentsYear").trim()));
+          } catch (ParseException | NullPointerException e) {
+            card.setDocumentDate(FAKE_DATE);
+          }
+          int attributes = rs.getInt("st_Attributes");
+          card.setRemanded((attributes & 127) > 0);
+          if (card.isRemanded()) {
+            card.setRemandReason(rs.getString("cm_Text"));
+            card.setRemandCommand(rs.getString("cm_Number"));
+            card.setEndDate(rs.getDate("cm_Date"));
+          }
+          card.setRed(rs.getBoolean("st_isRed"));
+          card.setComissionDirector(rs.getString("com_PDirector"));
+          card.setComissionDate(rs.getDate("com_Date"));
+          card.setDocumentName(rs.getString("st_documents"));
+          card.setDocumentOrganization(""); // Ну нет сведений в старой базе!
+          card.setDiplomeNumber(rs.getString("st_DiplNum"));
+          card.setRegistrationNumber(rs.getString("st_DiplRegNum"));
+          card.setDiplomeDate(rs.getDate("st_diplGetDate"));
+          card.setBiletNumber(rs.getString("st_studNumber"));
+          card.setCommercial(rs.getBoolean("st_isCommercial"));
+          String theme = rs.getString("st_DProject");
+          card.setGosExam(true);
+          card.setDiplomeMark(rs.getInt("st_GOSMark"));
+          if ((null != theme) && (!theme.isEmpty())) {
+            card.setDiplomeTheme(theme);
+            card.setGosExam(false);
+            card.setDiplomeMark(rs.getInt("st_DMark"));
+          }
+          card.setExtramural(rs.getBoolean("st_isOutZaoch"));
+          return card;
         }
       }
-      throw new EJBException(ERROR + SCHOOL + NOT_FOUND);
+      throw new EJBException(ERROR + CARD + NOT_FOUND);
     } catch (SQLException e) {
-      throw new EJBException(ERROR + SCHOOL + e.getMessage());
+      throw new EJBException(ERROR + CARD + e.getMessage());
     } catch (NullPointerException e) {
-      throw new EJBException(ERROR + SCHOOL + NULL);
+      throw new EJBException(ERROR + CARD + NULL);
     }
-  }
-
-  private Place getPlace(final String placeCode) {
-    try {
-      PreparedStatement stmt = con.prepareStatement(
-              "SELECT * FROM places WHERE (pl_pcode = ?);",
-              ResultSet.TYPE_SCROLL_INSENSITIVE,
-              ResultSet.CONCUR_READ_ONLY);
-      stmt.setString(1, placeCode);
-      try (ResultSet rs = stmt.executeQuery()) {
-        if (rs.first()) {
-          // Читаем поля записи
-          Place result = new Place();
-          result.setName(rs.getString("pl_Name"));
-          result.setType(PlaceType.forValue(rs.getInt("pl_kind") - 1));
-          Place existing = places.findLike(result);
-          if (existing != null) {
-            return existing;
-          }
-          return places.save(result);
-        }
-      }
-    } catch (SQLException e) {
-      throw new EJBException(ERROR + PLACE + e.getMessage());
-    } catch (NullPointerException e) {
-      throw new EJBException(ERROR + PLACE + NULL);
-    }
-    throw new EJBException("Не удалось получить населенный пункт");
   }
 
   /**
@@ -262,8 +315,6 @@ public class ImportCardEJB {
               ResultSet.CONCUR_READ_ONLY);
       ResultSet grpRS = grpStatement.executeQuery();
       while (grpRS.next()) {
-        // Бежим по группе, читаем данные и подготавливаем всё для импорта
-        // TODO Добавить логику для отбора групп
         importGroup(grpRS.getString("gr_pcode"));
       }
     } catch (SQLException e) {
@@ -273,86 +324,119 @@ public class ImportCardEJB {
 
   public void importGroup(final String grpCode) {
     try {
+      StudyGroup group;
+      // Получим данные для группы
       PreparedStatement stmt = con.prepareStatement(
+              "SELECT *, (SELECT wk_Name FROM workers WHERE (wk_pcode = gr_mastercode))AS gr_masterName FROM groups WHERE (gr_pcode=?);",
+              ResultSet.TYPE_SCROLL_INSENSITIVE,
+              ResultSet.CONCUR_READ_ONLY);
+      stmt.setString(1, grpCode);
+      try (ResultSet groupRS = stmt.executeQuery()) {
+        if (groupRS.first()) {
+          // Группа есть, читаем детали...
+          String name = groupRS.getString("gr_Name");
+          group = groups.findByName(name);
+          if (group == null) {
+            group = new StudyGroup();
+            group.setName(name);
+            group.setMaster(groupRS.getString("gr_masterName"));
+            group.setExtramural(groupRS.getBoolean("gr_isZaoch"));
+            group.setSpeciality(getSpeciality(grpCode));
+            group.setCommercial(groupRS.getBoolean("gr_Commercial"));
+            group.setActive(groupRS.getInt("gr_Attributes") == 0);
+            group.setYear(groupRS.getInt("gr_CreateYear"));
+            group.setCourse(groupRS.getInt("gr_Course"));
+            groups.save(group);
+          }
+        } else {
+          throw new EJBException("Детали группы не обнаружены!");
+        }
+      }
+      // Специальность
+      Speciality spc = getSpeciality(grpCode);
+      Speciality exSpeciality = specialities.findLike(spc);
+      if (exSpeciality != null) {
+        spc = exSpeciality;
+      } else {
+        specialities.save(spc);
+      }
+      // Получаем студентов
+      stmt = con.prepareStatement(
               "SELECT st_pcode FROM students WHERE (st_grcode=?);",
               ResultSet.TYPE_SCROLL_INSENSITIVE,
               ResultSet.CONCUR_READ_ONLY);
       stmt.setString(1, grpCode);
       try (ResultSet rs = stmt.executeQuery()) {
         while (rs.next()) {
-          importCard(rs.getString("st_pcode"));
+          String personCode = rs.getString("st_pcode");
+          // Импортируем населенный пункт
+          Place place = getPlace(personCode);
+          Place exPlace = places.findLike(place);
+          if (null != exPlace) {
+            place = exPlace;
+          } else {
+            places.save(place);
+          }
+          // Импортируем учебное заведение
+          School scl = getSchool(grpCode);
+          School exSchool = schools.findLike(scl);
+          if (null != exSchool) {
+            scl = exSchool;
+          } else {
+            schools.save(scl);
+          }
+          Person psn = getPerson(personCode);
+          Person exPerson = persons.findLike(psn);
+          if (exPerson != null) {
+            psn = exPerson;
+          }
+          if (psn.getId() > 0) {
+            // А вдруг есть старые карточки? Удалим!
+            for (StudyCard c : cards.findByPerson(psn)) {
+              cards.delete(c);
+            }
+            // Удаляем имеющихся делегатов у персоны
+            for (Delegate d : delegates.fetchAll(psn)) {
+              delegates.delete(d);
+            }
+          }
+          psn.setPlace(place);
+          persons.save(psn);
+          // Собираем карточку...
+          StudyCard card = getCard(personCode);
+          card.setSpeciality(spc);
+          card.setGroup(group);
+          card.setPerson(psn);
+          card.setSchool(scl);
+          // Сохраняем...
+          cards.save(card);
+          // Импортируем делегатов
+          for (Delegate d : getDelegates(personCode)) {
+            d.setPerson(psn);
+            delegates.save(d);
+          }
         }
       }
     } catch (SQLException e) {
       throw new EJBException("Исключение при импорте группы " + e.getMessage());
     }
   }
-  
-  public void importCard(final String personCode) {
+
+  public Map<String, String> getGroups() {
+    LinkedHashMap<String, String> result = new LinkedHashMap<>();
     try {
-      PreparedStatement stmt = con.prepareStatement(
-        "SELECT *, " +
-        "(SELECT com_PDirector FROM comissions, sessions WHERE (ss_comcode = com_pcode) AND (ss_stcode = st_pcode)) AS com_PDirector, " +
-        "(SELECT com_Date FROM comissions, sessions WHERE (ss_comcode = com_pcode) AND (ss_stcode = st_pcode)) AS com_Date " +
-        "FROM students LEFT JOIN commands ON (cm_stcode = st_pcode) " +
-        "WHERE (st_pcode= ?)",
-        ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY);
-      stmt.setString(1, personCode);
-      try (ResultSet rs = stmt.executeQuery()) {
-        if (rs.first()) {
-          Person psn = getPerson(personCode);
-          // Удаляем имеющихся делегатов у персоны
-          for(Delegate d: delegates.fetchAll(psn)) {
-            delegates.delete(d);
-          }
-          // Импортируем делегатов
-          for(Delegate d: getDelegates(personCode)) {
-            d.setPerson(psn);
-            delegates.save(d);
-          }
-          // А вдруг есть старые карточки? Seek and destroy!
-          for(StudyCard c: cards.findByPerson(psn)) {
-            cards.delete(c);
-          }
-          StudyCard card = new StudyCard();
-          card.setPerson(psn);
-          School scl = getSchool(personCode);
-          card.setSchool(scl);
-          Speciality spc = getSpeciality(rs.getString("st_grcode"));
-          card.setSpeciality(spc);
-          SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-          card.setBeginDate(sdf.parse("01.09." + rs.getString("st_inYear")));
-          card.setEndDate(sdf.parse("30.06." + rs.getString("st_outYear")));
-          int attributes = rs.getInt("st_Attributes");
-          card.setRemanded((attributes & 127) > 0);
-          card.setRed(rs.getBoolean("st_isRed"));
-          card.setComissionDirector(rs.getString("com_PDirector"));
-          card.setComissionDate(rs.getDate("com_Date"));
-          card.setDocumentDate(sdf.parse("25.06." + rs.getString("st_documentsYear").trim()));
-          card.setDocumentName(rs.getString("st_documents"));
-          card.setDocumentOrganization(""); // Ну нет сведений в старой базе!
-          card.setDiplomeNumber(rs.getString("st_DiplNum"));
-          card.setRegistrationNumber(rs.getString("st_DiplRegNum"));
-          card.setDiplomeDate(rs.getDate("st_diplGetDate"));
-          String theme = rs.getString("st_DProject");
-          card.setGosExam(true);
-          card.setDiplomeMark(rs.getInt("st_GOSMark"));
-          if ((null != theme) && (!theme.isEmpty())) {
-            card.setDiplomeTheme(theme);
-            card.setGosExam(false);
-            card.setDiplomeMark(rs.getInt("st_DMark"));
-          }
-          card.setExtramural(rs.getBoolean("st_isOutZaoch"));
-          // Сохраняем новую карточку
-          cards.save(card);
+      PreparedStatement grpStatement = con.prepareStatement(
+              "SELECT * FROM groups WHERE ((SELECT COUNT(*) FROM Students WHERE (st_grcode = gr_pcode)) > 0) ORDER BY gr_Name;",
+              ResultSet.TYPE_SCROLL_INSENSITIVE,
+              ResultSet.CONCUR_READ_ONLY);
+      try (ResultSet grpRS = grpStatement.executeQuery()) {
+        while (grpRS.next()) {
+          result.put(grpRS.getString("gr_Name"), grpRS.getString("gr_pcode"));
         }
       }
-      throw new EJBException(ERROR + CARD + NOT_FOUND);
-    } catch (SQLException | ParseException e) {
-      throw new EJBException(ERROR + CARD + e.getMessage());
-    } catch (NullPointerException e) {
-      throw new EJBException(ERROR + CARD + NULL);
+    } catch (SQLException e) {
+      throw new EJBException("Исключение при импорте данных " + e.getMessage());
     }
+    return result;
   }
 }

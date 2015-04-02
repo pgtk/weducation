@@ -42,7 +42,7 @@ public class StudyGroupsEJB {
     q.setParameter("dep", department);
     return q.getResultList();
   }
-  
+
   public List<StudyGroup> findBySpeciality(final Speciality speciality) {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg WHERE (sg.speciality = :spc) "
@@ -50,7 +50,7 @@ public class StudyGroupsEJB {
     q.setParameter("spc", speciality);
     return q.getResultList();
   }
-  
+
   public List<StudyGroup> findBySpeciality(final Speciality speciality, final boolean extramural) {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg WHERE (sg.speciality = :spc) AND (sg.extramural = :em)"
@@ -58,6 +58,17 @@ public class StudyGroupsEJB {
     q.setParameter("spc", speciality);
     q.setParameter("em", extramural);
     return q.getResultList();
+  }
+
+  public StudyGroup findByName(final String name) {
+    try {
+      TypedQuery<StudyGroup> q = em.createQuery(
+              "SELECT sg FROM StudyGroup sg WHERE (sg.name = :gn)", StudyGroup.class);
+      q.setParameter("gn", name);
+      return q.getSingleResult();
+    } catch (Exception e) {
+      return null;
+    }
   }
 
   public StudyGroup save(StudyGroup item) {

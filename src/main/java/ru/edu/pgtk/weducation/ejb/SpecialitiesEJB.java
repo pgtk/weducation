@@ -71,8 +71,6 @@ public class SpecialitiesEJB {
       query.setParameter("k", sample.getKey());
       query.setParameter("fn", sample.getFullName());
       return query.getSingleResult();
-    } catch (NoResultException e) {
-      return null;
     } catch (Exception e) {
       return null;
     }

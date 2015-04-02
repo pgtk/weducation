@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+      <h1>Импорт личных карточек</h1>
+      <h:panelGroup rendered="#{not importPlanMB.uploaded}">
+        <h:form>
+          <p>Выберите группу для импорта личных карточек</p>
+          <h:selectOneMenu value="#{importCardMB.groupCode}">
+            <f:selectItems value="#{importCardMB.groups}" />
+          </h:selectOneMenu>
+          <div class="buttons">
+            <h:commandButton value="Импорт группы" action="#{importCardMB.importGroup()}"/>
+            <h:button value="Отмена" outcome="/index" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+    </ui:define>
+  </ui:composition>
+</html>

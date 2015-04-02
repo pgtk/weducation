@@ -78,14 +78,8 @@ public class Person implements Serializable {
   @Column(name = "psn_snils", length = 15)
   private String snils;
   
-  @Column(name = "psn_hphone", length = 15)
-  private String homePhone;
-  
-  @Column(name = "psn_wphone", length = 15)
-  private String workPhone;
-  
-  @Column(name = "psn_mphone", length = 15)
-  private String mobilePhone;
+  @Column(name = "psn_phones", length = 128)
+  private String phones;
   
   @Column(name = "psn_address", length = 255)
   private String address;
@@ -251,28 +245,12 @@ public class Person implements Serializable {
     this.snils = snils;
   }
 
-  public String getHomePhone() {
-    return homePhone;
+  public String getPhones() {
+    return phones;
   }
 
-  public void setHomePhone(String homePhone) {
-    this.homePhone = homePhone;
-  }
-
-  public String getWorkPhone() {
-    return workPhone;
-  }
-
-  public void setWorkPhone(String workPhone) {
-    this.workPhone = workPhone;
-  }
-
-  public String getMobilePhone() {
-    return mobilePhone;
-  }
-
-  public void setMobilePhone(String mobilePhone) {
-    this.mobilePhone = mobilePhone;
+  public void setPhones(String phones) {
+    this.phones = phones;
   }
 
   public String getAddress() {

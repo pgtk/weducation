@@ -23,6 +23,22 @@ public class SchoolsEJB {
     }
     throw new EJBException("School not found with id " + id);
   }
+  
+  public School getCurrent() {
+    TypedQuery<School> q = em.createQuery(
+            "SELECT s FROM School s WHERE s.current = true", School.class);
+    List<School> result = q.getResultList();
+    if (!result.isEmpty()) {
+      return result.get(0);
+    }
+    q = em.createQuery(
+            "SELECT s FROM School s ORDER BY s.shortName", School.class);
+    result = q.getResultList();
+    if (!result.isEmpty()) {
+      return result.get(0);
+    }
+    throw new EJBException("Schools table is empty!");
+  }
 
   public List<School> fetchAll() {
     TypedQuery<School> q = em.createQuery(

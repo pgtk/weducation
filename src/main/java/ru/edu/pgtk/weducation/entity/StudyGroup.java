@@ -54,7 +54,7 @@ public class StudyGroup implements Serializable {
   private int specialityCode;
 
   @ManyToOne
-  @JoinColumn(name = "grp_plncode", nullable = false)
+  @JoinColumn(name = "grp_plncode")
   private StudyPlan plan;
 
   @Transient

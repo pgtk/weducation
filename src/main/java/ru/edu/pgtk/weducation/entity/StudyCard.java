@@ -40,7 +40,7 @@ public class StudyCard implements Serializable {
 
   @Column(name = "crd_docorganization", nullable = false, length = 255)
   private String documentOrganization;
-  
+
   @Column(name = "crd_biletnumber", length = 10)
   private String biletNumber;
 
@@ -69,7 +69,7 @@ public class StudyCard implements Serializable {
   @Column(name = "crd_diplomedate")
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date diplomeDate;
-  
+
   @Column(name = "crd_diplomemark")
   private int diplomeMark;
 
@@ -132,17 +132,48 @@ public class StudyCard implements Serializable {
   @Column(name = "crd_commercial", nullable = false)
   private boolean commercial;
 
-  @PostLoad
-  private void updateCodes() {
-    schoolCode = school.getId();
-    personCode = person.getId();
+  private void updateSchool() {
+    schoolCode = 0;
+    if (null != school) {
+      schoolCode = school.getId();
+    }
+  }
+
+  private void updatePerson() {
+    personCode = 0;
+    if (null != person) {
+      personCode = person.getId();
+    }
+  }
+  
+  private void updateGroup() {
+    groupCode = 0;
     if (null != group) {
       groupCode = group.getId();
     }
-    specialityCode = speciality.getId();
+  }
+  
+  private void updateSpeciality() {
+    specialityCode = 0;
+    if (null != speciality) {
+      specialityCode = speciality.getId();
+    }
+  }
+  
+  private void updatePlan() {
+    planCode = 0;
     if (null != plan) {
       planCode = plan.getId();
     }
+  }
+  
+  @PostLoad
+  private void updateCodes() {
+    updateSchool();
+    updateSpeciality();
+    updateGroup();
+    updatePlan();
+    updatePerson();
   }
 
   public int getId() {
@@ -308,11 +339,7 @@ public class StudyCard implements Serializable {
 
   public void setSchool(School school) {
     this.school = school;
-    if (school != null) {
-      schoolCode = school.getId();
-    } else {
-      schoolCode = 0;
-    }
+    updateSchool();
   }
 
   public int getSchoolCode() {
@@ -329,11 +356,7 @@ public class StudyCard implements Serializable {
 
   public void setPerson(Person person) {
     this.person = person;
-    if (null != person) {
-      personCode = person.getId();
-    } else {
-      personCode = 0;
-    }
+    updatePerson();
   }
 
   public Speciality getSpeciality() {
@@ -342,11 +365,7 @@ public class StudyCard implements Serializable {
 
   public void setSpeciality(Speciality speciality) {
     this.speciality = speciality;
-    if (null != speciality) {
-      specialityCode = speciality.getId();
-    } else {
-      specialityCode = 0;
-    }
+    updateSpeciality();
   }
 
   public StudyGroup getGroup() {
@@ -355,11 +374,7 @@ public class StudyCard implements Serializable {
 
   public void setGroup(StudyGroup group) {
     this.group = group;
-    if (null != group) {
-      groupCode = group.getId();
-    } else {
-      groupCode = 0;
-    }
+    updateGroup();
   }
 
   public StudyPlan getPlan() {
@@ -368,11 +383,7 @@ public class StudyCard implements Serializable {
 
   public void setPlan(StudyPlan plan) {
     this.plan = plan;
-    if (null != plan) {
-      planCode = plan.getId();
-    } else {
-      planCode = 0;
-    }
+    updatePlan();
   }
 
   public int getPlanCode() {

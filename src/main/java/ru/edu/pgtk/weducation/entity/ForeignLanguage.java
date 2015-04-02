@@ -19,4 +19,15 @@ public enum ForeignLanguage {
       throw new EJBException("КОличество значений перечисления не соответствует количеству описаний!");
     }
   }
+  
+  public static ForeignLanguage forValue(final int value) {
+    ForeignLanguage result = ForeignLanguage.NO;
+    for (ForeignLanguage fl: ForeignLanguage.values()) {
+      if (fl.ordinal() == value) {
+        result = fl;
+        break;
+      }
+    }
+    return result;
+  }
 }

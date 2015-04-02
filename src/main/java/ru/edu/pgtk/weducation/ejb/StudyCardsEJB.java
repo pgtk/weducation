@@ -9,10 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Person;
-import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
 
 @Stateless
 @Named("studyCardsEJB")
@@ -59,8 +57,12 @@ public class StudyCardsEJB {
   }
 
   public StudyCard save(StudyCard item) {
-    item.setSchool(schools.get(item.getSchoolCode()));
-    item.setPerson(persons.get(item.getPersonCode()));
+    if (item.getSchoolCode() > 0) {
+      item.setSchool(schools.get(item.getSchoolCode()));
+    }
+    if (item.getPersonCode() > 0) {
+      item.setPerson(persons.get(item.getPersonCode()));
+    }
     if (item.getGroupCode() > 0) {
       StudyGroup grp = groups.get(item.getGroupCode());
       item.setGroup(grp);
@@ -71,12 +73,11 @@ public class StudyCardsEJB {
       // А вдруг группу убрали?
       item.setGroup(null);
     }
-    item.setSpeciality(specialities.get(item.getSpecialityCode()));
+    if (item.getSpecialityCode() > 0) {
+      item.setSpeciality(specialities.get(item.getSpecialityCode()));
+    }
     if (item.getPlanCode() > 0) {
-      StudyPlan pln = em.find(StudyPlan.class, item.getPlanCode());
-      if (null != pln) {
-        item.setPlan(pln);
-      }
+      item.setPlan(plans.get(item.getPlanCode()));
     }
     if (item.getId() == 0) {
       em.persist(item);

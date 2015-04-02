@@ -27,14 +27,8 @@ public class Delegate implements Serializable {
   @Column(name = "dlg_fullname", nullable = false, length = 128)
   private String fullName;
 
-  @Column(name = "dlg_hphone", length = 20)
-  private String homePhone;
-
-  @Column(name = "dlg_mphone", nullable = false, length = 20)
-  private String mobilePhone;
-
-  @Column(name = "dlg_wphone", length = 20)
-  private String workPhone;
+  @Column(name = "dlg_phones", length = 128)
+  private String phones;
 
   @Column(name = "dlg_job", nullable = false, length = 255)
   private String job;
@@ -61,28 +55,12 @@ public class Delegate implements Serializable {
     this.fullName = fullName;
   }
 
-  public String getHomePhone() {
-    return homePhone;
+  public String getPhones() {
+    return phones;
   }
 
-  public void setHomePhone(String homePhone) {
-    this.homePhone = homePhone;
-  }
-
-  public String getMobilePhone() {
-    return mobilePhone;
-  }
-
-  public void setMobilePhone(String mobilePhone) {
-    this.mobilePhone = mobilePhone;
-  }
-
-  public String getWorkPhone() {
-    return workPhone;
-  }
-
-  public void setWorkPhone(String workPhone) {
-    this.workPhone = workPhone;
+  public void setPhones(String phones) {
+    this.phones = phones;
   }
 
   public String getJob() {
