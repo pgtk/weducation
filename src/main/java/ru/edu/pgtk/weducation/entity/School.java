@@ -17,6 +17,8 @@ import javax.persistence.Table;
 @Table(name = "schools")
 public class School implements Serializable {
 
+  private static final String EMPTY = "";
+
   @Id
   @Column(name = "scl_pcode")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +32,7 @@ public class School implements Serializable {
 
   @Column(name = "scl_director", length = 128, nullable = false)
   private String director;
-  
+
   @Column(name = "scl_place", nullable = false, length = 128)
   private String place;
 
@@ -46,7 +48,10 @@ public class School implements Serializable {
   }
 
   public void setFullName(String fullName) {
-    this.fullName = fullName;
+    this.fullName = EMPTY;
+    if (null != fullName) {
+      this.fullName = fullName;
+    }
   }
 
   public String getShortName() {
@@ -54,7 +59,10 @@ public class School implements Serializable {
   }
 
   public void setShortName(String shortName) {
-    this.shortName = shortName;
+    this.shortName = EMPTY;
+    if (null != shortName) {
+      this.shortName = shortName;
+    }
   }
 
   public String getDirector() {
@@ -62,7 +70,10 @@ public class School implements Serializable {
   }
 
   public void setDirector(String director) {
-    this.director = director;
+    this.director = EMPTY;
+    if (director != null) {
+      this.director = director;
+    }
   }
 
   public String getPlace() {
@@ -70,7 +81,10 @@ public class School implements Serializable {
   }
 
   public void setPlace(String place) {
-    this.place = place;
+    this.place = EMPTY;
+    if (null != place) {
+      this.place = place;
+    }
   }
 
   public boolean isCurrent() {

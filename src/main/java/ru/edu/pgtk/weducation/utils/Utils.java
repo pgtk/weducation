@@ -3,6 +3,8 @@ package ru.edu.pgtk.weducation.utils;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  * Различные утилиты, вынесенные в отдельный класс
@@ -10,6 +12,10 @@ import java.util.GregorianCalendar;
  * @author Воронин Леонид
  */
 public class Utils {
+
+  private Utils() {
+    throw new IllegalStateException("This constructor should not be called!");
+  }
 
   /**
    * Преобразует значение из строкового в целое. Если преобразование невозможно,
@@ -56,9 +62,10 @@ public class Utils {
     }
     return val + prefix3;
   }
-  
+
   /**
    * Получает сокращенное наименование дисциплины из полного.
+   *
    * @param name полное наименование дисциплины
    * @return Аббревиатура в виде строки
    */
@@ -70,10 +77,10 @@ public class Utils {
     String text = name.replace('-', ' ');
     StringBuilder result = new StringBuilder();
     // разбиваем строку на фрагменты и обрабатываем их
-    for (String piece: text.split(" ")) {
+    for (String piece : text.split(" ")) {
       if (!piece.isEmpty()) {
         // Если фрагмент - один символ, то копируем его в вывод. Иначе - берем заглавный первый символ
-        result.append((piece.length() > 1)? piece.substring(0, 1).toUpperCase() : piece);
+        result.append((piece.length() > 1) ? piece.substring(0, 1).toUpperCase() : piece);
       }
     }
     return result.toString();
@@ -171,4 +178,16 @@ public class Utils {
     }
     return String.format("%2.1f %s", length, prefix);
   }
+
+  public static void addMessage(final Exception e) {
+    FacesContext context = FacesContext.getCurrentInstance();
+    String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
+    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
+  }
+
+  public static void addMessage(final String message) {
+    FacesContext context = FacesContext.getCurrentInstance();
+    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
+  }
+
 }

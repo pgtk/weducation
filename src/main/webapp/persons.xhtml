@@ -103,12 +103,8 @@
           <h:selectOneMenu value="#{personsMB.item.language}">
             <f:selectItems value="#{personsMB.languages}" var="lang" itemLabel="#{lang.description}" itemValue="#{lang}"/>
           </h:selectOneMenu><p />
-          <h:outputText value="Телефон мобильный" /><br />
-          <h:inputText value="#{personsMB.item.mobilePhone}" class="textEdit" /><p />
-          <h:outputText value="Телефон домашний" /><br />
-          <h:inputText value="#{personsMB.item.homePhone}" class="textEdit" /><p />
-          <h:outputText value="Телефон рабочий" /><br />
-          <h:inputText value="#{personsMB.item.workPhone}" class="textEdit" /><p />
+          <h:outputText value="Телефоны (можно ввести несколько, разделяя запятыми)" /><br />
+          <h:inputText value="#{personsMB.item.phones}" class="textEdit" /><p />
           <h:outputText value="Серия паспорта" /><br />
           <h:inputText value="#{personsMB.item.passportSeria}" class="textEdit" /><p />
           <h:outputText value="Номер паспорта" /><br />

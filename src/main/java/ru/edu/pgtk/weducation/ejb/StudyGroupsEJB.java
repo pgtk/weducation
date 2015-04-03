@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.ejb;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -15,10 +16,14 @@ import ru.edu.pgtk.weducation.entity.StudyPlan;
 @Stateless
 @Named("studyGroupsEJB")
 public class StudyGroupsEJB {
-
+  
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
-
+  @EJB
+  private SpecialitiesEJB specialities;
+  @EJB
+  private StudyPlansEJB plans;
+  
   public StudyGroup get(final int id) {
     StudyGroup result = em.find(StudyGroup.class, id);
     if (null != result) {
@@ -26,13 +31,13 @@ public class StudyGroupsEJB {
     }
     throw new EJBException("StudyGroup not found with id " + id);
   }
-
+  
   public List<StudyGroup> fetchAll() {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg ORDER BY sg.course, sg.name", StudyGroup.class);
     return q.getResultList();
   }
-
+  
   public List<StudyGroup> findByDepartment(final Department department) {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg, DepartmentProfile dp "
@@ -42,7 +47,7 @@ public class StudyGroupsEJB {
     q.setParameter("dep", department);
     return q.getResultList();
   }
-
+  
   public List<StudyGroup> findBySpeciality(final Speciality speciality) {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg WHERE (sg.speciality = :spc) "
@@ -50,7 +55,7 @@ public class StudyGroupsEJB {
     q.setParameter("spc", speciality);
     return q.getResultList();
   }
-
+  
   public List<StudyGroup> findBySpeciality(final Speciality speciality, final boolean extramural) {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg WHERE (sg.speciality = :spc) AND (sg.extramural = :em)"
@@ -59,7 +64,7 @@ public class StudyGroupsEJB {
     q.setParameter("em", extramural);
     return q.getResultList();
   }
-
+  
   public StudyGroup findByName(final String name) {
     try {
       TypedQuery<StudyGroup> q = em.createQuery(
@@ -70,27 +75,13 @@ public class StudyGroupsEJB {
       return null;
     }
   }
-
+  
   public StudyGroup save(StudyGroup item) {
     if (item.getSpecialityCode() > 0) {
-      Speciality spc = em.find(Speciality.class, item.getSpecialityCode());
-      if (null != spc) {
-        item.setSpeciality(spc);
-      } else {
-        throw new EJBException("Speciality not found with id " + item.getSpecialityCode());
-      }
-    } else {
-      throw new EJBException("Wrong Speciality code " + item.getSpecialityCode());
+      item.setSpeciality(specialities.get(item.getSpecialityCode()));
     }
     if (item.getPlanCode() > 0) {
-      StudyPlan sp = em.find(StudyPlan.class, item.getPlanCode());
-      if (null != sp) {
-        item.setPlan(sp);
-      } else {
-        throw new EJBException("StudyPlan not found with id " + item.getPlanCode());
-      }
-    } else {
-      throw new EJBException("Wrong StudyPlan code " + item.getPlanCode());
+      item.setPlan(plans.get(item.getPlanCode()));
     }
     if (item.getId() == 0) {
       em.persist(item);
@@ -99,7 +90,7 @@ public class StudyGroupsEJB {
       return em.merge(item);
     }
   }
-
+  
   public void delete(final StudyGroup item) {
     StudyGroup sg = em.find(StudyGroup.class, item.getId());
     if (null != sg) {

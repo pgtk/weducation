@@ -124,7 +124,7 @@ public class ImportCardEJB {
   private School getSchool(final String personCode) {
     try {
       PreparedStatement stmt = con.prepareStatement(
-              "SELECT schools.* FROM students, schools WHERE (st_sccode = sc_pcode) AND (st_pcode=?);",
+              "SELECT schools.* FROM students, schools WHERE (st_pcode = ?) AND (st_sccode = sc_pcode);",
               ResultSet.TYPE_SCROLL_INSENSITIVE,
               ResultSet.CONCUR_READ_ONLY);
       stmt.setString(1, personCode);
@@ -267,6 +267,7 @@ public class ImportCardEJB {
             card.setDocumentDate(FAKE_DATE);
           }
           int attributes = rs.getInt("st_Attributes");
+          card.setActive(attributes == 0);
           card.setRemanded((attributes & 127) > 0);
           if (card.isRemanded()) {
             card.setRemandReason(rs.getString("cm_Text"));
@@ -325,6 +326,14 @@ public class ImportCardEJB {
   public void importGroup(final String grpCode) {
     try {
       StudyGroup group;
+      // Специальность
+      Speciality spc = getSpeciality(grpCode);
+      Speciality exSpeciality = specialities.findLike(spc);
+      if (exSpeciality != null) {
+        spc = exSpeciality;
+      } else {
+        specialities.save(spc);
+      }
       // Получим данные для группы
       PreparedStatement stmt = con.prepareStatement(
               "SELECT *, (SELECT wk_Name FROM workers WHERE (wk_pcode = gr_mastercode))AS gr_masterName FROM groups WHERE (gr_pcode=?);",
@@ -341,7 +350,7 @@ public class ImportCardEJB {
             group.setName(name);
             group.setMaster(groupRS.getString("gr_masterName"));
             group.setExtramural(groupRS.getBoolean("gr_isZaoch"));
-            group.setSpeciality(getSpeciality(grpCode));
+            group.setSpeciality(spc);
             group.setCommercial(groupRS.getBoolean("gr_Commercial"));
             group.setActive(groupRS.getInt("gr_Attributes") == 0);
             group.setYear(groupRS.getInt("gr_CreateYear"));
@@ -351,14 +360,6 @@ public class ImportCardEJB {
         } else {
           throw new EJBException("Детали группы не обнаружены!");
         }
-      }
-      // Специальность
-      Speciality spc = getSpeciality(grpCode);
-      Speciality exSpeciality = specialities.findLike(spc);
-      if (exSpeciality != null) {
-        spc = exSpeciality;
-      } else {
-        specialities.save(spc);
       }
       // Получаем студентов
       stmt = con.prepareStatement(
@@ -378,7 +379,7 @@ public class ImportCardEJB {
             places.save(place);
           }
           // Импортируем учебное заведение
-          School scl = getSchool(grpCode);
+          School scl = getSchool(personCode);
           School exSchool = schools.findLike(scl);
           if (null != exSchool) {
             scl = exSchool;

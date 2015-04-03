@@ -59,15 +59,23 @@ public class StudyGroup implements Serializable {
 
   @Transient
   private int planCode;
-
-  @PostLoad
-  private void updateCodes() {
+  
+  private void updatePlan() {
     if (null != plan) {
       planCode = plan.getId();
     }
+  }
+  
+  private void updateSpeciality() {
     if (null != speciality) {
       specialityCode = speciality.getId();
     }
+  }
+
+  @PostLoad
+  private void updateCodes() {
+    updatePlan();
+    updateSpeciality();
   }
 
   public int getId() {
@@ -128,9 +136,7 @@ public class StudyGroup implements Serializable {
 
   public void setSpeciality(Speciality speciality) {
     this.speciality = speciality;
-    if (speciality != null) {
-      specialityCode = speciality.getId();
-    }
+    updateSpeciality();
   }
 
   public StudyPlan getPlan() {
@@ -139,9 +145,7 @@ public class StudyGroup implements Serializable {
 
   public void setPlan(StudyPlan plan) {
     this.plan = plan;
-    if (plan != null) {
-      planCode = plan.getId();
-    }
+    updatePlan();
   }
 
   public boolean isExtramural() {
