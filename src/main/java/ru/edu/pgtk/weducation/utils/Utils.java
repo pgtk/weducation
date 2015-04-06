@@ -1,8 +1,11 @@
 package ru.edu.pgtk.weducation.utils;
 
+import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -13,8 +16,27 @@ import javax.faces.context.FacesContext;
  */
 public class Utils {
 
+  private final static String SALT = "WeducationPWD@2015byGooamoko";
+  private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
   private Utils() {
     throw new IllegalStateException("This constructor should not be called!");
+  }
+
+  public static String getHash(final String password) {
+    try {
+      String pwd = password + SALT;
+      MessageDigest md = MessageDigest.getInstance("MD5");
+      md.update(pwd.getBytes());
+      byte hash[] = md.digest();
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < hash.length; i++) {
+        sb.append(String.format("%02x", hash[i]));
+      }
+      return sb.toString();
+    } catch (Exception e) {
+      throw new EJBException("Can't compute password hash!");
+    }
   }
 
   /**
@@ -115,6 +137,10 @@ public class Utils {
     } catch (Exception e) {
       return "exception";
     }
+  }
+
+  public static String formatDate(final Date date) {
+    return dateFormat.format(date);
   }
 
   public static int getYear(Date date) {

@@ -162,7 +162,7 @@ public class ImportCardEJB {
           return result;
         }
       }
-      throw new EJBException(ERROR + PLACE + NOT_FOUND);
+      return null;
     } catch (SQLException e) {
       throw new EJBException(ERROR + PLACE + e.getMessage());
     } catch (NullPointerException e) {
@@ -185,7 +185,12 @@ public class ImportCardEJB {
           result.setFirstName(rs.getString("st_FName"));
           result.setMiddleName(rs.getString("st_MName"));
           result.setLastName(rs.getString("st_LName"));
-          result.setBirthDate(rs.getDate("st_birthDate"));
+          Date birthDate = rs.getDate("st_birthDate");
+          if (null == birthDate) {
+            // Если дата рождения не указана, то она будет текущей
+            birthDate = new Date();
+          }
+          result.setBirthDate(birthDate);
           result.setBirthPlace(rs.getString("st_birthPlace"));
           result.setMale(rs.getBoolean("st_ismale"));
           result.setForeign(false);
@@ -372,11 +377,13 @@ public class ImportCardEJB {
           String personCode = rs.getString("st_pcode");
           // Импортируем населенный пункт
           Place place = getPlace(personCode);
-          Place exPlace = places.findLike(place);
-          if (null != exPlace) {
-            place = exPlace;
-          } else {
-            places.save(place);
+          if (place != null) {
+            Place exPlace = places.findLike(place);
+            if (null != exPlace) {
+              place = exPlace;
+            } else {
+              places.save(place);
+            }
           }
           // Импортируем учебное заведение
           School scl = getSchool(personCode);

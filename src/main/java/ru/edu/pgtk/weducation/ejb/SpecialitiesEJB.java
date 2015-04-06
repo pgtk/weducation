@@ -67,7 +67,7 @@ public class SpecialitiesEJB {
   public Speciality findLike(final Speciality sample) {
     try {
       TypedQuery<Speciality> query = em.createQuery(
-              "SELECT s FROM Speciality s WHERE (s.key = :k) AND (s.fullName = :fn)", Speciality.class);
+              "SELECT s FROM Speciality s WHERE (s.key LIKE :k) AND (s.fullName LIKE :fn)", Speciality.class);
       query.setParameter("k", sample.getKey());
       query.setParameter("fn", sample.getFullName());
       return query.getSingleResult();

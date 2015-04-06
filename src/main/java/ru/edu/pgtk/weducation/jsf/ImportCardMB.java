@@ -30,18 +30,16 @@ public class ImportCardMB {
       }
     }
   }
-  
+
   public void importAll() {
-    Map<String, String> groups = ejb.getGroups();
-    for(String key: groups.keySet()) {
-      try {
-      ejb.importGroup(key);
-      } catch (Exception e) {
-      Utils.addMessage("Ошибка при импорте группы с кодом " + key);
-      }
+    try {
+      ejb.importAll();
+      success = true;
+    } catch (Exception e) {
+      Utils.addMessage("Ошибка при импорте групп!");
     }
   }
-  
+
   public void reset() {
     success = false;
   }

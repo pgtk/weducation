@@ -29,11 +29,11 @@
                     #{place.type.description}
                   </td>
                   <td>
-                    #{place.fullName}
+                    #{place.name}
                   </td>
                   <td>
-                    <h:commandLink class="action" value="Изменить" action="#{placesMB.edit(ren)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{placesMB.delete(ren)}" />
+                    <h:commandLink class="action" value="Изменить" action="#{placesMB.edit(place)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{placesMB.delete(place)}" />
                   </td>
                 </tr>
               </ui:repeat>
@@ -51,6 +51,8 @@
         <!-- Edit -->
         <h2>Редактирование населенного пункта</h2>
         <h:form>
+          <p><b>Указывайте полное наименование населенного пункта (например: Кутоново Кемеровской области).<br />
+            Это позволит избежать дальнейшей путанницы с именами населенных пунктов.</b></p>
           <h:outputText value="Наименование" /><br />
           <h:inputText value="#{placesMB.item.name}" class="textEdit" /><p />
           <h:outputText value="Тип" /><br />

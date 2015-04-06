@@ -35,7 +35,7 @@ public class StudyCard implements Serializable {
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date documentDate;
 
-  @Column(name = "crd_docname", nullable = false, length = 128)
+  @Column(name = "crd_docname", nullable = false, length = 255)
   private String documentName;
 
   @Column(name = "crd_docorganization", nullable = false, length = 255)
