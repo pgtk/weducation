@@ -74,7 +74,7 @@
           <h:inputText value="#{personsMB.item.lastName}" class="textEdit" /><p />
           <h:outputText value="Дата рождения" /><br />
           <h:inputText value="#{personsMB.item.birthDate}" class="textEdit">
-            <f:convertDateTime pattern="d.M.yyyy" />
+            <f:convertDateTime pattern="dd.MM.yyyy" />
           </h:inputText><p />
           <h:outputText value="Место рождения" /><br />
           <h:inputText value="#{personsMB.item.birthPlace}" class="textEdit" /><p />
@@ -113,7 +113,7 @@
           <h:inputText value="#{personsMB.item.passportDept}" class="textEdit" /><p />
           <h:outputText value="Дата выдачи" /><br />
           <h:inputText value="#{personsMB.item.passportDate}" class="textEdit">
-            <f:convertDateTime pattern="d.M.yyyy" />
+            <f:convertDateTime pattern="dd.MM.yyyy" />
           </h:inputText><p />
           <h:outputText value="ИНН" /><br />
           <h:inputText value="#{personsMB.item.inn}" class="textEdit" /><p />

@@ -63,6 +63,7 @@ public class StudyCardsEJB {
     if (item.getPersonCode() > 0) {
       item.setPerson(persons.get(item.getPersonCode()));
     }
+    // Если у нас есть группа, то часть полей возьмем оттуда
     if (item.getGroupCode() > 0) {
       StudyGroup grp = groups.get(item.getGroupCode());
       item.setGroup(grp);

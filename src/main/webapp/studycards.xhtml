@@ -69,40 +69,46 @@
             <f:selectItems value="#{schoolsEJB.fetchAll()}" var="scl" 
                            itemLabel="#{scl.shortName}" itemValue="#{scl.id}" />
           </h:selectOneMenu><p />
-          <h:outputText value="Эта личная карточка" /><br />
-          <h:selectOneMenu value="#{studyCardsMB.item.active}">
-            <f:selectItem itemLabel="Актуальная" itemValue="true" />
-            <f:selectItem itemLabel="Находится в архиве" itemValue="false" />
-            <f:ajax event="change" execute="@form" render="speciality globalMessages" />
-          </h:selectOneMenu><p />
-          <h:selectBooleanCheckbox value="#{studyCardsMB.item.extramural}">
-            <f:ajax event="change" execute="@form" render="plan globalMessages" />
-          </h:selectBooleanCheckbox>
-          <h:outputText value="заочная форма обучения" /><p />
-          <h:outputText value="Специальность" /><br />
-          <h:selectOneMenu id="speciality" value="#{studyCardsMB.item.specialityCode}"
-                           valueChangeListener="#{studyCardsMB.changeSpeciality}">
-            <f:selectItem itemLabel="Определить из группы" itemValue="0"/>
-            <f:selectItems value="#{studyCardsMB.specialities}" var="spc" 
-                           itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
-            <f:ajax event="change" execute="@form" render="plan group globalMessages" />
-          </h:selectOneMenu><p />
-          <!--
-          Надо пересмотреть управление группой, планом и специальностью.
-          Начать с группы и скрывать/отображать план и специальность в зависимости от того,
-          указана группа или нет.
-          -->
+          <p>Если это личная карточка учащегося в данный момент студента,
+            то выберите группу из списка.<br />Информация о форме обучения, учебном плане и специальности
+            будет взята из указанной вами группы.</p>
+          <p>Если личная карточка принадлежит студенту, который уже отучился,
+            то группу указывать не нужно.<br />Укажите форму обучения, специальность и учебный план явно.</p>
           <h:outputText value="Группа" /><br />
-          <h:selectOneMenu id="group" value="#{studyCardsMB.item.groupCode}">
+          <h:selectOneMenu id="group" value="#{studyCardsMB.item.groupCode}"
+                           valueChangeListener="#{studyCardsMB.changeGroup}">
             <f:selectItem itemLabel="Нет группы" itemValue="0" />
             <f:selectItems value="#{studyCardsMB.studyGroups}" var="grp" 
                            itemLabel="#{grp.name}" itemValue="#{grp.id}" />
+            <f:ajax event="change" execute="@form" render="@form globalMessages" />
           </h:selectOneMenu><p />
-          <h:outputText value="Учебный план" /><br />
-          <h:selectOneMenu id="plan" value="#{studyCardsMB.item.planCode}">
-            <f:selectItems value="#{studyCardsMB.studyPlans}" var="plan" 
-                           itemLabel="#{plan.nameForList}" itemValue="#{plan.id}" />
-          </h:selectOneMenu><p />
+          <h:panelGroup rendered="#{studyCardsMB.viewActive}">
+            <h:outputText value="Эта личная карточка" /><br />
+            <h:selectOneMenu value="#{studyCardsMB.item.active}">
+              <f:selectItem itemLabel="Актуальная" itemValue="true" />
+              <f:selectItem itemLabel="Находится в архиве" itemValue="false" />
+              <f:ajax event="change" execute="@form" render="speciality globalMessages" />
+            </h:selectOneMenu><p />
+          </h:panelGroup>
+          <!-- Если группа не указана, то... -->
+          <h:panelGroup rendered="#{studyCardsMB.item.groupCode == 0}">
+            <h:selectBooleanCheckbox value="#{studyCardsMB.item.extramural}">
+              <f:ajax event="change" execute="@form" render="plan globalMessages" />
+            </h:selectBooleanCheckbox>
+            <h:outputText value="заочная форма обучения" /><p />
+            <h:outputText value="Специальность" /><br />
+            <h:selectOneMenu id="speciality" value="#{studyCardsMB.item.specialityCode}"
+                             valueChangeListener="#{studyCardsMB.changeSpeciality}">
+              <f:selectItems value="#{studyCardsMB.specialities}" var="spc" 
+                             itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
+              <f:ajax event="change" execute="@form" render="plan globalMessages" />
+            </h:selectOneMenu><p />
+            <h:outputText value="Учебный план" /><br />
+            <h:selectOneMenu id="plan" value="#{studyCardsMB.item.planCode}">
+              <f:selectItems value="#{studyCardsMB.studyPlans}" var="plan" 
+                             itemLabel="#{plan.nameForList}" itemValue="#{plan.id}" />
+            </h:selectOneMenu><p />
+          </h:panelGroup>
           <h:outputText value="Документ о предыдущем образовании" /><br />
           <h:inputText value="#{studyCardsMB.item.documentName}" class="textEdit" /><p />
           <h:outputText value="Учреждение, выдавшее документ" /><br />

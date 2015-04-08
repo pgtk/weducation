@@ -71,7 +71,7 @@
             <f:selectItems value="#{accountsMB.roles}" var="role" itemLabel="#{role.description}" itemValue="#{role}" />
           </h:selectOneMenu><p />
           <h:outputText value="Стартовая страница" /><br />
-          <h:inputText value="#{accountsMB.item.fullName}" class="textEdit" /><p />
+          <h:inputText value="#{accountsMB.item.startPage}" class="textEdit" /><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{accountsMB.save()}" />
             <h:commandButton value="Отмена" action="#{accountsMB.cancel()}" />

@@ -11,19 +11,18 @@ import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
 
 @Stateless
 @Named("studyGroupsEJB")
 public class StudyGroupsEJB {
-  
+
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
   @EJB
   private SpecialitiesEJB specialities;
   @EJB
   private StudyPlansEJB plans;
-  
+
   public StudyGroup get(final int id) {
     StudyGroup result = em.find(StudyGroup.class, id);
     if (null != result) {
@@ -31,13 +30,19 @@ public class StudyGroupsEJB {
     }
     throw new EJBException("StudyGroup not found with id " + id);
   }
-  
+
   public List<StudyGroup> fetchAll() {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg ORDER BY sg.course, sg.name", StudyGroup.class);
     return q.getResultList();
   }
-  
+
+  public List<StudyGroup> fetchActual() {
+    TypedQuery<StudyGroup> q = em.createQuery(
+            "SELECT sg FROM StudyGroup sg WHERE (sg.active = true) ORDER BY sg.course, sg.name", StudyGroup.class);
+    return q.getResultList();
+  }
+
   public List<StudyGroup> findByDepartment(final Department department) {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg, DepartmentProfile dp "
@@ -47,7 +52,7 @@ public class StudyGroupsEJB {
     q.setParameter("dep", department);
     return q.getResultList();
   }
-  
+
   public List<StudyGroup> findBySpeciality(final Speciality speciality) {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg WHERE (sg.speciality = :spc) "
@@ -55,7 +60,7 @@ public class StudyGroupsEJB {
     q.setParameter("spc", speciality);
     return q.getResultList();
   }
-  
+
   public List<StudyGroup> findBySpeciality(final Speciality speciality, final boolean extramural) {
     TypedQuery<StudyGroup> q = em.createQuery(
             "SELECT sg FROM StudyGroup sg WHERE (sg.speciality = :spc) AND (sg.extramural = :em)"
@@ -64,7 +69,7 @@ public class StudyGroupsEJB {
     q.setParameter("em", extramural);
     return q.getResultList();
   }
-  
+
   public StudyGroup findByName(final String name) {
     try {
       TypedQuery<StudyGroup> q = em.createQuery(
@@ -75,7 +80,7 @@ public class StudyGroupsEJB {
       return null;
     }
   }
-  
+
   public StudyGroup save(StudyGroup item) {
     if (item.getSpecialityCode() > 0) {
       item.setSpeciality(specialities.get(item.getSpecialityCode()));
@@ -90,7 +95,7 @@ public class StudyGroupsEJB {
       return em.merge(item);
     }
   }
-  
+
   public void delete(final StudyGroup item) {
     StudyGroup sg = em.find(StudyGroup.class, item.getId());
     if (null != sg) {

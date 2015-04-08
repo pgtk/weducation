@@ -74,6 +74,7 @@ public abstract class GenericBean<T> {
   public void edit(final T item) {
     this.item = item;
     edit = true;
+    details = false;
   }
 
   public void details(final T item) {

@@ -7,6 +7,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
@@ -37,8 +38,7 @@ public class SessionMB implements Serializable {
    */
   @PostConstruct
   private void startSession() {
-    FacesContext context = FacesContext.getCurrentInstance();
-    HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+    HttpServletRequest request = (HttpServletRequest) getContext().getRequest();
     session = new ClientSession();
     session.setHostAddress(request.getRemoteHost());
     session.setCraetionTime(new Date());
@@ -47,6 +47,10 @@ public class SessionMB implements Serializable {
     }
     sessions.save(session);
     // Добавить логирование!
+  }
+  
+  private ExternalContext getContext() {
+    return FacesContext.getCurrentInstance().getExternalContext();
   }
 
   /**
@@ -67,7 +71,6 @@ public class SessionMB implements Serializable {
       user = usersEJB.get(login, password);
       if (null == user) {
         addMessage("Пользователь с такой комбинацией логина и пароля не обнаружен!");
-        return null;
       }
       if (session != null) {
         try {
@@ -79,16 +82,20 @@ public class SessionMB implements Serializable {
       }
       // TODO Добавить логирование!
       // Если у пользователя есть стартовая страница, перейдем на неё
+//      ExternalContext context = getContext();
+//      String root = context.getApplicationContextPath() + "/faces";
       String startPage = user.getStartPage();
       if ((startPage != null) && !(startPage.isEmpty())) {
-        return startPage;
+       return startPage + "&faces-redirect=true"; 
+//        context.redirect(root + startPage);
       }
       // Иначе, перенаправим в корень сайта
-      return "/index";
+//      context.redirect(root + "/index.xhtml");
+      return "/index?faces-redirect=true";
     } catch (Exception e) {
       addMessage("Невозможно войти в систему с такой комбинацией логина и пароля!");
-      return null;
     }
+    return null;
   }
 
   public boolean isAdmin() {
@@ -103,7 +110,7 @@ public class SessionMB implements Serializable {
       session.setAccount(null);
       sessions.save(session);
     }
-    return "/index";
+    return "/index?faces-redirect=true";
   }
 
   public String getLogin() {

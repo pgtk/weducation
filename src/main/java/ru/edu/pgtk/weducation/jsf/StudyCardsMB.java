@@ -68,6 +68,16 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     return person;
   }
 
+  public boolean isViewActive() {
+    if (null == item) {
+      return false;
+    }
+    if (null == item.getGroup()) {
+      return true;
+    }
+    return item.getGroup().isActive();
+  }
+
   private void getBlank(final boolean copy, final boolean duplicate) {
     StringBuilder fileName = new StringBuilder("diplome-");
     if (copy) {
@@ -98,7 +108,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   public void printDiplome() {
     getBlank(false, false);
   }
-  
+
   public void printReference() {
     StringBuilder fileName = new StringBuilder("reference-");
     fileName.append(item.getId()).append(".pdf");
@@ -149,6 +159,26 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     }
   }
 
+  public void changeGroup(ValueChangeEvent event) {
+    try {
+      int code = (Integer) event.getNewValue();
+      if (code > 0) {
+        // Получаем группу и устанавдиваем другие данные из неё
+        StudyGroup group = groupsEJB.get(code);
+        item.setGroup(group);
+        item.setSpeciality(group.getSpeciality());
+        item.setPlan(group.getPlan());
+        item.setExtramural(group.isExtramural());
+        item.setActive(group.isActive());
+      } else {
+        item.setGroup(null);
+      }
+    } catch (Exception e) {
+      item.setGroup(null);
+      addMessage(e);
+    }
+  }
+
   public void changeSpeciality(ValueChangeEvent event) {
     try {
       int code = (Integer) event.getNewValue();
@@ -184,11 +214,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     if (null != speciality) {
       return groupsEJB.findBySpeciality(speciality, item.isExtramural());
     } else {
-      List<StudyGroup> result = new ArrayList<>();
-      if (null != item.getGroup()) {
-        result.add(item.getGroup());
-      }
-      return result;
+      return groupsEJB.fetchActual();
     }
   }
 
