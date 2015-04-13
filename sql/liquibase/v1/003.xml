@@ -202,21 +202,4 @@
     ALTER TABLE clientsessions DROP COLUMN cls_lastaction;
   </sql>
 </changeSet>
-<changeSet id="003-22" author="gooamoko">
-  <comment>
-    Удаляем поле стартовой страницы из таблицы учетных записей.
-  </comment>
-  <sql>
-    ALTER TABLE accounts DROP COLUMN aco_startpage;
-  </sql>
-</changeSet>
-<changeSet id="003-23" author="gooamoko">
-  <comment>
-    Добавим поле с идентификатором отделения
-  </comment>
-  <sql>
-    ALTER TABLE accounts ADD COLUMN aco_code int;
-  </sql>
-</changeSet>
-
 </databaseChangeLog>

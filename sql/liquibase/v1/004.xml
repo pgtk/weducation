@@ -169,6 +169,20 @@
     UNIQUE(pmk_crdcode, pmk_prccode);
   </sql>
 </changeSet>
-
-
+<changeSet id="004-19" author="gooamoko">
+  <comment>
+    Удаляем поле стартовой страницы из таблицы учетных записей.
+  </comment>
+  <sql>
+    ALTER TABLE accounts DROP COLUMN aco_startpage;
+  </sql>
+</changeSet>
+<changeSet id="004-20" author="gooamoko">
+  <comment>
+    Добавим поле с идентификатором отделения
+  </comment>
+  <sql>
+    ALTER TABLE accounts ADD COLUMN aco_code int;
+  </sql>
+</changeSet>
 </databaseChangeLog>
