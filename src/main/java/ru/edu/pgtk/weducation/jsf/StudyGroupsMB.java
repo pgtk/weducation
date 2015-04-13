@@ -45,6 +45,10 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
   }
 
   public void loadDepartment() {
+    // Если в кукисах есть код отделения, то мы его оттуда возьмем!
+    if (departmentCode == 0) {
+      departmentCode = (int) Utils.getLongFromCookie("departmentId");
+    }
     if (departmentCode > 0) {
       department = depejb.get(departmentCode);
     } else {

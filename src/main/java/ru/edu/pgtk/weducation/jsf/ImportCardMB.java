@@ -5,7 +5,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.utils.ImportCardEJB;
-import ru.edu.pgtk.weducation.utils.Utils;
 
 @ViewScoped
 @ManagedBean(name = "importCardMB")

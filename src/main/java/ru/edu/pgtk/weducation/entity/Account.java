@@ -32,8 +32,8 @@ public class Account implements Serializable {
   @Column(name = "aco_role", nullable = false)
   private AccountRole role;
   
-  @Column(name = "aco_startpage", length = 255)
-  private String startPage;
+  @Column(name = "aco_code")
+  private int code;
 
   @Transient
   private String password;
@@ -61,8 +61,20 @@ public class Account implements Serializable {
     return (role == AccountRole.ADMIN);
   }
   
+  public boolean isDepartment() {
+    return (role == AccountRole.DEPARTMENT);
+  }
+  
   public String getRoleString() {
     return role.getDescription();
+  }
+
+  public int getCode() {
+    return code;
+  }
+
+  public void setCode(int code) {
+    this.code = code;
   }
 
   public String getFullName() {
@@ -103,13 +115,5 @@ public class Account implements Serializable {
 
   public void setRole(AccountRole role) {
     this.role = role;
-  }
-
-  public String getStartPage() {
-    return startPage;
-  }
-
-  public void setStartPage(String startPage) {
-    this.startPage = startPage;
   }
 }

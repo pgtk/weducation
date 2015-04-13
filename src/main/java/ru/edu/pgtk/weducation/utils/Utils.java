@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 /**
  * Различные утилиты, вынесенные в отдельный класс
@@ -23,6 +21,31 @@ public class Utils {
     throw new IllegalStateException("This constructor should not be called!");
   }
 
+  /**
+   * УНифицированный метод для изменения окончания в зависимости от числа
+   *
+   * @param value число
+   * @param prefix1 выражение, используемое при value=1 (день)
+   * @param prefix2 выражение, используемое при value=2..4 (дня)
+   * @param prefix3 выражение, используемое при остальных значениях value
+   * @return строка содержащее value и выражение в нужном склонении. Например, 2
+   * дня
+   */
+  private static String getStringPrefix(final int value, final String prefix1,
+          final String prefix2, final String prefix3) {
+    int val = value;
+    if (val > 20) {
+      val /= 10;
+    }
+    if (val == 1) {
+      return val + prefix1;
+    }
+    if ((val > 1) && (val < 5)) {
+      return val + prefix2;
+    }
+    return val + prefix3;
+  }
+  
   public static String getHash(final String password) {
     try {
       String pwd = password + SALT;
@@ -58,31 +81,6 @@ public class Utils {
       result = defaultValue;
     }
     return result;
-  }
-
-  /**
-   * УНифицированный метод для изменения окончания в зависимости от числа
-   *
-   * @param value число
-   * @param prefix1 выражение, используемое при value=1 (день)
-   * @param prefix2 выражение, используемое при value=2..4 (дня)
-   * @param prefix3 выражение, используемое при остальных значениях value
-   * @return строка содержащее value и выражение в нужном склонении. Например, 2
-   * дня
-   */
-  private static String getStringPrefix(final int value, final String prefix1,
-          final String prefix2, final String prefix3) {
-    int val = value;
-    if (val > 20) {
-      val /= 10;
-    }
-    if (val == 1) {
-      return val + prefix1;
-    }
-    if ((val > 1) && (val < 5)) {
-      return val + prefix2;
-    }
-    return val + prefix3;
   }
 
   /**
@@ -204,16 +202,4 @@ public class Utils {
     }
     return String.format("%2.1f %s", length, prefix);
   }
-
-  public static void addMessage(final Exception e) {
-    FacesContext context = FacesContext.getCurrentInstance();
-    String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
-    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
-  }
-
-  public static void addMessage(final String message) {
-    FacesContext context = FacesContext.getCurrentInstance();
-    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
-  }
-
 }

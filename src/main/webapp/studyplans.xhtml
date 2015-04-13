@@ -22,7 +22,7 @@
         <h:form>
           <div class="buttons">
             <h:commandButton value="Добавить" action="#{studyPlansMB.add()}" />
-            <h:button outcome="/importplan" value="Импорт" />
+            <h:button outcome="/import/plan" value="Импорт" />
           </div>
         </h:form>
         <h:form id="listForm" rendered="#{not empty studyPlansEJB.fetchAll()}">
@@ -58,7 +58,7 @@
         <h:form>
           <div class="buttons">
             <h:commandButton value="Добавить" action="#{studyPlansMB.add()}" />
-            <h:button outcome="/importplan" value="Импорт" />
+            <h:button outcome="/import/plan" value="Импорт" />
           </div>
         </h:form>
       </h:panelGroup>

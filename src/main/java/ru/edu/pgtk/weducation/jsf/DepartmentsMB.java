@@ -13,6 +13,23 @@ public class DepartmentsMB extends GenericBean<Department> implements Serializab
 
   @EJB
   private transient DepartmentsEJB ejb;
+  private int departmentCode;
+
+  public void loadDepartment() {
+    try {
+//      if (departmentCode == 0) {
+//       departmentCode = (int) Utils.getLongFromCookie("departmentId"); 
+//      }
+      if (departmentCode > 0) {
+        item = ejb.get(departmentCode);
+        details = true;
+      }
+    } catch (Exception e) {
+      addMessage(e);
+      departmentCode = 0;
+      resetState();
+    }
+  }
 
   public void add() {
     item = new Department();
@@ -37,5 +54,13 @@ public class DepartmentsMB extends GenericBean<Department> implements Serializab
     } catch (Exception e) {
       addMessage(e);
     }
+  }
+
+  public int getDepartmentCode() {
+    return departmentCode;
+  }
+
+  public void setDepartmentCode(int departmentCode) {
+    this.departmentCode = departmentCode;
   }
 }
