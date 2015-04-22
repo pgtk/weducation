@@ -241,7 +241,8 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   public void save() {
     try {
       ejb.save(item);
-      resetState();
+      edit = false;
+      details = true;
     } catch (Exception e) {
       addMessage(e);
     }

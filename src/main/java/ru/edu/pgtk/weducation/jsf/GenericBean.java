@@ -55,13 +55,21 @@ public abstract class GenericBean<T> {
   }
 
   public boolean isDetails() {
-    return details;
+    return details && !edit && !delete;
   }
 
   public boolean isError() {
     return error;
   }
 
+  public void cancelEdit() {
+    edit = false;
+  }
+  
+  public void cancelDelete() {
+    delete = false;
+  }
+  
   public void cancel() {
     resetState();
   }
@@ -75,6 +83,18 @@ public abstract class GenericBean<T> {
     this.item = item;
     edit = true;
     details = false;
+  }
+  
+  public void switchEdit() {
+    if (null != item) {
+      edit = true;
+    }
+  }
+  
+  public void switchDelete() {
+    if (null != item) {
+      delete = true;
+    }
   }
 
   public void details(final T item) {

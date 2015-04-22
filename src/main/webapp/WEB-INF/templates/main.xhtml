@@ -12,47 +12,48 @@
     <!-- Top menu -->
     <div id="top-panel">
       <div id="top-menu">
-        <ul>
-          <li><a href="#">Справка</a>
-            <ul>
-              <li><h:link value="О проекте" outcome="/about" /></li>
-            </ul>
-          </li>
-          <h:panelGroup rendered="#{sessionMB.logged}">
-            <li><a href="#">Данные</a>
+        <h:form id="menuForm">
+          <ul>
+            <li><h:commandLink value="На главную" action="#{sessionMB.startPage()}" /></li>
+            <li><a href="#">Справка</a>
               <ul>
-                <li><h:link value="Персоны" outcome="/persons" /></li>
-                <li><h:link value="Группы" outcome="/studygroups" /></li>
-                <li><h:link value="Учебные планы" outcome="/studyplans" /></li>
+                <li><h:link value="О проекте" outcome="/about" /></li>
               </ul>
             </li>
-            <h:panelGroup rendered="#{sessionMB.admin}">
-              <li><a href="#">Администрирование</a>
+            <h:panelGroup rendered="#{sessionMB.logged}">
+              <li><a href="#">Данные</a>
                 <ul>
-                  <li><h:link value="Населенные пункты" outcome="/places" /></li>
-                  <li><h:link value="Учебные заведения" outcome="/schools" /></li>
-                  <li><h:link value="Профили обучения" outcome="/departmentprofiles" /></li>
-                  <li><h:link value="Переименования" outcome="/renamings" /></li>
-                  <li><h:link value="Специальности" outcome="/specialities" /></li>
-                  <li><h:link value="Отделения" outcome="/departments" /></li>
-                  <li><h:link value="Учетные записи" outcome="/accounts" /></li>
+                  <li><h:link value="Персоны" outcome="/persons" /></li>
+                  <li><h:link value="Группы" outcome="/studygroups" /></li>
+                  <li><h:link value="Учебные планы" outcome="/studyplans" /></li>
                 </ul>
               </li>
-              <li><a href="#">Импорт</a>
-                <ul>
-                  <li><h:link value="Учебный план" outcome="/import/plan" /></li>
-                  <li><h:link value="Личные карточки" outcome="/import/cards" /></li>
-                </ul>
-              </li>
+              <h:panelGroup rendered="#{sessionMB.admin}">
+                <li><a href="#">Администрирование</a>
+                  <ul>
+                    <li><h:link value="Населенные пункты" outcome="/places" /></li>
+                    <li><h:link value="Учебные заведения" outcome="/schools" /></li>
+                    <li><h:link value="Профили обучения" outcome="/departmentprofiles" /></li>
+                    <li><h:link value="Переименования" outcome="/renamings" /></li>
+                    <li><h:link value="Специальности" outcome="/specialities" /></li>
+                    <li><h:link value="Отделения" outcome="/departments" /></li>
+                    <li><h:link value="Учетные записи" outcome="/accounts" /></li>
+                  </ul>
+                </li>
+                <li><a href="#">Импорт</a>
+                  <ul>
+                    <li><h:link value="Учебный план" outcome="/import/plan" /></li>
+                    <li><h:link value="Личные карточки" outcome="/import/cards" /></li>
+                  </ul>
+                </li>
+              </h:panelGroup>
             </h:panelGroup>
-          </h:panelGroup>
-          <li>
-            <h:link rendered="#{not sessionMB.logged}" value="Вход" outcome="/loginform" />
-            <h:form  rendered="#{sessionMB.logged}">
-              <h:commandLink value="Выход" action="#{sessionMB.doLogout()}" />
-            </h:form>
-          </li>
-        </ul>
+            <li>
+              <h:link rendered="#{not sessionMB.logged}" value="Вход" outcome="/loginform" />
+              <h:commandLink rendered="#{sessionMB.logged}" value="Выход" action="#{sessionMB.doLogout()}" />
+            </li>
+          </ul>
+        </h:form>
       </div>
     </div>
     <!-- End top menu -->

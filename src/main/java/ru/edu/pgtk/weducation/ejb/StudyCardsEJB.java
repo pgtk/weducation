@@ -44,14 +44,15 @@ public class StudyCardsEJB {
 
   public List<StudyCard> findByPerson(final Person person) {
     TypedQuery<StudyCard> q = em.createQuery(
-            "SELECT c FROM StudyCard c WHERE c.person = :psn", StudyCard.class);
+      "SELECT c FROM StudyCard c WHERE c.person = :psn", StudyCard.class);
     q.setParameter("psn", person);
     return q.getResultList();
   }
 
   public List<StudyCard> findByGroup(final StudyGroup group) {
     TypedQuery<StudyCard> q = em.createQuery(
-            "SELECT c FROM StudyCard c WHERE c.group = :grp", StudyCard.class);
+      "SELECT c FROM StudyCard c WHERE c.group = :grp ORDER BY c.active DESC, c.person.firstName, c.person.middleName",
+      StudyCard.class);
     q.setParameter("grp", group);
     return q.getResultList();
   }

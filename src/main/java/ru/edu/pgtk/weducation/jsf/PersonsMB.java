@@ -85,7 +85,8 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
   public void save() {
     try {
       ejb.save(item);
-      resetState();
+      edit = false;
+      details = true;
     } catch (Exception e) {
       addMessage(e);
     }

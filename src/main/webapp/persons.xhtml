@@ -121,7 +121,7 @@
           <h:inputText value="#{personsMB.item.snils}" class="textEdit" /><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{personsMB.save()}" />
-            <h:commandButton value="Отменить" action="#{personsMB.cancel()}" />
+            <h:commandButton value="Отменить" action="#{personsMB.cancelEdit()}" />
           </div>
         </h:form>
       </h:panelGroup>
@@ -132,24 +132,19 @@
           <p>Персона "#{personsMB.item.fullName}" будет удалена!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{personsMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{personsMB.cancel()}" />
+            <h:commandButton value="Отменить" action="#{personsMB.cancelDelete()}" />
           </div>
         </h:form>
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{personsMB.details}">
         <!-- Details -->
-        <h2>Детали персоны</h2>
+        <h2>#{personsMB.item.fullName}</h2>
         <h:form>
-          <h3>#{personsMB.item.fullName}</h3>
-          <p>
-            Раздел пока в разработке. тут планируется сделать доступ к личным карточкам
-            и долее детальной информации (например, паспортные данные, законные представители).
-          </p>
-          <p>
-            <h:link outcome="/studycards?personId=#{personsMB.item.id}" value="Личные карточки" />
-          </p>
           <div class="buttons">
-            <h:commandButton value="Закрыть" action="#{personsMB.cancel()}" />
+            <h:commandButton value="Редактировать данные" action="#{personsMB.switchEdit()}" />
+            <h:button outcome="/studycards?personId=#{personsMB.item.id}" value="Личные карточки" />
+            <h:commandButton value="Список" action="#{personsMB.cancel()}" />
+            <h:commandButton value="Удалить" action="#{personsMB.switchDelete()}" />
           </div>
         </h:form>
       </h:panelGroup>

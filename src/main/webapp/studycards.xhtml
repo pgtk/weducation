@@ -168,7 +168,7 @@
           </h:inputText><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{studyCardsMB.save()}" />
-            <h:commandButton value="Отменить" action="#{studyCardsMB.cancel()}" />
+            <h:commandButton value="Отменить" action="#{studyCardsMB.cancelEdit()}" />
           </div>
         </h:form>
       </h:panelGroup>
@@ -179,16 +179,14 @@
           <p>Карточка "#{studyCardsMB.item.nameForList}" будет удалена!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{studyCardsMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{studyCardsMB.cancel()}" />
+            <h:commandButton value="Отменить" action="#{studyCardsMB.cancelDelete()}" />
           </div>
         </h:form>
       </h:panelGroup>
       <h:panelGroup rendered="#{studyCardsMB.details}">
         <!-- Details -->
-        <h2>Детали личной карточки</h2>
+        <h2>#{studyCardsMB.person.fullName} #{studyCardsMB.item.nameForList}</h2>
         <h:form>
-          <h3>Информация</h3>
-          <p>Раздел пока в разработке</p>
           <h3>Итоговые оценки</h3>
           <ul>
             <li><h:link outcome="/finalmarks/modules?cardId=#{studyCardsMB.item.id}" value="Модули" /></li>
@@ -209,7 +207,9 @@
             </h:panelGroup>
           </ul>
           <div class="buttons">
-            <h:commandButton value="Закрыть" action="#{studyCardsMB.cancel()}" />
+            <h:commandButton value="Редактировать" action="#{studyCardsMB.switchEdit()}" />
+            <h:commandButton value="Список" action="#{studyCardsMB.cancel()}" />
+            <h:commandButton value="Удалить" action="#{studyCardsMB.switchDelete()}" />
           </div>
         </h:form>
       </h:panelGroup>
