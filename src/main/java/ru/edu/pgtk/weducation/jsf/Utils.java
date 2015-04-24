@@ -10,7 +10,7 @@ import javax.servlet.http.Cookie;
  *
  * @author Воронин Леонид
  */
-public class Utils {
+class Utils {
 
   /**
    * Приватный конструктор, чтобы запретить создание экземпляров класса.

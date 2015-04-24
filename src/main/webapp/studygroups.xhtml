@@ -7,7 +7,8 @@
 
   <f:metadata>
     <f:viewParam name="departmentId" value="#{studyGroupsMB.departmentCode}" />
-    <f:viewAction action="#{studyGroupsMB.loadDepartment()}" />
+    <f:viewParam name="id" value="#{studyGroupsMB.groupCode}" />
+    <f:viewAction action="#{studyGroupsMB.preparePage()}" />
   </f:metadata>  
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
@@ -94,7 +95,7 @@
           <h:inputText value="#{studyGroupsMB.item.master}" class="textEdit" /><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{studyGroupsMB.save()}" />
-            <h:commandButton value="Отменить" action="#{studyGroupsMB.cancel()}" />
+            <h:commandButton value="Отменить" action="#{studyGroupsMB.cancelEdit()}" />
           </div>
         </h:form>
       </h:panelGroup>
@@ -105,7 +106,18 @@
           <p>Группа "#{studyGroupsMB.item.name}" будет удалена!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{studyGroupsMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{studyGroupsMB.cancel()}" />
+            <h:commandButton value="Отменить" action="#{studyGroupsMB.cancelDelete()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup rendered="#{studyGroupsMB.details}">
+        <!-- Details -->
+        <h2>Группа #{studyGroupsMB.item.name}</h2>
+        <h:form>
+          <div class="buttons">
+            <h:commandButton value="Редактировать" action="#{studyGroupsMB.switchEdit()}" />
+            <h:commandButton value="Список" action="#{studyGroupsMB.cancel()}" />
+            <h:commandButton value="Удалить" action="#{studyGroupsMB.switchDelete()}" />
           </div>
         </h:form>
       </h:panelGroup>

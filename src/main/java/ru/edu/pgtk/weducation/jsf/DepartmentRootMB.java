@@ -1,4 +1,4 @@
-package ru.edu.pgtk.weducation.jsf.department;
+package ru.edu.pgtk.weducation.jsf;
 
 import java.util.ArrayList;
 import java.util.List;

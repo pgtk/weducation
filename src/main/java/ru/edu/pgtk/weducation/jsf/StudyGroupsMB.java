@@ -31,6 +31,7 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
   private Department department;
   private Speciality speciality;
   private int departmentCode;
+  private int groupCode;
 
   public int getDepartmentCode() {
     return departmentCode;
@@ -44,15 +45,20 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     return department;
   }
 
-  public void loadDepartment() {
+  public void preparePage() {
     // Если в кукисах есть код отделения, то мы его оттуда возьмем!
     if (departmentCode == 0) {
       departmentCode = (int) Utils.getLongFromCookie("departmentId");
     }
+    // Иначе - попробуем выудить из GET параметров
     if (departmentCode > 0) {
       department = depejb.get(departmentCode);
     } else {
       department = null;
+    }
+    if (groupCode > 0) {
+      item = ejb.get(groupCode);
+      details = true;
     }
   }
 
@@ -131,5 +137,13 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     } catch (Exception e) {
       addMessage(e);
     }
+  }
+
+  public int getGroupCode() {
+    return groupCode;
+  }
+
+  public void setGroupCode(int groupCode) {
+    this.groupCode = groupCode;
   }
 }
