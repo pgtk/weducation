@@ -136,6 +136,16 @@ public class Utils {
       return "exception";
     }
   }
+  
+  public static String getStringForMonth(final int month) {
+    final String[] months = {"января", "февраля", "марта", "апреля",
+        "мая", "июня", "июля", "августа", "сентября", "октября",
+        "ноября", "декабря"};
+    if ((month < 0) || (month >= 12)) {
+      throw new EJBException("Illegal month value! Use from 0 to 11!");
+    }
+    return months[month];
+  }
 
   public static String formatDate(final Date date) {
     return dateFormat.format(date);

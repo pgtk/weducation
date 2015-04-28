@@ -33,6 +33,10 @@ public class GroupSemestersEJB {
   }
   
   public GroupSemester save(GroupSemester item) {
+    // Проверим на корректность данные
+    if (item.getEndDate() <= item.getBeginDate()) {
+      throw new EJBException("End date must be greater than begin date!");
+    }
     if (0 == item.getId()) {
       em.persist(item);
       return item;

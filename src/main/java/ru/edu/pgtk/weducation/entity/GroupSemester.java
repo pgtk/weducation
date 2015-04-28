@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import static ru.edu.pgtk.weducation.utils.Utils.getStringForMonth;
 
 /**
  * Класс для хранения информации о семестре какой-либо группы.
@@ -63,6 +64,14 @@ public class GroupSemester implements Serializable {
   private void updateDates() {
     beginDate = beginYear * 1000 + beginMonth * 10 + beginWeek;
     endDate = endYear * 1000 + endMonth * 10 + endWeek;
+  }
+  
+  public String getBeginDateString() {
+    return beginYear + "-й год, " + getStringForMonth(beginMonth-1) + ", " + beginWeek + "-я неделя.";
+  }
+  
+  public String getEndDateString() {
+    return endYear + "-й год, " + getStringForMonth(endMonth-1) + ", " + endWeek + "-я неделя.";
   }
 
   public int getId() {
