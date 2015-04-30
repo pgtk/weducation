@@ -9,7 +9,7 @@
     <f:viewParam name="groupId" value="#{groupSemestersMB.groupCode}" />
     <f:viewAction action="#{groupSemestersMB.loadGroup()}" />
   </f:metadata>
-  
+
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <h:panelGroup layout="block" rendered="#{groupSemestersMB.browse}">
@@ -92,6 +92,9 @@
             <h:commandButton value="Закрыть" action="#{groupSemestersMB.cancel()}" />
           </div>
         </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{groupSemestersMB.error}">
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>

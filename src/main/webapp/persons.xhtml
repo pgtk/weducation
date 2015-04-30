@@ -151,14 +151,7 @@
         </h:form>
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{personsMB.error}">
-        <!-- Details -->
-        <h2>Ошибка!</h2>
-        <p>
-          Вы оказались там, где вас быть не должно! Если вы всё делали правильно, обратитесь к разработчику.
-        </p>
-          <div class="buttons">
-            <h:button outcome="/index" value="На главную" />
-          </div>
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>

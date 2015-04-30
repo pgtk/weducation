@@ -78,6 +78,9 @@
           </div>
         </h:form>
       </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{gosexamsMB.error}">
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
+      </h:panelGroup>
     </ui:define>
   </ui:composition>
 </html>

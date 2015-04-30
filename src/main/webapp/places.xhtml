@@ -52,7 +52,7 @@
         <h2>Редактирование населенного пункта</h2>
         <h:form>
           <p><b>Указывайте полное наименование населенного пункта (например: Кутоново Кемеровской области).<br />
-            Это позволит избежать дальнейшей путанницы с именами населенных пунктов.</b></p>
+              Это позволит избежать дальнейшей путанницы с именами населенных пунктов.</b></p>
           <h:outputText value="Наименование" /><br />
           <h:inputText value="#{placesMB.item.name}" class="textEdit" /><p />
           <h:outputText value="Тип" /><br />
@@ -76,6 +76,9 @@
             <h:commandButton value="Отменить" action="#{placesMB.cancel()}" />
           </div>
         </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{placesMB.error}">
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>

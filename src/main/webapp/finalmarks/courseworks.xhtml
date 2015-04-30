@@ -15,9 +15,9 @@
       <div class="roundbox" id="breadcrumb">
         <h:link rendered="#{courseWorkMarksMB.cardCode > 0}" outcome="/persons" value="Персоны" />
         <h:link rendered="#{courseWorkMarksMB.cardCode > 0}" outcome="/persons?id=#{courseWorkMarksMB.card.person.id}"
-                  value="#{courseWorkMarksMB.card.person.fullName}" />
+                value="#{courseWorkMarksMB.card.person.fullName}" />
         <h:link rendered="#{courseWorkMarksMB.cardCode > 0}" outcome="/studycards?personId=#{courseWorkMarksMB.card.person.id}"
-                  value="Личные карточки" />
+                value="Личные карточки" />
         <h:link rendered="#{courseWorkMarksMB.cardCode > 0}" outcome="/studycards?id=#{courseWorkMarksMB.card.id}"
                 value="#{courseWorkMarksMB.card.nameForList}" />
       </div>
@@ -96,6 +96,9 @@
             <h:commandButton value="Отменить" action="#{courseWorkMarksMB.cancel()}" />
           </div>
         </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{courseWorkMarksMB.error}">
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>

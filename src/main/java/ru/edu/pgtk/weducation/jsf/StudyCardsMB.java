@@ -211,11 +211,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   }
 
   public List<StudyGroup> getStudyGroups() {
-    if (null != speciality) {
-      return groupsEJB.findBySpeciality(speciality, item.isExtramural());
-    } else {
-      return groupsEJB.fetchActual();
-    }
+    return groupsEJB.fetchActual();
   }
 
   public List<StudyPlan> getStudyPlans() {

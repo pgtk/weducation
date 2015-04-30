@@ -23,6 +23,14 @@ public abstract class GenericBean<T> {
   protected transient Account user;
 
   @PostConstruct
+  private void checkAccount() {
+    resetState();
+    // Если пользователь неавторизован, то выдаем ошибку и запрещаем работу!
+    if (null == user) {
+      error = true;
+    }
+  }
+  
   protected void resetState() {
     edit = false;
     delete = false;

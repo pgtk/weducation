@@ -9,7 +9,7 @@
     <f:viewParam name="id" value="#{departmentsMB.departmentCode}" />
     <f:viewAction action="#{departmentsMB.loadDepartment()}" />
   </f:metadata>
-  
+
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <h:panelGroup layout="block" rendered="#{departmentsMB.browse}">
@@ -90,6 +90,9 @@
             <h:commandButton value="Закрыть" action="#{departmentsMB.cancel()}" />
           </div>
         </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{departmentsMB.error}">
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>

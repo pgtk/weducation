@@ -214,13 +214,7 @@
         </h:form>
       </h:panelGroup>
       <h:panelGroup rendered="#{studyCardsMB.error}">
-        <!-- Error -->
-        <h2>Ошибка!</h2>
-        <div class="roundbox" id="error">
-          Вы оказались там где быть не должны! Либо что-то случилось, либо одно из двух :-).
-          Если вы уверены в том, что всё делали правильно, сообщите разработчику об этой ошибке.
-        </div>
-        <p><h:link outcome="/index" value="Перейти на главную страницу" /></p>
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>

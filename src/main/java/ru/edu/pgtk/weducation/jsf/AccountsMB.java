@@ -1,10 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
 import ru.edu.pgtk.weducation.entity.Account;
@@ -16,12 +15,11 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
 
   @EJB
   private AccountsEJB ejb;
-  @ManagedProperty(value = "#{sessionMB.user}")
-  private transient Account account;
 
+  @PostConstruct
   private void checkRestrictions() {
-    if ((null == account) || (!account.isAdmin())) {
-      throw new EJBException("У вас недостаточно полномочий для выполнения этой операции!");
+    if ((null == user) || (!user.isAdmin())) {
+      error = true;
     }
   }
 
@@ -36,7 +34,6 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
   }
 
   public void save() {
-    checkRestrictions();
     try {
       if (item.getId() == 0) {
         item.updatePassword();
@@ -49,7 +46,6 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
   }
 
   public void confirmDelete() {
-    checkRestrictions();
     try {
       ejb.delete(item);
       resetState();
@@ -59,7 +55,6 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
   }
 
   public void changePassword() {
-    checkRestrictions();
     if (null != item) {
       try {
         item.updatePassword();
@@ -69,13 +64,5 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
         addMessage(e);
       }
     }
-  }
-
-  public Account getAccount() {
-    return account;
-  }
-
-  public void setAccount(Account account) {
-    this.account = account;
   }
 }

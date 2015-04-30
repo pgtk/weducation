@@ -72,11 +72,11 @@
             <f:ajax execute="@form" render="@form" />
           </h:selectOneMenu><p />
           <h:panelGroup rendered="#{accountsMB.item.department}">
-          <h:outputText value="Отделение" /><br />
-          <h:selectOneMenu value="#{accountsMB.item.code}">
-            <f:selectItem itemLabel="Не привязана к отделению" itemValue="0" />
-            <f:selectItems value="#{departmentsEJB.fetchAll()}" var="dep" itemLabel="#{dep.name}" itemValue="#{dep.id}" />
-          </h:selectOneMenu><p />
+            <h:outputText value="Отделение" /><br />
+            <h:selectOneMenu value="#{accountsMB.item.code}">
+              <f:selectItem itemLabel="Не привязана к отделению" itemValue="0" />
+              <f:selectItems value="#{departmentsEJB.fetchAll()}" var="dep" itemLabel="#{dep.name}" itemValue="#{dep.id}" />
+            </h:selectOneMenu><p />
           </h:panelGroup>
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{accountsMB.save()}" />
@@ -109,6 +109,9 @@
             <h:commandButton value="Отмена" action="#{accountsMB.cancel()}" />
           </div>
         </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{accountsMB.error}">
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
       </h:panelGroup>
     </ui:define>
   </ui:composition>
