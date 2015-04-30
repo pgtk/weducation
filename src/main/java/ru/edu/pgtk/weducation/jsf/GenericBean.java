@@ -2,7 +2,9 @@ package ru.edu.pgtk.weducation.jsf;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import ru.edu.pgtk.weducation.entity.Account;
 
 /**
  * Шаблон для управляемых бинов, реализующий 2 трети функционала.
@@ -17,6 +19,8 @@ public abstract class GenericBean<T> {
   protected boolean delete;
   protected boolean details;
   protected boolean error;
+  @ManagedProperty(value = "#{sessionMB.user}")
+  protected transient Account user;
 
   @PostConstruct
   protected void resetState() {
@@ -38,16 +42,24 @@ public abstract class GenericBean<T> {
     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
   }
 
+  public Account getUser() {
+    return user;
+  }
+
+  public void setUser(Account user) {
+    this.user = user;
+  }
+
   public T getItem() {
     return item;
   }
 
   public boolean isEdit() {
-    return edit;
+    return edit && !error;
   }
 
   public boolean isDelete() {
-    return delete;
+    return delete && !error;
   }
 
   public boolean isBrowse() {
@@ -55,7 +67,7 @@ public abstract class GenericBean<T> {
   }
 
   public boolean isDetails() {
-    return details && !edit && !delete;
+    return details && !edit && !delete && !error;
   }
 
   public boolean isError() {

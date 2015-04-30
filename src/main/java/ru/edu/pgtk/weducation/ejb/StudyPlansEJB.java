@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
@@ -50,6 +51,16 @@ public class StudyPlansEJB {
     return q.getResultList();
   }
 
+  public List<StudyPlan> findByDepartment(final Department dep) {
+    TypedQuery<StudyPlan> q = em.createQuery(
+            "SELECT sp FROM StudyPlan sp "
+              + "WHERE (sp.speciality.id IN (SELECT dp.speciality.id FROM DepartmentProfile dp WHERE (dp.department = :dep1)))"
+              + " AND (sp.extramural IN (SELECT dp.extramural FROM DepartmentProfile dp WHERE (dp.department = :dep2)))", StudyPlan.class);
+    q.setParameter("dep1", dep);
+    q.setParameter("dep2", dep);
+    return q.getResultList();
+  }
+  
   public StudyPlan save(StudyPlan item) {
     if (item.getSpecialityCode() > 0) {
       Speciality spc = em.find(Speciality.class, item.getSpecialityCode());

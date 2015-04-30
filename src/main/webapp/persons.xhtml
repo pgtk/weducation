@@ -17,6 +17,8 @@
         <h2>Персоны</h2>
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}" /></div>
+        </h:form>
+        <h:form id="searchForm">
           <div class="roundbox" id="find">
             <h:outputText value="Фамилия начинается с " />
             <h:inputText rendered="#{not personsMB.filter}" value="#{personsMB.name}" class="textEdit" />
@@ -147,6 +149,16 @@
             <h:commandButton value="Удалить" action="#{personsMB.switchDelete()}" />
           </div>
         </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{personsMB.error}">
+        <!-- Details -->
+        <h2>Ошибка!</h2>
+        <p>
+          Вы оказались там, где вас быть не должно! Если вы всё делали правильно, обратитесь к разработчику.
+        </p>
+          <div class="buttons">
+            <h:button outcome="/index" value="На главную" />
+          </div>
       </h:panelGroup>
     </ui:define>
   </ui:composition>
