@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <f:metadata>
+    <f:viewParam name="groupId" value="#{marksMB.groupCode}" />
+    <f:viewAction action="#{marksMB.loadGroup()}" />
+  </f:metadata>
+
+  <ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+      <!-- List -->
+      <h2>Оценки для группы #{marksMB.group.name}</h2>
+      <h:outputText value="Семестр" /><br />
+      <h:form>
+        <h:selectOneMenu value="#{marksMB.groupCode}" valueChangeListener="#{marksMB.changeSemester}">
+          <f:selectItem itemLabel="Выберите семестр" itemValue="0" />
+          <f:selectItems value="#{marksMB.semesterList}" var="sm" 
+                         itemLabel="#{sm.label}" itemValue="#{sm.id}" />
+          <f:ajax execute="@form" render="@form" />
+        </h:selectOneMenu>
+        <h:outputText value="#{marksMB.semester.label}" /><p />
+      <h:outputText value="Дисциплина" /><br />
+        <h:selectOneMenu  value="#{marksMB.subjectCode}" valueChangeListener="#{marksMB.changeSubject}">
+          <f:selectItem itemLabel="Выберите дисциплину" itemValue="0" />
+          <f:selectItems value="#{marksMB.subjectList}" var="sub" 
+                         itemLabel="#{sub.fullName}" itemValue="#{sub.id}" />
+          <f:ajax execute="@form" render="@form" />
+        </h:selectOneMenu><p />
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</html>

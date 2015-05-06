@@ -1,16 +1,20 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
+import ru.edu.pgtk.weducation.entity.MonthMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
@@ -25,21 +29,75 @@ public class MarksMB implements Serializable {
   private transient GroupSemestersEJB semesters;
   @EJB
   private transient StudyCardsEJB cards;
+//  @EJB
+//  private transient MonthMarksEJB marks;
   private int groupCode;
   private StudyGroup group;
+  private int subjectCode;
+  private Subject subject;
   private int semesterCode;
   private GroupSemester semester;
   private List<GroupSemester> semesterList;
-
+  private List<Subject> subjectList;
+  private List<MonthMark> markList;
+  
+  
   public void loadGroup() {
     try {
       if (groupCode > 0) {
         group = groups.get(groupCode);
         // Можно загрузить список групп
+        semesterList = semesters.fetchAll(group);
       }
     } catch (Exception e) {
       addMessage(e);
     }
+  }
+
+  public void changeSemester(ValueChangeEvent event) {
+    try {
+      int code = (Integer) event.getNewValue();
+      if (code > 0) {
+        semester = semesters.get(code);
+        // Корректируем список дисциплин для этого семестра
+        subjectList = subjects.fetch(group, semester.getCourse(), semester.getSemester());
+      } else {
+        semester = null;
+      }
+    } catch (Exception e) {
+      semester = null;
+      addMessage(e);
+    }
+  }
+
+  public void changeSubject(ValueChangeEvent event) {
+    try {
+      int code = (Integer) event.getNewValue();
+      if (code > 0) {
+        subject = subjects.get(code);
+        // Тут мы будем выбирать список студентов, наверное.
+      } else {
+        subject = null;
+      }
+    } catch (Exception e) {
+      subject = null;
+      addMessage(e);
+    }
+  }
+
+  public List<GroupSemester> getSemesterList() {
+    if (semesterList != null) {
+      return semesterList;
+    } else {
+      return new ArrayList<>();
+    }
+  }
+
+  public List<Subject> getSubjectList() {
+    if (subjectList == null) {
+      subjectList = new ArrayList();
+    }
+    return subjectList;
   }
 
   public int getGroupCode() {
@@ -64,5 +122,17 @@ public class MarksMB implements Serializable {
 
   public GroupSemester getSemester() {
     return semester;
+  }
+
+  public int getSubjectCode() {
+    return subjectCode;
+  }
+
+  public void setSubjectCode(int subjectCode) {
+    this.subjectCode = subjectCode;
+  }
+
+  public Subject getSubject() {
+    return subject;
   }
 }
