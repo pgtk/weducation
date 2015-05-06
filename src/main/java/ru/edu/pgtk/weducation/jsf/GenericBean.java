@@ -14,11 +14,22 @@ import ru.edu.pgtk.weducation.entity.Account;
  */
 public abstract class GenericBean<T> {
 
+  @ManagedProperty(value = "#{sessionMB.user}")
+  protected transient Account user;
   protected transient T item;
   protected boolean edit;
   protected boolean delete;
   protected boolean details;
   protected boolean error;
+
+  @PostConstruct
+  private void checkAccount() {
+    resetState();
+    // Если пользователь неавторизован, то выдаем ошибку и запрещаем работу!
+    if (null == user) {
+      error = true;
+    }
+  }
 
   protected void resetState() {
     edit = false;
@@ -66,11 +77,11 @@ public abstract class GenericBean<T> {
   public void cancelEdit() {
     edit = false;
   }
-  
+
   public void cancelDelete() {
     delete = false;
   }
-  
+
   public void cancel() {
     resetState();
   }
@@ -85,13 +96,13 @@ public abstract class GenericBean<T> {
     edit = true;
     details = false;
   }
-  
+
   public void switchEdit() {
     if (null != item) {
       edit = true;
     }
   }
-  
+
   public void switchDelete() {
     if (null != item) {
       delete = true;
@@ -101,5 +112,13 @@ public abstract class GenericBean<T> {
   public void details(final T item) {
     this.item = item;
     details = true;
+  }
+
+  public Account getUser() {
+    return user;
+  }
+
+  public void setUser(Account user) {
+    this.user = user;
   }
 }

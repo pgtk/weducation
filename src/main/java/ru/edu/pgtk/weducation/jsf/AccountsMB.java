@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
 import ru.edu.pgtk.weducation.entity.Account;
@@ -16,8 +15,6 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
 
   @EJB
   private AccountsEJB ejb;
-  @ManagedProperty(value = "#{sessionMB.user}")
-  private transient Account user;
 
   @PostConstruct
   private void checkRestrictions() {
@@ -67,13 +64,5 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
         addMessage(e);
       }
     }
-  }
-
-  public Account getUser() {
-    return user;
-  }
-
-  public void setUser(Account user) {
-    this.user = user;
   }
 }
