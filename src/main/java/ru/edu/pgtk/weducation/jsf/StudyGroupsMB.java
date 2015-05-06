@@ -5,12 +5,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.entity.Account;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
@@ -28,7 +30,8 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
   private transient StudyPlansEJB plansEJB;
   @EJB
   private transient SpecialitiesEJB spcejb;
-
+  @ManagedProperty(value = "#{sessionMB.user}")
+  private transient Account user;
   private Department department;
   private Speciality speciality;
   private int departmentCode;
@@ -155,5 +158,9 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
 
   public void setGroupCode(int groupCode) {
     this.groupCode = groupCode;
+  }
+  
+  public void setUser(Account user) {
+    this.user = user;
   }
 }

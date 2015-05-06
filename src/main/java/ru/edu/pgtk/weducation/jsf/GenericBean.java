@@ -19,18 +19,7 @@ public abstract class GenericBean<T> {
   protected boolean delete;
   protected boolean details;
   protected boolean error;
-  @ManagedProperty(value = "#{sessionMB.user}")
-  protected transient Account user;
 
-  @PostConstruct
-  private void checkAccount() {
-    resetState();
-    // Если пользователь неавторизован, то выдаем ошибку и запрещаем работу!
-    if (null == user) {
-      error = true;
-    }
-  }
-  
   protected void resetState() {
     edit = false;
     delete = false;
@@ -48,14 +37,6 @@ public abstract class GenericBean<T> {
   protected void addMessage(final String message) {
     FacesContext context = FacesContext.getCurrentInstance();
     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
-  }
-
-  public Account getUser() {
-    return user;
-  }
-
-  public void setUser(Account user) {
-    this.user = user;
   }
 
   public T getItem() {
