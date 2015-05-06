@@ -34,20 +34,18 @@
                 <tr>
                   <td>#{semester.course}</td>
                   <td>#{semester.semester}</td>
+                  <td>#{semester.beginDateString}</td>
+                  <td>#{semester.endDateString}</td>
                   <td>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                    <h:commandLink class="action" value="Изменить" action="#{groupSemestersMB.edit(dep)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{groupSemestersMB.delete(dep)}" />
+                    <h:commandLink class="action" value="Изменить" action="#{groupSemestersMB.edit(semester)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{groupSemestersMB.delete(semester)}" />
                   </td>
                 </tr>
               </ui:repeat>
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty groupSemestersEJB.fetchAll()}">
+        <h:panelGroup rendered="#{empty groupSemestersMB.semesters}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>
@@ -56,14 +54,24 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{groupSemestersMB.edit}">
         <!-- Edit -->
-        <h2>Редактирование отделения</h2>
+        <h2>Редактирование семестра группы</h2>
         <h:form>
-          <h:outputText value="Наименование" /><br />
-          <h:inputText value="#{groupSemestersMB.item.name}" class="textEdit" /><p />
-          <h:outputText value="Зав. отделением" /><br />
-          <h:inputText value="#{groupSemestersMB.item.master}" class="textEdit" /><p />
-          <h:outputText value="Секретарь" /><br />
-          <h:inputText value="#{groupSemestersMB.item.secretar}" class="textEdit" /><p />
+          <h:outputText value="Курс" /><br />
+          <h:inputText value="#{groupSemestersMB.item.course}" class="textEdit" /><p />
+          <h:outputText value="Семестр" /><br />
+          <h:inputText value="#{groupSemestersMB.item.semester}" class="textEdit" /><p />
+          <h:outputText value="Год начала" /><br />
+          <h:inputText value="#{groupSemestersMB.item.beginYear}" class="textEdit" /><p />
+          <h:outputText value="Месяц начала" /><br />
+          <h:inputText value="#{groupSemestersMB.item.beginMonth}" class="textEdit" /><p />
+          <h:outputText value="Неделя начала" /><br />
+          <h:inputText value="#{groupSemestersMB.item.beginWeek}" class="textEdit" /><p />
+          <h:outputText value="Год окончания" /><br />
+          <h:inputText value="#{groupSemestersMB.item.endYear}" class="textEdit" /><p />
+          <h:outputText value="Месяц окончания" /><br />
+          <h:inputText value="#{groupSemestersMB.item.endMonth}" class="textEdit" /><p />
+          <h:outputText value="Неделя окончания" /><br />
+          <h:inputText value="#{groupSemestersMB.item.endWeek}" class="textEdit" /><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{groupSemestersMB.save()}" />
             <h:commandButton value="Отменить" action="#{groupSemestersMB.cancel()}" />
@@ -72,24 +80,12 @@
       </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{groupSemestersMB.delete}">
         <!-- Delete -->
-        <h2>Удаление отделения</h2>
+        <h2>Удаление семестра группы</h2>
         <h:form>
-          <p>Отделение "#{groupSemestersMB.item.name}" будет удалено!</p>
+          <p>Семестр "#{groupSemestersMB.item.semester}" будет удален!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{groupSemestersMB.confirmDelete()}" />
             <h:commandButton value="Отменить" action="#{groupSemestersMB.cancel()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{groupSemestersMB.details}">
-        <!-- Details -->
-        <h2>Детали отделения</h2>
-        <h:form>
-          <h3>#{groupSemestersMB.item.name}</h3>
-          <p><h:link outcome="/studygroups?departmentId=#{groupSemestersMB.item.id}"
-                     value="Редактирование групп" /></p>
-          <div class="buttons">
-            <h:commandButton value="Закрыть" action="#{groupSemestersMB.cancel()}" />
           </div>
         </h:form>
       </h:panelGroup>

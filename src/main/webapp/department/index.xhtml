@@ -23,7 +23,7 @@
         <h:panelGroup rendered="#{not empty departmentRootMB.students}">
           <div class="buttons">
             <h:button value="Параметры" outcome="/studygroups?id=#{departmentRootMB.group.id}" />
-            <h:button value="Семестры" outcome="/index" />
+            <h:button value="Семестры" outcome="/groupsemesters?groupId=#{departmentRootMB.group.id}" />
             <h:button value="Оценки по дисциплинам и МДК" outcome="/index" />
             <h:button value="Оценки по модулям" outcome="/index" />
           </div>

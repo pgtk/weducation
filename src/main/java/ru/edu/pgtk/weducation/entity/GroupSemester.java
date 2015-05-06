@@ -22,7 +22,7 @@ import static ru.edu.pgtk.weducation.utils.Utils.getStringForMonth;
 public class GroupSemester implements Serializable {
   
   @Id
-  @Column(name = "grp_pcode")
+  @Column(name = "grs_pcode")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   
@@ -67,11 +67,11 @@ public class GroupSemester implements Serializable {
   }
   
   public String getBeginDateString() {
-    return beginYear + "-й год, " + getStringForMonth(beginMonth-1) + ", " + beginWeek + "-я неделя.";
+    return beginYear + "-й год, " + beginWeek + "-я неделя " + getStringForMonth(beginMonth-1);
   }
   
   public String getEndDateString() {
-    return endYear + "-й год, " + getStringForMonth(endMonth-1) + ", " + endWeek + "-я неделя.";
+    return endYear + "-й год, " + endWeek + "-я неделя " + getStringForMonth(endMonth-1);
   }
 
   public int getId() {
