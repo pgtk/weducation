@@ -2,6 +2,7 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -33,6 +34,15 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
   private int departmentCode;
   private int groupCode;
 
+  @PostConstruct
+  private void checkAccount() {
+    resetState();
+    // Если пользователь неавторизован, то выдаем ошибку и запрещаем работу!
+    if (null == user) {
+      error = true;
+    }
+  }
+  
   public int getDepartmentCode() {
     return departmentCode;
   }

@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -14,6 +15,15 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
   @EJB
   private transient StudyPlansEJB ejb;
   private int planCode;
+
+  @PostConstruct
+  private void checkAccount() {
+    resetState();
+    // Если пользователь неавторизован, то выдаем ошибку и запрещаем работу!
+    if (null == user) {
+      error = true;
+    }
+  }
 
   public int getPlanCode() {
     return planCode;

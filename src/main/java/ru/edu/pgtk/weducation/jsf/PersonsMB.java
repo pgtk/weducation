@@ -3,6 +3,7 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -16,11 +17,22 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
 
   @EJB
   private transient PersonsEJB ejb;
+//  @ManagedProperty(value = "#{sessionMB.user}")
+//  private transient Account user;
 
   private int personCode;
   private String name;
   private boolean filter;
 
+  @PostConstruct
+  private void checkAccount() {
+    resetState();
+    // Если пользователь неавторизован, то выдаем ошибку и запрещаем работу!
+    if (null == user) {
+      error = true;
+    }
+  }
+  
   public ForeignLanguage[] getLanguages() {
     return ForeignLanguage.values();
   }
