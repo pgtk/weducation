@@ -3,12 +3,14 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
-import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
+import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
@@ -28,9 +30,7 @@ public class MarksMB implements Serializable {
   @EJB
   private transient GroupSemestersEJB semesters;
   @EJB
-  private transient StudyCardsEJB cards;
-//  @EJB
-//  private transient MonthMarksEJB marks;
+  private transient MonthMarksEJB marks;
   private int groupCode;
   private StudyGroup group;
   private int subjectCode;
@@ -40,8 +40,20 @@ public class MarksMB implements Serializable {
   private List<GroupSemester> semesterList;
   private List<Subject> subjectList;
   private List<MonthMark> markList;
-  
-  
+  private int markDate;
+
+  /**
+   * Функция для построения списка оценок
+   */
+  private void makeList() {
+    if ((group != null) && (subject != null) && (markDate > 0)) {
+      markList = marks.fetchAll(group, subject, markDate / 100, markDate % 100);
+    } else {
+      // Если хоть один из параметров отсутствует - очищаем список
+      markList = null;
+    }
+  }
+
   public void loadGroup() {
     try {
       if (groupCode > 0) {
@@ -54,6 +66,38 @@ public class MarksMB implements Serializable {
     }
   }
 
+  public void save() {
+    try {
+      if (markList != null) {
+        for(MonthMark m: markList) {
+          marks.save(m);
+        }
+      }
+    } catch (Exception e) {
+      addMessage(e);
+    }
+  }
+
+  public Map<String, Integer> getMonths() {
+    Map<String, Integer> result = new TreeMap<>();
+    if (semester != null) {
+      int year = semester.getBeginYear();
+      int month = semester.getBeginMonth();
+      int edate = semester.getEndYear() * 100 + semester.getEndMonth();
+      int date;
+      do {
+        date = year * 100 + month;
+        result.put(String.format("%04d-%02d", year, month), date);
+        month += 1;
+        if (month == 13) {
+          month = 1;
+          year += 1;
+        }
+      } while (date <= edate);
+    }
+    return result;
+  }
+
   public void changeSemester(ValueChangeEvent event) {
     try {
       int code = (Integer) event.getNewValue();
@@ -61,6 +105,7 @@ public class MarksMB implements Serializable {
         semester = semesters.get(code);
         // Корректируем список дисциплин для этого семестра
         subjectList = subjects.fetch(group, semester.getCourse(), semester.getSemester());
+        makeList();
       } else {
         semester = null;
       }
@@ -75,12 +120,27 @@ public class MarksMB implements Serializable {
       int code = (Integer) event.getNewValue();
       if (code > 0) {
         subject = subjects.get(code);
-        // Тут мы будем выбирать список студентов, наверное.
+        makeList();
       } else {
         subject = null;
       }
     } catch (Exception e) {
       subject = null;
+      addMessage(e);
+    }
+  }
+
+  public void changeDate(ValueChangeEvent event) {
+    try {
+      int newDate = (Integer) event.getNewValue();
+      if (newDate > 0) {
+        markDate = newDate;
+        makeList();
+      } else {
+        markDate = 0;
+      }
+    } catch (Exception e) {
+      markDate = 0;
       addMessage(e);
     }
   }
@@ -98,6 +158,13 @@ public class MarksMB implements Serializable {
       subjectList = new ArrayList();
     }
     return subjectList;
+  }
+
+  public List<MonthMark> getMarkList() {
+    if (markList == null) {
+      markList = new ArrayList();
+    }
+    return markList;
   }
 
   public int getGroupCode() {
@@ -134,5 +201,13 @@ public class MarksMB implements Serializable {
 
   public Subject getSubject() {
     return subject;
+  }
+
+  public int getMarkDate() {
+    return markDate;
+  }
+
+  public void setMarkDate(int markDate) {
+    this.markDate = markDate;
   }
 }
