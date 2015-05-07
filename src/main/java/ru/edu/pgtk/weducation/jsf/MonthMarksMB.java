@@ -20,8 +20,8 @@ import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
-@ManagedBean(name = "marksMB")
-public class MarksMB implements Serializable {
+@ManagedBean(name = "monthMarksMB")
+public class MonthMarksMB implements Serializable {
 
   @EJB
   private transient StudyGroupsEJB groups;
@@ -69,7 +69,7 @@ public class MarksMB implements Serializable {
   public void save() {
     try {
       if (markList != null) {
-        for(MonthMark m: markList) {
+        for (MonthMark m : markList) {
           marks.save(m);
         }
       }

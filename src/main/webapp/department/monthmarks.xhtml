@@ -6,36 +6,36 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <f:metadata>
-    <f:viewParam name="groupId" value="#{marksMB.groupCode}" />
-    <f:viewAction action="#{marksMB.loadGroup()}" />
+    <f:viewParam name="groupId" value="#{monthMarksMB.groupCode}" />
+    <f:viewAction action="#{monthMarksMB.loadGroup()}" />
   </f:metadata>
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <!-- List -->
-      <h2>Оценки за месяц по дисциплинам и МДК для группы #{marksMB.group.name}</h2>
+      <h2>Оценки за месяц по дисциплинам и МДК для группы #{monthMarksMB.group.name}</h2>
       <h:outputText value="Семестр" /><br />
       <h:form>
-        <h:selectOneMenu value="#{marksMB.groupCode}" valueChangeListener="#{marksMB.changeSemester}">
+        <h:selectOneMenu value="#{monthMarksMB.groupCode}" valueChangeListener="#{monthMarksMB.changeSemester}">
           <f:selectItem itemLabel="Выберите семестр" itemValue="0" />
-          <f:selectItems value="#{marksMB.semesterList}" var="sm" 
+          <f:selectItems value="#{monthMarksMB.semesterList}" var="sm" 
                          itemLabel="#{sm.label}" itemValue="#{sm.id}" />
           <f:ajax execute="@form" render="@form" />
         </h:selectOneMenu><p />
-      <h:outputText value="Дисциплина" /><br />
-        <h:selectOneMenu  value="#{marksMB.subjectCode}" valueChangeListener="#{marksMB.changeSubject}">
+        <h:outputText value="Дисциплина" /><br />
+        <h:selectOneMenu  value="#{monthMarksMB.subjectCode}" valueChangeListener="#{monthMarksMB.changeSubject}">
           <f:selectItem itemLabel="Выберите дисциплину" itemValue="0" />
-          <f:selectItems value="#{marksMB.subjectList}" var="sub" 
+          <f:selectItems value="#{monthMarksMB.subjectList}" var="sub" 
                          itemLabel="#{sub.fullName}" itemValue="#{sub.id}" />
           <f:ajax execute="@form" render="@form" />
         </h:selectOneMenu><p />
-      <h:outputText value="Месяц, год" /><br />
-      <h:selectOneMenu  value="#{marksMB.markDate}" valueChangeListener="#{marksMB.changeDate}">
+        <h:outputText value="Месяц, год" /><br />
+        <h:selectOneMenu  value="#{monthMarksMB.markDate}" valueChangeListener="#{monthMarksMB.changeDate}">
           <f:selectItem itemLabel="Выберите период" itemValue="0" />
-          <f:selectItems value="#{marksMB.months}" />
+          <f:selectItems value="#{monthMarksMB.months}" />
           <f:ajax execute="@form" render="@form" />
         </h:selectOneMenu><p />
-        <h:panelGroup rendered="#{not empty marksMB.markList}">
+        <h:panelGroup rendered="#{not empty monthMarksMB.markList}">
           <table class="dataTable">
             <thead>
               <tr>
@@ -44,7 +44,7 @@
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{marksMB.markList}" var="mark">
+              <ui:repeat value="#{monthMarksMB.markList}" var="mark">
                 <tr class="#{utilsEJB.getEnabledClass(mark.card.active)}">
                   <td>${mark.person.fullName}</td>
                   <td>
@@ -55,10 +55,10 @@
             </tbody>
           </table>
           <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{marksMB.save()}" />
+            <h:commandButton value="Сохранить" action="#{monthMarksMB.save()}" />
           </div>
         </h:panelGroup>
-        <h:panelGroup rendered="#{empty marksMB.markList}">
+        <h:panelGroup rendered="#{empty monthMarksMB.markList}">
           <p>Для указанных параметров список недоступен или пуст.</p>
         </h:panelGroup>
       </h:form>
