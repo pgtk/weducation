@@ -233,7 +233,6 @@ public class ReferenceBlanksEJB {
       prepareFonts();
       Document document = new Document(PageSize.A4, getPt(5), getPt(5),
               getPt(10), getPt(5));
-      PdfWriter writer = PdfWriter.getInstance(document, stream);
       document.open();
       document.addTitle("Справка об успеваемости");
       document.addAuthor("weducation project");
