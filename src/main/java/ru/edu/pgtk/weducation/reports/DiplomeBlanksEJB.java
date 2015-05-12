@@ -242,8 +242,8 @@ public class DiplomeBlanksEJB {
         // Дисциплины конкретного модуля
         for (FinalMark sfm : finalMarks.fetchModuleSubjects(card, fm.getModule())) {
           marks.add(new MarkItem(sfm));
-          aload += fm.getAuditoryLoad();
-          mload += fm.getMaximumLoad();
+          aload += sfm.getAuditoryLoad();
+          mload += sfm.getMaximumLoad();
         }
       }
       marks.add(new MarkItem("ВСЕГО часов теоретического обучения:", mload, 0));

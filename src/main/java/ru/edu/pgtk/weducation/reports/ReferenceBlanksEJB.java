@@ -9,7 +9,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -270,8 +269,8 @@ public class ReferenceBlanksEJB {
         // Дисциплины конкретного модуля
         for (FinalMark sfm : finalMarks.fetchModuleSubjects(card, fm.getModule())) {
           marks.add(new MarkItem(sfm));
-          aload += fm.getAuditoryLoad();
-          mload += fm.getMaximumLoad();
+          aload += sfm.getAuditoryLoad();
+          mload += sfm.getMaximumLoad();
         }
       }
       marks.add(new MarkItem("ВСЕГО часов теоретического обучения:", mload, 0));

@@ -67,10 +67,16 @@ public class StudyCardsEJB {
     // Если у нас есть группа, то часть полей возьмем оттуда
     if (item.getGroupCode() > 0) {
       StudyGroup grp = groups.get(item.getGroupCode());
+      // Устанавливаем группу
       item.setGroup(grp);
-      if ((null != grp.getPlan()) && (null == item.getPlan()) && (0 == item.getPlanCode())) {
-        item.setPlan(grp.getPlan());
-      }
+      // Устанавливаем учебный план
+      item.setPlan(grp.getPlan());
+      item.setSpeciality(grp.getSpeciality());
+//      if ((null != grp.getPlan()) && (null == item.getPlan()) && (0 == item.getPlanCode())) {
+//        item.setPlan(grp.getPlan());
+//      }
+      // Заочник или нет - возьмем тоже из группы
+      item.setExtramural(grp.isExtramural());
     } else {
       // А вдруг группу убрали?
       item.setGroup(null);

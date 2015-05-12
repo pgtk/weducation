@@ -39,7 +39,7 @@ public class StudyModulesEJB {
   public List<StudyModule> fetchForCard(final StudyCard card) {
     TypedQuery<StudyModule> q = em.createQuery(
             "SELECT sp FROM StudyModule sp WHERE (sp.plan = :pln) AND "
-            + "(sp.id NOT IN (SELECT fm.module.id FROM FinalMark fm WHERE (fm.card = :c))) ORDER BY sp.name", StudyModule.class);
+            + "(sp.id NOT IN (SELECT fm.module.id FROM FinalMark fm WHERE (fm.card = :c) AND (fm.subject IS NULL))) ORDER BY sp.name", StudyModule.class);
     q.setParameter("pln", card.getPlan());
     q.setParameter("c", card);
     return q.getResultList();
