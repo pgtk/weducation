@@ -7,47 +7,61 @@
 
   <f:metadata>
     <f:viewParam name="groupId" value="#{monthMarksMB.groupCode}" />
-    <f:viewAction action="#{monthMarksMB.preparePage()}" />
-  </f:metadata>  
+    <f:viewAction action="#{monthMarksMB.loadGroup()}" />
+  </f:metadata>
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <h:panelGroup layout="block" rendered="#{monthMarksMB.edit}">
-        <!-- Edit -->
-        <h2>Редактирование оценок за месяц</h2>
-        <h:form>
-          <h:outputText value="Subject" /><br />
-          <h:selectOneMenu value="#{monthMarksMB.subjectCode}"
-                           valueChangeListener="#{monthMarksMB.changeSubject}">
-            <f:selectItem itemLabel="---select subject---" itemValue="0" />
-            <f:selectItems value="#{monthMarksMB.subjectsForGroup}" var="sub" 
-                           itemLabel="#{sub.name}" itemValue="#{sub.id}" />
-            <f:ajax event="change" execute="@form" render="@form globalMessages" />
-          </h:selectOneMenu><p />
-          <h:outputText value="Year" /><br />
-          <h:inputText value="#{monthMarksMB.year}" class="textEdit" /><p />
-          <h:outputText value="Month" /><br />
-          <h:inputText value="#{monthMarksMB.month}" class="textEdit" /><p />
-
-          <!-- And now I confused: how implement list of persons?
-          If it will be ui:repeat - what should I use for value="" parameter?
-          -->
-
+      <!-- List -->
+      <h2>Оценки за семестр по дисциплинам и МДК для группы #{monthMarksMB.group.name}</h2>
+      <h:outputText value="Семестр" /><br />
+      <h:form>
+        <h:selectOneMenu value="#{monthMarksMB.groupCode}" valueChangeListener="#{monthMarksMB.changeSemester}">
+          <f:selectItem itemLabel="Выберите семестр" itemValue="0" />
+          <f:selectItems value="#{monthMarksMB.semesterList}" var="sm" 
+                         itemLabel="#{sm.label}" itemValue="#{sm.id}" />
+          <f:ajax execute="@form" render="@form" />
+        </h:selectOneMenu><p />
+        <h:outputText value="Дисциплина" /><br />
+        <h:selectOneMenu  value="#{monthMarksMB.subjectCode}" valueChangeListener="#{monthMarksMB.changeSubject}">
+          <f:selectItem itemLabel="Выберите дисциплину" itemValue="0" />
+          <f:selectItems value="#{monthMarksMB.subjectList}" var="sub" 
+                         itemLabel="#{sub.fullName}" itemValue="#{sub.id}" />
+          <f:ajax execute="@form" render="@form" />
+        </h:selectOneMenu><p />
+        <h:outputText value="Месяц, год" /><br />
+        <h:selectOneMenu  value="#{monthMarksMB.markDate}" valueChangeListener="#{monthMarksMB.changeDate}">
+          <f:selectItem itemLabel="Выберите период" itemValue="0" />
+          <f:selectItems value="#{monthMarksMB.months}" />
+          <f:ajax execute="@form" render="@form" />
+        </h:selectOneMenu><p />
+        <h:panelGroup rendered="#{not empty monthMarksMB.markList}">
+          <table class="dataTable">
+            <thead>
+              <tr>
+                <th width="70%">Фамилия Имя Отчество</th>
+                <th width="30%">Оценка</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ui:repeat value="#{monthMarksMB.markList}" var="mark">
+                <tr class="#{utilsEJB.getEnabledClass(mark.card.active)}">
+                  <td>${mark.person.fullName}</td>
+                  <td>
+                    <h:inputText value="#{mark.mark}" />
+                  </td>
+                </tr>
+              </ui:repeat>
+            </tbody>
+          </table>
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{monthMarksMB.save()}" />
-            <h:commandButton value="Отменить" action="#{monthMarksMB.cancel()}" />
           </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup rendered="#{monthMarksMB.error}">
-        <!-- Error -->
-        <h2>Ошибка!</h2>
-        <div class="roundbox" id="error">
-          Вы оказались там где быть не должны! Либо что-то случилось, либо одно из двух :-).
-          Если вы уверены в том, что всё делали правильно, сообщите разработчику об этой ошибке.
-        </div>
-        <p><h:link outcome="/index" value="Перейти на главную страницу" /></p>
-      </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{empty monthMarksMB.markList}">
+          <p>Для указанных параметров список недоступен или пуст.</p>
+        </h:panelGroup>
+      </h:form>
     </ui:define>
   </ui:composition>
 </html>

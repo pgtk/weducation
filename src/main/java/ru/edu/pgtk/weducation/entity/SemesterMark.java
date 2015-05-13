@@ -48,17 +48,29 @@ public class SemesterMark implements Serializable {
   private int cardCode;
 
   @ManyToOne
-  @JoinColumn(name = "smk_subcode", nullable = false)
+  @JoinColumn(name = "smk_subcode")
   private Subject subject;
 
   @Transient
   private int subjectCode;
 
+  @ManyToOne
+  @JoinColumn(name = "smk_modcode")
+  private StudyModule module;
+
+  @Transient
+  private int moduleCode;
+
   @PostLoad
   private void updateCodes() {
     personCode = person.getId();
     cardCode = card.getId();
-    subjectCode = subject.getId();
+    if (null != subject) {
+      subjectCode = subject.getId();
+    }
+    if (null != module) {
+      moduleCode = module.getId();
+    }
   }
 
   public int getId() {
@@ -135,5 +147,21 @@ public class SemesterMark implements Serializable {
 
   public void setSubjectCode(int subjectCode) {
     this.subjectCode = subjectCode;
+  }
+
+  public StudyModule getModule() {
+    return module;
+  }
+
+  public void setModule(StudyModule module) {
+    this.module = module;
+  }
+
+  public int getModuleCode() {
+    return moduleCode;
+  }
+
+  public void setModuleCode(int moduleCode) {
+    this.moduleCode = moduleCode;
   }
 }

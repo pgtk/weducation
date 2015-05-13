@@ -28,5 +28,30 @@
     );
   </sql>
 </changeSet>
+<changeSet id="005-2" author="gooamoko">
+  <comment>
+    Удалим поле exam из таблицы semestermarks
+  </comment>
+  <sql>
+    ALTER TABLE semestermarks DROP COLUMN smk_exam;
+  </sql>
+</changeSet>
+<changeSet id="005-3" author="gooamoko">
+  <comment>
+    Добавим поле кода модуля в таблицу semestermarks
+  </comment>
+  <sql>
+    ALTER TABLE semestermarks ADD COLUMN smk_modcode int NOT NULL;
+  </sql>
+</changeSet>
+<changeSet id="005-4" author="gooamoko">
+  <comment>
+    Добавим внешний ключ в таблицу semestermarks
+  </comment>
+  <sql>
+    ALTER TABLE semestermarks ADD CONSTRAINT semestermarks_modules_fk FOREIGn KEY(smk_modcode) 
+      REFERENCES modules(mod_pcode) ON UPDATE CASCADE ON DELETE NO ACTION;
+  </sql>
+</changeSet>
 
 </databaseChangeLog>
