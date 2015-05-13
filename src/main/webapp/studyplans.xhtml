@@ -25,7 +25,7 @@
             <h:button outcome="/import/plan" value="Импорт" />
           </div>
         </h:form>
-        <h:form id="listForm" rendered="#{not empty studyPlansEJB.fetchAll()}">
+        <h:form id="listForm" rendered="#{not empty studyPlansMB.plans}">
           <table id="dataTable">
             <thead>
               <tr>
@@ -35,7 +35,7 @@
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{studyPlansEJB.fetchAll()}" var="stp">
+              <ui:repeat value="#{studyPlansMB.plans}" var="stp">
                 <tr>
                   <td>
                     <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.name}" />
@@ -52,7 +52,7 @@
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty studyPlansEJB.fetchAll()}">
+        <h:panelGroup rendered="#{empty studyPlansMB.plans}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>
@@ -82,7 +82,7 @@
           <h:outputText value="заочная форма обучения" /><p />
           <h:outputText value="Специальность" /><br />
           <h:selectOneMenu value="#{studyPlansMB.item.specialityCode}">
-            <f:selectItems value="#{specialitiesEJB.fetchAll()}" var="spc" 
+            <f:selectItems value="#{studyPlansMB.specialities}" var="spc" 
                            itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
           </h:selectOneMenu><p />
           <div class="buttons">
