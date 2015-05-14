@@ -8,9 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PostLoad;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  * Класс оценок за семестр
@@ -37,41 +35,17 @@ public class SemesterMark implements Serializable {
   @JoinColumn(name = "smk_psncode", nullable = false)
   private Person person;
 
-  @Transient
-  private int personCode;
-
   @ManyToOne
   @JoinColumn(name = "smk_crdcode", nullable = false)
   private StudyCard card;
-
-  @Transient
-  private int cardCode;
 
   @ManyToOne
   @JoinColumn(name = "smk_subcode")
   private Subject subject;
 
-  @Transient
-  private int subjectCode;
-
   @ManyToOne
   @JoinColumn(name = "smk_modcode")
   private StudyModule module;
-
-  @Transient
-  private int moduleCode;
-
-  @PostLoad
-  private void updateCodes() {
-    personCode = person.getId();
-    cardCode = card.getId();
-    if (null != subject) {
-      subjectCode = subject.getId();
-    }
-    if (null != module) {
-      moduleCode = module.getId();
-    }
-  }
 
   public int getId() {
     return id;
@@ -109,28 +83,12 @@ public class SemesterMark implements Serializable {
     this.person = person;
   }
 
-  public int getPersonCode() {
-    return personCode;
-  }
-
-  public void setPersonCode(int personCode) {
-    this.personCode = personCode;
-  }
-
   public StudyCard getCard() {
     return card;
   }
 
   public void setCard(StudyCard card) {
     this.card = card;
-  }
-
-  public int getCardCode() {
-    return cardCode;
-  }
-
-  public void setCardCode(int cardCode) {
-    this.cardCode = cardCode;
   }
 
   public Subject getSubject() {
@@ -141,27 +99,11 @@ public class SemesterMark implements Serializable {
     this.subject = subject;
   }
 
-  public int getSubjectCode() {
-    return subjectCode;
-  }
-
-  public void setSubjectCode(int subjectCode) {
-    this.subjectCode = subjectCode;
-  }
-
   public StudyModule getModule() {
     return module;
   }
 
   public void setModule(StudyModule module) {
     this.module = module;
-  }
-
-  public int getModuleCode() {
-    return moduleCode;
-  }
-
-  public void setModuleCode(int moduleCode) {
-    this.moduleCode = moduleCode;
   }
 }

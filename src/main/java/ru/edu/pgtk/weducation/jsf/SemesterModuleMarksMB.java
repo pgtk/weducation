@@ -9,41 +9,41 @@ import javax.faces.event.ValueChangeEvent;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.SemesterMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
-import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
+import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.SemesterMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.entity.StudyModule;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
-@ManagedBean(name = "semesterSubjectMarksMB")
-public class SemesterSubjectMarksMB {
+@ManagedBean(name = "semesterModuleMarksMB")
+public class SemesterModuleMarksMB {
 
   @EJB
   private transient StudyGroupsEJB groups;
   @EJB
-  private transient SubjectsEJB subjects;
+  private transient StudyModulesEJB modules;
   @EJB
   private transient GroupSemestersEJB semesters;
   @EJB
   private transient SemesterMarksEJB marks;
   private int groupCode;
   private StudyGroup group;
-  private int subjectCode;
-  private Subject subject;
+  private int moduleCode;
+  private StudyModule module;
   private int semesterCode;
   private GroupSemester semester;
   private List<GroupSemester> semesterList;
-  private List<Subject> subjectList;
+  private List<StudyModule> moduleList;
   private List<SemesterMark> markList;
 
   /**
    * Функция для построения списка оценок
    */
   private void makeList() {
-    if ((group != null) && (subject != null) && (semester != null)) {
-      markList = marks.fetchAll(group, subject, semester.getCourse(), semester.getSemester());
+    if ((group != null) && (module != null) && (semester != null)) {
+      markList = marks.fetchAll(group, module, semester.getCourse(), semester.getSemester());
     } else {
       // Если хоть один из параметров отсутствует - очищаем список
       markList = null;
@@ -80,7 +80,7 @@ public class SemesterSubjectMarksMB {
       if (code > 0) {
         semester = semesters.get(code);
         // Корректируем список дисциплин для этого семестра
-        subjectList = subjects.fetch(group, semester.getCourse(), semester.getSemester());
+        moduleList = modules.fetch(group, semester.getCourse(), semester.getSemester());
         makeList();
       } else {
         semester = null;
@@ -91,17 +91,17 @@ public class SemesterSubjectMarksMB {
     }
   }
 
-  public void changeSubject(ValueChangeEvent event) {
+  public void changeModule(ValueChangeEvent event) {
     try {
       int code = (Integer) event.getNewValue();
       if (code > 0) {
-        subject = subjects.get(code);
+        module = modules.get(code);
         makeList();
       } else {
-        subject = null;
+        module = null;
       }
     } catch (Exception e) {
-      subject = null;
+      module = null;
       addMessage(e);
     }
   }
@@ -114,11 +114,11 @@ public class SemesterSubjectMarksMB {
     }
   }
 
-  public List<Subject> getSubjectList() {
-    if (subjectList == null) {
-      subjectList = new ArrayList();
+  public List<StudyModule> getModuleList() {
+    if (moduleList == null) {
+      moduleList = new ArrayList();
     }
-    return subjectList;
+    return moduleList;
   }
 
   public List<SemesterMark> getMarkList() {
@@ -152,15 +152,15 @@ public class SemesterSubjectMarksMB {
     return semester;
   }
 
-  public int getSubjectCode() {
-    return subjectCode;
+  public int getModuleCode() {
+    return moduleCode;
   }
 
-  public void setSubjectCode(int subjectCode) {
-    this.subjectCode = subjectCode;
+  public void setModuleCode(int moduleCode) {
+    this.moduleCode = moduleCode;
   }
 
-  public Subject getSubject() {
-    return subject;
+  public StudyModule getModule() {
+    return module;
   }
 }

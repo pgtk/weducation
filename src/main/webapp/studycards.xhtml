@@ -150,6 +150,12 @@
           <!-- может выводить только если указано ипломирование? -->
           <h:outputText value="Тема дипломного проекта" /><br />
           <h:inputText value="#{studyCardsMB.item.diplomeTheme}" class="textEdit" /><p />
+          <h:outputText value="Оценка за итоговые испытания" /><br />
+          <h:selectOneMenu value="#{studyCardsMB.item.diplomeMark}">
+            <f:selectItem itemLabel="Отлично" itemValue="5" />
+            <f:selectItem itemLabel="Хорошо" itemValue="4" />
+            <f:selectItem itemLabel="Удовлетворительно" itemValue="3" />
+          </h:selectOneMenu><p />
           <h:outputText value="Регистрационный номер диплома (или справки в случае отчисления)" /><br />
           <h:inputText value="#{studyCardsMB.item.registrationNumber}" class="textEdit" /><p />
           <h:outputText value="Серия и номер диплома" /><br />

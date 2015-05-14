@@ -9,10 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.MonthMark;
 import ru.edu.pgtk.weducation.entity.SemesterMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.Subject;
 
 @Stateless
@@ -39,6 +39,30 @@ public class SemesterMarksEJB {
       mark.setCard(card);
       mark.setPerson(card.getPerson());
       mark.setSubject(subject);
+      mark.setModule(subject.getModule());
+      mark.setCourse(course);
+      mark.setSemester(semester);
+      return mark;
+    }
+    // В остальных случаях - дальше разберемся.
+  }
+
+  public SemesterMark get(final StudyCard card, final StudyModule module, final int course, final int semester) {
+    try {
+    TypedQuery<SemesterMark> q = em.createQuery(
+      "SELECT m FROM SemesterMark m WHERE (m.card = :c) AND (m.module = :m) AND (m.course = :cr) AND (m.semester = :sm)", SemesterMark.class);
+    q.setParameter("c", card);
+    q.setParameter("m", module);
+    q.setParameter("cr", course);
+    q.setParameter("sm", semester);
+    return q.getSingleResult();
+    } catch (NoResultException e) {
+      // Создадим новый объект
+      SemesterMark mark = new SemesterMark();
+      mark.setCard(card);
+      mark.setPerson(card.getPerson());
+      mark.setSubject(null);
+      mark.setModule(module);
       mark.setCourse(course);
       mark.setSemester(semester);
       return mark;
@@ -50,6 +74,14 @@ public class SemesterMarksEJB {
     List<SemesterMark> result = new LinkedList<>();
     for (StudyCard sc: cards.findByGroup(group)) {
       result.add(get(sc, subject, course, semester));
+    }
+    return result;
+  }
+
+  public List<SemesterMark> fetchAll(final StudyGroup group, final StudyModule module, final int course, final int semester) {
+    List<SemesterMark> result = new LinkedList<>();
+    for (StudyCard sc: cards.findByGroup(group)) {
+      result.add(get(sc, module, course, semester));
     }
     return result;
   }

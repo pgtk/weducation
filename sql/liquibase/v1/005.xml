@@ -53,5 +53,13 @@
       REFERENCES modules(mod_pcode) ON UPDATE CASCADE ON DELETE NO ACTION;
   </sql>
 </changeSet>
+<changeSet id="005-5" author="gooamoko">
+  <comment>
+    Добавим поле кода модуля в таблицу semestermarks
+  </comment>
+  <sql>
+    ALTER TABLE semestermarks ALTER COLUMN smk_modcode DROP NOT NULL;
+  </sql>
+</changeSet>
 
 </databaseChangeLog>

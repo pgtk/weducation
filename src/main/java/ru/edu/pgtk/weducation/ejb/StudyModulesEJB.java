@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
@@ -35,6 +36,18 @@ public class StudyModulesEJB {
     q.setParameter("pln", plan);
     return q.getResultList();
   }
+  
+  public List<StudyModule> fetch(final StudyGroup group, final int course, final int semester) {
+    TypedQuery<StudyModule> q = em.createQuery(
+            "SELECT m FROM StudyModule m WHERE (m.plan = :pln) AND "
+            + "((SELECT COUNT(sl) FROM SubjectLoad sl WHERE (sl.subject.module = m) AND (sl.course = :c) AND (sl.semester = :s)) > 0 )"
+            + " ORDER BY m.name", StudyModule.class);
+    q.setParameter("pln", group.getPlan());
+    q.setParameter("c", course);
+    q.setParameter("s", semester);
+    return q.getResultList();
+  }
+  
 
   public List<StudyModule> fetchForCard(final StudyCard card) {
     TypedQuery<StudyModule> q = em.createQuery(
