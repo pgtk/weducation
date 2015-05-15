@@ -9,6 +9,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -139,7 +140,6 @@ public class ReferenceBlanksEJB {
   private void prepareMarkTable(final List<MarkItem> marks,
           PdfPTable table) throws DocumentException {
 
-    boolean firstPage = true;
     PdfPCell nameCell;
     PdfPCell hoursCell;
     PdfPCell markCell;
@@ -229,9 +229,11 @@ public class ReferenceBlanksEJB {
    */
   public byte[] getBlank(final StudyCard card) {
     try {
+      System.out.println("Генерируем содержимое академической справки...");
       prepareFonts();
       Document document = new Document(PageSize.A4, getPt(5), getPt(5),
               getPt(10), getPt(5));
+      PdfWriter writer = PdfWriter.getInstance(document, stream);
       document.open();
       document.addTitle("Справка об успеваемости");
       document.addAuthor("weducation project");
@@ -403,6 +405,7 @@ public class ReferenceBlanksEJB {
       document.add(marksTable);
       document.close();
     } catch (IOException | DocumentException e) {
+      System.out.println("При формировании содержимого возникло исключение: " + e.getMessage());
       throw new EJBException(e.getMessage());
     }
     return stream.toByteArray();

@@ -55,10 +55,18 @@
 </changeSet>
 <changeSet id="005-5" author="gooamoko">
   <comment>
-    Добавим поле кода модуля в таблицу semestermarks
+    Удалим ограничение NOT NULL у кода модуля таблицы semestermarks
   </comment>
   <sql>
     ALTER TABLE semestermarks ALTER COLUMN smk_modcode DROP NOT NULL;
+  </sql>
+</changeSet>
+<changeSet id="005-6" author="gooamoko">
+  <comment>
+    Удалим ограничение NOT NULL у кода дисциплины таблицы semestermarks
+  </comment>
+  <sql>
+    ALTER TABLE semestermarks ALTER COLUMN smk_subcode DROP NOT NULL;
   </sql>
 </changeSet>
 

@@ -110,6 +110,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   }
 
   public void printReference() {
+    System.out.println();
     StringBuilder fileName = new StringBuilder("reference-");
     fileName.append(item.getId()).append(".pdf");
     // Get the FacesContext
@@ -121,10 +122,12 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     ec.setResponseContentType("application/pdf");  // Set only the content type
     // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
     ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName.toString() + "\"");
+    System.out.println("Запущен процесс создания справки об успеваемости: " + fileName.toString());
     try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
       responseOutputStream.write(reference.getBlank(item));
       responseOutputStream.flush();
     } catch (IOException e) {
+      System.out.println("Файл справки " + fileName.toString() + " создать не удалось: " + e.getMessage());
       addMessage(e);
     }
     facesContext.responseComplete();

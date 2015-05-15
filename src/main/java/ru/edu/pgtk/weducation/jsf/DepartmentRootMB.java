@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -19,7 +20,7 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "departmentRootMB")
 @ViewScoped
-public class DepartmentRootMB {
+public class DepartmentRootMB implements Serializable {
 
   @ManagedProperty(value = "#{sessionMB.user}")
   private transient Account account;
