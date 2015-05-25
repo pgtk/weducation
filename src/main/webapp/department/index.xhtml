@@ -24,6 +24,7 @@
           <div class="buttons">
             <h:button value="Параметры" outcome="/studygroups?id=#{departmentRootMB.group.id}" />
             <h:button value="Семестры" outcome="/groupsemesters?groupId=#{departmentRootMB.group.id}" />
+            <h:button value="Пропуски за неделю" outcome="/department/weekmissings?groupId=#{departmentRootMB.group.id}" />
             <h:button value="Оценки за месяц" outcome="/department/monthmarks?groupId=#{departmentRootMB.group.id}" />
             <h:button value="Оценки за семестр" outcome="/department/subjectmarks?groupId=#{departmentRootMB.group.id}" />
             <h:button value="Оценки по модулям" outcome="/department/modulemarks?groupId=#{departmentRootMB.group.id}" />
