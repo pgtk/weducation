@@ -13,7 +13,7 @@
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
       <!-- List -->
-      <h2>Оценки за месяц по дисциплинам и МДК для группы #{weekMissingsMB.group.name}</h2>
+      <h2>Пропуски за неделю для группы #{weekMissingsMB.group.name}</h2>
       <h:outputText value="Семестр" /><br />
       <h:form>
         <h:selectOneMenu value="#{weekMissingsMB.groupCode}" valueChangeListener="#{weekMissingsMB.changeSemester}">
