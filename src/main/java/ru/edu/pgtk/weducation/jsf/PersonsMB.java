@@ -38,7 +38,12 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
   }
 
   public void setName(String name) {
-    this.name = name;
+    String text = name.trim();
+    if ((null != text) && !text.isEmpty()) {
+      this.name = text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+    } else {
+      this.name = null;
+    }
   }
 
   public boolean isFilter() {

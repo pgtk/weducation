@@ -17,9 +17,10 @@ public class DepartmentsMB extends GenericBean<Department> implements Serializab
 
   public void loadDepartment() {
     try {
-//      if (departmentCode == 0) {
-//       departmentCode = (int) Utils.getLongFromCookie("departmentId"); 
-//      }
+      // Получим код отделения из параметра, если есть
+      if (user.isDepartment() && (user.getCode() > 0)) {
+        departmentCode = user.getCode();
+      }
       if (departmentCode > 0) {
         item = ejb.get(departmentCode);
         details = true;

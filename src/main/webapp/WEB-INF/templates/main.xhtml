@@ -15,11 +15,6 @@
         <h:form id="menuForm">
           <ul>
             <li><h:commandLink value="На главную" action="#{sessionMB.startPage()}" /></li>
-            <li><a href="#">Справка</a>
-              <ul>
-                <li><h:link value="О проекте" outcome="/about" /></li>
-              </ul>
-            </li>
             <h:panelGroup rendered="#{sessionMB.logged}">
               <li><a href="#">Данные</a>
                 <ul>
