@@ -15,6 +15,7 @@ import ru.edu.pgtk.weducation.entity.FinalMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.Subject;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
 @ManagedBean(name = "finalMarksMB")
@@ -86,32 +87,6 @@ public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable
     }
   }
 
-  public void add() {
-    item = new FinalMark();
-    item.setCard(card);
-    edit = true;
-  }
-
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
   public int getCardCode() {
     return cardCode;
   }
@@ -122,5 +97,23 @@ public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable
 
   public StudyCard getCard() {
     return card;
+  }
+
+  @Override
+  public void newItem() {
+    item = new FinalMark();
+    item.setCard(card);
+  }
+
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
+    }
+  }
+
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

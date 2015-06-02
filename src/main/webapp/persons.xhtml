@@ -144,6 +144,29 @@
         <!-- Details -->
         <h2>#{personsMB.item.fullName}</h2>
         <h:form>
+          <p>
+            <b>Дата рождения: </b>#{personsMB.item.birthDateString}<br />
+            <b>Место рождения: </b>#{personsMB.item.birthPlace}<br />
+            <b>Пол: </b>#{personsMB.item.gender}<br />
+            <b>Иностранец? </b>#{personsMB.item.foreignString}<br />
+            <b>Сирота? </b>#{personsMB.item.orphanString}<br />
+            <b>Инвалид? </b>#{personsMB.item.invalidString}<br />
+            <b>Место проживания: </b>#{personsMB.item.place.fullName}<br />
+            <b>Адрес: </b>#{personsMB.item.address}<br />
+            <b>Изучаемый иностранный язык: </b>#{personsMB.item.language.description}<br />
+            <b>Телефоны: </b>#{personsMB.item.phones}<br />
+            <b>Паспортные данные: </b>#{personsMB.item.passportSeria} #{personsMB.item.passportNumber}
+            выдан #{personsMB.item.passportDept} #{personsMB.item.birthDateString}<br />
+            <b>ИНН: </b>#{personsMB.item.inn}<br />
+            <b>СНИЛС: </b>#{personsMB.item.snils}<br />
+          </p>
+          <h:panelGroup rendered="#{not empty personsMB.item.delegates}">
+            <p><b>Законные представители:</b><br />
+              <ui:repeat value="#{personsMB.item.delegates}" var="del">
+                <h:link outcome="/delegates?id=#{del.id}" target="delegate" value="#{del.fullName}" /><br />
+              </ui:repeat>
+            </p>
+          </h:panelGroup>
           <div class="buttons">
             <h:commandButton value="Редактировать данные" action="#{personsMB.switchEdit()}" />
             <h:button outcome="/studycards?personId=#{personsMB.item.id}" value="Личные карточки" />

@@ -1,7 +1,6 @@
 package ru.edu.pgtk.weducation.entity;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -16,6 +15,8 @@ import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import static ru.edu.pgtk.weducation.entity.Utils.getBooleanString;
+import static ru.edu.pgtk.weducation.utils.Utils.getDateString;
 
 /**
  * Класс для хранения информации о персоне.
@@ -30,70 +31,70 @@ public class Person implements Serializable {
   @Column(name = "psn_pcode")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  
+
   @Column(name = "psn_firstname", nullable = false, length = 50)
   private String firstName;
-  
+
   @Column(name = "psn_middlename", nullable = false, length = 50)
   private String middleName;
-  
+
   @Column(name = "psn_lastname", nullable = false, length = 50)
   private String lastName;
-  
+
   @Column(name = "psn_male", nullable = false)
   private boolean male;
-  
+
   @Column(name = "psn_foreign", nullable = false)
   private boolean foreign;
-  
+
   @Column(name = "psn_birthdate", nullable = false)
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date birthDate;
-  
+
   @Column(name = "psn_birthplace", nullable = false, length = 255)
   private String birthPlace;
-  
+
   @Column(name = "psn_orphan", nullable = false)
   private boolean orphan;
-  
+
   @Column(name = "psn_invalid", nullable = false)
   private boolean invalid;
-  
+
   @Column(name = "psn_passportseria", length = 6)
   private String passportSeria;
-  
+
   @Column(name = "psn_passportnumber", length = 10)
   private String passportNumber;
-  
+
   @Column(name = "psn_passportdate")
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date passportDate;
-  
+
   @Column(name = "psn_passportdept", length = 255)
   private String passportDept;
-  
+
   @Column(name = "psn_inn", length = 12)
   private String inn;
-  
+
   @Column(name = "psn_snils", length = 15)
   private String snils;
-  
+
   @Column(name = "psn_phones", length = 128)
   private String phones;
-  
+
   @Column(name = "psn_address", length = 255)
   private String address;
-  
+
   @Column(name = "psn_lngcode", nullable = false)
   private ForeignLanguage language;
-  
+
   @ManyToOne
   @JoinColumn(name = "psn_plccode")
   private Place place;
-  
+
   @Transient
   private int placeCode;
-  
+
   @OneToMany(mappedBy = "person")
   private List<Delegate> delegates;
 
@@ -103,18 +104,33 @@ public class Person implements Serializable {
       placeCode = place.getId();
     }
   }
-  
+
   public int getId() {
     return id;
   }
-  
+
   public String getFullName() {
     return firstName + " " + middleName + " " + lastName;
   }
-  
+
+  public String getGender() {
+    return male ? "мужской" : "женский";
+  }
+
+  public String getForeignString() {
+    return getBooleanString(foreign);
+  }
+
+  public String getOrphanString() {
+    return getBooleanString(orphan);
+  }
+
+  public String getInvalidString() {
+    return getBooleanString(invalid);
+  }
+
   public String getBirthDateString() {
-    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-    return sdf.format(birthDate);
+    return getDateString(birthDate);
   }
 
   public String getFirstName() {
@@ -175,10 +191,6 @@ public class Person implements Serializable {
 
   public List<Delegate> getDelegates() {
     return delegates;
-  }
-
-  public void setDelegates(List<Delegate> delegates) {
-    this.delegates = delegates;
   }
 
   public boolean isOrphan() {

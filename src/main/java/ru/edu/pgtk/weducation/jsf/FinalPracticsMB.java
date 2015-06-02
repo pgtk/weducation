@@ -9,6 +9,7 @@ import ru.edu.pgtk.weducation.ejb.FinalPracticsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.entity.FinalPractic;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "finalPracticsMB")
 @ViewScoped
@@ -53,29 +54,21 @@ public class FinalPracticsMB extends GenericBean<FinalPractic> implements Serial
     return ejb.fetchAll(plan);
   }
 
-  public void add() {
+  @Override
+  public void newItem() {
     item = new FinalPractic();
     item.setPlan(plan);
-    edit = true;
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

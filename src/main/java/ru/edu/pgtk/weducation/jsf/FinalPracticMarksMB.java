@@ -12,6 +12,7 @@ import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.entity.FinalPractic;
 import ru.edu.pgtk.weducation.entity.FinalPracticMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
 @ManagedBean(name = "finalPracticMarksMB")
@@ -50,32 +51,6 @@ public class FinalPracticMarksMB extends GenericBean<FinalPracticMark> implement
     return new ArrayList<>();
   }
 
-  public void add() {
-    item = new FinalPracticMark();
-    item.setCard(card);
-    edit = true;
-  }
-
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
   public StudyCard getCard() {
     return card;
   }
@@ -86,5 +61,23 @@ public class FinalPracticMarksMB extends GenericBean<FinalPracticMark> implement
 
   public void setCardCode(int cardCode) {
     this.cardCode = cardCode;
+  }
+
+  @Override
+  public void newItem() {
+    item = new FinalPracticMark();
+    item.setCard(card);
+  }
+
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
+    }
+  }
+
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

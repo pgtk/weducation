@@ -14,28 +14,20 @@ public class DepartmentProfilesMB extends GenericBean<DepartmentProfile> impleme
   @EJB
   private DepartmentProfilesEJB ejb;
 
-  public void add() {
+  @Override
+  public void newItem() {
     item = new DepartmentProfile();
-    edit = true;
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

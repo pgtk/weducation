@@ -8,6 +8,7 @@ import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
 import ru.edu.pgtk.weducation.entity.Account;
 import ru.edu.pgtk.weducation.entity.AccountRole;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
 @ManagedBean(name = "accountsMB")
@@ -27,33 +28,6 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
     return AccountRole.values();
   }
 
-  public void add() {
-    checkRestrictions();
-    item = new Account();
-    edit = true;
-  }
-
-  public void save() {
-    try {
-      if (item.getId() == 0) {
-        item.updatePassword();
-      }
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
-  public void confirmDelete() {
-    try {
-      ejb.delete(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
   public void changePassword() {
     if (null != item) {
       try {
@@ -64,5 +38,26 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
         addMessage(e);
       }
     }
+  }
+
+  @Override
+  public void newItem() {
+    checkRestrictions();
+    item = new Account();
+  }
+
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
+    }
+  }
+
+  @Override
+  public void saveItem() {
+    if (item.getId() == 0) {
+      item.updatePassword();
+    }
+    ejb.save(item);
   }
 }

@@ -12,6 +12,7 @@ import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.GOSExam;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "gosexamsMB")
 @ViewScoped
@@ -64,29 +65,21 @@ public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
     }
   }
 
-  public void add() {
+  @Override
+  public void newItem() {
     item = new GOSExam();
     item.setPlan(plan);
-    edit = true;    
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if (delete && (item != null)) {
+      ejb.delete(item);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if (delete && (item != null)) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

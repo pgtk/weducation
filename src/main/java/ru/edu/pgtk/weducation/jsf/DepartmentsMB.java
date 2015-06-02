@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.entity.Department;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "departmentsMB")
 @ViewScoped
@@ -32,36 +33,28 @@ public class DepartmentsMB extends GenericBean<Department> implements Serializab
     }
   }
 
-  public void add() {
-    item = new Department();
-    edit = true;
-  }
-
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
-  public void confirmDelete() {
-    try {
-      if (delete && (item != null)) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
   public int getDepartmentCode() {
     return departmentCode;
   }
 
   public void setDepartmentCode(int departmentCode) {
     this.departmentCode = departmentCode;
+  }
+
+  @Override
+  public void newItem() {
+    item = new Department();
+  }
+
+  @Override
+  public void deleteItem() {
+    if (delete && (item != null)) {
+      ejb.delete(item);
+    }
+  }
+
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

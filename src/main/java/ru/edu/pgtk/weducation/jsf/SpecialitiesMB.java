@@ -14,28 +14,20 @@ public class SpecialitiesMB extends GenericBean<Speciality> implements Serializa
   @EJB
   private transient SpecialitiesEJB ejb;
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
-  public void add() {
+  @Override
+  public void newItem() {
     item = new Speciality();
-    edit = true;
   }
 
-  public void confirmDelete() {
-    try {
-      if (delete && (null != item)) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if (delete && (null != item)) {
+      ejb.delete(item);
     }
+  }
+
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

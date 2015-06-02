@@ -51,29 +51,21 @@ public class SubjectLoadMB extends GenericBean<SubjectLoad> implements Serializa
     return ExamForm.values();
   }
 
-  public void add() {
+  @Override
+  public void newItem() {
     item = new SubjectLoad();
     item.setSubject(subject);
-    edit = true;
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

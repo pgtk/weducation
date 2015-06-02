@@ -22,8 +22,7 @@ public class PhoneValidator implements Validator {
   }
 
   @Override
-  public void validate(FacesContext context, UIComponent component,
-    Object value) throws ValidatorException {
+  public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
     String text = value.toString();
     if ((text != null) && !text.isEmpty()) {

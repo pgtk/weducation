@@ -1,10 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.context.FacesContext;
 import ru.edu.pgtk.weducation.entity.Account;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 /**
  * Шаблон для управляемых бинов, реализующий 2 трети функционала.
@@ -12,7 +11,7 @@ import ru.edu.pgtk.weducation.entity.Account;
  * @author Воронин Леонид
  * @param <T> Класс, с которым работает управляемый бин.
  */
-public abstract class GenericBean<T> {
+abstract class GenericBean<T> {
 
   @ManagedProperty(value = "#{sessionMB.user}")
   protected transient Account user;
@@ -31,6 +30,15 @@ public abstract class GenericBean<T> {
     }
   }
 
+  // Создание нового экземпляра 
+  public abstract void newItem();
+
+  // Удаление экземпляра
+  public abstract void deleteItem();
+
+  // Сохранение экземпляра
+  public abstract void saveItem();
+
   protected void resetState() {
     edit = false;
     delete = false;
@@ -39,15 +47,31 @@ public abstract class GenericBean<T> {
     item = null;
   }
 
-  protected void addMessage(final Exception e) {
-    FacesContext context = FacesContext.getCurrentInstance();
-    String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
-    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
+  public final void add() {
+    try {
+      newItem();
+      edit = true;
+    } catch (Exception e) {
+      addMessage(e);
+    }
   }
 
-  protected void addMessage(final String message) {
-    FacesContext context = FacesContext.getCurrentInstance();
-    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
+  public final void save() {
+    try {
+      saveItem();
+      edit = false;
+    } catch (Exception e) {
+      addMessage(e);
+    }
+  }
+
+  public final void confirmDelete() {
+    try {
+      deleteItem();
+      resetState();
+    } catch (Exception e) {
+      addMessage(e);
+    }
   }
 
   public T getItem() {

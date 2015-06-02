@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.entity.ForeignLanguage;
 import ru.edu.pgtk.weducation.entity.Person;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "personsMB")
 @ViewScoped
@@ -82,29 +83,21 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
     }
   }
 
-  public void add() {
+  @Override
+  public void newItem() {
     item = new Person();
-    edit = true;
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      edit = false;
-      details = true;
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
+    details = true;
   }
 }

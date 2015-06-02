@@ -19,28 +19,20 @@ public class PlacesMB extends GenericBean<Place> implements Serializable {
     return PlaceType.values();
   }
 
-  public void add() {
+  @Override
+  public void newItem() {
     item = new Place();
-    edit = true;
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

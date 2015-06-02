@@ -19,28 +19,20 @@ public class RenamingsMB extends GenericBean<Renaming> implements Serializable {
   @EJB
   private transient RenamingsEJB ejb;
 
-  public void add() {
+  @Override
+  public void newItem() {
     item = new Renaming();
-    edit = true;
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if (delete && (null != item)) {
+      ejb.delete(item);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if (delete && (null != item)) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

@@ -12,6 +12,7 @@ import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.entity.GOSMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.Subject;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
 @ManagedBean(name = "gosMarksMB")
@@ -50,32 +51,6 @@ public class GOSMarksMB extends GenericBean<GOSMark> implements Serializable {
     return new ArrayList<>();
   }
 
-  public void add() {
-    item = new GOSMark();
-    item.setCard(card);
-    edit = true;
-  }
-
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
   public StudyCard getCard() {
     return card;
   }
@@ -86,5 +61,23 @@ public class GOSMarksMB extends GenericBean<GOSMark> implements Serializable {
 
   public void setCardCode(int cardCode) {
     this.cardCode = cardCode;
+  }
+
+  @Override
+  public void newItem() {
+    item = new GOSMark();
+    item.setCard(card);
+  }
+
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
+    }
+  }
+
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

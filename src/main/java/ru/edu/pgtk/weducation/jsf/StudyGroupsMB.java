@@ -14,6 +14,7 @@ import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "studyGroupsMB")
 @ViewScoped
@@ -89,11 +90,6 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     }
   }
 
-  public void add() {
-    item = new StudyGroup();
-    edit = true;
-  }
-
   public List<StudyGroup> getStudyGroups() {
     if (null != department) {
       return ejb.findByDepartment(department);
@@ -118,31 +114,28 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     }
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
   public int getGroupCode() {
     return groupCode;
   }
 
   public void setGroupCode(int groupCode) {
     this.groupCode = groupCode;
+  }
+
+  @Override
+  public void newItem() {
+    item = new StudyGroup();
+  }
+
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
+    }
+  }
+
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

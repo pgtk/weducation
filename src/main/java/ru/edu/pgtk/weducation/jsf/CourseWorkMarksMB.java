@@ -12,11 +12,12 @@ import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.Subject;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
 @ManagedBean(name = "courseWorkMarksMB")
 public class CourseWorkMarksMB extends GenericBean<CourseWorkMark> implements Serializable {
-  
+
   @EJB
   private transient CourseWorkMarksEJB ejb;
   @EJB
@@ -25,7 +26,7 @@ public class CourseWorkMarksMB extends GenericBean<CourseWorkMark> implements Se
   private transient SubjectsEJB subjects;
   private StudyCard card;
   private int cardCode;
-  
+
   public void loadCard() {
     try {
       if (cardCode > 0) {
@@ -35,45 +36,19 @@ public class CourseWorkMarksMB extends GenericBean<CourseWorkMark> implements Se
       addMessage(e);
     }
   }
-  
+
   public List<CourseWorkMark> getMarks() {
     if (null != card) {
       return ejb.fetchAll(card);
     }
     return new ArrayList<>();
   }
-  
+
   public List<Subject> getSubjects() {
     if (null != card) {
       return subjects.fetchCourseWorksForCard(card);
     }
     return new ArrayList<>();
-  }
-
-  public void add() {
-    item = new CourseWorkMark();
-    item.setCard(card);
-    edit = true;
-  }
-  
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
-  }
-
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
   }
 
   public StudyCard getCard() {
@@ -86,5 +61,23 @@ public class CourseWorkMarksMB extends GenericBean<CourseWorkMark> implements Se
 
   public void setCardCode(int cardCode) {
     this.cardCode = cardCode;
+  }
+
+  @Override
+  public void newItem() {
+    item = new CourseWorkMark();
+    item.setCard(card);
+  }
+
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
+    }
+  }
+
+  @Override
+  public void saveItem() {
+    ejb.save(item);
   }
 }

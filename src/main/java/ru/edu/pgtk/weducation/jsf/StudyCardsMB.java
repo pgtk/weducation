@@ -21,6 +21,7 @@ import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 import ru.edu.pgtk.weducation.reports.DiplomeBlanksEJB;
 import ru.edu.pgtk.weducation.reports.ReferenceBlanksEJB;
 
@@ -229,32 +230,24 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     }
   }
 
-  public void add() {
-    item = new StudyCard();
-    edit = true;
+  @Override
+  public void newItem() {
     if (null != person) {
+      item = new StudyCard();
       item.setPerson(person);
     }
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      edit = false;
-      details = true;
-    } catch (Exception e) {
-      addMessage(e);
+  @Override
+  public void deleteItem() {
+    if ((null != item) && delete) {
+      ejb.delete(item);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if ((null != item) && delete) {
-        ejb.delete(item);
-      }
-      resetState();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
+    details = true;
   }
 }

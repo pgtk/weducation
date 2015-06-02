@@ -12,6 +12,7 @@ import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "studyPlansMB")
 @ViewScoped
@@ -82,7 +83,7 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
     }
     return plansList;
   }
-  
+
   public List<Speciality> getSpecialities() {
     if (specialitiesList == null) {
       prepareList();
@@ -90,30 +91,22 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
     return specialitiesList;
   }
 
-  public void add() {
+  @Override
+  public void newItem() {
     item = new StudyPlan();
-    edit = true;
   }
 
-  public void save() {
-    try {
-      ejb.save(item);
-      resetState();
+  @Override
+  public void deleteItem() {
+    if (delete && (null != item)) {
+      ejb.delete(item);
       prepareList();
-    } catch (Exception e) {
-      addMessage(e);
     }
   }
 
-  public void confirmDelete() {
-    try {
-      if (delete && (null != item)) {
-        ejb.delete(item);
-      }
-      resetState();
-      prepareList();
-    } catch (Exception e) {
-      addMessage(e);
-    }
+  @Override
+  public void saveItem() {
+    ejb.save(item);
+    prepareList();
   }
 }
