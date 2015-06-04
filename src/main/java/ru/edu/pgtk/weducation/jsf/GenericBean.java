@@ -11,7 +11,7 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
  * @author Воронин Леонид
  * @param <T> Класс, с которым работает управляемый бин.
  */
-abstract class GenericBean<T> {
+public abstract class GenericBean<T> {
 
   @ManagedProperty(value = "#{sessionMB.user}")
   protected transient Account user;
