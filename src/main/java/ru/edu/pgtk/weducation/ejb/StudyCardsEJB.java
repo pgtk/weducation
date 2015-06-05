@@ -72,20 +72,18 @@ public class StudyCardsEJB {
       // Устанавливаем учебный план
       item.setPlan(grp.getPlan());
       item.setSpeciality(grp.getSpeciality());
-//      if ((null != grp.getPlan()) && (null == item.getPlan()) && (0 == item.getPlanCode())) {
-//        item.setPlan(grp.getPlan());
-//      }
       // Заочник или нет - возьмем тоже из группы
       item.setExtramural(grp.isExtramural());
     } else {
       // А вдруг группу убрали?
       item.setGroup(null);
-    }
-    if (item.getSpecialityCode() > 0) {
-      item.setSpeciality(specialities.get(item.getSpecialityCode()));
-    }
-    if (item.getPlanCode() > 0) {
-      item.setPlan(plans.get(item.getPlanCode()));
+      // Явно устанавливаем специальность и план
+      if (item.getSpecialityCode() > 0) {
+        item.setSpeciality(specialities.get(item.getSpecialityCode()));
+      }
+      if (item.getPlanCode() > 0) {
+        item.setPlan(plans.get(item.getPlanCode()));
+      }
     }
     if (item.getId() == 0) {
       em.persist(item);

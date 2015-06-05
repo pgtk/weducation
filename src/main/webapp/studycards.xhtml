@@ -69,11 +69,12 @@
             <f:selectItems value="#{schoolsEJB.fetchAll()}" var="scl" 
                            itemLabel="#{scl.shortName}" itemValue="#{scl.id}" />
           </h:selectOneMenu><p />
+          <h3>Важно!</h3>
           <p>Если это личная карточка учащегося в данный момент студента,
             то выберите группу из списка.<br />Информация о форме обучения, учебном плане и специальности
             будет взята из указанной вами группы.</p>
           <p>Если личная карточка принадлежит студенту, который уже отучился,
-            то группу указывать не нужно.<br />Укажите форму обучения, специальность и учебный план явно.</p>
+            то группу указывать <b>не нужно!</b><br />Укажите форму обучения, специальность и учебный план явно.</p>
           <h:outputText value="Группа" /><br />
           <h:selectOneMenu id="group" value="#{studyCardsMB.item.groupCode}"
                            valueChangeListener="#{studyCardsMB.changeGroup}">
