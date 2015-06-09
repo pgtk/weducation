@@ -20,6 +20,6 @@ class Utils {
   }
   
   public static String getDateString(final Date date) {
-    return sdf.format(date);
+    return (date != null)? sdf.format(date) : null;
   }
 }

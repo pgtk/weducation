@@ -9,6 +9,7 @@ body {
 
 h1,h2,h3,h4 {
   font-family: Arial, Verdana, Helvetica;
+  font-weight: lighter;
   color: #505050;
   margin-top: 10px;
   margin-bottom: 5px;
@@ -129,7 +130,6 @@ p {
   color: #ffffff;
 }
 /** Конец стилей для dropdown menu */
-
 
 
 .groupHeader {
@@ -267,6 +267,29 @@ a.action {
 
 table {
   width: 100%;
+}
+
+table.details {
+  border : 0;
+}
+
+table.details tbody td {
+  padding-top: 7px;
+}
+
+table.details tbody td.label {
+  font-weight: bold;
+  text-align: right;
+  padding-right: 10px;
+  width: 20%;
+}
+
+table.details tbody td.value {
+  font-weight: lighter;
+  text-align: left;
+  padding-left: 10px;
+  vertical-align: bottom;
+  width: 80%;
 }
 
 .dataTable tbody tr:hover {

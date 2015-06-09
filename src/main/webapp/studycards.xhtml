@@ -194,7 +194,123 @@
         <!-- Details -->
         <h2>#{studyCardsMB.person.fullName} #{studyCardsMB.item.nameForList}</h2>
         <h:form>
-          <p>Средний бал составляет #{finalMarksEJB.getAverageMark(studyCardsMB.item)}</p>
+          <p><b>Средний балл составляет #{finalMarksEJB.getAverageMark(studyCardsMB.item)}</b></p>
+          <h3>Данные личной карточки</h3>
+          <table class="details">
+            <tbody>
+              <tr>
+                <td class="label">Обучается в настоящее время?</td>
+                <td class="value">#{studyCardsMB.item.activeString}</td>
+              </tr>
+              <tr>
+                <td class="label">Наименование учебного заведения</td>
+                <td class="value">#{studyCardsMB.item.school.fullName}</td>
+              </tr>
+              <tr>
+                <td class="label">Форма обучения</td>
+                <td class="value">#{studyCardsMB.item.extramuralString}</td>
+              </tr>
+              <tr>
+                <td class="label">Специальность</td>
+                <td class="value">#{studyCardsMB.item.speciality.fullName}</td>
+              </tr>
+              <tr>
+                <td class="label">Учебный план</td>
+                <td class="value">#{studyCardsMB.item.plan.nameForList}</td>
+              </tr>
+              <h:panelGroup rendered="#{not empty studyCardsMB.item.group}">
+                <tr>
+                  <td class="label">Группа</td>
+                  <td class="value">#{studyCardsMB.item.group.name}</td>
+                </tr>
+              </h:panelGroup>
+              <tr>
+                <td class="label">Документ о предыдущем образовании</td>
+                <td class="value">#{studyCardsMB.item.documentName}</td>
+              </tr>
+              <tr>
+                <td class="label">Учреждение, выдавшее документ</td>
+                <td class="value">#{studyCardsMB.item.documentOrganization}</td>
+              </tr>
+              <tr>
+                <td class="label">Дата выдачи документа</td>
+                <td class="value">#{studyCardsMB.item.documentDateString}</td>
+              </tr>
+              <tr>
+                <td class="label">Дата начала обучения</td>
+                <td class="value">#{studyCardsMB.item.beginDateString}</td>
+              </tr>
+              <tr>
+                <td class="label">Номер студенческого билета</td>
+                <td class="value">#{studyCardsMB.item.biletNumber}</td>
+              </tr>
+              <tr>
+                <td class="label">Обучение с полным возмещением затрат?</td>
+                <td class="value">#{studyCardsMB.item.commercialString}</td>
+              </tr>
+              <tr>
+                <td class="label">Дата окончания обучения</td>
+                <td class="value">#{studyCardsMB.item.endDateString}</td>
+              </tr>
+              <tr>
+                <td class="label">Отчислен?</td>
+                <td class="value">#{studyCardsMB.item.remandedString}</td>
+              </tr>
+              <tr>
+                <td class="label">Причина отчисления</td>
+                <td class="value">#{studyCardsMB.item.remandReason}</td>
+              </tr>
+              <tr>
+                <td class="label">Приказ об отчислении</td>
+                <td class="value">#{studyCardsMB.item.remandCommand}</td>
+              </tr>
+              <tr>
+                <td class="label">Дата защиты (дата приказа об отчислении)</td>
+                <td class="value">#{studyCardsMB.item.comissionDateString}</td>
+              </tr>
+              <!-- Будь то диплом или справка, дата выдачи будет храниться тут -->
+              <tr>
+                <td class="label">Дата выдачи документа об обучении</td>
+                <td class="value">#{studyCardsMB.item.diplomeDateString}</td>
+              </tr>
+              <tr>
+                <td class="label">Отличник учебы?</td>
+                <td class="value">#{studyCardsMB.item.redString}</td>
+              </tr>
+              <tr>
+                <td class="label">Итоговое испытание по окончании обучения</td>
+                <td class="value">#{studyCardsMB.item.gosExamString}</td>
+              </tr>
+              <tr>
+                <td class="label">Продолжительность итоговых испытаний (недель)</td>
+                <td class="value">#{studyCardsMB.item.diplomeLength}</td>
+              </tr>
+              <tr>
+                <td class="label">Председатель ГАК</td>
+                <td class="value">#{studyCardsMB.item.comissionDirector}</td>
+              </tr>
+              <tr>
+                <td class="label">Оценка за итоговые испытания</td>
+                <td class="value">#{studyCardsMB.item.diplomeMark}</td>
+              </tr>
+              <tr>
+                <td class="label">Тема дипломного проекта (в случае дипломирования)</td>
+                <td class="value">#{studyCardsMB.item.diplomeTheme}</td>
+              </tr>
+              <tr>
+                <td class="label">Регистрационный номер диплома (или справки в случае отчисления)</td>
+                <td class="value">#{studyCardsMB.item.registrationNumber}</td>
+              </tr>
+              <tr>
+                <td class="label">Серия и номер диплома</td>
+                <td class="value">#{studyCardsMB.item.diplomeNumber}</td>
+              </tr>
+              <tr>
+                <td class="label">Серия и номер приложения к диплому</td>
+                <td class="value">#{studyCardsMB.item.appendixNumber}</td>
+              </tr>
+            </tbody>
+          </table>
           <h3>Итоговые оценки</h3>
           <ul>
             <li><h:link outcome="/finalmarks/modules?cardId=#{studyCardsMB.item.id}" value="Модули" /></li>

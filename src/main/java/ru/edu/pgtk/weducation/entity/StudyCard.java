@@ -183,6 +183,46 @@ public class StudyCard implements Serializable {
   public String getExtramuralString() {
     return (extramural) ? "заочная" : "очная";
   }
+  
+  public String getActiveString() {
+    return Utils.getBooleanString(active);
+  }
+  
+  public String getRedString() {
+    return Utils.getBooleanString(red);
+  }
+  
+  public String getGosExamString() {
+    return gosExam? "государственный экзамен" : "дипломирование";
+  }
+  
+  public String getRemandedString() {
+    return Utils.getBooleanString(remanded);
+  }
+  
+  public String getCommercialString() {
+    return Utils.getBooleanString(commercial);
+  }
+  
+  public String getDocumentDateString() {
+    return Utils.getDateString(documentDate);
+  }
+  
+  public String getBeginDateString() {
+    return Utils.getDateString(beginDate);
+  }
+  
+  public String getEndDateString() {
+    return Utils.getDateString(endDate);
+  }
+  
+  public String getDiplomeDateString() {
+    return Utils.getDateString(diplomeDate);
+  }
+  
+  public String getComissionDateString() {
+    return Utils.getDateString(comissionDate);
+  }
 
   public String getNameForList() {
     return speciality.getKey() + " " + speciality.getShortName() + " ("
