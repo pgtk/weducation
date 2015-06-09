@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -7,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.FinalMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
@@ -29,6 +31,17 @@ public class FinalMarksEJB {
       return result;
     }
     throw new EJBException("FinalMark not found with id " + id);
+  }
+  
+  public float getAverageMark(final StudyCard card) {
+    try {
+    Query q = em.createNativeQuery("SELECT getAverageMark(?)");
+    q.setParameter(1, card.getId());
+    BigDecimal result = (BigDecimal)q.getSingleResult();
+    return (result != null)? result.floatValue() : 0f;
+    } catch (Exception e) {
+      throw new EJBException("Exception class " + e.getClass().getName() + " with message " + e.getMessage());
+    }
   }
 
   public List<FinalMark> fetchAll(final StudyCard card) {

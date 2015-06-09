@@ -194,6 +194,7 @@
         <!-- Details -->
         <h2>#{studyCardsMB.person.fullName} #{studyCardsMB.item.nameForList}</h2>
         <h:form>
+          <p>Средний бал составляет #{finalMarksEJB.getAverageMark(studyCardsMB.item)}</p>
           <h3>Итоговые оценки</h3>
           <ul>
             <li><h:link outcome="/finalmarks/modules?cardId=#{studyCardsMB.item.id}" value="Модули" /></li>
@@ -205,12 +206,12 @@
           <h3>Печать бланков</h3>
           <ul>
             <h:panelGroup rendered="#{not studyCardsMB.item.remanded}">
-              <li><h:commandLink action="#{studyCardsMB.printDiplome()}" value="Диплом" /></li>
-              <li><h:commandLink action="#{studyCardsMB.printDiplomeCopy()}" value="Копия диплома" /></li>
-              <li><h:commandLink action="#{studyCardsMB.printDiplomeDuplicate()}" value="Дубликат диплома" /></li>
+              <li><h:commandLink target="diplome" action="#{studyCardsMB.printDiplome()}" value="Диплом" /></li>
+              <li><h:commandLink target="diplome-copy" action="#{studyCardsMB.printDiplomeCopy()}" value="Копия диплома" /></li>
+              <li><h:commandLink target="diplome-duplicate" action="#{studyCardsMB.printDiplomeDuplicate()}" value="Дубликат диплома" /></li>
             </h:panelGroup>
             <h:panelGroup rendered="#{studyCardsMB.item.remanded}">
-              <li><h:commandLink action="#{studyCardsMB.printReference()}" value="Справка об успеваемости" /></li>
+              <li><h:commandLink target="reference" action="#{studyCardsMB.printReference()}" value="Справка об успеваемости" /></li>
             </h:panelGroup>
           </ul>
           <div class="buttons">

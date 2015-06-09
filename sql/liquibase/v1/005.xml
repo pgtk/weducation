@@ -6,68 +6,68 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-<changeSet id="005-1" author="gooamoko">
-  <comment>
-    Создадим таблицу для хранения семестров групп
-  </comment>
-  <sql>
-    CREATE TABLE groupsemesters(
-    grs_pcode serial,
-    grs_course int NOT NULL,
-    grs_semester int NOT NULL,
-    grs_beginweek int NOT NULL,
-    grs_beginmonth int NOT NULL,
-    grs_beginyear int NOT NULL,
-    grs_endweek int NOT NULL,
-    grs_endmonth int NOT NULL,
-    grs_endyear int NOT NULL,
-    grs_grpcode int NOT NULL,
-    CONSTRAINT groupsemesters_pk PRIMARY KEY(grs_pcode),
-    CONSTRAINT groupsemesters_groups_fk FOREIGN KEY(grs_grpcode) REFERENCES groups(grp_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT unique_semester UNIQUE(grs_course, grs_semester, grs_grpcode)
-    );
-  </sql>
-</changeSet>
-<changeSet id="005-2" author="gooamoko">
-  <comment>
-    Удалим поле exam из таблицы semestermarks
-  </comment>
-  <sql>
-    ALTER TABLE semestermarks DROP COLUMN smk_exam;
-  </sql>
-</changeSet>
-<changeSet id="005-3" author="gooamoko">
-  <comment>
-    Добавим поле кода модуля в таблицу semestermarks
-  </comment>
-  <sql>
-    ALTER TABLE semestermarks ADD COLUMN smk_modcode int NOT NULL;
-  </sql>
-</changeSet>
-<changeSet id="005-4" author="gooamoko">
-  <comment>
-    Добавим внешний ключ в таблицу semestermarks
-  </comment>
-  <sql>
-    ALTER TABLE semestermarks ADD CONSTRAINT semestermarks_modules_fk FOREIGn KEY(smk_modcode) 
+  <changeSet id="005-1" author="gooamoko">
+    <comment>
+      Создадим таблицу для хранения семестров групп
+    </comment>
+    <sql>
+      CREATE TABLE groupsemesters(
+      grs_pcode serial,
+      grs_course int NOT NULL,
+      grs_semester int NOT NULL,
+      grs_beginweek int NOT NULL,
+      grs_beginmonth int NOT NULL,
+      grs_beginyear int NOT NULL,
+      grs_endweek int NOT NULL,
+      grs_endmonth int NOT NULL,
+      grs_endyear int NOT NULL,
+      grs_grpcode int NOT NULL,
+      CONSTRAINT groupsemesters_pk PRIMARY KEY(grs_pcode),
+      CONSTRAINT groupsemesters_groups_fk FOREIGN KEY(grs_grpcode) REFERENCES groups(grp_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+      CONSTRAINT unique_semester UNIQUE(grs_course, grs_semester, grs_grpcode)
+      );
+    </sql>
+  </changeSet>
+  <changeSet id="005-2" author="gooamoko">
+    <comment>
+      Удалим поле exam из таблицы semestermarks
+    </comment>
+    <sql>
+      ALTER TABLE semestermarks DROP COLUMN smk_exam;
+    </sql>
+  </changeSet>
+  <changeSet id="005-3" author="gooamoko">
+    <comment>
+      Добавим поле кода модуля в таблицу semestermarks
+    </comment>
+    <sql>
+      ALTER TABLE semestermarks ADD COLUMN smk_modcode int NOT NULL;
+    </sql>
+  </changeSet>
+  <changeSet id="005-4" author="gooamoko">
+    <comment>
+      Добавим внешний ключ в таблицу semestermarks
+    </comment>
+    <sql>
+      ALTER TABLE semestermarks ADD CONSTRAINT semestermarks_modules_fk FOREIGn KEY(smk_modcode) 
       REFERENCES modules(mod_pcode) ON UPDATE CASCADE ON DELETE NO ACTION;
-  </sql>
-</changeSet>
-<changeSet id="005-5" author="gooamoko">
-  <comment>
-    Удалим ограничение NOT NULL у кода модуля таблицы semestermarks
-  </comment>
-  <sql>
-    ALTER TABLE semestermarks ALTER COLUMN smk_modcode DROP NOT NULL;
-  </sql>
-</changeSet>
-<changeSet id="005-6" author="gooamoko">
-  <comment>
-    Удалим ограничение NOT NULL у кода дисциплины таблицы semestermarks
-  </comment>
-  <sql>
-    ALTER TABLE semestermarks ALTER COLUMN smk_subcode DROP NOT NULL;
-  </sql>
-</changeSet>
+    </sql>
+  </changeSet>
+  <changeSet id="005-5" author="gooamoko">
+    <comment>
+      Удалим ограничение NOT NULL у кода модуля таблицы semestermarks
+    </comment>
+    <sql>
+      ALTER TABLE semestermarks ALTER COLUMN smk_modcode DROP NOT NULL;
+    </sql>
+  </changeSet>
+  <changeSet id="005-6" author="gooamoko">
+    <comment>
+      Удалим ограничение NOT NULL у кода дисциплины таблицы semestermarks
+    </comment>
+    <sql>
+      ALTER TABLE semestermarks ALTER COLUMN smk_subcode DROP NOT NULL;
+    </sql>
+  </changeSet>
 
 </databaseChangeLog>
