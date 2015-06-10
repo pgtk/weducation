@@ -111,7 +111,6 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   }
 
   public void printReference() {
-    System.out.println();
     StringBuilder fileName = new StringBuilder("reference-");
     fileName.append(item.getId()).append(".pdf");
     // Get the FacesContext
