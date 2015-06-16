@@ -26,25 +26,20 @@ public class SubjectLoadEJB {
     throw new EJBException("SubjectLoad not found with id " + id);
   }
   
-  public List<SubjectLoad> fetchAll() {
-    TypedQuery<SubjectLoad> q = em.createQuery(
-            "SELECT sl FROM SubjectLoad sl ORDER BY sl.course, sl.semester", SubjectLoad.class);
-    return q.getResultList();
-  }
-  
-  public List<SubjectLoad> findBySubject(final Subject subject) {
+  public List<SubjectLoad> fetchAll(final Subject subject) {
     TypedQuery<SubjectLoad> q = em.createQuery(
             "SELECT sl FROM SubjectLoad sl WHERE (sl.subject = :subj) ORDER BY sl.course, sl.semester", SubjectLoad.class);
     q.setParameter("subj", subject);
     return q.getResultList();
   }
   
-  public List<SubjectLoad> findBySemester(final StudyPlan plan, final int semester) {
+  public List<SubjectLoad> fetch(final StudyPlan plan, final int course, final int semester) {
     TypedQuery<SubjectLoad> q = em.createQuery(
-            "SELECT sl FROM SubjectLoad sl WHERE (sl.subject IN (SELECT s FROM Subject s WHERE (s.plan = :pln))) "
-            + "AND (sl.semester = :sm) ORDER BY sl.course, sl.semester", SubjectLoad.class);
-    q.setParameter("pln", plan);
-    q.setParameter("sm", semester);
+            "SELECT sl FROM SubjectLoad sl WHERE (sl.subject IN (SELECT s FROM Subject s WHERE (s.plan = :p))) "
+            + "AND (sl.course = :c) AND (sl.semester = :s) ORDER BY sl.examForm, sl.subject.fullName", SubjectLoad.class);
+    q.setParameter("p", plan);
+    q.setParameter("c", course);
+    q.setParameter("s", semester);
     return q.getResultList();
   }
   

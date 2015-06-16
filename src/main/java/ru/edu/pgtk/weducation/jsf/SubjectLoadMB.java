@@ -44,7 +44,7 @@ public class SubjectLoadMB extends GenericBean<SubjectLoad> implements Serializa
   }
 
   public List<SubjectLoad> getSubjectLoad() {
-    return ejb.findBySubject(subject);
+    return ejb.fetchAll(subject);
   }
 
   public ExamForm[] getExamForms() {
