@@ -100,6 +100,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
     try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
       responseOutputStream.write(diplome.getDiplome(item, copy, duplicate));
       responseOutputStream.flush();
+      responseOutputStream.close();
     } catch (IOException e) {
       addMessage(e);
     }

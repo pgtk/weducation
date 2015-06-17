@@ -1,5 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.TreeMap;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
@@ -18,6 +22,7 @@ import ru.edu.pgtk.weducation.entity.MonthMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
+import ru.edu.pgtk.weducation.reports.MonthMarksSheetEJB;
 
 @ViewScoped
 @ManagedBean(name = "monthMarksMB")
@@ -31,6 +36,8 @@ public class MonthMarksMB implements Serializable {
   private transient GroupSemestersEJB semesters;
   @EJB
   private transient MonthMarksEJB marks;
+  @EJB
+  private transient MonthMarksSheetEJB monthSheets;
   private int groupCode;
   private StudyGroup group;
   private int subjectCode;
@@ -52,6 +59,28 @@ public class MonthMarksMB implements Serializable {
       // Если хоть один из параметров отсутствует - очищаем список
       markList = null;
     }
+  }
+  
+    private void getSheet(final boolean empty) {
+    // Get the FacesContext
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    // Get HTTP response
+    ExternalContext ec = facesContext.getExternalContext();
+    // Set response headers
+    ec.responseReset();   // Reset the response in the first place
+    ec.setResponseContentType("application/pdf");  // Set only the content type
+    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
+      responseOutputStream.write(monthSheets.getReport(group, markDate % 100, markDate / 100, empty));
+      responseOutputStream.flush();
+      responseOutputStream.close();
+    } catch (IOException e) {
+      addMessage(e);
+    }
+    facesContext.responseComplete();
+  }
+
+  public void emptyMonthSheet() {
+    getSheet(true);
   }
 
   public void loadGroup() {

@@ -36,6 +36,8 @@
           <f:ajax execute="@form" render="@form" />
         </h:selectOneMenu><p />
         <h:panelGroup rendered="#{not empty monthMarksMB.markList}">
+          <h3>Ведомости</h3>
+          <h:commandLink value="Аттестации за месяц" target="monthsheet" action="#{monthMarksMB.emptyMonthSheet()}" />
           <table class="dataTable">
             <thead>
               <tr>

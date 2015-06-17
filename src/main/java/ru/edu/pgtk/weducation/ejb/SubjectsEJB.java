@@ -77,7 +77,7 @@ public class SubjectsEJB {
     q.setParameter("s", semester);
     return q.getResultList();
   }
-
+  
   public Subject save(Subject item) {
     if (item.getModuleCode() > 0) {
       StudyModule m = em.find(StudyModule.class, item.getModuleCode());
