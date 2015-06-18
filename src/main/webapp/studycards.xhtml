@@ -156,8 +156,9 @@
             <f:selectItem itemLabel="Отлично" itemValue="5" />
             <f:selectItem itemLabel="Хорошо" itemValue="4" />
             <f:selectItem itemLabel="Удовлетворительно" itemValue="3" />
+            <f:selectItem itemLabel="Нет оценки" itemValue="0" />
           </h:selectOneMenu><p />
-          <h:outputText value="Регистрационный номер диплома (или справки в случае отчисления)" /><br />
+          <h:outputText value="Регистрационный номер диплома (справки)" /><br />
           <h:inputText value="#{studyCardsMB.item.registrationNumber}" class="textEdit" /><p />
           <h:outputText value="Серия и номер диплома" /><br />
           <h:inputText value="#{studyCardsMB.item.diplomeNumber}" class="textEdit" /><p />
@@ -169,7 +170,7 @@
           <h:outputText value="Приказ об отчислении" /><br />
           <h:inputText value="#{studyCardsMB.item.remandCommand}" class="textEdit" /><p />
           <!-- Будь то диплом или справка, дата выдачи будет храниться тут -->
-          <h:outputText value="Дата выдачи документа об обучении" /><br />
+          <h:outputText value="Дата выдачи диплома (справки)" /><br />
           <h:inputText value="#{studyCardsMB.item.diplomeDate}" class="textEdit">
             <f:convertDateTime pattern="dd.MM.yyyy" />
           </h:inputText><p />

@@ -113,6 +113,14 @@ public class Person implements Serializable {
     return firstName + " " + middleName + " " + lastName;
   }
 
+  public String getShortName() {
+    try {
+      return firstName + " " + middleName.charAt(0) + ". " + lastName.charAt(0) + ".";
+    } catch (Exception e) {
+      return "Exception!";
+    }
+  }
+
   public String getGender() {
     return male ? "мужской" : "женский";
   }

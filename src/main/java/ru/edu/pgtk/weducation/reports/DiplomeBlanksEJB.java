@@ -283,7 +283,7 @@ public class DiplomeBlanksEJB {
       firstTableCell.addElement(wrapElement(getParagraph(sclName, regularFont, Paragraph.ALIGN_CENTER), getPt(63)));
       // Квалификация
 //      firstTableCell.addElement(wrapElement(getParagraph(spc.getKvalification(), regularFont, Paragraph.ALIGN_CENTER), 97));
-      firstTableCell.addElement(wrapElement(getParagraph(spc.getKvalification(), regularFont, Paragraph.ALIGN_CENTER), getPt(40)));
+      firstTableCell.addElement(wrapElement(getParagraph(spc.getKvalification(), regularFont, Paragraph.ALIGN_CENTER), getPt(42)));
       // Регистрационный номер
       firstTableCell.addElement(wrapElement(
         getParagraph(card.getRegistrationNumber(), regularFont,

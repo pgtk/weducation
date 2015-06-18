@@ -116,14 +116,14 @@ public class SemesterModuleMarksMB {
 
   public List<StudyModule> getModuleList() {
     if (moduleList == null) {
-      moduleList = new ArrayList();
+      moduleList = new ArrayList<>();
     }
     return moduleList;
   }
 
   public List<SemesterMark> getMarkList() {
     if (markList == null) {
-      markList = new ArrayList();
+      markList = new ArrayList<>();
     }
     return markList;
   }

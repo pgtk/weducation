@@ -22,6 +22,21 @@
                          itemLabel="#{sm.label}" itemValue="#{sm.id}" />
           <f:ajax execute="@form" render="@form" />
         </h:selectOneMenu><p />
+        <h:outputText value="Месяц, год" /><br />
+        <h:selectOneMenu  value="#{monthMarksMB.markDate}" valueChangeListener="#{monthMarksMB.changeDate}">
+          <f:selectItem itemLabel="Выберите период" itemValue="0" />
+          <f:selectItems value="#{monthMarksMB.months}" />
+          <f:ajax execute="@form" render="@form" />
+        </h:selectOneMenu><p />
+        <h:panelGroup rendered="#{monthMarksMB.aviableSheet}">
+          <h3>Ведомости</h3>
+          <ul>
+            <li><h:commandLink value="Аттестации за месяц" 
+                               target="monthsheet" action="#{monthMarksMB.emptyMonthSheet()}" /></li>                   
+            <li><h:commandLink value="Успеваемости за месяц" 
+                               target="monthsheet" action="#{monthMarksMB.filledMonthSheet()}" /></li>                   
+          </ul>
+        </h:panelGroup>
         <h:outputText value="Дисциплина" /><br />
         <h:selectOneMenu  value="#{monthMarksMB.subjectCode}" valueChangeListener="#{monthMarksMB.changeSubject}">
           <f:selectItem itemLabel="Выберите дисциплину" itemValue="0" />
@@ -29,15 +44,7 @@
                          itemLabel="#{sub.fullName}" itemValue="#{sub.id}" />
           <f:ajax execute="@form" render="@form" />
         </h:selectOneMenu><p />
-        <h:outputText value="Месяц, год" /><br />
-        <h:selectOneMenu  value="#{monthMarksMB.markDate}" valueChangeListener="#{monthMarksMB.changeDate}">
-          <f:selectItem itemLabel="Выберите период" itemValue="0" />
-          <f:selectItems value="#{monthMarksMB.months}" />
-          <f:ajax execute="@form" render="@form" />
-        </h:selectOneMenu><p />
         <h:panelGroup rendered="#{not empty monthMarksMB.markList}">
-          <h3>Ведомости</h3>
-          <h:commandLink value="Аттестации за месяц" target="monthsheet" action="#{monthMarksMB.emptyMonthSheet()}" />
           <table class="dataTable">
             <thead>
               <tr>

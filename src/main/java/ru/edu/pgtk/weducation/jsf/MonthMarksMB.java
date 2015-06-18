@@ -60,8 +60,8 @@ public class MonthMarksMB implements Serializable {
       markList = null;
     }
   }
-  
-    private void getSheet(final boolean empty) {
+
+  private void getSheet(final boolean empty) {
     // Get the FacesContext
     FacesContext facesContext = FacesContext.getCurrentInstance();
     // Get HTTP response
@@ -70,7 +70,7 @@ public class MonthMarksMB implements Serializable {
     ec.responseReset();   // Reset the response in the first place
     ec.setResponseContentType("application/pdf");  // Set only the content type
     try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-      responseOutputStream.write(monthSheets.getReport(group, markDate % 100, markDate / 100, empty));
+      responseOutputStream.write(monthSheets.getReport(group, markDate / 100, markDate % 100, empty));
       responseOutputStream.flush();
       responseOutputStream.close();
     } catch (IOException e) {
@@ -78,9 +78,17 @@ public class MonthMarksMB implements Serializable {
     }
     facesContext.responseComplete();
   }
+  
+  public boolean isAviableSheet() {
+    return (group != null) && (markDate > 0);
+  }
 
   public void emptyMonthSheet() {
     getSheet(true);
+  }
+  
+  public void filledMonthSheet() {
+    getSheet(false);
   }
 
   public void loadGroup() {
@@ -184,14 +192,14 @@ public class MonthMarksMB implements Serializable {
 
   public List<Subject> getSubjectList() {
     if (subjectList == null) {
-      subjectList = new ArrayList();
+      subjectList = new ArrayList<>();
     }
     return subjectList;
   }
 
   public List<MonthMark> getMarkList() {
     if (markList == null) {
-      markList = new ArrayList();
+      markList = new ArrayList<>();
     }
     return markList;
   }
