@@ -3,9 +3,9 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
@@ -18,11 +18,13 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ManagedBean(name = "courseWorkMarksMB")
 public class CourseWorkMarksMB extends GenericBean<CourseWorkMark> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+  
+  @Inject
   private transient CourseWorkMarksEJB ejb;
-  @EJB
+  @Inject
   private transient StudyCardsEJB cards;
-  @EJB
+  @Inject
   private transient SubjectsEJB subjects;
   private StudyCard card;
   private int cardCode;

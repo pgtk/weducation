@@ -3,10 +3,10 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.FinalMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
@@ -21,13 +21,15 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ManagedBean(name = "finalMarksMB")
 public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+  
+  @Inject
   private transient FinalMarksEJB ejb;
-  @EJB
+  @Inject
   private transient StudyCardsEJB cards;
-  @EJB
+  @Inject
   private transient StudyModulesEJB modules;
-  @EJB
+  @Inject
   private transient SubjectsEJB subjects;
   private StudyCard card;
   private int cardCode;

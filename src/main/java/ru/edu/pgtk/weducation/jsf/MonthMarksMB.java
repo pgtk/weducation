@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
@@ -22,22 +22,24 @@ import ru.edu.pgtk.weducation.entity.MonthMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
-import ru.edu.pgtk.weducation.reports.MonthMarksSheetEJB;
+import ru.edu.pgtk.weducation.reports.GroupSheetEJB;
 
 @ViewScoped
 @ManagedBean(name = "monthMarksMB")
 public class MonthMarksMB implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient StudyGroupsEJB groups;
-  @EJB
+  @Inject
   private transient SubjectsEJB subjects;
-  @EJB
+  @Inject
   private transient GroupSemestersEJB semesters;
-  @EJB
+  @Inject
   private transient MonthMarksEJB marks;
-  @EJB
-  private transient MonthMarksSheetEJB monthSheets;
+  @Inject
+  private transient GroupSheetEJB monthSheets;
   private int groupCode;
   private StudyGroup group;
   private int subjectCode;
@@ -70,7 +72,7 @@ public class MonthMarksMB implements Serializable {
     ec.responseReset();   // Reset the response in the first place
     ec.setResponseContentType("application/pdf");  // Set only the content type
     try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-      responseOutputStream.write(monthSheets.getReport(group, markDate / 100, markDate % 100, empty));
+      responseOutputStream.write(monthSheets.getMonthMarksSheet(group, markDate / 100, markDate % 100, empty));
       responseOutputStream.flush();
       responseOutputStream.close();
     } catch (IOException e) {
@@ -78,7 +80,7 @@ public class MonthMarksMB implements Serializable {
     }
     facesContext.responseComplete();
   }
-  
+
   public boolean isAviableSheet() {
     return (group != null) && (markDate > 0);
   }
@@ -86,7 +88,7 @@ public class MonthMarksMB implements Serializable {
   public void emptyMonthSheet() {
     getSheet(true);
   }
-  
+
   public void filledMonthSheet() {
     getSheet(false);
   }

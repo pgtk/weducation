@@ -1,16 +1,18 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.util.Map;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.utils.ImportCardEJB;
 
 @ViewScoped
 @ManagedBean(name = "importCardMB")
 public class ImportCardMB {
 
-  @EJB
+  long serialVersionUID = 0L;
+  
+  @Inject
   private transient ImportCardEJB ejb;
   private String groupCode;
   private boolean success = false;

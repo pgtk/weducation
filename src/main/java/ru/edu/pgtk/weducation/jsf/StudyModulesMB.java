@@ -2,9 +2,9 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.entity.StudyModule;
@@ -16,9 +16,11 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ViewScoped
 public class StudyModulesMB extends GenericBean<StudyModule> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient StudyModulesEJB ejb;
-  @EJB
+  @Inject
   private transient StudyPlansEJB planEJB;
 
   private StudyPlan plan = null;

@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.entity.Department;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
@@ -12,7 +12,9 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ViewScoped
 public class DepartmentsMB extends GenericBean<Department> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+  
+  @Inject
   private transient DepartmentsEJB ejb;
   private int departmentCode;
 

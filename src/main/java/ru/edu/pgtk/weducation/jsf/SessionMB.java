@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
 import ru.edu.pgtk.weducation.ejb.ClientSessionsEJB;
@@ -24,15 +24,17 @@ import static ru.edu.pgtk.weducation.jsf.Utils.getExternalContext;
 @SessionScoped
 public class SessionMB implements Serializable {
 
+  long serialVersionUID = 0L;
+
   private transient Account user;
   private ClientSession session;
   private String login;
   private String password;
-  @EJB
+  @Inject
   private transient AccountsEJB usersEJB;
-  @EJB
+  @Inject
   private transient DepartmentsEJB departments;
-  @EJB
+  @Inject
   private transient ClientSessionsEJB sessions;
 
   /**
@@ -87,7 +89,7 @@ public class SessionMB implements Serializable {
       // Если это учетная запись отделения
       int depcode = user.getCode();
       if (depcode > 0) {
-        Utils.setCookie("departmentId", ""+depcode);
+        Utils.setCookie("departmentId", "" + depcode);
         return "/department/index?faces-redirect=true";
       }
     }

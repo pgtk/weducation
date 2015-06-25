@@ -1,11 +1,15 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.SemesterMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
@@ -15,19 +19,24 @@ import ru.edu.pgtk.weducation.entity.SemesterMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
+import ru.edu.pgtk.weducation.reports.GroupSheetEJB;
 
 @ViewScoped
 @ManagedBean(name = "semesterSubjectMarksMB")
 public class SemesterSubjectMarksMB {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient StudyGroupsEJB groups;
-  @EJB
+  @Inject
   private transient SubjectsEJB subjects;
-  @EJB
+  @Inject
   private transient GroupSemestersEJB semesters;
-  @EJB
+  @Inject
   private transient SemesterMarksEJB marks;
+  @Inject
+  private transient GroupSheetEJB sheet;
   private int groupCode;
   private StudyGroup group;
   private int subjectCode;
@@ -48,6 +57,24 @@ public class SemesterSubjectMarksMB {
       // Если хоть один из параметров отсутствует - очищаем список
       markList = null;
     }
+  }
+  
+  public void getExamSheet() {
+    // Get the FacesContext
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    // Get HTTP response
+    ExternalContext ec = facesContext.getExternalContext();
+    // Set response headers
+    ec.responseReset();   // Reset the response in the first place
+    ec.setResponseContentType("application/pdf");  // Set only the content type
+    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
+      responseOutputStream.write(sheet.getExamSheet(group, subject, semester.getCourse(), semester.getSemester()));
+      responseOutputStream.flush();
+      responseOutputStream.close();
+    } catch (IOException e) {
+      addMessage(e);
+    }
+    facesContext.responseComplete();
   }
 
   public void loadGroup() {

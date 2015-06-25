@@ -1,5 +1,8 @@
 package ru.edu.pgtk.weducation.reports;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Утилитарный класс только для отчетов.
  * @author Воронин Леонид.
@@ -8,6 +11,7 @@ class Utils {
   private final static String[] months = {"январь", "февраль", "март", "апрель", 
     "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"};
   
+  private final static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
   
   private Utils() {
     throw new IllegalStateException("This constructor should not be called!");
@@ -24,6 +28,10 @@ class Utils {
     } catch (Exception e) {
       throw new IllegalArgumentException("Wrong month value " + month);
     }
+  }
+  
+  public static String getDateString(final Date date) {
+    return sdf.format(date);
   }
   
 }

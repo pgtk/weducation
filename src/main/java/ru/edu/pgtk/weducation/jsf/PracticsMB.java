@@ -2,9 +2,9 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.PracticsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
@@ -17,11 +17,13 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ViewScoped
 public class PracticsMB extends GenericBean<Practic> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private PracticsEJB ejb;
-  @EJB
+  @Inject
   private StudyModulesEJB mejb;
-  @EJB
+  @Inject
   private StudyPlansEJB planEJB;
   private StudyPlan plan = null;
   private int planCode;

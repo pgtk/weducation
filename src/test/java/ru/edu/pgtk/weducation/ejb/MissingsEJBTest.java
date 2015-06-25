@@ -11,16 +11,16 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.WeekMissing;
+import ru.edu.pgtk.weducation.entity.Missing;
 
 /**
  *
  * @author user
  */
-public class WeekMissingsEJBTest {
+public class MissingsEJBTest {
 
   private static EJBContainer container;
-  private static WeekMissingsEJB ejb;
+  private static MissingsEJB ejb;
   private static StudyGroupsEJB groups;
 
   @BeforeClass
@@ -31,7 +31,7 @@ public class WeekMissingsEJBTest {
       properties.put("org.glassfish.ejb.embedded.glassfish.installation.root", "glassfish");
       properties.put(EJBContainer.APP_NAME, "weducation");
       container = EJBContainer.createEJBContainer(properties);
-      ejb = (WeekMissingsEJB) container.getContext().lookup("java:global/weducation/classes/WeekMissingsEJB");
+      ejb = (MissingsEJB) container.getContext().lookup("java:global/weducation/classes/WeekMissingsEJB");
       groups = (StudyGroupsEJB) container.getContext().lookup("java:global/weducation/classes/StudyGroupsEJB");
     } catch (NamingException e) {
       fail("Ошибка при иннициализации сервера " + e.getMessage());
@@ -57,20 +57,20 @@ public class WeekMissingsEJBTest {
       int month = 9;
       int week = 1;
       // Выберем пропуски
-      List<WeekMissing> marks = ejb.fetchAll(grp, year, month, week);
+      List<Missing> marks = ejb.fetchAll(grp, year, month, week);
       /*
       Пропусков должно быть столько, сколько в группе студентов, 
       то есть по-любому больше нуля.
       */
       assertNotNull(marks);
       assertFalse(marks.isEmpty());
-      for (WeekMissing m: marks) {
+      for (Missing m: marks) {
         // Ставим по 10 часов уважительно и по 8 неуважительно
         m.setLegal(10);
         m.setIllegal(8);
         // Сохраняем
         m = ejb.save(m);
-        WeekMissing newMissing = ejb.get(m.getCard(), year, month, week);
+        Missing newMissing = ejb.get(m.getCard(), year, month, week);
         assertNotNull(newMissing);
         assertEquals(m.getLegal(), newMissing.getLegal());
         assertEquals(m.getIllegal(), newMissing.getIllegal());

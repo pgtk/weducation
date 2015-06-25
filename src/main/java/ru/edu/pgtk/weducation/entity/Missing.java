@@ -14,7 +14,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "weekmissings")
-public class WeekMissing implements Serializable {
+public class Missing implements Serializable {
 
   @Id
   @Column(name = "wms_pcode")
@@ -58,6 +58,10 @@ public class WeekMissing implements Serializable {
 
   public int getId() {
     return id;
+  }
+  
+  public int getAll() {
+    return legal + illegal;
   }
 
   public Person getPerson() {

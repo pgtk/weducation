@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
@@ -22,13 +22,15 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ViewScoped
 public class DepartmentRootMB implements Serializable {
 
+  long serialVersionUID = 0L;
+
   @ManagedProperty(value = "#{sessionMB.user}")
   private transient Account account;
-  @EJB
+  @Inject
   private transient DepartmentsEJB departments;
-  @EJB
+  @Inject
   private transient StudyGroupsEJB groups;
-  @EJB
+  @Inject
   private transient StudyCardsEJB cards;
   private transient Department department;
   private boolean edit = false;
@@ -51,7 +53,7 @@ public class DepartmentRootMB implements Serializable {
       }
     }
   }
-  
+
   public void changeGroup(ValueChangeEvent event) {
     try {
       int code = (Integer) event.getNewValue();
@@ -76,17 +78,17 @@ public class DepartmentRootMB implements Serializable {
       addMessage(e);
     }
   }
-  
+
   public List<StudyCard> getStudents() {
     if (null != group) {
       return cards.findByGroup(group);
     }
     return new ArrayList<>();
   }
-  
+
   public String getStudentClass(final boolean enabled) {
-    return (enabled)? "enabled" : "disabled";
-  } 
+    return (enabled) ? "enabled" : "disabled";
+  }
 
   public String getEditLabel() {
     return edit ? "Сохранить" : "Редактировать";

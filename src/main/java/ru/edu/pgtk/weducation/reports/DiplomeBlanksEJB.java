@@ -17,9 +17,10 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
 import ru.edu.pgtk.weducation.ejb.FinalMarksEJB;
 import ru.edu.pgtk.weducation.ejb.FinalPracticMarksEJB;
@@ -51,6 +52,7 @@ import static ru.edu.pgtk.weducation.utils.Utils.getYearString;
  *
  */
 @Stateless
+@RequestScoped
 public class DiplomeBlanksEJB {
 
   // поток байт в котором будет "собираться" отчет.
@@ -58,15 +60,15 @@ public class DiplomeBlanksEJB {
   private BaseFont baseFont;
   private Font regularFont;
   private Font smallFont;
-  @EJB
+  @Inject
   private FinalMarksEJB finalMarks;
-  @EJB
+  @Inject
   private FinalPracticMarksEJB practicMarks;
-  @EJB
+  @Inject
   private GOSMarksEJB gosMarks;
-  @EJB
+  @Inject
   private CourseWorkMarksEJB courseWorks;
-  @EJB
+  @Inject
   private RenamingsEJB renamings;
 
   /**

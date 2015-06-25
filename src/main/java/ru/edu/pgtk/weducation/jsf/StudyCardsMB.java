@@ -5,12 +5,12 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
@@ -29,19 +29,21 @@ import ru.edu.pgtk.weducation.reports.ReferenceBlanksEJB;
 @ViewScoped
 public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient StudyCardsEJB ejb;
-  @EJB
+  @Inject
   private transient PersonsEJB personEJB;
-  @EJB
+  @Inject
   private transient StudyGroupsEJB groupsEJB;
-  @EJB
+  @Inject
   private transient StudyPlansEJB plansEJB;
-  @EJB
+  @Inject
   private transient SpecialitiesEJB specialitiesEJB;
-  @EJB
+  @Inject
   private transient DiplomeBlanksEJB diplome;
-  @EJB
+  @Inject
   private transient ReferenceBlanksEJB reference;
 
   private Person person;

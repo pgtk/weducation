@@ -11,17 +11,21 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.inject.Named;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
+import ru.edu.pgtk.weducation.ejb.MissingsEJB;
 import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
 import ru.edu.pgtk.weducation.ejb.SchoolsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
+import ru.edu.pgtk.weducation.entity.Missing;
 import ru.edu.pgtk.weducation.entity.MonthMark;
 import ru.edu.pgtk.weducation.entity.School;
 import ru.edu.pgtk.weducation.entity.StudyCard;
@@ -31,36 +35,140 @@ import static ru.edu.pgtk.weducation.reports.PDFUtils.getParagraph;
 import static ru.edu.pgtk.weducation.reports.PDFUtils.getPt;
 import static ru.edu.pgtk.weducation.reports.Utils.getMonthString;
 
+/**
+ * EJB компонент для генерации различных отчетов по группе.
+ */
 @Stateless
-@Named("monthMarksSheetEJB")
-public class MonthMarksSheetEJB {
+@RequestScoped
+public class GroupSheetEJB {
 
-  private final ByteArrayOutputStream stream;
+  private final ByteArrayOutputStream stream = new ByteArrayOutputStream();
   private BaseFont baseFont;
   private Font bigFont;
   private Font regularFont;
   private Font smallFont;
-  @EJB
+  private String schoolName;
+  @Inject
   private transient SchoolsEJB schools;
-  @EJB
+  @Inject
   private transient StudyCardsEJB cards;
-  @EJB
+  @Inject
   private transient GroupSemestersEJB groupSemesters;
-  @EJB
+  @Inject
   private transient SubjectsEJB subjects;
-  @EJB
+  @Inject
   private transient MonthMarksEJB marks;
+  @Inject
+  private transient MissingsEJB missings;
 
-  public MonthMarksSheetEJB() {
+  @PostConstruct
+  private void initBean() {
     try {
-      stream = new ByteArrayOutputStream();
       baseFont = BaseFont.createFont("fonts/times.ttf", BaseFont.IDENTITY_H,
         BaseFont.EMBEDDED);
       smallFont = new Font(baseFont, 7);
       regularFont = new Font(baseFont, 10);
       bigFont = new Font(baseFont, 16);
+      School school = schools.getCurrent();
+      schoolName = school.getFullName().replace("Прокопьевский", "\nПрокопьевский");
     } catch (IOException | DocumentException e) {
       throw new EJBException("Exception with message " + e.getMessage());
+    }
+  }
+
+  public byte[] getExamSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
+    try {
+      // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
+      Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));
+      PdfWriter writer = PdfWriter.getInstance(document, stream);
+      document.open();
+      document.addTitle("Экзаменационная ведомость");
+      document.addAuthor("weducation project");
+      document.add(getParagraph(schoolName, regularFont, Paragraph.ALIGN_CENTER));
+      document.add(getParagraph("\nЭкзаменационная ведомость", bigFont, Paragraph.ALIGN_CENTER));
+      document.add(getParagraph("(для семестровых экзаменов)", regularFont, Paragraph.ALIGN_CENTER));
+      String description = "группы " + group.getName() + " " + group.getCourse() + "-го курса "
+        + (group.isExtramural() ? "заочной" : "очной") + " формы обучения за " + semester + "-й семестр.";
+      document.add(getParagraph(description, regularFont, Paragraph.ALIGN_CENTER));
+      String speciality = "Специальность: " + group.getSpeciality().getFullName();
+      document.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
+      document.add(getParagraph("Дисциплина: " + subject.getFullName(), regularFont, Paragraph.ALIGN_CENTER));
+      // Теперь можно создавать таблицу
+      // Количество полей будет на 5 больше, чем кол-во дисциплин
+      PdfPTable table = new PdfPTable(7);
+      table.setWidthPercentage(100.0f);
+      table.setSpacingBefore(getPt(5));
+      table.setSpacingAfter(getPt(5));
+      // Создадим массив целых чисел для указания размерности столбцов
+      // Установим размер столбца ФИО в пять раз больше размером!
+      table.setWidths(new int[]{1, 5, 2, 3, 3, 3, 4});
+      // Добавляем строки таблицы
+      PdfPCell numberCell = new PdfPCell(getParagraph("№", regularFont, Paragraph.ALIGN_CENTER));
+      numberCell.setRowspan(2);
+      numberCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      numberCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      table.addCell(numberCell);
+      PdfPCell nameCell = new PdfPCell(getParagraph("Фамилия имя отчество", regularFont, Paragraph.ALIGN_CENTER));
+      nameCell.setRowspan(2);
+      nameCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      nameCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      table.addCell(nameCell);
+      PdfPCell biletCell = new PdfPCell(getParagraph("№ билета", regularFont, Paragraph.ALIGN_CENTER));
+      biletCell.setRowspan(2);
+      biletCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      biletCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      table.addCell(biletCell);
+      PdfPCell markCell = new PdfPCell(getParagraph("Оценка за экзамен", regularFont, Paragraph.ALIGN_CENTER));
+      markCell.setColspan(3);
+      markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      table.addCell(markCell);
+      PdfPCell signCell = new PdfPCell(getParagraph("Подпись экзаменатора", regularFont, Paragraph.ALIGN_CENTER));
+      signCell.setRowspan(2);
+      signCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      signCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      table.addCell(signCell);
+      PdfPCell cell = new PdfPCell(getParagraph("письменно", regularFont, Paragraph.ALIGN_CENTER));
+      cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      table.addCell(cell);
+      cell = new PdfPCell(getParagraph("устно", regularFont, Paragraph.ALIGN_CENTER));
+      cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      table.addCell(cell);
+      cell = new PdfPCell(getParagraph("общая", regularFont, Paragraph.ALIGN_CENTER));
+      cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      table.addCell(cell);
+      int row = 1;
+      cell = new PdfPCell();
+      for (StudyCard sc : cards.findByGroup(group)) {
+        if (!sc.isRemanded() && sc.isActive()) {
+          numberCell = new PdfPCell(getParagraph("" + row++, regularFont, Paragraph.ALIGN_CENTER));
+          table.addCell(numberCell);
+          nameCell = new PdfPCell(getParagraph(sc.getPerson().getShortName(),
+            regularFont, Paragraph.ALIGN_LEFT));
+          table.addCell(nameCell);
+          for (int i = 0; i < 5; i++) {
+            table.addCell(cell);
+          }
+        }
+      }
+      document.add(table);
+//      document.add(getParagraph("Дата проведения экзамена " + Utils.getDateString(new Date()),
+      document.add(getParagraph("Дата проведения экзамена \"_____\" _________________  ____________г.",
+        regularFont, Paragraph.ALIGN_LEFT));
+      document.add(getParagraph("\nПисьменного ____________________   начало ____________________   окончание ____________________",
+        regularFont, Paragraph.ALIGN_LEFT));
+      document.add(getParagraph("\nУстного         ____________________   начало ____________________   окончание ____________________",
+        regularFont, Paragraph.ALIGN_LEFT));
+      document.add(getParagraph("\nВсего на проведение экзамена: __________________ час ________________ мин",
+        regularFont, Paragraph.ALIGN_LEFT));
+      document.add(getParagraph("\nЭкзаменатор(ы) ____________________  ________________________________________",
+        regularFont, Paragraph.ALIGN_LEFT));
+      document.add(getParagraph("                                                     (подпись)"+
+        "                                                                               (ФИО)",
+        smallFont, Paragraph.ALIGN_LEFT));
+      document.close();
+      return stream.toByteArray();
+    } catch (Exception e) {
+      throw new EJBException("Exception class " + e.getClass().getName() + " with message " + e.getMessage());
     }
   }
 
@@ -73,7 +181,7 @@ public class MonthMarksSheetEJB {
    * @param empty ведомость будет без оценок (для заполнения)
    * @return массив байт, представляющий собой PDF сгенерированный документ.
    */
-  public byte[] getReport(final StudyGroup group, final int year, final int month, final boolean empty) {
+  public byte[] getMonthMarksSheet(final StudyGroup group, final int year, final int month, final boolean empty) {
     try {
       // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
       Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));
@@ -81,8 +189,7 @@ public class MonthMarksSheetEJB {
       document.open();
       document.addTitle("Ведомость " + ((empty) ? "аттестации" : "успеваемости") + " за месяц");
       document.addAuthor("weducation project");
-      School scl = schools.getCurrent();
-      document.add(getParagraph(scl.getFullName(), regularFont, Paragraph.ALIGN_CENTER));
+      document.add(getParagraph(schoolName, regularFont, Paragraph.ALIGN_CENTER));
       document.add(getParagraph("Ведомость " + ((empty) ? "аттестации" : "успеваемости"),
         bigFont, Paragraph.ALIGN_CENTER));
       String description = "группы " + group.getName() + " " + group.getCourse() + "-го курса "
@@ -155,6 +262,8 @@ public class MonthMarksSheetEJB {
       allCell.setRotation(90);
       table.addCell(allCell);
       int row = 1;
+      int legal = 0;
+      int illegal = 0;
       for (StudyCard sc : cards.findByGroup(group)) {
         if (!sc.isRemanded() && sc.isActive()) {
           numberCell = new PdfPCell(getParagraph("" + row++, regularFont, Paragraph.ALIGN_CENTER));
@@ -176,10 +285,18 @@ public class MonthMarksSheetEJB {
           }
           // Кол-во пропусков пока не реализовано
           legalCell = new PdfPCell();
-          table.addCell(legalCell);
           illegalCell = new PdfPCell();
-          table.addCell(illegalCell);
           allCell = new PdfPCell();
+          if (!empty) {
+            Missing m = missings.get(sc, year, month);
+            legalCell.addElement(getParagraph(m.getLegal() + "", regularFont, Paragraph.ALIGN_CENTER));
+            illegalCell.addElement(getParagraph(m.getIllegal() + "", regularFont, Paragraph.ALIGN_CENTER));
+            allCell.addElement(getParagraph(m.getAll() + "", regularFont, Paragraph.ALIGN_CENTER));
+            legal += m.getLegal();
+            illegal = m.getIllegal();
+          }
+          table.addCell(legalCell);
+          table.addCell(illegalCell);
           table.addCell(allCell);
         }
       }
@@ -197,15 +314,27 @@ public class MonthMarksSheetEJB {
       // Кол-во пропусков итоговое
       legalCell = new PdfPCell();
       legalCell.setMinimumHeight(getPt(20));
-      table.addCell(legalCell);
+      legalCell.setRotation(90);
+      legalCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      legalCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
       illegalCell = new PdfPCell();
       illegalCell.setMinimumHeight(getPt(20));
-      table.addCell(illegalCell);
+      illegalCell.setRotation(90);
+      illegalCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      illegalCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
       allCell = new PdfPCell();
       allCell.setMinimumHeight(getPt(20));
+      allCell.setRotation(90);
+      allCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      allCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      if (!empty) {
+        legalCell.addElement(getParagraph(legal + "", regularFont, Paragraph.ALIGN_CENTER));
+        illegalCell.addElement(getParagraph(illegal + "", regularFont, Paragraph.ALIGN_CENTER));
+        allCell.addElement(getParagraph((legal + illegal) + "", regularFont, Paragraph.ALIGN_CENTER));
+      }
+      table.addCell(legalCell);
+      table.addCell(illegalCell);
       table.addCell(allCell);
-//      table.completeRow();
-//      table.setComplete(true);
       document.add(table);
 
       document.add(getParagraph("\n                Зав. отделением ________________________________",

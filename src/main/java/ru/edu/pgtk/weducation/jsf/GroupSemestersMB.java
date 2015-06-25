@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
@@ -14,9 +14,11 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ViewScoped
 public class GroupSemestersMB extends GenericBean<GroupSemester> {
 
-  @EJB
+  long serialVersionUID = 0L;
+  
+  @Inject
   private transient GroupSemestersEJB ejb;
-  @EJB
+  @Inject
   private transient StudyGroupsEJB groups;
   private int groupCode;
   private StudyGroup group;

@@ -140,6 +140,10 @@ public class Person implements Serializable {
   public String getBirthDateString() {
     return getDateString(birthDate);
   }
+  
+  public String getPassportDateString() {
+    return getDateString(passportDate);
+  }
 
   public String getFirstName() {
     return firstName;

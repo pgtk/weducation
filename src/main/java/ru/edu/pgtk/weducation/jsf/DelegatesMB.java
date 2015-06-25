@@ -3,9 +3,9 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.DelegatesEJB;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.entity.Delegate;
@@ -16,9 +16,11 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ManagedBean(name = "delegatesMB")
 public class DelegatesMB extends GenericBean<Delegate> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+  
+  @Inject
   private transient DelegatesEJB ejb;
-  @EJB
+  @Inject
   private transient PersonsEJB persons;
   private int personCode;
   private int code;

@@ -2,10 +2,10 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
@@ -20,13 +20,15 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ViewScoped
 public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient StudyGroupsEJB ejb;
-  @EJB
+  @Inject
   private transient DepartmentsEJB depejb;
-  @EJB
+  @Inject
   private transient StudyPlansEJB plansEJB;
-  @EJB
+  @Inject
   private transient SpecialitiesEJB spcejb;
   private Department department;
   private Speciality speciality;

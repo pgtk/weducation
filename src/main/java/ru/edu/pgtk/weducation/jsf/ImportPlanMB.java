@@ -1,11 +1,11 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.Part;
 import ru.edu.pgtk.weducation.ejb.PracticsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
@@ -31,29 +31,31 @@ import ru.edu.pgtk.weducation.utils.XMLSubjectLoad;
 @ManagedBean(name = "importPlanMB")
 @ViewScoped
 public class ImportPlanMB implements Serializable {
-  
+
+  long serialVersionUID = 0L;
+
   private transient Part file;
   private boolean uploaded;
   private transient PlanParser parser;
-  @EJB
+  @Inject
   private transient SpecialitiesEJB specialitiesEJB;
-  @EJB
+  @Inject
   private transient StudyPlansEJB plansEJB;
-  @EJB
+  @Inject
   private transient StudyModulesEJB modulesEJB;
-  @EJB
+  @Inject
   private transient PracticsEJB practicsEJB;
-  @EJB
+  @Inject
   private transient SubjectsEJB subjectsEJB;
-  @EJB
+  @Inject
   private transient SubjectLoadEJB loadEJB;
-  
+
   private void addMessage(final Exception e) {
     FacesContext context = FacesContext.getCurrentInstance();
     String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
   }
-  
+
   public void upload() {
     try {
       uploaded = true;
@@ -129,27 +131,27 @@ public class ImportPlanMB implements Serializable {
       addMessage(e);
     }
   }
-  
+
   public Part getFile() {
     return file;
   }
-  
+
   public void setFile(Part file) {
     this.file = file;
   }
-  
+
   public boolean isUploaded() {
     return uploaded;
   }
-  
+
   public String getPlanTitle() {
     try {
       if ((null != parser) && (parser.isCorrect())) {
         StudyPlan sp = parser.getStudyPlan();
         return "Обнаружен учебный план специальности \""
-                + sp.getName() + " " + sp.getDescription()
-                + "\". Срок обучения - " + sp.getLength() + ", "
-                + sp.getExtramural();
+          + sp.getName() + " " + sp.getDescription()
+          + "\". Срок обучения - " + sp.getLength() + ", "
+          + sp.getExtramural();
       } else {
         return "Документ не содержит учебных планов!";
       }

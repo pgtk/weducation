@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.SchoolsEJB;
 import ru.edu.pgtk.weducation.entity.School;
 
@@ -11,7 +11,9 @@ import ru.edu.pgtk.weducation.entity.School;
 @ViewScoped
 public class SchoolsMB extends GenericBean<School> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient SchoolsEJB ejb;
 
   @Override

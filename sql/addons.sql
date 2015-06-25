@@ -38,3 +38,18 @@ CREATE FUNCTION getAverageMark(integer) RETURNS decimal(3,2) AS $$
   SELECT CAST(CAST(SUM(fmv_total) AS decimal(5,2)) / SUM(fmv_count) AS decimal(3,2)) FROM fmarkview 
   WHERE (fmv_crdcode = $1); 
 $$ LANGUAGE sql;
+
+
+CREATE FUNCTION countMarks(int) RETURNS bigint AS $$ 
+SELECT 
+  (SELECT COUNT(*) FROM monthmarks WHERE mmk_psncode = $1) + 
+  (SELECT COUNT(*) FROM fmarks, persons, cards WHERE (crd_pcode = fmk_crdcode) AND (psn_pcode = crd_psncode) AND (psn_pcode = $1));
+$$ LANGUAGE SQL;
+
+CREATE VIEW dublicates AS
+SELECT psn_firstname AS dbl_fname, psn_middlename AS dbl_mname, psn_lastname dbl_lname, psn_birthdate AS dbl_birthdate, 
+COUNT(psn_pcode) AS dbl_count
+FROM persons WHERE (substring(psn_firstname, 1, 3) IN (SELECT DISTINCT substring(psn_firstname, 1, 3) FROM persons)) 
+GROUP BY psn_firstname, psn_middlename, psn_lastname, psn_birthdate 
+HAVING (COUNT(psn_pcode) > 1)
+ORDER BY dbl_count DESC, psn_firstname;

@@ -3,9 +3,9 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.GOSExamsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
@@ -18,11 +18,13 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ViewScoped
 public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient GOSExamsEJB ejb;
-  @EJB
+  @Inject
   private transient StudyPlansEJB planEJB;
-  @EJB
+  @Inject
   private transient SubjectsEJB subjectEJB;
   private StudyPlan plan = null;
   private int planCode;

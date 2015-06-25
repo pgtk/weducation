@@ -3,9 +3,9 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.FinalPracticMarksEJB;
 import ru.edu.pgtk.weducation.ejb.FinalPracticsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
@@ -18,11 +18,13 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ManagedBean(name = "finalPracticMarksMB")
 public class FinalPracticMarksMB extends GenericBean<FinalPracticMark> implements Serializable {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient FinalPracticMarksEJB ejb;
-  @EJB
+  @Inject
   private transient StudyCardsEJB cards;
-  @EJB
+  @Inject
   private transient FinalPracticsEJB practics;
   private StudyCard card;
   private int cardCode;

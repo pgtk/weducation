@@ -4,34 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
-import ru.edu.pgtk.weducation.ejb.WeekMissingsEJB;
+import ru.edu.pgtk.weducation.ejb.MissingsEJB;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.WeekMissing;
+import ru.edu.pgtk.weducation.entity.Missing;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
 @ManagedBean(name = "weekMissingsMB")
 public class WeekMissingsMB {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient StudyGroupsEJB groups;
-  @EJB
+  @Inject
   private transient GroupSemestersEJB semesters;
-  @EJB
-  private transient WeekMissingsEJB ejb;
+  @Inject
+  private transient MissingsEJB ejb;
   private int groupCode;
   private StudyGroup group;
   private int semesterCode;
   private GroupSemester semester;
   private List<GroupSemester> semesterList;
-  private List<WeekMissing> missingList;
+  private List<Missing> missingList;
   private int missingDate;
 
   /**
@@ -41,8 +43,8 @@ public class WeekMissingsMB {
     if ((group != null) && (missingDate > 0)) {
       int year = missingDate / 1000;
       int tail = missingDate % 1000;
-      int month = tail / 100;
-      int week = tail % 100;
+      int month = tail / 10;
+      int week = tail % 10;
       missingList = ejb.fetchAll(group, year, month, week);
     } else {
       // Если хоть один из параметров отсутствует - очищаем список
@@ -65,7 +67,7 @@ public class WeekMissingsMB {
   public void save() {
     try {
       if (missingList != null) {
-        for (WeekMissing m : missingList) {
+        for (Missing m : missingList) {
           ejb.save(m);
         }
       }
@@ -168,7 +170,7 @@ public class WeekMissingsMB {
     this.missingDate = missingDate;
   }
 
-  public List<WeekMissing> getMissingList() {
+  public List<Missing> getMissingList() {
     return missingList;
   }
 }

@@ -40,13 +40,13 @@
               <ui:repeat value="#{personsMB.personList}" var="psn">
                 <tr>
                   <td>
-                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.fullName}" />
+                    <h:link outcome="/persons?id=#{psn.id}" target="psn_#{psn.id}" value="#{psn.fullName}" />
                   </td>
                   <td>
-                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.birthDateString}" />
+                    <h:link outcome="/persons?id=#{psn.id}" target="psn_#{psn.id}" value="#{psn.birthDateString}" />
                   </td>
                   <td>
-                    <h:commandLink action="#{personsMB.details(psn)}" value="#{psn.birthPlace}" />
+                    <h:link outcome="/persons?id=#{psn.id}" target="psn_#{psn.id}" value="#{psn.birthPlace}" />
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{personsMB.edit(psn)}" />
@@ -156,7 +156,7 @@
             <b>Изучаемый иностранный язык: </b>#{personsMB.item.language.description}<br />
             <b>Телефоны: </b>#{personsMB.item.phones}<br />
             <b>Паспортные данные: </b>#{personsMB.item.passportSeria} #{personsMB.item.passportNumber}
-            выдан #{personsMB.item.passportDept} #{personsMB.item.birthDateString}<br />
+            выдан #{personsMB.item.passportDept} #{personsMB.item.passportDateString}<br />
             <b>ИНН: </b>#{personsMB.item.inn}<br />
             <b>СНИЛС: </b>#{personsMB.item.snils}<br />
           </p>

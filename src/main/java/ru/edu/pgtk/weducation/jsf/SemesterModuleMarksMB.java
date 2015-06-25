@@ -2,10 +2,10 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.SemesterMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
@@ -20,13 +20,15 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ManagedBean(name = "semesterModuleMarksMB")
 public class SemesterModuleMarksMB {
 
-  @EJB
+  long serialVersionUID = 0L;
+
+  @Inject
   private transient StudyGroupsEJB groups;
-  @EJB
+  @Inject
   private transient StudyModulesEJB modules;
-  @EJB
+  @Inject
   private transient GroupSemestersEJB semesters;
-  @EJB
+  @Inject
   private transient SemesterMarksEJB marks;
   private int groupCode;
   private StudyGroup group;
