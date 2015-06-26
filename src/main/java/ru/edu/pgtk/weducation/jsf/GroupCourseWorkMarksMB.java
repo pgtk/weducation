@@ -69,7 +69,7 @@ public class GroupCourseWorkMarksMB implements Serializable {
     ec.responseReset();   // Reset the response in the first place
     ec.setResponseContentType("application/pdf");  // Set only the content type
     try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-      responseOutputStream.write(sheet.getExamSheet(group, subject, semester.getCourse(), semester.getSemester()));
+      responseOutputStream.write(sheet.getCourseWorkSheet(group, subject, semester.getCourse(), semester.getSemester()));
       responseOutputStream.flush();
       responseOutputStream.close();
     } catch (IOException e) {

@@ -11,19 +11,20 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.MissingsEJB;
 import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
 import ru.edu.pgtk.weducation.ejb.SchoolsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
+import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.Missing;
 import ru.edu.pgtk.weducation.entity.MonthMark;
@@ -60,6 +61,8 @@ public class GroupSheetEJB {
   private transient MonthMarksEJB marks;
   @Inject
   private transient MissingsEJB missings;
+  @Inject
+  private transient CourseWorkMarksEJB cmarks;
 
   @PostConstruct
   private void initBean() {
@@ -76,6 +79,15 @@ public class GroupSheetEJB {
     }
   }
 
+  /**
+   * Формирует экзаменационную ведомость для группы студентов.
+   *
+   * @param group группа студентов
+   * @param subject дисциплина
+   * @param course курс
+   * @param semester семестр
+   * @return
+   */
   public byte[] getExamSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
     try {
       // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
@@ -94,7 +106,6 @@ public class GroupSheetEJB {
       document.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
       document.add(getParagraph("Дисциплина: " + subject.getFullName(), regularFont, Paragraph.ALIGN_CENTER));
       // Теперь можно создавать таблицу
-      // Количество полей будет на 5 больше, чем кол-во дисциплин
       PdfPTable table = new PdfPTable(7);
       table.setWidthPercentage(100.0f);
       table.setSpacingBefore(getPt(5));
@@ -162,8 +173,91 @@ public class GroupSheetEJB {
         regularFont, Paragraph.ALIGN_LEFT));
       document.add(getParagraph("\nЭкзаменатор(ы) ____________________  ________________________________________",
         regularFont, Paragraph.ALIGN_LEFT));
-      document.add(getParagraph("                                                     (подпись)"+
-        "                                                                               (ФИО)",
+      document.add(getParagraph("                                                     (подпись)"
+        + "                                                                               (ФИО)",
+        smallFont, Paragraph.ALIGN_LEFT));
+      document.close();
+      return stream.toByteArray();
+    } catch (Exception e) {
+      throw new EJBException("Exception class " + e.getClass().getName() + " with message " + e.getMessage());
+    }
+  }
+
+  /**
+   * Формирует ведомость сдачи курсовых проектов для группы
+   *
+   * @param group группы
+   * @param subject дисциплина
+   * @param course курс
+   * @param semester семестр
+   * @return
+   */
+  public byte[] getCourseWorkSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
+    try {
+      // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
+      Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));
+      PdfWriter writer = PdfWriter.getInstance(document, stream);
+      document.open();
+      document.addTitle("Ведомость сдачи курсовых проектов");
+      document.addAuthor("weducation project");
+      document.add(getParagraph(schoolName, regularFont, Paragraph.ALIGN_CENTER));
+      document.add(getParagraph("\nВедомость сдачи курсовых проектов", bigFont, Paragraph.ALIGN_CENTER));
+      String description = "группы " + group.getName() + " " + group.getCourse() + "-го курса "
+        + (group.isExtramural() ? "заочной" : "очной") + " формы обучения за " + semester + "-й семестр.";
+      document.add(getParagraph(description, regularFont, Paragraph.ALIGN_CENTER));
+      String speciality = "Специальность: " + group.getSpeciality().getFullName();
+      document.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
+      document.add(getParagraph("Дисциплина: " + subject.getFullName(), regularFont, Paragraph.ALIGN_CENTER));
+      // Теперь можно создавать таблицу
+      PdfPTable table = new PdfPTable(5);
+      table.setWidthPercentage(100.0f);
+      table.setSpacingBefore(getPt(5));
+      table.setSpacingAfter(getPt(5));
+      // Создадим массив целых чисел для указания размерности столбцов
+      // Установим размер столбца ФИО в пять раз больше размером!
+      table.setWidths(new int[]{1, 6, 14, 4, 4});
+      // Добавляем строки таблицы
+      PdfPCell numberCell = new PdfPCell(getParagraph("№", regularFont, Paragraph.ALIGN_CENTER));
+      numberCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      numberCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      table.addCell(numberCell);
+      PdfPCell nameCell = new PdfPCell(getParagraph("Фамилия имя отчество", regularFont, Paragraph.ALIGN_CENTER));
+      nameCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      nameCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      table.addCell(nameCell);
+      PdfPCell themeCell = new PdfPCell(getParagraph("Тема курсового проекта", regularFont, Paragraph.ALIGN_CENTER));
+      themeCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      themeCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      table.addCell(themeCell);
+      PdfPCell markCell = new PdfPCell(getParagraph("Оценка", regularFont, Paragraph.ALIGN_CENTER));
+      markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      table.addCell(markCell);
+      PdfPCell signCell = new PdfPCell(getParagraph("Подпись руководителя", regularFont, Paragraph.ALIGN_CENTER));
+      signCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      signCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      table.addCell(signCell);
+      int row = 1;
+      PdfPCell cell = new PdfPCell();
+      for (CourseWorkMark cm : cmarks.fetchAll(group, subject, course, semester)) {
+        StudyCard sc = cm.getCard();
+        if (!sc.isRemanded() && sc.isActive()) {
+          numberCell = new PdfPCell(getParagraph("" + row++, regularFont, Paragraph.ALIGN_CENTER));
+          table.addCell(numberCell);
+          nameCell = new PdfPCell(getParagraph(sc.getPerson().getShortName(),
+            regularFont, Paragraph.ALIGN_LEFT));
+          table.addCell(nameCell);
+          themeCell = new PdfPCell(getParagraph(cm.getTheme(), regularFont, Paragraph.ALIGN_CENTER));
+          table.addCell(themeCell);
+          for (int i = 0; i < 2; i++) {
+            table.addCell(cell);
+          }
+        }
+      }
+      document.add(table);
+      document.add(getParagraph("\nРуководитель ____________________  ________________________________________",
+        regularFont, Paragraph.ALIGN_LEFT));
+      document.add(getParagraph("                                                     (подпись)"
+        + "                                                                               (ФИО)",
         smallFont, Paragraph.ALIGN_LEFT));
       document.close();
       return stream.toByteArray();
