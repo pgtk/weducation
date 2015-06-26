@@ -67,6 +67,17 @@ public class SubjectsEJB {
     return q.getResultList();
   }
   
+  public List<Subject> fetchCourseWorks(final StudyGroup group, final int course, final int semester) {
+    TypedQuery<Subject> q = em.createQuery(
+            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
+            + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND (sl.courseProjectLoad > 0)) > 0 )"
+            + " ORDER BY s.fullName", Subject.class);
+    q.setParameter("pln", group.getPlan());
+    q.setParameter("c", course);
+    q.setParameter("s", semester);
+    return q.getResultList();
+  }
+  
   public List<Subject> fetch(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
             "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "

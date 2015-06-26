@@ -69,5 +69,20 @@
       ALTER TABLE semestermarks ALTER COLUMN smk_subcode DROP NOT NULL;
     </sql>
   </changeSet>
-
+  <changeSet id="005-7" author="gooamoko">
+    <comment>
+      Добавим курс в таблицу оценок за курсовые проекты.
+    </comment>
+    <sql>
+      ALTER TABLE cmarks ADD COLUMN cmk_course int NOT NULL DEFAULT 1;
+    </sql>
+  </changeSet>
+  <changeSet id="005-8" author="gooamoko">
+    <comment>
+      Добавим семестр в таблицу оценок за курсовые проекты.
+    </comment>
+    <sql>
+      ALTER TABLE cmarks ADD COLUMN cmk_semester int NOT NULL DEFAULT 1;
+    </sql>
+  </changeSet>
 </databaseChangeLog>

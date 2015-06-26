@@ -27,6 +27,12 @@ public class CourseWorkMark implements Serializable {
   @Column(name = "cmk_theme", length = 255)
   private String theme;
   
+  @Column(name = "cmk_course", nullable = false)
+  private int course;
+  
+  @Column(name = "cmk_semester", nullable = false)
+  private int semester;
+  
   @ManyToOne
   @JoinColumn(name = "cmk_crdcode", nullable = false)
   private StudyCard card;
@@ -92,5 +98,21 @@ public class CourseWorkMark implements Serializable {
 
   public void setSubjectCode(int subjectCode) {
     this.subjectCode = subjectCode;
+  }
+
+  public int getCourse() {
+    return course;
+  }
+
+  public void setCourse(int course) {
+    this.course = course;
+  }
+
+  public int getSemester() {
+    return semester;
+  }
+
+  public void setSemester(int semester) {
+    this.semester = semester;
   }
 }

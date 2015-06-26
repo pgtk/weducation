@@ -153,7 +153,7 @@ public class Utils {
 
   public static int getYear(Date date) {
     if (date == null) {
-      throw new IllegalArgumentException("Null value is not allowed!");
+      return 0;
     }
     Calendar c = new GregorianCalendar();
     c.setTime(date);

@@ -31,7 +31,7 @@ class Utils {
   }
   
   public static String getDateString(final Date date) {
-    return sdf.format(date);
+    return (null == date)? "Date is NULL!" : sdf.format(date);
   }
   
 }

@@ -21,14 +21,15 @@
           </h:selectOneMenu>
         </p>
         <h:panelGroup rendered="#{not empty departmentRootMB.students}">
-          <div class="buttons">
-            <h:button value="Параметры" outcome="/studygroups?id=#{departmentRootMB.group.id}" />
-            <h:button value="Семестры" outcome="/groupsemesters?groupId=#{departmentRootMB.group.id}" />
-            <h:button value="Пропуски за неделю" outcome="/department/weekmissings?groupId=#{departmentRootMB.group.id}" />
-            <h:button value="Оценки за месяц" outcome="/department/monthmarks?groupId=#{departmentRootMB.group.id}" />
-            <h:button value="Оценки за семестр" outcome="/department/subjectmarks?groupId=#{departmentRootMB.group.id}" />
-            <h:button value="Оценки по модулям" outcome="/department/modulemarks?groupId=#{departmentRootMB.group.id}" />
-          </div>
+          <ul>
+            <li><h:link value="Параметры" outcome="/studygroups?id=#{departmentRootMB.group.id}" /></li>
+            <li><h:link value="Семестры" outcome="/groupsemesters?groupId=#{departmentRootMB.group.id}" /></li>
+            <li><h:link value="Пропуски за неделю" outcome="/department/weekmissings?groupId=#{departmentRootMB.group.id}" /></li>
+            <li><h:link value="Оценки за месяц" outcome="/department/monthmarks?groupId=#{departmentRootMB.group.id}" /></li>
+            <li><h:link value="Оценки за семестр" outcome="/department/subjectmarks?groupId=#{departmentRootMB.group.id}" /></li>
+            <li><h:link value="Оценки по модулям" outcome="/department/modulemarks?groupId=#{departmentRootMB.group.id}" /></li>
+            <li><h:link value="Оценки за курсовые" outcome="/department/courseworkmarks?groupId=#{departmentRootMB.group.id}" /></li>
+          </ul>
           <h3>Студенты</h3>
           <table class="dataTable">
             <thead>

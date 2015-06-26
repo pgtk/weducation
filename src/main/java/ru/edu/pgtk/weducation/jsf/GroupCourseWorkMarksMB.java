@@ -11,20 +11,20 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
-import ru.edu.pgtk.weducation.ejb.SemesterMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
+import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
-import ru.edu.pgtk.weducation.entity.SemesterMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 import ru.edu.pgtk.weducation.reports.GroupSheetEJB;
 
+@ManagedBean(name = "groupCourseWorkMarksMB")
 @ViewScoped
-@ManagedBean(name = "semesterSubjectMarksMB")
-public class SemesterSubjectMarksMB implements Serializable {
+public class GroupCourseWorkMarksMB implements Serializable {
 
   long serialVersionUID = 0L;
 
@@ -35,7 +35,7 @@ public class SemesterSubjectMarksMB implements Serializable {
   @Inject
   private transient GroupSemestersEJB semesters;
   @Inject
-  private transient SemesterMarksEJB marks;
+  private transient CourseWorkMarksEJB marks;
   @Inject
   private transient GroupSheetEJB sheet;
   private int groupCode;
@@ -46,7 +46,7 @@ public class SemesterSubjectMarksMB implements Serializable {
   private GroupSemester semester;
   private List<GroupSemester> semesterList;
   private List<Subject> subjectList;
-  private List<SemesterMark> markList;
+  private List<CourseWorkMark> markList;
 
   /**
    * Функция для построения списка оценок
@@ -60,7 +60,7 @@ public class SemesterSubjectMarksMB implements Serializable {
     }
   }
   
-  public void getExamSheet() {
+  public void getCourseWorkSheet() {
     // Get the FacesContext
     FacesContext facesContext = FacesContext.getCurrentInstance();
     // Get HTTP response
@@ -93,7 +93,7 @@ public class SemesterSubjectMarksMB implements Serializable {
   public void save() {
     try {
       if (markList != null) {
-        for (SemesterMark m : markList) {
+        for (CourseWorkMark m : markList) {
           marks.save(m);
         }
       }
@@ -108,7 +108,7 @@ public class SemesterSubjectMarksMB implements Serializable {
       if (code > 0) {
         semester = semesters.get(code);
         // Корректируем список дисциплин для этого семестра
-        subjectList = subjects.fetch(group, semester.getCourse(), semester.getSemester());
+        subjectList = subjects.fetchCourseWorks(group, semester.getCourse(), semester.getSemester());
         makeList();
       } else {
         semester = null;
@@ -149,7 +149,7 @@ public class SemesterSubjectMarksMB implements Serializable {
     return subjectList;
   }
 
-  public List<SemesterMark> getMarkList() {
+  public List<CourseWorkMark> getMarkList() {
     if (markList == null) {
       markList = new ArrayList<>();
     }

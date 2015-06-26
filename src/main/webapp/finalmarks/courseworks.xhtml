@@ -31,7 +31,9 @@
           <table id="dataTable">
             <thead>
               <tr>
-                <th width="70%">Наименование</th>
+                <th width="50%">Дисциплина</th>
+                <th width="10%">Курс</th>
+                <th width="10%">Семестр</th>
                 <th width="10%">Оценка</th>
                 <th width="20%">Действия</th>
               </tr>
@@ -39,9 +41,9 @@
             <tbody>
               <ui:repeat value="#{courseWorkMarksMB.marks}" var="mark">
                 <tr>
-                  <td>
-                    #{mark.subject.fullName}
-                  </td>
+                  <td>#{mark.subject.fullName}</td>
+                  <td align="center">#{mark.course}</td>
+                  <td align="center">#{mark.semester}</td>
                   <td align="right">
                     #{mark.mark}
                   </td>
@@ -72,10 +74,15 @@
                            itemLabel="#{subject.fullName}" itemValue="#{subject.id}" />
           </h:selectOneMenu>
           <h:outputText rendered="#{courseWorkMarksMB.item.subjectCode != 0}" value="#{courseWorkMarksMB.item.subject.fullName}" /><p />
+          <h:outputText value="Курс" /><br />
+          <h:inputText value="#{courseWorkMarksMB.item.course}" /><p />
+          <h:outputText value="Семестр" /><br />
+          <h:inputText value="#{courseWorkMarksMB.item.semester}" /><p />
           <h:outputText value="Тема работы" /><br />
           <h:inputText value="#{courseWorkMarksMB.item.theme}" /><p />
           <h:outputText value="Итоговая оценка" /><br />
           <h:selectOneMenu value="#{courseWorkMarksMB.item.mark}">
+            <f:selectItem itemLabel="Нет оценки" itemValue="0" />
             <f:selectItem itemLabel="Удовлетворительно" itemValue="3" />
             <f:selectItem itemLabel="Хорошо" itemValue="4" />
             <f:selectItem itemLabel="Отлично" itemValue="5" />
