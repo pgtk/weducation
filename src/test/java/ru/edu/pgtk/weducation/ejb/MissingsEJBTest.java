@@ -31,7 +31,7 @@ public class MissingsEJBTest {
       properties.put("org.glassfish.ejb.embedded.glassfish.installation.root", "glassfish");
       properties.put(EJBContainer.APP_NAME, "weducation");
       container = EJBContainer.createEJBContainer(properties);
-      ejb = (MissingsEJB) container.getContext().lookup("java:global/weducation/classes/WeekMissingsEJB");
+      ejb = (MissingsEJB) container.getContext().lookup("java:global/weducation/classes/MissingsEJB");
       groups = (StudyGroupsEJB) container.getContext().lookup("java:global/weducation/classes/StudyGroupsEJB");
     } catch (NamingException e) {
       fail("Ошибка при иннициализации сервера " + e.getMessage());
