@@ -105,10 +105,12 @@
           <h:selectOneMenu value="#{personsMB.item.language}">
             <f:selectItems value="#{personsMB.languages}" var="lang" itemLabel="#{lang.description}" itemValue="#{lang}"/>
           </h:selectOneMenu><p />
-          <h:outputText value="Телефоны (можно ввести несколько, разделяя запятыми)" /><br />
+          <h:outputText value="Телефон в формате +7(XXX)XXX-XX-XX (можно ввести несколько, разделяя запятыми)" /><br />
           <h:inputText value="#{personsMB.item.phones}" class="textEdit">
             <f:validator validatorId="phoneValidator" />
           </h:inputText><p />
+          <h:outputText value="Средний балл аттестата" /><br />
+          <h:inputText value="#{personsMB.item.averageBall}" class="textEdit" /><p />
           <h:outputText value="Серия паспорта" /><br />
           <h:inputText value="#{personsMB.item.passportSeria}" class="textEdit" /><p />
           <h:outputText value="Номер паспорта" /><br />
@@ -144,6 +146,7 @@
         <!-- Details -->
         <h2>#{personsMB.item.fullName}</h2>
         <h:form>
+          <h3>Персональные данные</h3>
           <p>
             <b>Дата рождения: </b>#{personsMB.item.birthDateString}<br />
             <b>Место рождения: </b>#{personsMB.item.birthPlace}<br />
@@ -155,22 +158,27 @@
             <b>Адрес: </b>#{personsMB.item.address}<br />
             <b>Изучаемый иностранный язык: </b>#{personsMB.item.language.description}<br />
             <b>Телефоны: </b>#{personsMB.item.phones}<br />
+            <b>Средний балл аттестата" </b>#{personsMB.item.averageBall}<br />
             <b>Паспортные данные: </b>#{personsMB.item.passportSeria} #{personsMB.item.passportNumber}
             выдан #{personsMB.item.passportDept} #{personsMB.item.passportDateString}<br />
             <b>ИНН: </b>#{personsMB.item.inn}<br />
             <b>СНИЛС: </b>#{personsMB.item.snils}<br />
           </p>
           <h:panelGroup rendered="#{not empty personsMB.item.delegates}">
-            <p><b>Законные представители:</b><br />
+            <p><b><h:link outcome="/delegates?personId=#{personsMB.item.id}" value="Законные представители:" /></b><br />
               <ui:repeat value="#{personsMB.item.delegates}" var="del">
                 <h:link outcome="/delegates?id=#{del.id}" target="delegate" value="#{del.fullName}" /><br />
               </ui:repeat>
             </p>
           </h:panelGroup>
+          <h3>Заявки на поступление</h3>
+          <ul>
+            <li><h:link outcome="/reception/requests?personId=#{personsMB.item.id}" value="Список заявок" target="request" /></li>
+          </ul>
           <div class="buttons">
             <h:commandButton value="Редактировать данные" action="#{personsMB.switchEdit()}" />
             <h:button outcome="/studycards?personId=#{personsMB.item.id}" value="Личные карточки" />
-            <h:commandButton value="Список" action="#{personsMB.cancel()}" />
+            <h:commandButton value="Страница персон" action="#{personsMB.cancel()}" />
             <h:commandButton value="Удалить" action="#{personsMB.switchDelete()}" />
           </div>
         </h:form>

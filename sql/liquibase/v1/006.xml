@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+  <changeSet id="006-1" author="gooamoko">
+    <comment>
+      Добавим таблицу заявок на обучение персон по специальностям
+    </comment>
+    <sql>
+      CREATE TABLE requests (
+      req_pcode serial,
+      req_psncode int NOT NULL,
+      req_spccode int NOT NULL,
+      req_year int NOT NULL,
+      req_extramural boolean NOT NULL,
+      CONSTRAINT unique_requests UNIQUE(req_psncode, req_spccode, req_year, req_extramural),
+      CONSTRAINT requests_pk PRIMARY KEY(req_pcode),
+      CONSTRAINT requests_persons_fk FOREIGN KEY(req_psncode) REFERENCES persons(psn_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+      CONSTRAINT requests_specialities_fk FOREIGN KEY(req_spccode) REFERENCES specialities(spc_pcode) ON UPDATE CASCADE ON DELETE CASCADE);
+    </sql>
+  </changeSet>
+  <changeSet id="006-2" author="gooamoko">
+    <comment>
+      Удалим старую и уже ненужную таблицу contests
+    </comment>
+    <sql>
+      DROP TABLE contests;
+    </sql>
+  </changeSet>
+</databaseChangeLog>

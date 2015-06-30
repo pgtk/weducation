@@ -46,7 +46,7 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
   public Department getDepartment() {
     return department;
   }
-
+  
   public void preparePage() {
     // Получим код отделения из параметра, если есть
     if (user.isDepartment() && (user.getCode() > 0)) {
@@ -61,20 +61,6 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     if (groupCode > 0) {
       item = ejb.get(groupCode);
       details = true;
-    }
-  }
-
-  public void changeDepartment(ValueChangeEvent event) {
-    try {
-      int code = (Integer) event.getNewValue();
-      if (code > 0) {
-        department = depejb.get(code);
-      } else {
-        department = null;
-      }
-    } catch (Exception e) {
-      department = null;
-      addMessage(e);
     }
   }
 
@@ -104,7 +90,7 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
     if (null != department) {
       return spcejb.findByDepartment(department);
     } else {
-      return spcejb.fetchAll();
+      return spcejb.fetchActual();
     }
   }
 

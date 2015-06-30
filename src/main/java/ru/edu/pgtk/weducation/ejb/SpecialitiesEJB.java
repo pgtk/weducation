@@ -9,6 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Department;
+import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Speciality;
 
 /**
@@ -42,9 +43,34 @@ public class SpecialitiesEJB {
     return query.getResultList();
   }
 
+  public List<Speciality> fetchActual(final boolean extramural) {
+    TypedQuery<Speciality> query = em.createQuery(
+            "SELECT s FROM Speciality s WHERE (s.actual = true) AND "
+              + "((SELECT COUNT(dp.id) FROM DepartmentProfile dp WHERE (dp.speciality = s) AND (dp.extramural = :em)) > 0)"
+              + "ORDER BY s.key, s.fullName", Speciality.class);
+    query.setParameter("em", extramural);
+    return query.getResultList();
+  }
+  
+  public List<Speciality> fetchSuggestions(final Person person, final boolean extramural, final int year) {
+    TypedQuery<Speciality> query = em.createQuery(
+            "SELECT s FROM Speciality s WHERE (s.actual = true) AND "
+              + "((SELECT COUNT(dp.id) FROM DepartmentProfile dp WHERE (dp.speciality = s) AND (dp.extramural = :e1)) > 0)"
+              + "AND (s.id NOT IN (SELECT r.speciality.id FROM Request r WHERE (r.extramural = :e2) AND (r.person = :p1) AND (r.year = :y)))"
+              + "AND (s.id NOT IN (SELECT sc.speciality.id FROM StudyCard sc WHERE (sc.person = :p2) AND (sc.extramural = :e3)))"
+              + "ORDER BY s.fullName", Speciality.class);
+    query.setParameter("e1", extramural);
+    query.setParameter("e2", extramural);
+    query.setParameter("e3", extramural);
+    query.setParameter("p1", person);
+    query.setParameter("p2", person);
+    query.setParameter("y", year);
+    return query.getResultList();
+  }
+  
   public List<Speciality> findByDepartment(final Department department) {
     TypedQuery<Speciality> query = em.createQuery(
-            "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.department = :dep) "
+            "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.speciality.actual = true) AND (dp.department = :dep) "
             + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();

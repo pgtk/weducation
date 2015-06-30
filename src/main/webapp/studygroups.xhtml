@@ -13,11 +13,6 @@
 
   <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <h:panelGroup rendered="#{studyGroupsMB.departmentCode > 0}">
-        <div class="roundbox" id="breadcrumb">
-          <h:link rendered="#{studyGroupsMB.departmentCode > 0}" outcome="/departments" value="Отделения" />
-        </div>
-      </h:panelGroup>
       <h:panelGroup layout="block" rendered="#{studyGroupsMB.browse}">
         <!-- List -->
         <h2>Группы</h2>
@@ -63,6 +58,10 @@
         <h2>Редактирование группы</h2>
         <h:form>
           <h3>Важно!</h3>
+          <p>
+            При создании группы, можно указать только специальность, по которой
+            производится набор (актуальную).
+          </p>
           <p>
             Обратите внимание, что изменение специальности, учебного плана
             и формы обучения для группы приведет к изменению этих параметров

@@ -85,6 +85,10 @@ public class SessionMB implements Serializable {
       // Если это учетная запись администратора
       return "/admin/index?faces-redirect=true";
     }
+    if (user.getRole() == AccountRole.RECEPTION) {
+      // Если это учетная запись приемной комиссии
+      return "/reception/index?faces-redirect=true";
+    }
     if (user.getRole() == AccountRole.DEPARTMENT) {
       // Если это учетная запись отделения
       int depcode = user.getCode();
@@ -102,6 +106,7 @@ public class SessionMB implements Serializable {
       user = usersEJB.get(login, password);
       if (null == user) {
         addMessage("Пользователь с такой комбинацией логина и пароля не обнаружен!");
+        return null;
       }
       if (session != null) {
         try {

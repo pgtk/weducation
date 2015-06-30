@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+      <h1>Рабочее место приемной комиссии</h1>
+      <p>
+        Добро пожаловать в раздел для приемной комиссии.
+      </p>
+      <h2>Планы приема студентов по специальностям</h2>
+      <p>
+        Каждый год устанавливается план набора студентов по определенным специальностям.
+        Регламентируется количество бюджетных и коммерческих мест.
+      </p>
+      <ul>
+        <li><h:link value="Планы приема" outcome="/reception/plans" /></li>
+      </ul>
+      <h2>Персоны</h2>
+      <p>
+        При обращении абитуриентов, ваша задача - сохранить данные персоны и его законных представителей.
+        Не спешите создавать новую персону! Проверьте, нет ли нужного вам человека среди существующих в нашей базе данных.
+      </p>
+      <ul>
+        <li><h:link value="Поиск персоны" outcome="/persons" /></li>
+      </ul>
+    </ui:define>
+  </ui:composition>
+</html>

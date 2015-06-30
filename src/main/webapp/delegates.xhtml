@@ -16,6 +16,7 @@
       <h:panelGroup layout="block" rendered="#{delegatesMB.browse}">
         <!-- List -->
         <h2>Законные представители</h2>
+        <p><h:link outcome="/persons?id=#{delegatesMB.personCode}" value="Персона: #{delegatesMB.person.fullName}" /></p>
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{delegatesMB.add()}" /></div>
         </h:form>
@@ -52,7 +53,7 @@
       <h:panelGroup layout="block" rendered="#{delegatesMB.edit}">
         <!-- Edit -->
         <h2>Редактирование законного представителя</h2>
-        <h3>Персона #{delegatesMB.item.person.fullName}</h3>
+        <p><h:link outcome="/persons?id=#{delegatesMB.personCode}" value="Персона: #{delegatesMB.person.fullName}" /></p>
         <h:form>
           <h:outputText value="Фамилия Имя Отчество" /><br />
           <h:inputText value="#{delegatesMB.item.fullName}" class="textEdit" /><p />
@@ -60,7 +61,7 @@
           <h:inputText value="#{delegatesMB.item.job}" class="textEdit" /><p />
           <h:outputText value="Должность" /><br />
           <h:inputText value="#{delegatesMB.item.post}" class="textEdit" /><p />
-          <h:outputText value="Телефоны (можно ввести несколько, разделяя запятыми) в формате +7(915)318-66-44" /><br />
+          <h:outputText value="Телефоны (можно ввести несколько, разделяя запятыми) в формате +7(XXX)XXX-XX-XX" /><br />
           <h:inputText value="#{delegatesMB.item.phones}" class="textEdit">
             <f:validator validatorId="phoneValidator" />
           </h:inputText><p />

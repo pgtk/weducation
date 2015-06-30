@@ -212,6 +212,10 @@ div#error {
   text-decoration: none;  
 }
 
+ul.errorMessage {
+  list-style-type: none;
+}
+
 .info, .disabled {
   font-size: 16px;
   color: #909090;

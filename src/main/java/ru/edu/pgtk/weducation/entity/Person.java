@@ -59,6 +59,9 @@ public class Person implements Serializable {
 
   @Column(name = "psn_invalid", nullable = false)
   private boolean invalid;
+  
+  @Column(name = "psn_avgball", nullable = false)
+  private double averageBall; 
 
   @Column(name = "psn_passportseria", length = 6)
   private String passportSeria;
@@ -308,5 +311,13 @@ public class Person implements Serializable {
 
   public void setLanguage(ForeignLanguage language) {
     this.language = language;
+  }
+
+  public double getAverageBall() {
+    return averageBall;
+  }
+
+  public void setAverageBall(double averageBall) {
+    this.averageBall = averageBall;
   }
 }

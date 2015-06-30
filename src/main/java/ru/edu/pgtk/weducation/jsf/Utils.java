@@ -34,7 +34,7 @@ class Utils {
    */
   public static void addMessage(final Exception e) {
     String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
-    getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
+    getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, "Error"));
   }
 
   /**
@@ -42,7 +42,7 @@ class Utils {
    * @param message сообщение об ошибке.
    */
   public static void addMessage(final String message) {
-    getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
+    getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, "Error"));
   }
 
   public static ExternalContext getExternalContext() {
