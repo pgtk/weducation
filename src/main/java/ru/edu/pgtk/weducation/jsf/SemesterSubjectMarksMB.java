@@ -1,14 +1,10 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
@@ -20,7 +16,6 @@ import ru.edu.pgtk.weducation.entity.SemesterMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
-import ru.edu.pgtk.weducation.reports.GroupSheetEJB;
 
 @ViewScoped
 @ManagedBean(name = "semesterSubjectMarksMB")
@@ -36,8 +31,8 @@ public class SemesterSubjectMarksMB implements Serializable {
   private transient GroupSemestersEJB semesters;
   @Inject
   private transient SemesterMarksEJB marks;
-  @Inject
-  private transient GroupSheetEJB sheet;
+//  @Inject
+//  private transient GroupSheetEJB sheet;
   private int groupCode;
   private StudyGroup group;
   private int subjectCode;
@@ -47,6 +42,7 @@ public class SemesterSubjectMarksMB implements Serializable {
   private List<GroupSemester> semesterList;
   private List<Subject> subjectList;
   private List<SemesterMark> markList;
+  private String examLink;
 
   /**
    * Функция для построения списка оценок
@@ -54,12 +50,15 @@ public class SemesterSubjectMarksMB implements Serializable {
   private void makeList() {
     if ((group != null) && (subject != null) && (semester != null)) {
       markList = marks.fetchAll(group, subject, semester.getCourse(), semester.getSemester());
+      examLink = "reports/group/" + group.getId() + "/exam/" + semester.getCourse() +
+        "/" + semester.getSemester() + "/" + subject.getId();
     } else {
       // Если хоть один из параметров отсутствует - очищаем список
       markList = null;
     }
   }
   
+/*  
   public void getExamSheet() {
     // Get the FacesContext
     FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -77,7 +76,8 @@ public class SemesterSubjectMarksMB implements Serializable {
     }
     facesContext.responseComplete();
   }
-
+*/
+  
   public void loadGroup() {
     try {
       if (groupCode > 0) {
@@ -190,5 +190,9 @@ public class SemesterSubjectMarksMB implements Serializable {
 
   public Subject getSubject() {
     return subject;
+  }
+
+  public String getExamLink() {
+    return examLink;
   }
 }

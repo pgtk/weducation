@@ -31,10 +31,8 @@
         <h:panelGroup rendered="#{monthMarksMB.aviableSheet}">
           <h3>Ведомости</h3>
           <ul>
-            <li><h:commandLink value="Аттестации за месяц" 
-                               target="monthsheet" action="#{monthMarksMB.emptyMonthSheet()}" /></li>                   
-            <li><h:commandLink value="Успеваемости за месяц" 
-                               target="monthsheet" action="#{monthMarksMB.filledMonthSheet()}" /></li>                   
+            <li><a target="monthsheet" href="#{monthMarksMB.emptySheetLink}">Аттестации за месяц</a></li>
+            <li><a target="monthsheet" href="#{monthMarksMB.filledSheetLink}">Аттестации за месяц</a></li>
           </ul>
         </h:panelGroup>
         <h:outputText value="Дисциплина" /><br />

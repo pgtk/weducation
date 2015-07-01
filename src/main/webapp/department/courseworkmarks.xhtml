@@ -32,8 +32,7 @@
         <h:panelGroup rendered="#{not empty groupCourseWorkMarksMB.markList}">
           <h3>Ведомости</h3>
           <ul>
-            <li><h:commandLink value="Ведомость сдачи курсового проекта" 
-                               target="examsheet" action="#{groupCourseWorkMarksMB.getCourseWorkSheet()}" /></li>                   
+            <li><a target="cproject" href="#{groupCourseWorkMarksMB.sheetLink}">Ведомость сдачи курсового проекта</a></li>                   
           </ul>
           <table class="dataTable">
             <thead>

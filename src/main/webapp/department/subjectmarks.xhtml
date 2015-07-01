@@ -32,8 +32,7 @@
         <h:panelGroup rendered="#{not empty semesterSubjectMarksMB.markList}">
           <h3>Ведомости</h3>
           <ul>
-            <li><h:commandLink value="Экзаменационная ведомость" 
-                               target="examsheet" action="#{semesterSubjectMarksMB.getExamSheet()}" /></li>                   
+            <li><a target="examsheet" href="#{semesterSubjectMarksMB.examLink}">Экзаменационная ведомость</a></li>
           </ul>
           <table class="dataTable">
             <thead>

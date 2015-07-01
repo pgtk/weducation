@@ -17,12 +17,20 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.MissingsEJB;
 import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
 import ru.edu.pgtk.weducation.ejb.SchoolsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
+import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
@@ -39,6 +47,7 @@ import static ru.edu.pgtk.weducation.reports.Utils.getMonthString;
 /**
  * EJB компонент для генерации различных отчетов по группе.
  */
+@Path("/group")
 @Stateless
 @RequestScoped
 public class GroupSheetEJB {
@@ -63,7 +72,67 @@ public class GroupSheetEJB {
   private transient MissingsEJB missings;
   @Inject
   private transient CourseWorkMarksEJB cmarks;
+  @Inject
+  private transient StudyGroupsEJB groups;
+  
+  @GET
+  @Path("{groupId: \\d+}/exam/{course: \\d+}/{semester: \\d+}/{subjectId: \\d+}")
+  @Produces("application/pdf")
+  public Response examSheet(@PathParam("groupId") int groupCode, @PathParam("course") int course,
+    @PathParam("semester") int semester, @PathParam("subjectId") int subjectCode) {
+    try {
+      StudyGroup grp = groups.get(groupCode);
+      Subject sub = subjects.get(subjectCode);
+      ResponseBuilder response = Response.ok(getExamSheet(grp, sub, course, semester));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
 
+  @GET
+  @Path("{groupId: \\d+}/cproject/{course: \\d+}/{semester: \\d+}/{subjectId: \\d+}")
+  @Produces("application/pdf")
+  public Response courseWorkSheet(@PathParam("groupId") int groupCode, @PathParam("course") int course,
+    @PathParam("semester") int semester, @PathParam("subjectId") int subjectCode) {
+    try {
+      StudyGroup grp = groups.get(groupCode);
+      Subject sub = subjects.get(subjectCode);
+      ResponseBuilder response = Response.ok(getCourseWorkSheet(grp, sub, course, semester));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
+
+  @GET
+  @Path("{groupId: \\d+}/monthmarks/empty/{year: \\d+}/{month: \\d+}")
+  @Produces("application/pdf")
+  public Response emptyMonthSheet(@PathParam("groupId") int groupCode,
+    @PathParam("year") int year, @PathParam("month") int month) {
+    try {
+      StudyGroup grp = groups.get(groupCode);
+      ResponseBuilder response = Response.ok(getMonthMarksSheet(grp, year, month, true));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
+  
+  @GET
+  @Path("{groupId: \\d+}/monthmarks/filled/{year: \\d+}/{month: \\d+}")
+  @Produces("application/pdf")
+  public Response filledMonthSheet(@PathParam("groupId") int groupCode,
+    @PathParam("year") int year, @PathParam("month") int month) {
+    try {
+      StudyGroup grp = groups.get(groupCode);
+      ResponseBuilder response = Response.ok(getMonthMarksSheet(grp, year, month, false));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
+  
   @PostConstruct
   private void initBean() {
     try {
@@ -78,7 +147,7 @@ public class GroupSheetEJB {
       throw new EJBException("Exception with message " + e.getMessage());
     }
   }
-
+  
   /**
    * Формирует экзаменационную ведомость для группы студентов.
    *
@@ -88,7 +157,7 @@ public class GroupSheetEJB {
    * @param semester семестр
    * @return
    */
-  public byte[] getExamSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
+  private byte[] getExamSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
     try {
       // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
       Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));
@@ -192,7 +261,7 @@ public class GroupSheetEJB {
    * @param semester семестр
    * @return
    */
-  public byte[] getCourseWorkSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
+  private byte[] getCourseWorkSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
     try {
       // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
       Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));
@@ -275,7 +344,7 @@ public class GroupSheetEJB {
    * @param empty ведомость будет без оценок (для заполнения)
    * @return массив байт, представляющий собой PDF сгенерированный документ.
    */
-  public byte[] getMonthMarksSheet(final StudyGroup group, final int year, final int month, final boolean empty) {
+  private byte[] getMonthMarksSheet(final StudyGroup group, final int year, final int month, final boolean empty) {
     try {
       // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
       Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));

@@ -1,14 +1,10 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
@@ -20,7 +16,6 @@ import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
-import ru.edu.pgtk.weducation.reports.GroupSheetEJB;
 
 @ManagedBean(name = "groupCourseWorkMarksMB")
 @ViewScoped
@@ -36,8 +31,8 @@ public class GroupCourseWorkMarksMB implements Serializable {
   private transient GroupSemestersEJB semesters;
   @Inject
   private transient CourseWorkMarksEJB marks;
-  @Inject
-  private transient GroupSheetEJB sheet;
+//  @Inject
+//  private transient GroupSheetEJB sheet;
   private int groupCode;
   private StudyGroup group;
   private int subjectCode;
@@ -47,6 +42,7 @@ public class GroupCourseWorkMarksMB implements Serializable {
   private List<GroupSemester> semesterList;
   private List<Subject> subjectList;
   private List<CourseWorkMark> markList;
+  private String sheetLink;
 
   /**
    * Функция для построения списка оценок
@@ -54,29 +50,31 @@ public class GroupCourseWorkMarksMB implements Serializable {
   private void makeList() {
     if ((group != null) && (subject != null) && (semester != null)) {
       markList = marks.fetchAll(group, subject, semester.getCourse(), semester.getSemester());
+      sheetLink = "reports/group/" + group.getId() + "/cproject/" + semester.getCourse() +
+        "/" + semester.getSemester() + "/" + subject.getId();
     } else {
       // Если хоть один из параметров отсутствует - очищаем список
       markList = null;
     }
   }
   
-  public void getCourseWorkSheet() {
-    // Get the FacesContext
-    FacesContext facesContext = FacesContext.getCurrentInstance();
-    // Get HTTP response
-    ExternalContext ec = facesContext.getExternalContext();
-    // Set response headers
-    ec.responseReset();   // Reset the response in the first place
-    ec.setResponseContentType("application/pdf");  // Set only the content type
-    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-      responseOutputStream.write(sheet.getCourseWorkSheet(group, subject, semester.getCourse(), semester.getSemester()));
-      responseOutputStream.flush();
-      responseOutputStream.close();
-    } catch (IOException e) {
-      addMessage(e);
-    }
-    facesContext.responseComplete();
-  }
+//  public void getCourseWorkSheet() {
+//    // Get the FacesContext
+//    FacesContext facesContext = FacesContext.getCurrentInstance();
+//    // Get HTTP response
+//    ExternalContext ec = facesContext.getExternalContext();
+//    // Set response headers
+//    ec.responseReset();   // Reset the response in the first place
+//    ec.setResponseContentType("application/pdf");  // Set only the content type
+//    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
+//      responseOutputStream.write(sheet.getCourseWorkSheet(group, subject, semester.getCourse(), semester.getSemester()));
+//      responseOutputStream.flush();
+//      responseOutputStream.close();
+//    } catch (IOException e) {
+//      addMessage(e);
+//    }
+//    facesContext.responseComplete();
+//  }
 
   public void loadGroup() {
     try {
@@ -190,5 +188,9 @@ public class GroupCourseWorkMarksMB implements Serializable {
 
   public Subject getSubject() {
     return subject;
+  }
+
+  public String getSheetLink() {
+    return sheetLink;
   }
 }
