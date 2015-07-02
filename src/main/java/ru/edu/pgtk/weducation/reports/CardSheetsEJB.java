@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.reports;
 
+import com.itextpdf.text.BaseColor;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,15 +18,22 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
 import ru.edu.pgtk.weducation.ejb.FinalMarksEJB;
 import ru.edu.pgtk.weducation.ejb.FinalPracticMarksEJB;
 import ru.edu.pgtk.weducation.ejb.GOSMarksEJB;
 import ru.edu.pgtk.weducation.ejb.RenamingsEJB;
+import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.FinalMark;
 import ru.edu.pgtk.weducation.entity.FinalPracticMark;
@@ -51,15 +59,17 @@ import static ru.edu.pgtk.weducation.utils.Utils.getYearString;
  * @author Воронин Леонид
  *
  */
+@Path("/card")
 @Stateless
-@RequestScoped
-public class DiplomeBlanksEJB {
+public class CardSheetsEJB {
 
   // поток байт в котором будет "собираться" отчет.
-  private final ByteArrayOutputStream stream;
+  private final ByteArrayOutputStream stream = new ByteArrayOutputStream();
   private BaseFont baseFont;
   private Font regularFont;
   private Font smallFont;
+  private Font bigFont;
+  private Font hugeFont;
   @Inject
   private FinalMarksEJB finalMarks;
   @Inject
@@ -70,21 +80,90 @@ public class DiplomeBlanksEJB {
   private CourseWorkMarksEJB courseWorks;
   @Inject
   private RenamingsEJB renamings;
+  @Inject
+  private StudyCardsEJB cards;
 
+  @GET
+  @Path("{cardId: \\d+}/diplome")
+  @Produces("application/pdf")
+  public Response diplome(@PathParam("cardId") int cardCode) {
+    try {
+      StudyCard card = cards.get(cardCode);
+      Response.ResponseBuilder response = Response.ok(getDiplome(card, false, false));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
+
+  @GET
+  @Path("{cardId: \\d+}/diplome/copy")
+  @Produces("application/pdf")
+  public Response diplomeCopy(@PathParam("cardId") int cardCode) {
+    try {
+      StudyCard card = cards.get(cardCode);
+      Response.ResponseBuilder response = Response.ok(getDiplome(card, true, false));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
+
+  @GET
+  @Path("{cardId: \\d+}/diplome/duplicate")
+  @Produces("application/pdf")
+  public Response diplomeDuplicate(@PathParam("cardId") int cardCode) {
+    try {
+      StudyCard card = cards.get(cardCode);
+      Response.ResponseBuilder response = Response.ok(getDiplome(card, false, true));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
+
+  @GET
+  @Path("{cardId: \\d+}/diplome/duplicatecopy")
+  @Produces("application/pdf")
+  public Response diplomeDuplicateCopy(@PathParam("cardId") int cardCode) {
+    try {
+      StudyCard card = cards.get(cardCode);
+      Response.ResponseBuilder response = Response.ok(getDiplome(card, true, true));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
+
+  @GET
+  @Path("{cardId: \\d+}/reference")
+  @Produces("application/pdf")
+  public Response reference(@PathParam("cardId") int cardCode) {
+    try {
+      StudyCard card = cards.get(cardCode);
+      Response.ResponseBuilder response = Response.ok(getReference(card));
+      return response.build();
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
+  }
+  
   /**
    * Подготавливает шрифты для использования в документе
    *
-   * @param regularSize размер обычного шрифта
-   * @param smallSize размер маленького шрифта
-   * @throws IOException
-   * @throws DocumentException
    */
-  private void prepareFonts(final int regularSize, final int smallSize)
-    throws IOException, DocumentException {
-    baseFont = BaseFont.createFont("fonts/times.ttf", BaseFont.IDENTITY_H,
-      BaseFont.EMBEDDED);
-    regularFont = new Font(baseFont, regularSize);
-    smallFont = new Font(baseFont, smallSize);
+  @PostConstruct
+  private void prepareFonts() {
+    try {
+      baseFont = BaseFont.createFont("fonts/times.ttf", BaseFont.IDENTITY_H,
+        BaseFont.EMBEDDED);
+      regularFont = new Font(baseFont, 10);
+      smallFont = new Font(baseFont, 6);
+      bigFont = new Font(baseFont, 16);
+      hugeFont = new Font(baseFont, 20);
+    } catch (IOException | DocumentException e) {
+      throw new EJBException("Error during class preparation!");
+    }
   }
 
   /**
@@ -94,33 +173,129 @@ public class DiplomeBlanksEJB {
    * @return
    * @throws DocumentException
    */
-  private PdfPTable prepareCourseWorkTable(final List<CourseWorkMark> marks)
+  private PdfPTable prepareCourseWorkTable(final List<CourseWorkMark> marks, final boolean isReference)
     throws DocumentException {
     PdfPTable table = new PdfPTable(2);
     table.setWidthPercentage(100.0f);
     table.setWidths(new int[]{8, 2});
-//    table.setWidths(new int[]{12, 2});
     PdfPCell nameCell;
     PdfPCell markCell;
+    if (isReference) {
+      // отличия таблицы для справки
+      table.setSpacingBefore(10f);
+      nameCell = new PdfPCell(getParagraph("Курсовые проекты (работы)",
+        smallFont, Paragraph.ALIGN_CENTER));
+      nameCell.setMinimumHeight(20f);
+      nameCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      nameCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
+      nameCell.setBorderColor(BaseColor.BLACK);
+      nameCell.setBorderWidth(.5f);
+      markCell = new PdfPCell(getParagraph("Оценка",
+        smallFont, Paragraph.ALIGN_CENTER));
+      markCell.setMinimumHeight(20f);
+      markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      markCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
+      markCell.setBorderColor(BaseColor.BLACK);
+      markCell.setBorderWidth(.5f);
+      table.addCell(nameCell);
+      table.addCell(markCell);
+    }
     for (CourseWorkMark mark : marks) {
       nameCell = new PdfPCell(getParagraph(mark.getSubject().getFullName()
         + " (" + mark.getTheme() + ")",
         smallFont, Paragraph.ALIGN_LEFT));
       nameCell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-//			nameCell.setPaddingRight(getPt(3));
-//			nameCell.setLeading(0.5f, 0.6f);
-      nameCell.setBorder(PdfPCell.NO_BORDER);
       markCell = new PdfPCell(getParagraph(Utils.getMarkString(mark.getMark()),
         smallFont, Paragraph.ALIGN_CENTER));
       markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-//			markCell.setLeading(0.5f, 0.6f);
-      markCell.setBorder(PdfPCell.NO_BORDER);
+      if (isReference) {
+        // Если справка - есть рамка
+        nameCell.setBorderColor(BaseColor.BLACK);
+        nameCell.setBorderWidth(.5f);
+        markCell.setBorderColor(BaseColor.BLACK);
+        markCell.setBorderWidth(.5f);
+      } else {
+        // Если диплом - нет рамки
+        nameCell.setBorder(PdfPCell.NO_BORDER);
+        markCell.setBorder(PdfPCell.NO_BORDER);
+      }
       table.addCell(nameCell);
       table.addCell(markCell);
     }
     return table;
   }
 
+  /**
+   * Готовит таблицу оценок для справки
+   *
+   * @param marks
+   * @param table
+   * @throws DocumentException
+   */
+  private void prepareMarkTable(final List<MarkItem> marks,
+    PdfPTable table) throws DocumentException {
+
+    PdfPCell nameCell;
+    PdfPCell hoursCell;
+    PdfPCell markCell;
+
+    // Формируем заголовок
+    nameCell = new PdfPCell(getParagraph("Наименование учебных предметов, курсов, дисциплин (модулей), практик",
+      smallFont, Paragraph.ALIGN_CENTER));
+    nameCell.setMinimumHeight(30f);
+    nameCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+    nameCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
+    nameCell.setBorderColor(BaseColor.BLACK);
+    nameCell.setBorderWidth(.5f);
+    hoursCell = new PdfPCell(getParagraph("Общее количество часов", smallFont, Paragraph.ALIGN_CENTER));
+    hoursCell.setMinimumHeight(30f);
+    hoursCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+    hoursCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
+    hoursCell.setBorderColor(BaseColor.BLACK);
+    hoursCell.setBorderWidth(.5f);
+    markCell = new PdfPCell(getParagraph("Оценка", smallFont, Paragraph.ALIGN_CENTER));
+    markCell.setMinimumHeight(30f);
+    markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+    markCell.setVerticalAlignment(PdfPCell.ALIGN_CENTER);
+    markCell.setBorderColor(BaseColor.BLACK);
+    markCell.setBorderWidth(.5f);
+    table.addCell(nameCell);
+    table.addCell(hoursCell);
+    table.addCell(markCell);
+
+    // выводим список оценок
+    for (MarkItem mark : marks) {
+      nameCell = new PdfPCell(getParagraph(mark.subject,
+        smallFont, Paragraph.ALIGN_LEFT));
+      nameCell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+      nameCell.setPaddingRight(getPt(3));
+      nameCell.setLeading(0.5f, 0.7f);
+      nameCell.setBorderColor(BaseColor.BLACK);
+      nameCell.setBorderWidth(.5f);
+      hoursCell = new PdfPCell(getParagraph(mark.load, smallFont, Paragraph.ALIGN_CENTER));
+      hoursCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      hoursCell.setLeading(0.5f, 0.7f);
+      hoursCell.setBorderColor(BaseColor.BLACK);
+      hoursCell.setBorderWidth(.5f);
+      markCell = new PdfPCell(getParagraph(mark.mark, smallFont, Paragraph.ALIGN_CENTER));
+      markCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+      markCell.setLeading(0.5f, 0.7f);
+      markCell.setBorderColor(BaseColor.BLACK);
+      markCell.setBorderWidth(.5f);
+      table.addCell(nameCell);
+      table.addCell(hoursCell);
+      table.addCell(markCell);
+    }
+  }
+
+  /**
+   * Готовит таблицу оценок для диплома
+   *
+   * @param marks список оценок
+   * @param table1 таблица 1 (страница 2 приложение)
+   * @param table2 таблица 2 (страница 3 приложения)
+   * @throws DocumentException
+   */
   private void prepareMarkTables(final List<MarkItem> marks,
     PdfPTable table1, PdfPTable table2) throws DocumentException {
 
@@ -165,8 +340,8 @@ public class DiplomeBlanksEJB {
   /**
    * Готовит таблицу переименований учебного заведения.
    *
-   * @param renamingList
-   * @return
+   * @param renamingList список переименований
+   * @return таблица для добавления в pdf документ
    * @throws DocumentException
    */
   private PdfPTable prepareRenamingTable(List<Renaming> renamingList)
@@ -198,9 +373,8 @@ public class DiplomeBlanksEJB {
    * @param isDuplicate если истина, то будет выведен дубликат
    * @return массив байт (содержимое pdf-документа)
    */
-  public byte[] getDiplome(final StudyCard card, final boolean isCopy, final boolean isDuplicate) {
+  private byte[] getDiplome(final StudyCard card, final boolean isCopy, final boolean isDuplicate) {
     try {
-      prepareFonts(10, 6);
       Document document = new Document(PageSize.A4.rotate(), 15f, 15f,
         75f, 15f);
       PdfWriter writer = PdfWriter.getInstance(document, stream);
@@ -346,7 +520,7 @@ public class DiplomeBlanksEJB {
 
       // Добавим таблицу курсовых в колонку
       PdfPTable courseWorkTable = wrapElement(
-        prepareCourseWorkTable(courseWorks.fetchAll(card)), getPt(105));
+        prepareCourseWorkTable(courseWorks.fetchAll(card), false), getPt(105));
       courseWorkTable.setSpacingBefore(getPt(5));
       firstTableCell.addElement(courseWorkTable);
 
@@ -394,8 +568,8 @@ public class DiplomeBlanksEJB {
             getParagraph(psn.getFirstName(), regularFont,
               Paragraph.ALIGN_CENTER), getPt(16)));
       innerCell2.addElement(wrapElement(
-            getParagraph(psn.getMiddleName(), regularFont,
-              Paragraph.ALIGN_CENTER), getPt(16)));
+        getParagraph(psn.getMiddleName(), regularFont,
+          Paragraph.ALIGN_CENTER), getPt(16)));
       innerCell2.addElement(wrapElement(
         getParagraph(psn.getLastName(), regularFont,
           Paragraph.ALIGN_CENTER), getPt(17)));
@@ -412,7 +586,7 @@ public class DiplomeBlanksEJB {
         getParagraph(spc.getKvalification(), regularFont,
           Paragraph.ALIGN_CENTER), getPt(17)));
       innerCell2.addElement(wrapElement(
-            getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER), getPt(10)));
+        getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER), getPt(10)));
       // Добавляем колонки
       secondTable.addCell(innerCell1);
       secondTable.addCell(innerCell2);
@@ -491,10 +665,197 @@ public class DiplomeBlanksEJB {
   }
 
   /**
+   * Готовит справку об успеваемости в виде pdf документа.
+   *
+   * @param card Личная карточка, требуемая для отчета
+   * @return массив байт (содержимое pdf-документа)
+   */
+  private byte[] getReference(final StudyCard card) {
+    try {
+      System.out.println("Генерируем содержимое академической справки...");
+      Document document = new Document(PageSize.A4, getPt(5), getPt(5),
+        getPt(10), getPt(5));
+      PdfWriter writer = PdfWriter.getInstance(document, stream);
+      document.open();
+      document.addTitle("Справка об успеваемости");
+      document.addAuthor("weducation project");
+
+      // Данные для вывода (возможно лучше тут считать всё с карточки)
+      School scl = card.getSchool();
+      Speciality spc = card.getSpeciality();
+      Person psn = card.getPerson();
+      String sclName = scl.getFullName() + "\n" + scl.getPlace();
+      String comissionDate = Utils.getDateString(card.getComissionDate()) + " года";
+      String diplomeDate = Utils.getDateString(card.getDiplomeDate()) + " года";
+      String birthDate = Utils.getDateString(psn.getBirthDate()) + " года";
+      String schoolDirector = scl.getDirector();
+      String speciality = spc.getFullName();
+      String studyForm = card.getExtramuralString();
+      String oldDocument = card.getDocumentName() + ", "
+        + Utils.getYear(card.getDocumentDate()) + " год.";
+      /**
+       * Формируем таблицу оценок, выводимых в справку
+       */
+      List<MarkItem> marks = new ArrayList<>();
+      // Добавляем итоговые оценки
+      int aload = 0;
+      int mload = 0;
+      // Сначала добавляем дисциплины, не входящие в модули
+      for (FinalMark fm : finalMarks.fetchOnlySubjects(card)) {
+        marks.add(new MarkItem(fm));
+        aload += fm.getAuditoryLoad();
+        mload += fm.getMaximumLoad();
+      }
+      // Потом добавим модули с их содержимым
+      for (FinalMark fm : finalMarks.fetchModules(card)) {
+        marks.add(new MarkItem(fm));
+        marks.add(new MarkItem("в том числе:", "", ""));
+        // Дисциплины конкретного модуля
+        for (FinalMark sfm : finalMarks.fetchModuleSubjects(card, fm.getModule())) {
+          marks.add(new MarkItem(sfm));
+          aload += sfm.getAuditoryLoad();
+          mload += sfm.getMaximumLoad();
+        }
+      }
+      marks.add(new MarkItem("ВСЕГО часов теоретического обучения:", mload, 0));
+      marks.add(new MarkItem("в том числе аудиторных часов:", aload, 0));
+      marks.add(new MarkItem("Практика", practicMarks.getSummaryLoad(card), 0));
+      marks.add(new MarkItem("в том числе:", "", ""));
+      // Добавляем оценки за практику
+      for (FinalPracticMark pm : practicMarks.fetchAll(card)) {
+        marks.add(new MarkItem(pm));
+      }
+      // TODO Проверить, надо ли добавлять эти данные?
+//      marks.add(new MarkItem("Государственная итоговая аттестация", card.getDiplomeLength(), 0));
+//      marks.add(new MarkItem("в том числе:", "", ""));
+//      String title = (card.isGosExam()) ? "Итоговый междисциплинарный государственный экзамен"
+//              : ("Дипломный проект на тему \"" + card.getDiplomeTheme() + "\"");
+//      marks.add(new MarkItem(title, "x", Utils.getMarkString(card.getDiplomeMark())));
+      marks.add(new MarkItem("Государственные экзамены", "", ""));
+      marks.add(new MarkItem("в том числе:", "", ""));
+      for (GOSMark gm : gosMarks.fetchAll(card)) {
+        marks.add(new MarkItem(gm));
+      }
+
+      // ============================================================
+      // Бланк справки
+      // ============================================================
+      // Основная таблица из двух столбцов. Так мы реализуем колонки
+      PdfPTable mainTable = new PdfPTable(2);
+      mainTable.setWidthPercentage(100.0f);
+      mainTable.setWidths(new int[]{3, 6});
+//      mainTable.setSpacingBefore(20f);
+      // Маленькая колонка (РОССИЙСКАЯ ФЕДЕРАЦИЯ...)
+      PdfPCell innerCell1 = new PdfPCell();
+      innerCell1.setBorder(PdfPCell.NO_BORDER);
+      innerCell1.addElement(getParagraph("РОССИЙСКАЯ\nФЕДЕРАЦИЯ", regularFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+        getParagraph(sclName, regularFont, Paragraph.ALIGN_CENTER),
+        150, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("\nСПРАВКА", hugeFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(getParagraph("ОБ УСПЕВАЕМОСТИ", bigFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+        getParagraph(card.getRegistrationNumber(), regularFont, Paragraph.ALIGN_CENTER),
+        50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(регистрационный номер)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+        getParagraph(diplomeDate, regularFont, Paragraph.ALIGN_CENTER),
+        30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(дата выдачи)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+        getParagraph(card.getRemandCommand(), regularFont, Paragraph.ALIGN_CENTER),
+        30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(номер приказа)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+        getParagraph(comissionDate, regularFont, Paragraph.ALIGN_CENTER),
+        30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(дата приказа)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell1.addElement(wrapElement(
+        getParagraph(card.getRemandReason(), regularFont, Paragraph.ALIGN_CENTER),
+        150, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(getParagraph("(причина отчисления)", smallFont, Paragraph.ALIGN_CENTER));
+      // Добавим данные о руководителе организации
+      innerCell1.addElement(wrapElement(
+        getParagraph("Руководитель образовательной организации", regularFont, Paragraph.ALIGN_CENTER),
+        130, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell1.addElement(wrapElement(
+        getParagraph(schoolDirector, regularFont, Paragraph.ALIGN_CENTER),
+        70, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+
+      // Большая колонка (СВЕДЕНИЯ О ЛИЧНОСТИ ОБЛАДАТЕЛЯ СПРАВКИ...)
+      PdfPCell innerCell2 = new PdfPCell();
+      innerCell2.setBorder(PdfPCell.NO_BORDER);
+      innerCell2.addElement(getParagraph("СВЕДЕНИЯ О ЛИЧНОСТИ ОБЛАДАТЕЛЯ СПРАВКИ", regularFont, Paragraph.ALIGN_CENTER));
+      innerCell2.addElement(wrapElement(
+        getParagraph(psn.getFullName(), regularFont, Paragraph.ALIGN_CENTER),
+        30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(фамилия, имя, отчество)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell2.addElement(wrapElement(
+        getParagraph(birthDate, regularFont, Paragraph.ALIGN_CENTER),
+        30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(дата рождения)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell2.addElement(wrapElement(
+        getParagraph(oldDocument, regularFont, Paragraph.ALIGN_CENTER),
+        30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(предыдущий документ об образовании)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell2.addElement(wrapElement(
+        getParagraph("СВЕДЕНИЯ ОБ ОБРАЗОВАТЕЛЬНОЙ ПРОГРАММЕ "
+          + "СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ И О КВАЛИФИКАЦИИ", regularFont, Paragraph.ALIGN_CENTER),
+        50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(wrapElement(
+        getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER),
+        50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(специальность)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell2.addElement(wrapElement(
+        getParagraph(spc.getSpecialization(), regularFont, Paragraph.ALIGN_CENTER),
+        30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(специализация)", smallFont, Paragraph.ALIGN_CENTER));
+      innerCell2.addElement(wrapElement(
+        getParagraph(studyForm, regularFont, Paragraph.ALIGN_CENTER),
+        30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(getParagraph("(форма обучения)", smallFont, Paragraph.ALIGN_CENTER));
+      // Добавим дополнительные сведения в колонку
+      innerCell2.addElement(wrapElement(
+        getParagraph("ДОПОЛНИТЕЛЬНЫЕ СВЕДЕНИЯ", regularFont, Paragraph.ALIGN_CENTER),
+        50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      innerCell2.addElement(wrapElement(prepareRenamingTable(
+        renamings.findByDates(card.getBeginDate(), card.getEndDate())), 150.0f));
+      // Добавим таблицу курсовых в колонку
+      innerCell2.addElement(wrapElement(
+        getParagraph("СВЕДЕНИЯ О СОДЕРЖАНИИ И РЕЗУЛЬТАТАХ ОСВОЕНИЯ "
+          + "ОБРАЗОВАТЕЛЬНОЙ ПРОГРАММЫ СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ",
+          regularFont, Paragraph.ALIGN_CENTER), 60, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
+      PdfPTable courseWorkTable = wrapElement(
+        prepareCourseWorkTable(courseWorks.fetchAll(card), true), 150.0f);
+      innerCell2.addElement(courseWorkTable);
+
+      // Добавляем колонки
+      mainTable.addCell(innerCell1);
+      mainTable.addCell(innerCell2);
+      document.add(mainTable);
+
+      // Вторая страница
+      document.newPage();
+
+      PdfPTable marksTable = new PdfPTable(3);
+      marksTable.setWidthPercentage(100.0f);
+      marksTable.setTotalWidth(getPt(135));
+      marksTable.setWidths(new int[]{10, 2, 2});
+      marksTable.setSpacingBefore(35);
+      // Заполняем данными страницы 2 и 3
+      prepareMarkTable(marks, marksTable);
+      document.add(marksTable);
+      document.close();
+    } catch (DocumentException e) {
+      throw new EJBException(e.getMessage());
+    }
+    return stream.toByteArray();
+  }
+
+  /**
    * Конструктор класса.
    *
    */
-  public DiplomeBlanksEJB() {
-    stream = new ByteArrayOutputStream();
+  public CardSheetsEJB() {
   }
 }

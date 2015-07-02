@@ -50,7 +50,7 @@ import static ru.edu.pgtk.weducation.reports.Utils.getMonthString;
 @Path("/group")
 @Stateless
 @RequestScoped
-public class GroupSheetEJB {
+public class GroupSheetsEJB {
 
   private final ByteArrayOutputStream stream = new ByteArrayOutputStream();
   private BaseFont baseFont;

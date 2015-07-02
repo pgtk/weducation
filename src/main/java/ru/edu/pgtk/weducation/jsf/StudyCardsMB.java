@@ -1,14 +1,10 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
@@ -22,8 +18,6 @@ import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
-import ru.edu.pgtk.weducation.reports.DiplomeBlanksEJB;
-import ru.edu.pgtk.weducation.reports.ReferenceBlanksEJB;
 
 @ManagedBean(name = "studyCardsMB")
 @ViewScoped
@@ -41,10 +35,6 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
   private transient StudyPlansEJB plansEJB;
   @Inject
   private transient SpecialitiesEJB specialitiesEJB;
-  @Inject
-  private transient DiplomeBlanksEJB diplome;
-  @Inject
-  private transient ReferenceBlanksEJB reference;
 
   private Person person;
   private Speciality speciality;
@@ -79,69 +69,6 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
       return true;
     }
     return item.getGroup().isActive();
-  }
-
-  private void getBlank(final boolean copy, final boolean duplicate) {
-    StringBuilder fileName = new StringBuilder("diplome-");
-    if (copy) {
-      fileName.append("copy-");
-    }
-    if (duplicate) {
-      fileName.append("duplicate-");
-    }
-    fileName.append(item.getId()).append(".pdf");
-    // Get the FacesContext
-    FacesContext facesContext = FacesContext.getCurrentInstance();
-    // Get HTTP response
-    ExternalContext ec = facesContext.getExternalContext();
-    // Set response headers
-    ec.responseReset();   // Reset the response in the first place
-    ec.setResponseContentType("application/pdf");  // Set only the content type
-    // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
-//    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName.toString() + "\"");
-    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-      responseOutputStream.write(diplome.getDiplome(item, copy, duplicate));
-      responseOutputStream.flush();
-      responseOutputStream.close();
-    } catch (IOException e) {
-      addMessage(e);
-    }
-    facesContext.responseComplete();
-  }
-
-  public void printDiplome() {
-    getBlank(false, false);
-  }
-
-  public void printReference() {
-    StringBuilder fileName = new StringBuilder("reference-");
-    fileName.append(item.getId()).append(".pdf");
-    // Get the FacesContext
-    FacesContext facesContext = FacesContext.getCurrentInstance();
-    // Get HTTP response
-    ExternalContext ec = facesContext.getExternalContext();
-    // Set response headers
-    ec.responseReset();   // Reset the response in the first place
-    ec.setResponseContentType("application/pdf");  // Set only the content type
-    // Установка данного заголовка будет иннициировать процесс скачки файла вместо его отображения в браузере.
-    //ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName.toString() + "\"");
-    System.out.println("Запущен процесс создания справки об успеваемости: " + fileName.toString());
-    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-      responseOutputStream.write(reference.getBlank(item));
-      responseOutputStream.flush();
-    } catch (IOException e) {
-      System.out.println("Файл справки " + fileName.toString() + " создать не удалось: " + e.getMessage());
-      addMessage(e);
-    }
-    facesContext.responseComplete();
-  }
-
-  public void printDiplomeDuplicate() {
-    getBlank(false, true);
-  }
-
-  public void printDiplomeCopy() {
-    getBlank(true, false);
   }
 
   public void preparePage() {

@@ -24,7 +24,8 @@ public class ApplicationConfig extends Application {
    * If required, comment out calling this method in getClasses().
    */
   private void addRestResourceClasses(Set<Class<?>> resources) {
-    resources.add(ru.edu.pgtk.weducation.reports.GroupSheetEJB.class);
+    resources.add(ru.edu.pgtk.weducation.reports.CardSheetsEJB.class);
+    resources.add(ru.edu.pgtk.weducation.reports.GroupSheetsEJB.class);
   }
   
 }

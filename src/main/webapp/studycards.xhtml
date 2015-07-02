@@ -323,12 +323,13 @@
           <h3>Печать бланков</h3>
           <ul>
             <h:panelGroup rendered="#{not studyCardsMB.item.remanded}">
-              <li><h:commandLink target="diplome" action="#{studyCardsMB.printDiplome()}" value="Диплом" /></li>
-              <li><h:commandLink target="diplome-copy" action="#{studyCardsMB.printDiplomeCopy()}" value="Копия диплома" /></li>
-              <li><h:commandLink target="diplome-duplicate" action="#{studyCardsMB.printDiplomeDuplicate()}" value="Дубликат диплома" /></li>
+              <li><a target="diplome" href="reports/card/#{studyCardsMB.item.id}/diplome">Диплом</a></li>
+              <li><a target="diplome" href="reports/card/#{studyCardsMB.item.id}/diplome/copy">Копия диплома</a></li>
+              <li><a target="diplome" href="reports/card/#{studyCardsMB.item.id}/diplome/duplicate">Дубликат диплома</a></li>
+              <li><a target="diplome" href="reports/card/#{studyCardsMB.item.id}/diplome/duplicatecopy">Копия дубликата диплома</a></li>
             </h:panelGroup>
             <h:panelGroup rendered="#{studyCardsMB.item.remanded}">
-              <li><h:commandLink target="reference" action="#{studyCardsMB.printReference()}" value="Справка об успеваемости" /></li>
+              <li><a target="reference" href="reports/card/#{studyCardsMB.item.id}/reference">Справка об успеваемости</a></li>
             </h:panelGroup>
           </ul>
           <div class="buttons">
