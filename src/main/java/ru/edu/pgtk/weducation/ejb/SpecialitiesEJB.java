@@ -68,9 +68,17 @@ public class SpecialitiesEJB {
     return query.getResultList();
   }
   
-  public List<Speciality> findByDepartment(final Department department) {
+  public List<Speciality> findActualByDepartment(final Department department) {
     TypedQuery<Speciality> query = em.createQuery(
             "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.speciality.actual = true) AND (dp.department = :dep) "
+            + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
+    query.setParameter("dep", department);
+    return query.getResultList();
+  }
+
+  public List<Speciality> findByDepartment(final Department department) {
+    TypedQuery<Speciality> query = em.createQuery(
+            "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.department = :dep) "
             + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
