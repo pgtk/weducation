@@ -105,6 +105,7 @@
           <h:inputText value="#{studyGroupsMB.item.master}" class="textEdit" /><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{studyGroupsMB.save()}" />
+            <h:button value="К списку" outcome="studygroups"/>
             <h:commandButton value="Отменить" action="#{studyGroupsMB.cancelEdit()}" />
           </div>
         </h:form>
