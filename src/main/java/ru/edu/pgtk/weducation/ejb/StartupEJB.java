@@ -39,6 +39,8 @@ public class StartupEJB {
         ejb.save(admin);
       }
     } catch (Exception e) {
+      System.out.println("EJB Exception: " + e.getMessage());
+      e.printStackTrace(System.out);
       throw new EJBException("Ошибка при создании встроенной учетной записи администратора");
     }
   }

@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import ru.edu.pgtk.weducation.entity.SemesterMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyModule;
@@ -54,6 +55,7 @@ public class SemesterMarksEJBTest {
   /**
    * Проверим работоспособность сразу всех операций EJB-компонента для дисциплин.
    */
+  @Ignore
   @Test
   public void testSubjectSemesterMarks() {
     try {
@@ -89,6 +91,7 @@ public class SemesterMarksEJBTest {
     /**
    * Проверим работоспособность сразу всех операций EJB-компонента для модулей.
    */
+  @Ignore
   @Test
   public void testModuleSemesterMarks() {
     try {

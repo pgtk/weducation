@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Missing;
 
@@ -48,6 +49,7 @@ public class MissingsEJBTest {
   /**
    * Проверим работоспособность сразу всех операций EJB-компонента.
    */
+  @Ignore
   @Test
   public void testOperations() {
     try {
