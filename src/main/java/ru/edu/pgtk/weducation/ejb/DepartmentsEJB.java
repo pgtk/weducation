@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Department;
+import ru.edu.pgtk.weducation.interceptors.WithLog;
 
 /**
  * Корпоративный бин для отделений
@@ -16,6 +17,7 @@ import ru.edu.pgtk.weducation.entity.Department;
  */
 @Stateless
 @Named("departmentsEJB")
+@WithLog
 public class DepartmentsEJB {
 
   @PersistenceContext(unitName = "weducationPU")

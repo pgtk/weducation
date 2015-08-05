@@ -18,12 +18,10 @@ import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
-import ru.edu.pgtk.weducation.interceptors.WithLog;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "departmentRootMB")
 @ViewScoped
-@WithLog
 public class DepartmentRootMB implements Serializable {
 
   long serialVersionUID = 0L;
