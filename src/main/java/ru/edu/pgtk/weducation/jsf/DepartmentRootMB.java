@@ -13,13 +13,17 @@ import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.entity.Account;
+import ru.edu.pgtk.weducation.entity.AccountRole;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.interceptors.Restricted;
+import ru.edu.pgtk.weducation.interceptors.WithLog;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ManagedBean(name = "departmentRootMB")
 @ViewScoped
+@WithLog
 public class DepartmentRootMB implements Serializable {
 
   long serialVersionUID = 0L;
@@ -54,6 +58,7 @@ public class DepartmentRootMB implements Serializable {
     }
   }
 
+  @Restricted(roles = {AccountRole.DEPARTMENT})
   public void changeGroup(ValueChangeEvent event) {
     try {
       int code = (Integer) event.getNewValue();
@@ -68,6 +73,7 @@ public class DepartmentRootMB implements Serializable {
     }
   }
 
+  @Restricted(roles = {AccountRole.RECEPTION})
   public void toggleEdit() {
     try {
       if ((edit) && (null != department)) {
@@ -79,6 +85,7 @@ public class DepartmentRootMB implements Serializable {
     }
   }
 
+  @Restricted(roles = {AccountRole.DEPARTMENT})
   public List<StudyCard> getStudents() {
     if (null != group) {
       return cards.findByGroup(group);

@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.inject.Produces;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
 import ru.edu.pgtk.weducation.ejb.ClientSessionsEJB;
-import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.entity.Account;
 import ru.edu.pgtk.weducation.entity.AccountRole;
 import ru.edu.pgtk.weducation.entity.ClientSession;
@@ -32,8 +32,6 @@ public class SessionMB implements Serializable {
   private String password;
   @Inject
   private transient AccountsEJB usersEJB;
-  @Inject
-  private transient DepartmentsEJB departments;
   @Inject
   private transient ClientSessionsEJB sessions;
 
@@ -155,6 +153,7 @@ public class SessionMB implements Serializable {
     this.password = password;
   }
 
+  @Produces
   public Account getUser() {
     return user;
   }
