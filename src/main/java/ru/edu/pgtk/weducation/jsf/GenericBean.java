@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import ru.edu.pgtk.weducation.entity.Account;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
@@ -13,7 +13,7 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
  */
 public abstract class GenericBean<T> {
 
-  @ManagedProperty(value = "#{sessionMB.user}")
+  @Inject
   protected transient Account user;
   protected transient T item;
   protected boolean edit;
@@ -47,7 +47,7 @@ public abstract class GenericBean<T> {
     item = null;
   }
 
-  public final void add() {
+  public void add() {
     try {
       newItem();
       edit = true;
@@ -56,7 +56,7 @@ public abstract class GenericBean<T> {
     }
   }
 
-  public final void save() {
+  public void save() {
     try {
       saveItem();
       edit = false;
@@ -65,7 +65,7 @@ public abstract class GenericBean<T> {
     }
   }
 
-  public final void confirmDelete() {
+  public void confirmDelete() {
     try {
       deleteItem();
       resetState();

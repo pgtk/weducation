@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
 import ru.edu.pgtk.weducation.ejb.ClientSessionsEJB;
@@ -20,7 +20,7 @@ import static ru.edu.pgtk.weducation.jsf.Utils.getExternalContext;
 /**
  * Сессионный бин, который будет обеспечивать сквозной функционал
  */
-@ManagedBean(name = "sessionMB")
+@Named("sessionMB")
 @SessionScoped
 public class SessionMB implements Serializable {
 

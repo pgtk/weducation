@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.interceptors;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import javax.annotation.PostConstruct;
 import javax.interceptor.AroundInvoke;
@@ -15,12 +16,10 @@ import javax.interceptor.InvocationContext;
  */
 @Interceptor
 @WithLog
-public class LogInterceptor {
+public class LogInterceptor implements Serializable {
 
-  public LogInterceptor() {
-
-  }
-
+  long serialVersionUID = 20150806L;
+  
   @AroundInvoke
   private Object logMethod(InvocationContext context) throws Exception {
     System.out.println("Method " + context.getMethod().getName()

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
@@ -19,8 +19,10 @@ import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
+//@ViewScoped
+//@ManagedBean(name = "monthMarksMB")
+@Named("monthMarksMB")
 @ViewScoped
-@ManagedBean(name = "monthMarksMB")
 public class MonthMarksMB implements Serializable {
 
   long serialVersionUID = 0L;
@@ -33,8 +35,6 @@ public class MonthMarksMB implements Serializable {
   private transient GroupSemestersEJB semesters;
   @Inject
   private transient MonthMarksEJB marks;
-//  @Inject
-//  private transient GroupSheetEJB monthSheets;
   private int groupCode;
   private StudyGroup group;
   private int subjectCode;

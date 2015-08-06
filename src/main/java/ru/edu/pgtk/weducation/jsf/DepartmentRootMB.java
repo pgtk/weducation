@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
@@ -20,13 +19,13 @@ import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
-@ManagedBean(name = "departmentRootMB")
+@Named("departmentRootMB")
 @ViewScoped
 public class DepartmentRootMB implements Serializable {
 
   long serialVersionUID = 0L;
 
-  @ManagedProperty(value = "#{sessionMB.user}")
+  @Inject
   private transient Account account;
   @Inject
   private transient DepartmentsEJB departments;
@@ -53,6 +52,8 @@ public class DepartmentRootMB implements Serializable {
           addMessage(e);
         }
       }
+    } else {
+      addMessage("Ошибка при получении учетной записи!");
     }
   }
 
@@ -107,9 +108,9 @@ public class DepartmentRootMB implements Serializable {
     return account;
   }
 
-  public void setAccount(Account account) {
-    this.account = account;
-  }
+//  public void setAccount(Account account) {
+//    this.account = account;
+//  }
 
   public boolean isEdit() {
     return edit;

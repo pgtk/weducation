@@ -3,15 +3,15 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.entity.ForeignLanguage;
 import ru.edu.pgtk.weducation.entity.Person;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
-@ManagedBean(name = "personsMB")
+@Named("personsMB")
 @ViewScoped
 public class PersonsMB extends GenericBean<Person> implements Serializable {
 
