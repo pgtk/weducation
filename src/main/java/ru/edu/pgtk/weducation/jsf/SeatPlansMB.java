@@ -6,16 +6,16 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.SeatsEJB;
 import ru.edu.pgtk.weducation.entity.Seat;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
-@ManagedBean(name = "seatPlansMB")
+@Named("seatPlansMB")
 public class SeatPlansMB implements Serializable {
 
   long serialVersionUID = 0L;

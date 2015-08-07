@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.ejb.MissingsEJB;
@@ -17,7 +17,7 @@ import ru.edu.pgtk.weducation.entity.Missing;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
-@ManagedBean(name = "weekMissingsMB")
+@Named("weekMissingsMB")
 public class WeekMissingsMB {
 
   long serialVersionUID = 0L;

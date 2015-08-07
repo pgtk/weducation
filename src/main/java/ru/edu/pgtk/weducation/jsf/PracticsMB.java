@@ -2,9 +2,9 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.PracticsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
@@ -13,7 +13,7 @@ import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
-@ManagedBean(name = "practicsMB")
+@Named("practicsMB")
 @ViewScoped
 public class PracticsMB extends GenericBean<Practic> implements Serializable {
 

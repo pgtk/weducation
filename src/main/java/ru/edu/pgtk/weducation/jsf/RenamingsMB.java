@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.RenamingsEJB;
 import ru.edu.pgtk.weducation.entity.Renaming;
 
@@ -12,7 +12,7 @@ import ru.edu.pgtk.weducation.entity.Renaming;
  *
  * @author Воронин Леонид
  */
-@ManagedBean(name = "renamingsMB")
+@Named("renamingsMB")
 @ViewScoped
 public class RenamingsMB extends GenericBean<Renaming> implements Serializable {
 

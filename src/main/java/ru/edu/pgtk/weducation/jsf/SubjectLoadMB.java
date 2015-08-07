@@ -2,16 +2,16 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.SubjectLoadEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
 import ru.edu.pgtk.weducation.entity.ExamForm;
 import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.entity.SubjectLoad;
 
-@ManagedBean(name = "subjectLoadMB")
+@Named("subjectLoadMB")
 @ViewScoped
 public class SubjectLoadMB extends GenericBean<SubjectLoad> implements Serializable {
 

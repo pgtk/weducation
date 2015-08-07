@@ -3,9 +3,9 @@ package ru.edu.pgtk.weducation.jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.GOSExamsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
@@ -14,7 +14,7 @@ import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
-@ManagedBean(name = "gosexamsMB")
+@Named("gosexamsMB")
 @ViewScoped
 public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
 

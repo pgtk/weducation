@@ -2,10 +2,10 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.Part;
 import ru.edu.pgtk.weducation.ejb.PracticsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
@@ -28,7 +28,7 @@ import ru.edu.pgtk.weducation.utils.XMLPracticeLoad;
 import ru.edu.pgtk.weducation.utils.XMLSubject;
 import ru.edu.pgtk.weducation.utils.XMLSubjectLoad;
 
-@ManagedBean(name = "importPlanMB")
+@Named("importPlanMB")
 @ViewScoped
 public class ImportPlanMB implements Serializable {
 

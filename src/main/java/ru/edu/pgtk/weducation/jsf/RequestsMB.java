@@ -6,10 +6,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.ejb.RequestsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
@@ -17,11 +17,10 @@ import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Request;
 import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.entity.StudyCard;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
-@ManagedBean(name = "requestsMB")
+@Named("requestsMB")
 public class RequestsMB implements Serializable {
 
   long serialVersionUID = 0L;

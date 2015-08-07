@@ -1,16 +1,16 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
-@ManagedBean(name = "groupSemestersMB")
+@Named("groupSemestersMB")
 @ViewScoped
 public class GroupSemestersMB extends GenericBean<GroupSemester> {
 

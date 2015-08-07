@@ -2,16 +2,16 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
 import ru.edu.pgtk.weducation.entity.Account;
 import ru.edu.pgtk.weducation.entity.AccountRole;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
+@Named("accountsMB")
 @ViewScoped
-@ManagedBean(name = "accountsMB")
 public class AccountsMB extends GenericBean<Account> implements Serializable {
 
   long serialVersionUID = 0L;

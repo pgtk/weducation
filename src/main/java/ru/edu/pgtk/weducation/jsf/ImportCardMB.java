@@ -1,13 +1,13 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.util.Map;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.utils.ImportCardEJB;
 
 @ViewScoped
-@ManagedBean(name = "importCardMB")
+@Named("importCardMB")
 public class ImportCardMB {
 
   long serialVersionUID = 0L;

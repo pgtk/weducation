@@ -1,13 +1,13 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.SchoolsEJB;
 import ru.edu.pgtk.weducation.entity.School;
 
-@ManagedBean(name = "schoolsMB")
+@Named("schoolsMB")
 @ViewScoped
 public class SchoolsMB extends GenericBean<School> implements Serializable {
 
