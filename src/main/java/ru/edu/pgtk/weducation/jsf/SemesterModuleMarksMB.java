@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.event.ValueChangeEvent;
@@ -18,7 +19,7 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
 @Named("semesterModuleMarksMB")
-public class SemesterModuleMarksMB {
+public class SemesterModuleMarksMB implements Serializable {
 
   long serialVersionUID = 0L;
 

@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @ViewScoped
 @Named("weekMissingsMB")
-public class WeekMissingsMB {
+public class WeekMissingsMB implements Serializable {
 
   long serialVersionUID = 0L;
 

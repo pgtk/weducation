@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @Named("groupSemestersMB")
 @ViewScoped
-public class GroupSemestersMB extends GenericBean<GroupSemester> {
+public class GroupSemestersMB extends GenericBean<GroupSemester> implements Serializable {
 
   long serialVersionUID = 0L;
   

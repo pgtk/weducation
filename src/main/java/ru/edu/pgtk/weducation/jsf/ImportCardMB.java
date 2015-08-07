@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import java.io.Serializable;
 import java.util.Map;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -8,7 +9,7 @@ import ru.edu.pgtk.weducation.utils.ImportCardEJB;
 
 @ViewScoped
 @Named("importCardMB")
-public class ImportCardMB {
+public class ImportCardMB implements Serializable {
 
   long serialVersionUID = 0L;
   
