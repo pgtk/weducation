@@ -29,16 +29,40 @@ class Utils {
   }
 
   /**
-   * Добавляет сообщение об ошибке.
-   * @param e Исключение, из которого будет браться информация об ошибке.
+   * Проверяет, есть ли что-нибудь полезное в сообщении исключения.
+   * 
+   * Используется при формировании сообщения об ошибке на основе сообщения исключения
+   * 
+   * @param text текст сообщения исключения
+   * @return истина, если текст бесполезен (null, пустое значение либо строка "null")
+   */
+  private static boolean isUseless(String text) {
+    return ((null == text) || (text.isEmpty()) || text.contentEquals("null"));
+  }
+
+  /**
+   * Добавляет сообщение об ошибке по исключению.
+   *
+   * @param e Исключение, из которого будет формироваться информация об ошибке.
    */
   public static void addMessage(final Exception e) {
-    String message = "Exception class " + e.getClass().getName() + " with message " + e.getMessage();
-    getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, "Error"));
+    String message = e.getMessage();
+    if (isUseless(message)) {
+      Throwable cause = e.getCause();
+      if (cause != null) {
+        if (isUseless(cause.getMessage())) {
+          message = cause.getClass().getName();
+        } else {
+          message = e.getCause().getMessage();
+        }
+      }
+    }
+    getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ошибка! " + message, "Error"));
   }
 
   /**
    * Добавляет сообщение об ошибке.
+   *
    * @param message сообщение об ошибке.
    */
   public static void addMessage(final String message) {
@@ -51,6 +75,7 @@ class Utils {
 
   /**
    * Устанавливает cookie с указанными параметрами.
+   *
    * @param key ключ для доступа к cookie
    * @param value значение, доступное по ключу.
    */
@@ -60,6 +85,7 @@ class Utils {
 
   /**
    * Получает целочисленное значение из cookie.
+   *
    * @param name наименование cookie
    * @return целое типа Long
    */
@@ -78,6 +104,7 @@ class Utils {
 
   /**
    * Получает строку из coolie.
+   *
    * @param name наименование cookie
    * @return строка.
    */

@@ -6,12 +6,13 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Speciality;
+import ru.edu.pgtk.weducation.interceptors.Restricted;
+import ru.edu.pgtk.weducation.interceptors.WithLog;
 
 /**
  * Корпоративный бин для специальностей
@@ -194,9 +195,6 @@ public class SpecialitiesEJB {
       return query.getSingleResult();
     } catch (NoResultException e) {
       return null;
-    } catch (Exception e) {
-      throw new EJBException("Exception class " + e.getClass().getName()
-          + " with message " + e.getMessage());
     }
   }
 
@@ -230,6 +228,8 @@ public class SpecialitiesEJB {
    * @return Специальность после сохранения (с измененным идентификатором при
    * добавлении новой).
    */
+  @WithLog
+  @Restricted(allowedRoles = {}) // Разрешено только аминистратору (неявно)
   public Speciality save(Speciality speciality) {
     if (speciality.getId() == 0) {
       em.persist(speciality);
@@ -247,6 +247,8 @@ public class SpecialitiesEJB {
    *
    * @param speciality Специальность, которую надо удалить.
    */
+  @WithLog
+  @Restricted(allowedRoles = {}) // Неявно разрешено администратору
   public void delete(final Speciality speciality) {
     Speciality item = em.find(Speciality.class, speciality.getId());
     if (null != item) {
