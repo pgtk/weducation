@@ -40,10 +40,13 @@ public class Speciality implements Serializable {
   @Column(name = "spc_actual", nullable = false)
   private boolean actual;
 
+  @Column(name = "spc_aviable", nullable = false)
+  private boolean aviable;
+
   public int getId() {
     return id;
   }
-  
+
   public String getNameForList() {
     return key + " (" + shortName + ")";
   }
@@ -94,5 +97,13 @@ public class Speciality implements Serializable {
 
   public void setActual(boolean actual) {
     this.actual = actual;
+  }
+
+  public boolean isAviable() {
+    return aviable;
+  }
+
+  public void setAviable(boolean aviable) {
+    this.aviable = aviable;
   }
 }

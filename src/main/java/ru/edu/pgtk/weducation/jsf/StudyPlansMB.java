@@ -45,16 +45,10 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
   }
 
   private void prepareList() {
-    try {
-      if (dep != null) {
-        plansList = ejb.findByDepartment(dep);
-        specialitiesList = specialities.findByDepartment(dep);
-      } else {
-        plansList = ejb.fetchAll();
-        specialitiesList = specialities.fetchAll();
-      }
-    } catch (Exception e) {
-      // Получить отделение не удалось, выводим все планы
+    if (dep != null) {
+      plansList = ejb.findByDepartment(dep);
+      specialitiesList = specialities.fetchAll(dep);
+    } else {
       plansList = ejb.fetchAll();
       specialitiesList = specialities.fetchAll();
     }

@@ -64,7 +64,9 @@
           <h:outputText value="Специализация" /><br />
           <h:inputText value="#{specialitiesMB.item.specialization}" class="textEdit" /><p />
           <h:selectBooleanCheckbox value="#{specialitiesMB.item.actual}" />
-          <h:outputText value="На данную специальность производится набор" /><p />
+          <h:outputText value="По данной специальности идёт обучение" /><p />
+          <h:selectBooleanCheckbox value="#{specialitiesMB.item.aviable}" />
+          <h:outputText value="На данную специальность проводится набор" /><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{specialitiesMB.save()}" />
             <h:commandButton value="Отменить" action="#{specialitiesMB.cancel()}" />

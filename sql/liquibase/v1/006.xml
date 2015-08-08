@@ -31,4 +31,12 @@
       DROP TABLE contests;
     </sql>
   </changeSet>
+  <changeSet id="006-3" author="gooamoko">
+    <comment>
+      Добавим в таблицу специальности столбец spc_aviable
+    </comment>
+    <sql>
+      ALTER TABLE specialities ADD COLUMN spc_aviable boolean NOT NULL DEFAULT false;
+    </sql>
+  </changeSet>
 </databaseChangeLog>

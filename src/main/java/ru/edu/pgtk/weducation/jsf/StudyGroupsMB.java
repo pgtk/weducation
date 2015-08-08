@@ -88,7 +88,7 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
 
   public List<Speciality> getSpecialities() {
     if (null != department) {
-      return spcejb.findByDepartment(department);
+      return spcejb.fetchActual(department);
     } else {
       return spcejb.fetchActual();
     }
