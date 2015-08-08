@@ -231,11 +231,15 @@ public class SpecialitiesEJB {
   @WithLog
   @Restricted(allowedRoles = {}) // Разрешено только аминистратору (неявно)
   public Speciality save(Speciality speciality) {
-    if (speciality.getId() == 0) {
-      em.persist(speciality);
-      return speciality;
-    } else {
-      return em.merge(speciality);
+    try {
+      if (speciality.getId() == 0) {
+        em.persist(speciality);
+        return speciality;
+      } else {
+        return em.merge(speciality);
+      }
+    } catch (Exception e) {
+      throw new EJBException(e.getClass().getName() + " : " + e.getMessage());
     }
   }
 
@@ -250,9 +254,13 @@ public class SpecialitiesEJB {
   @WithLog
   @Restricted(allowedRoles = {}) // Неявно разрешено администратору
   public void delete(final Speciality speciality) {
-    Speciality item = em.find(Speciality.class, speciality.getId());
-    if (null != item) {
-      em.remove(item);
+    try {
+      Speciality item = em.find(Speciality.class, speciality.getId());
+      if (null != item) {
+        em.remove(item);
+      }
+    } catch (Exception e) {
+      throw new EJBException(e.getClass().getName() + " : " + e.getMessage());
     }
   }
 }
