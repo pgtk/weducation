@@ -1,8 +1,6 @@
 package ru.edu.pgtk.weducation.interceptors;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
-import javax.annotation.PostConstruct;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -25,20 +23,5 @@ public class LogInterceptor implements Serializable {
     System.out.println("Method " + context.getMethod().getName()
         + " of class " + context.getTarget().getClass().getName() + " was called.");
     return context.proceed();
-  }
-
-  @PostConstruct
-  private void construct(InvocationContext context) {
-    String details = "unknown";
-    Method m = context.getMethod();
-    if (m != null) {
-      details = context.getMethod().getName();
-      Class<?> cl = m.getDeclaringClass();
-      if (cl != null) {
-        details = cl.getName() + "." + details;
-      }
-    }
-    System.out.println("started @Postconstruct ("
-        + details + ")");
   }
 }

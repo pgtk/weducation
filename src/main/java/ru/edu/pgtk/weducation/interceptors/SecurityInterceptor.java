@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.interceptors;
 
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.logging.Logger;
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -16,37 +16,39 @@ import ru.edu.pgtk.weducation.entity.AccountRole;
  * Для подключения перехватчика к компоненту, можно использовать аннотацию типа
  * {@code @Restricted(roles = {AccountRole.DEPARTMENT})}.</p>
  * <p>
+ * Рекомендуется аннотировать методы, выполняющие значительные изменения
+ * (например, удаление или изменение записи).
+ * Не рекомендуется использовать перехватчики по отношению к компонентам в пакете
+ * ru.edu.pgtk.weducation.jsf</p>
+ * <p>
  * Указывать роль администратора ({@code AccountRole.ADMIN}) не обязательно,
  * поскольку подразумевается, что администратору разрешено всё.</p>
  *
  * @author Воронин Леонид
  */
 @Interceptor
-public class SecurityInterceptor {
+@Restricted(roles = {})
+public class SecurityInterceptor implements Serializable {
+
+  @Inject
+  private transient Account user;
 
   @AroundInvoke
-  @Restricted(roles = {})
   public Object checkSecurity(InvocationContext context) {
+    //System.out.println("Security checker started.");
+    if (user == null) {
+      throw new SecurityException("Cannot get current user information!");
+    }
     try {
-      // Попробуем получить учетную запись
-      Logger log = Logger.getLogger(context.getTarget().getClass().getName());
-      log.info("Ищем sessionMB.user в контексте");
-      FacesContext fc = FacesContext.getCurrentInstance();
-      Account account = fc.getApplication().evaluateExpressionGet(fc,
-          "#{sessionMB.user}", Account.class);
-      if (null == account) {
-        log.info("Либо учетка не найдена, либо пользователь не залогинился!");
-        // Пользователь не залогинился, выкидываем исключение
-        throw new SecurityException("Seems like user was not logged in!");
-      }
+      //System.out.println("checking roles...");
       for (AccountRole r : getAllowedRoles(context.getMethod())) {
         // Если нашли хоть одно совпадение, прекращаем дальнейший поиск 
         // и выполняем метод
-        if (account.getRole() == r) {
+        if (user.getRole() == r) {
           return context.proceed();
         }
       }
-      throw new SecurityException(account.getFullName()
+      throw new SecurityException(user.getFullName()
           + " cannot access method " + context.getMethod().getName());
     } catch (Exception e) {
       throw new SecurityException("Exception class " + e.getClass().getName()

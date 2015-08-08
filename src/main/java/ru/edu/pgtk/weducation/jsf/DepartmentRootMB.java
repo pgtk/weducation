@@ -12,11 +12,9 @@ import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
 import ru.edu.pgtk.weducation.entity.Account;
-import ru.edu.pgtk.weducation.entity.AccountRole;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.interceptors.Restricted;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @Named("departmentRootMB")
@@ -57,7 +55,6 @@ public class DepartmentRootMB implements Serializable {
     }
   }
 
-  @Restricted(roles = {AccountRole.DEPARTMENT})
   public void changeGroup(ValueChangeEvent event) {
     try {
       int code = (Integer) event.getNewValue();
@@ -72,7 +69,6 @@ public class DepartmentRootMB implements Serializable {
     }
   }
 
-  @Restricted(roles = {AccountRole.RECEPTION})
   public void toggleEdit() {
     try {
       if ((edit) && (null != department)) {
@@ -84,7 +80,6 @@ public class DepartmentRootMB implements Serializable {
     }
   }
 
-  @Restricted(roles = {AccountRole.DEPARTMENT})
   public List<StudyCard> getStudents() {
     if (null != group) {
       return cards.findByGroup(group);
@@ -107,10 +102,6 @@ public class DepartmentRootMB implements Serializable {
   public Account getAccount() {
     return account;
   }
-
-//  public void setAccount(Account account) {
-//    this.account = account;
-//  }
 
   public boolean isEdit() {
     return edit;

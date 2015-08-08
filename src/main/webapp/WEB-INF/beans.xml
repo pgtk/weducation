@@ -5,5 +5,6 @@
        bean-discovery-mode="annotated">
     <interceptors>
         <class>ru.edu.pgtk.weducation.interceptors.LogInterceptor</class>
+        <class>ru.edu.pgtk.weducation.interceptors.SecurityInterceptor</class>
     </interceptors>
 </beans>

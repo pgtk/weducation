@@ -16,7 +16,7 @@ import ru.edu.pgtk.weducation.entity.AccountRole;
  */
 @Inherited
 @InterceptorBinding
-@Target({METHOD})
+@Target({METHOD, TYPE})
 @Retention(RUNTIME)
 public @interface Restricted {
   @Nonbinding
