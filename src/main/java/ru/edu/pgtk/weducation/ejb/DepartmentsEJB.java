@@ -38,7 +38,7 @@ public class DepartmentsEJB {
   }
 
   @WithLog
-  @Restricted(roles = {AccountRole.DEPARTMENT})
+  @Restricted(allowedRoles = {AccountRole.DEPARTMENT})
   public void save(Department department) {
     if (department.getId() == 0) {
       em.persist(department);
@@ -48,7 +48,7 @@ public class DepartmentsEJB {
   }
 
   @WithLog
-  @Restricted(roles = {AccountRole.DEPARTMENT})
+  @Restricted(allowedRoles = {AccountRole.DEPARTMENT})
   public void delete(final Department department) {
     Department item = em.find(Department.class, department.getId());
     if (null != item) {

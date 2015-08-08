@@ -20,5 +20,5 @@ import ru.edu.pgtk.weducation.entity.AccountRole;
 @Retention(RUNTIME)
 public @interface Restricted {
   @Nonbinding
-  AccountRole[] roles();
+  AccountRole[] allowedRoles();
 }
