@@ -3,7 +3,6 @@ package ru.edu.pgtk.weducation.ejb;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import ru.edu.pgtk.weducation.entity.Account;
@@ -17,18 +16,18 @@ import ru.edu.pgtk.weducation.entity.AccountRole;
 @Startup
 @Singleton
 public class StartupEJB {
-  
+
   @EJB
   private transient AccountsEJB ejb;
 
   /**
-   * Выводим список администраторов проекта и если он пуст,
-     создаём учетную запись администратора.
+   * Выполняем начальную настройку приложения.
    */
   @PostConstruct
   private void setupApplication() {
     try {
-      if (ejb.fetchAdmins().isEmpty()) {
+      if (!ejb.hasAdmins()) {
+        // Ни одного администратора нет, нужно создать!
         Account admin = new Account();
         admin.setFullName("Администратор системы");
         admin.setLogin("admin");
@@ -39,9 +38,9 @@ public class StartupEJB {
         ejb.save(admin);
       }
     } catch (Exception e) {
-      System.out.println("EJB Exception: " + e.getMessage());
-      e.printStackTrace(System.out);
-      throw new EJBException("Ошибка при создании встроенной учетной записи администратора");
+      System.out.println("Exception: " + e.getMessage());
+      e.printStackTrace(System.err);
+      throw new RuntimeException("Ошибка при создании встроенной учетной записи администратора");
     }
   }
 

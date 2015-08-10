@@ -46,7 +46,7 @@
             </h:panelGroup>
             <li>
               <h:link rendered="#{not sessionMB.logged}" value="Вход" outcome="/loginform" />
-              <h:commandLink rendered="#{sessionMB.logged}" value="Выход" action="#{sessionMB.doLogout()}" />
+              <h:link rendered="#{sessionMB.logged}" value="Выход" outcome="/logout" />
             </li>
           </ul>
         </h:form>

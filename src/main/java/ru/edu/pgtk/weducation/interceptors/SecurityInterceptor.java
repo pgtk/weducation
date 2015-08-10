@@ -36,7 +36,7 @@ public class SecurityInterceptor implements Serializable {
   @AroundInvoke
   public Object checkSecurity(InvocationContext context) throws Exception {
     //System.out.println("Security checker started.");
-    if (session.getUser() == null) {
+    if ((session == null) || (session.getUser() == null)) {
       throw new SecurityException("Невозможно получить информацию о пользователе!");
     }
     // Администратору разрешено всё

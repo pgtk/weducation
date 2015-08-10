@@ -8,12 +8,13 @@ import javax.ejb.EJBException;
  */
 public enum AccountRole {
   // Добавляйте роли в конец списка!
-  ADMIN, DEPARTMENT, RECEPTION;
+  ADMIN, DEPARTMENT, RECEPTION, DEPOT;
 
   private static final String[] descriptions = {
     "Администратор",
     "Отделение",
-    "Приемная комиссия"
+    "Приемная комиссия",
+    "Учебная часть"
   // Добавляйте сюда описания для всех новых значений перечисления
   };
   

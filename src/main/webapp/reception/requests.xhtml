@@ -17,7 +17,7 @@
         <h2>Заявки на поступление</h2>
         <h3>Параметры заявок</h3>
         <p>Персона: #{requestsMB.person.fullName}</p>
-        <h:form>
+        <h:form id="requestListForm">
           <h:outputText value="Год " />
           <h:selectOneMenu value="#{requestsMB.year}" valueChangeListener="#{requestsMB.changeYear}">
             <f:selectItem itemLabel="Выберите год" itemValue="0" />
@@ -58,7 +58,7 @@
       </h:panelGroup>
       <!-- List -->
       <h:panelGroup rendered="#{requestsMB.edit}">
-        <h:form>
+        <h:form id="requestForm">
           <h2>Добавление заявки</h2>
           <p>Отметьте те специальности, на которые вы хотите сделать заявку</p>
           <h:selectManyListbox value="#{requestsMB.selectedSpecialities}">
