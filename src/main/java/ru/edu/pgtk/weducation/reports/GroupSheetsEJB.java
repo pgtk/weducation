@@ -407,7 +407,7 @@ public class GroupSheetsEJB {
         cell.setMinimumHeight(getPt(20));
         table.addCell(cell);
       }
-      // Кол-во пропусков пока не реализовано
+      // Кол-во пропусков
       PdfPCell missingCell = new PdfPCell(getParagraph("Пропуски", regularFont, Paragraph.ALIGN_CENTER));
       missingCell.setColspan(3);
       missingCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -429,7 +429,7 @@ public class GroupSheetsEJB {
       int illegal = 0;
       for (StudyCard sc : cards.findByGroup(group)) {
         if (!sc.isRemanded() && sc.isActive()) {
-          numberCell = new PdfPCell(getParagraph("" + row++, regularFont, Paragraph.ALIGN_CENTER));
+          numberCell = new PdfPCell(getParagraph(String.valueOf(row++), regularFont, Paragraph.ALIGN_CENTER));
           table.addCell(numberCell);
           nameCell = new PdfPCell(getParagraph(sc.getPerson().getShortName(),
             regularFont, Paragraph.ALIGN_LEFT));
@@ -439,22 +439,22 @@ public class GroupSheetsEJB {
             if (!empty) {
               try {
                 MonthMark mark = marks.get(sc, sb, year, month);
-                cell.addElement(getParagraph(mark.getMark() + "", regularFont, Paragraph.ALIGN_CENTER));
+                cell.addElement(getParagraph(String.valueOf(mark.getMark()), regularFont, Paragraph.ALIGN_CENTER));
               } catch (Exception e) {
                 // Ничего не делаем, ячейка просто будет пустой
               }
             }
             table.addCell(cell);
           }
-          // Кол-во пропусков пока не реализовано
+          // Кол-во пропусков
           legalCell = new PdfPCell();
           illegalCell = new PdfPCell();
           allCell = new PdfPCell();
           if (!empty) {
             Missing m = missings.get(sc, year, month);
-            legalCell.addElement(getParagraph(m.getLegal() + "", regularFont, Paragraph.ALIGN_CENTER));
-            illegalCell.addElement(getParagraph(m.getIllegal() + "", regularFont, Paragraph.ALIGN_CENTER));
-            allCell.addElement(getParagraph(m.getAll() + "", regularFont, Paragraph.ALIGN_CENTER));
+            legalCell.addElement(getParagraph(String.valueOf(m.getLegal()), regularFont, Paragraph.ALIGN_CENTER));
+            illegalCell.addElement(getParagraph(String.valueOf(m.getIllegal()), regularFont, Paragraph.ALIGN_CENTER));
+            allCell.addElement(getParagraph(String.valueOf(m.getAll()), regularFont, Paragraph.ALIGN_CENTER));
             legal += m.getLegal();
             illegal = m.getIllegal();
           }
@@ -469,7 +469,7 @@ public class GroupSheetsEJB {
       numberCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
       numberCell.setMinimumHeight(getPt(20));
       table.addCell(numberCell);
-      for (Subject sb : subjectList) {
+      for (int i = 0; i < subjectList.size(); i++) {
         PdfPCell cell = new PdfPCell();
         cell.setMinimumHeight(getPt(20));
         table.addCell(cell);
@@ -491,9 +491,9 @@ public class GroupSheetsEJB {
       allCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       allCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
       if (!empty) {
-        legalCell.addElement(getParagraph(legal + "", regularFont, Paragraph.ALIGN_CENTER));
-        illegalCell.addElement(getParagraph(illegal + "", regularFont, Paragraph.ALIGN_CENTER));
-        allCell.addElement(getParagraph((legal + illegal) + "", regularFont, Paragraph.ALIGN_CENTER));
+        legalCell.addElement(getParagraph(String.valueOf(legal), regularFont, Paragraph.ALIGN_CENTER));
+        illegalCell.addElement(getParagraph(String.valueOf(illegal), regularFont, Paragraph.ALIGN_CENTER));
+        allCell.addElement(getParagraph(String.valueOf(legal + illegal), regularFont, Paragraph.ALIGN_CENTER));
       }
       table.addCell(legalCell);
       table.addCell(illegalCell);
