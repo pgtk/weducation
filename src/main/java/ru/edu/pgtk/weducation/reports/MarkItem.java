@@ -12,7 +12,7 @@ import ru.edu.pgtk.weducation.utils.Utils;
  * @author Воронин Леонид
  *
  */
-public class MarkItem {
+class MarkItem {
 
   public String subject = "";
   public String load = "";

@@ -64,7 +64,7 @@ import static ru.edu.pgtk.weducation.utils.Utils.getYearString;
  */
 @Path("/card")
 @Stateless
-public class CardSheetsEJB {
+public class CardReportsEJB {
 
   // поток байт в котором будет "собираться" отчет.
   private final ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -869,6 +869,6 @@ public class CardSheetsEJB {
    * Конструктор класса.
    *
    */
-  public CardSheetsEJB() {
+  public CardReportsEJB() {
   }
 }

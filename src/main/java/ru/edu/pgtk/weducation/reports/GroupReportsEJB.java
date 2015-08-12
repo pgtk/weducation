@@ -50,7 +50,7 @@ import static ru.edu.pgtk.weducation.reports.Utils.getMonthString;
 @Path("/group")
 @Stateless
 @RequestScoped
-public class GroupSheetsEJB {
+public class GroupReportsEJB {
 
   private final ByteArrayOutputStream stream = new ByteArrayOutputStream();
   private BaseFont baseFont;
@@ -78,12 +78,12 @@ public class GroupSheetsEJB {
   @GET
   @Path("{groupId: \\d+}/exam/{course: \\d+}/{semester: \\d+}/{subjectId: \\d+}")
   @Produces("application/pdf")
-  public Response examSheet(@PathParam("groupId") int groupCode, @PathParam("course") int course,
+  public Response examReport(@PathParam("groupId") int groupCode, @PathParam("course") int course,
     @PathParam("semester") int semester, @PathParam("subjectId") int subjectCode) {
     try {
       StudyGroup grp = groups.get(groupCode);
       Subject sub = subjects.get(subjectCode);
-      ResponseBuilder response = Response.ok(getExamSheet(grp, sub, course, semester));
+      ResponseBuilder response = Response.ok(getExamReport(grp, sub, course, semester));
       return response.build();
     } catch (Exception e) {
       throw new NotFoundException();
@@ -93,12 +93,12 @@ public class GroupSheetsEJB {
   @GET
   @Path("{groupId: \\d+}/cproject/{course: \\d+}/{semester: \\d+}/{subjectId: \\d+}")
   @Produces("application/pdf")
-  public Response courseWorkSheet(@PathParam("groupId") int groupCode, @PathParam("course") int course,
+  public Response courseWorkReport(@PathParam("groupId") int groupCode, @PathParam("course") int course,
     @PathParam("semester") int semester, @PathParam("subjectId") int subjectCode) {
     try {
       StudyGroup grp = groups.get(groupCode);
       Subject sub = subjects.get(subjectCode);
-      ResponseBuilder response = Response.ok(getCourseWorkSheet(grp, sub, course, semester));
+      ResponseBuilder response = Response.ok(getCourseWorkReport(grp, sub, course, semester));
       return response.build();
     } catch (Exception e) {
       throw new NotFoundException();
@@ -108,11 +108,11 @@ public class GroupSheetsEJB {
   @GET
   @Path("{groupId: \\d+}/monthmarks/empty/{year: \\d+}/{month: \\d+}")
   @Produces("application/pdf")
-  public Response emptyMonthSheet(@PathParam("groupId") int groupCode,
+  public Response emptyMonthReport(@PathParam("groupId") int groupCode,
     @PathParam("year") int year, @PathParam("month") int month) {
     try {
       StudyGroup grp = groups.get(groupCode);
-      ResponseBuilder response = Response.ok(getMonthMarksSheet(grp, year, month, true));
+      ResponseBuilder response = Response.ok(getMonthMarksReport(grp, year, month, true));
       return response.build();
     } catch (Exception e) {
       throw new NotFoundException();
@@ -122,11 +122,11 @@ public class GroupSheetsEJB {
   @GET
   @Path("{groupId: \\d+}/monthmarks/filled/{year: \\d+}/{month: \\d+}")
   @Produces("application/pdf")
-  public Response filledMonthSheet(@PathParam("groupId") int groupCode,
+  public Response filledMonthReport(@PathParam("groupId") int groupCode,
     @PathParam("year") int year, @PathParam("month") int month) {
     try {
       StudyGroup grp = groups.get(groupCode);
-      ResponseBuilder response = Response.ok(getMonthMarksSheet(grp, year, month, false));
+      ResponseBuilder response = Response.ok(getMonthMarksReport(grp, year, month, false));
       return response.build();
     } catch (Exception e) {
       throw new NotFoundException();
@@ -157,7 +157,7 @@ public class GroupSheetsEJB {
    * @param semester семестр
    * @return
    */
-  private byte[] getExamSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
+  private byte[] getExamReport(final StudyGroup group, final Subject subject, final int course, final int semester) {
     try {
       // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
       Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));
@@ -220,7 +220,7 @@ public class GroupSheetsEJB {
       cell = new PdfPCell();
       for (StudyCard sc : cards.findByGroup(group)) {
         if (!sc.isRemanded() && sc.isActive()) {
-          numberCell = new PdfPCell(getParagraph("" + row++, regularFont, Paragraph.ALIGN_CENTER));
+          numberCell = new PdfPCell(getParagraph(String.valueOf(row++), regularFont, Paragraph.ALIGN_CENTER));
           table.addCell(numberCell);
           nameCell = new PdfPCell(getParagraph(sc.getPerson().getShortName(),
             regularFont, Paragraph.ALIGN_LEFT));
@@ -261,7 +261,7 @@ public class GroupSheetsEJB {
    * @param semester семестр
    * @return
    */
-  private byte[] getCourseWorkSheet(final StudyGroup group, final Subject subject, final int course, final int semester) {
+  private byte[] getCourseWorkReport(final StudyGroup group, final Subject subject, final int course, final int semester) {
     try {
       // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
       Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));
@@ -344,7 +344,7 @@ public class GroupSheetsEJB {
    * @param empty ведомость будет без оценок (для заполнения)
    * @return массив байт, представляющий собой PDF сгенерированный документ.
    */
-  private byte[] getMonthMarksSheet(final StudyGroup group, final int year, final int month, final boolean empty) {
+  private byte[] getMonthMarksReport(final StudyGroup group, final int year, final int month, final boolean empty) {
     try {
       // создадим новый лист с размерами A4 и отступами слева и справа по 5 мм, а сверху и снизу - по 10
       Document document = new Document(PageSize.A4, getPt(5), getPt(5), getPt(10), getPt(10));
