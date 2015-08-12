@@ -34,6 +34,7 @@ import ru.edu.pgtk.weducation.ejb.FinalPracticMarksEJB;
 import ru.edu.pgtk.weducation.ejb.GOSMarksEJB;
 import ru.edu.pgtk.weducation.ejb.RenamingsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
+import ru.edu.pgtk.weducation.entity.AccountRole;
 import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.FinalMark;
 import ru.edu.pgtk.weducation.entity.FinalPracticMark;
@@ -43,6 +44,8 @@ import ru.edu.pgtk.weducation.entity.Renaming;
 import ru.edu.pgtk.weducation.entity.School;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.interceptors.Restricted;
+import ru.edu.pgtk.weducation.interceptors.WithLog;
 import static ru.edu.pgtk.weducation.reports.PDFUtils.getParagraph;
 import static ru.edu.pgtk.weducation.reports.PDFUtils.getPt;
 import static ru.edu.pgtk.weducation.reports.PDFUtils.putText;
@@ -86,6 +89,8 @@ public class CardSheetsEJB {
   @GET
   @Path("{cardId: \\d+}/diplome")
   @Produces("application/pdf")
+  @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.DEPOT})
+  @WithLog
   public Response diplome(@PathParam("cardId") int cardCode) {
     try {
       StudyCard card = cards.get(cardCode);
@@ -99,6 +104,8 @@ public class CardSheetsEJB {
   @GET
   @Path("{cardId: \\d+}/diplome/copy")
   @Produces("application/pdf")
+  @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.DEPOT})
+  @WithLog
   public Response diplomeCopy(@PathParam("cardId") int cardCode) {
     try {
       StudyCard card = cards.get(cardCode);
@@ -112,6 +119,8 @@ public class CardSheetsEJB {
   @GET
   @Path("{cardId: \\d+}/diplome/duplicate")
   @Produces("application/pdf")
+  @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.DEPOT})
+  @WithLog
   public Response diplomeDuplicate(@PathParam("cardId") int cardCode) {
     try {
       StudyCard card = cards.get(cardCode);
@@ -125,6 +134,8 @@ public class CardSheetsEJB {
   @GET
   @Path("{cardId: \\d+}/diplome/duplicatecopy")
   @Produces("application/pdf")
+  @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.DEPOT})
+  @WithLog
   public Response diplomeDuplicateCopy(@PathParam("cardId") int cardCode) {
     try {
       StudyCard card = cards.get(cardCode);
@@ -138,6 +149,8 @@ public class CardSheetsEJB {
   @GET
   @Path("{cardId: \\d+}/reference")
   @Produces("application/pdf")
+  @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.DEPOT})
+  @WithLog
   public Response reference(@PathParam("cardId") int cardCode) {
     try {
       StudyCard card = cards.get(cardCode);
