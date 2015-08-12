@@ -22,10 +22,10 @@
           <h:selectOneMenu value="#{requestsMB.year}" valueChangeListener="#{requestsMB.changeYear}">
             <f:selectItem itemLabel="Выберите год" itemValue="0" />
             <f:selectItems value="#{requestsMB.years}" />
-            <f:ajax execute="@form" render="@all" />
+            <f:ajax execute="@form" render="requestListForm" />
           </h:selectOneMenu><p />
           <h:selectBooleanCheckbox valueChangeListener="#{requestsMB.changeForm}" value="#{requestsMB.extramural}">
-            <f:ajax execute="@form" render="@all" />
+            <f:ajax execute="@form" render="requestListForm" />
           </h:selectBooleanCheckbox>
           <h:outputText value="Заочная форма обучения" /><br />
           <h:panelGroup rendered="#{not empty requestsMB.requestList}">
