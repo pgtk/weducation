@@ -32,7 +32,7 @@ class MarkItem {
 
   public MarkItem(final String subject, final int load, final int mark) {
     this.subject = subject;
-    this.load = String.valueOf(load);
+    this.load = load + "";
     this.mark = Utils.getMarkString(mark);
   }
 
@@ -43,7 +43,7 @@ class MarkItem {
       this.subject = mark.getSubject().getFullName();
     }
     if (mark.getMaximumLoad() > 0) {
-      this.load = String.valueOf(mark.getMaximumLoad());
+      this.load = mark.getMaximumLoad() + "";
     }
     this.mark = Utils.getMarkString(mark.getMark());
   }
