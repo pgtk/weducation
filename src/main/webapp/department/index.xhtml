@@ -17,7 +17,7 @@
             <f:selectItem itemLabel="--- Выберите группу ----" itemValue="0" />
             <f:selectItems value="#{departmentRootMB.groupList}" var="group"
                            itemLabel="#{group.name}" itemValue="#{group.id}" />
-            <f:ajax execute="@this" render="@form"/>
+            <f:ajax execute="@this" render="groupForm"/>
           </h:selectOneMenu>
         </p>
         <h:panelGroup rendered="#{not empty departmentRootMB.students}">
@@ -29,6 +29,7 @@
             <li><h:link value="Оценки за семестр" outcome="/department/subjectmarks?groupId=#{departmentRootMB.group.id}" /></li>
             <li><h:link value="Оценки по модулям" outcome="/department/modulemarks?groupId=#{departmentRootMB.group.id}" /></li>
             <li><h:link value="Оценки за курсовые" outcome="/department/courseworkmarks?groupId=#{departmentRootMB.group.id}" /></li>
+            <li><h:link value="Оценки за практику" outcome="/department/practicmarks?groupId=#{departmentRootMB.group.id}" /></li>
           </ul>
           <h3>Студенты</h3>
           <table class="dataTable">
@@ -64,7 +65,7 @@
         <p />
         <div class="buttons">
           <h:commandButton action="#{departmentRootMB.toggleEdit()}" value="#{departmentRootMB.editLabel}">
-            <f:ajax execute="@form" render="@form" />
+            <f:ajax execute="@form" render="detailsForm" />
           </h:commandButton>
         </div>
       </h:form>

@@ -27,9 +27,6 @@ public class PracticMark implements Serializable {
   @Column(name = "pmk_mark", nullable = false)
   private int mark;
   
-  @Column(name = "pmk_length", nullable = false)
-  private double length;
-  
   @ManyToOne
   @JoinColumn(name = "pmk_prccode", nullable = false)
   private Practic practic;
@@ -48,14 +45,6 @@ public class PracticMark implements Serializable {
 
   public void setMark(int mark) {
     this.mark = mark;
-  }
-
-  public double getLength() {
-    return length;
-  }
-
-  public void setLength(double length) {
-    this.length = length;
   }
 
   public Practic getPractic() {

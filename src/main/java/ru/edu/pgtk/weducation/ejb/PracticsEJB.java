@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Practic;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
@@ -28,8 +29,26 @@ public class PracticsEJB {
 
   public List<Practic> findByPlan(final StudyPlan plan) {
     TypedQuery<Practic> q = em.createQuery(
-            "SELECT p FROM Practic p WHERE (p.plan = :pln) ORDER BY p.name", Practic.class);
+      "SELECT p FROM Practic p WHERE (p.plan = :pln) ORDER BY p.name", Practic.class);
     q.setParameter("pln", plan);
+    return q.getResultList();
+  }
+
+  /**
+   * Получает из СУБД список практик для определенной группы за указанный период
+   * обучения.
+   *
+   * @param group группа
+   * @param course курс
+   * @param semester семестр
+   * @return Список практик для указанной группы за указанный период обучения
+   */
+  public List<Practic> fetch(final StudyGroup group, final int course, final int semester) {
+    TypedQuery<Practic> q = em.createQuery(
+      "SELECT p FROM Practic p WHERE (p.plan = :pln) AND (p.course = :c) AND (p.semester = :s)", Practic.class);
+    q.setParameter("pln", group.getPlan());
+    q.setParameter("c", course);
+    q.setParameter("s", semester);
     return q.getResultList();
   }
 

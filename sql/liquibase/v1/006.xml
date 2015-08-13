@@ -39,4 +39,12 @@
       ALTER TABLE specialities ADD COLUMN spc_aviable boolean NOT NULL DEFAULT false;
     </sql>
   </changeSet>
+  <changeSet id="006-4" author="gooamoko">
+    <comment>
+      Удалим из таблицы pmarks столбец pmk_length
+    </comment>
+    <sql>
+      ALTER TABLE pmarks DROP COLUMN pmk_length;
+    </sql>
+  </changeSet>
 </databaseChangeLog>
