@@ -13,7 +13,7 @@ import com.itextpdf.text.pdf.PdfPTable;
  *
  * @author Воронин Леонид
  */
-public class PDFUtils {
+class PDFUtils {
 
   /**
    * Преобразует миллиметры в пункты из расчета, что один пункт равен 1/72

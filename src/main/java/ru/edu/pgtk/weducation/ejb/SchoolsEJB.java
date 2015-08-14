@@ -3,6 +3,7 @@ package ru.edu.pgtk.weducation.ejb;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +25,7 @@ public class SchoolsEJB {
     throw new EJBException("School not found with id " + id);
   }
   
+  @Produces
   public School getCurrent() {
     TypedQuery<School> q = em.createQuery(
             "SELECT s FROM School s WHERE s.current = true", School.class);
