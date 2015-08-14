@@ -2,8 +2,11 @@ package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.PrePassivate;
+import javax.ejb.StatefulTimeout;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -22,6 +25,7 @@ import static ru.edu.pgtk.weducation.jsf.Utils.getExternalContext;
  */
 @Named("sessionMB")
 @SessionScoped
+@StatefulTimeout(unit=TimeUnit.MINUTES, value=5)
 public class SessionMB implements Serializable {
 
   long serialVersionUID = 0L;
@@ -50,6 +54,8 @@ public class SessionMB implements Serializable {
     }
     sessions.save(session);
     // Добавить логирование!
+    System.out.println("Session for " + 
+      ((null != user)? user.getFullName() : "unlogged user") + " started.");
   }
 
   /**
@@ -59,10 +65,27 @@ public class SessionMB implements Serializable {
   @PreDestroy
   private void stopSession() {
     // TODO написать в лог, что сессия завершилась
+    System.out.println("Session for " + 
+      ((null != user)? user.getFullName() : "unlogged user") + " passivated.");
     // Удаляем из базы данных сессию.
     if (session != null) {
       sessions.delete(session);
     }
+    // На всякий случай обнулим пользователя
+    if (null != user) {
+      user = null;
+    }
+  }
+  
+  /**
+   * Для отладки поведения компонентов этот метод временно добавлен.
+   * 
+   * Анализ журнала позволит понять как много экземпляров и сколько они живут.
+   */
+  @PrePassivate
+  private void passivateSession() {
+    System.out.println("Session for " + 
+      ((null != user)? user.getFullName() : "unlogged user") + " stopped.");
   }
 
   /**
