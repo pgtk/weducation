@@ -11,11 +11,25 @@ import com.itextpdf.text.Element;
 public interface Report {
 
   public enum Orientation {
+
     PORTRET,
     LANDSCAPE;
   }
 
+  /**
+   * Метод для добавления различных элементов в отчет.
+   *
+   * Позволяет добавлять в отчет различные таблицы, параграфы и т.п.
+   *
+   * @param element элемент отчета
+   * @throws DocumentException
+   */
   public void add(Element element) throws DocumentException;
-  public byte[] getData();
 
+  /**
+   * Возвращает содержимое PDF документа в виде массива байт.
+   *
+   * @return массив байт
+   */
+  public byte[] getData();
 }

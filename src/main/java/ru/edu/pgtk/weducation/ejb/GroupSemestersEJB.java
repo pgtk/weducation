@@ -13,10 +13,10 @@ import ru.edu.pgtk.weducation.entity.StudyGroup;
 @Stateless
 @Named("groupSemestersEJB")
 public class GroupSemestersEJB {
-  
+
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
-  
+
   public GroupSemester get(final int id) {
     GroupSemester result = em.find(GroupSemester.class, id);
     if (null != result) {
@@ -24,14 +24,27 @@ public class GroupSemestersEJB {
     }
     throw new EJBException("GroupSemester not fount with id " + id);
   }
-  
+
+  public GroupSemester get(final StudyGroup group, final int course, final int semester) {
+    try {
+      TypedQuery<GroupSemester> q = em.createQuery(
+        "SELECT gs FROM GroupSemester gs WHERE (gs.group = :g) AND (gs.course = :c) AND (gs.semester = :s)", GroupSemester.class);
+      q.setParameter("g", group);
+      q.setParameter("c", course);
+      q.setParameter("s", semester);
+      return q.getSingleResult();
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   public List<GroupSemester> fetchAll(final StudyGroup group) {
     TypedQuery<GroupSemester> q = em.createQuery(
-            "SELECT gs FROM GroupSemester gs WHERE (gs.group = :grp)", GroupSemester.class);
+      "SELECT gs FROM GroupSemester gs WHERE (gs.group = :grp)", GroupSemester.class);
     q.setParameter("grp", group);
     return q.getResultList();
   }
-  
+
   public GroupSemester save(GroupSemester item) {
     // Проверим на корректность данные
     if (item.getEndDate() <= item.getBeginDate()) {
@@ -44,7 +57,7 @@ public class GroupSemestersEJB {
       return em.merge(item);
     }
   }
-  
+
   public void delete(final GroupSemester item) {
     GroupSemester gs = em.find(GroupSemester.class, item.getId());
     if (null != gs) {
