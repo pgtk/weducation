@@ -5,4 +5,3 @@ To install database, you need PostgreSQL. Version 9 recommended. Earlier version
 3. Run script "weducation.sql" (e.g. run command psql -U weducation -h localhost -d weducation -f weducation.sql).
 4. Copy file "liquibase.properties" into project root directory.
 5. Build project to apply all liquibase changes.
-6. Run script "addon.sql" to apply all addons.
