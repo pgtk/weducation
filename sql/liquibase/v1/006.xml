@@ -139,4 +139,15 @@
             ORDER BY dbl_count DESC, psn_firstname;
         </sql>
     </changeSet>    
+    <changeSet id="006-11" author="gooamoko">
+        <comment>
+            Создадим вьюху для отображения недельных пропусков с датой для учета по семестрам
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            CREATE OR REPLACE VIEW missingsView AS
+            SELECT wms_legal AS wmv_legal, wms_illegal AS wmv_illegal, wms_crdcode AS wmv_crdcode,
+            wms_year AS wmv_year, wms_month AS wmv_month, getDate(wms_year, wms_month, wms_week) AS wmv_date
+            FROM weekmissings;
+        </sql>
+    </changeSet>    
 </databaseChangeLog>

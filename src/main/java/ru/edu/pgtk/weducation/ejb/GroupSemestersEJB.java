@@ -37,6 +37,21 @@ public class GroupSemestersEJB {
       return null;
     }
   }
+  
+  public GroupSemester getByMonth(final StudyGroup group, final int year, final int month) {
+    try {
+      TypedQuery<GroupSemester> q = em.createQuery(
+        "SELECT gs FROM GroupSemester gs WHERE (gs.group = :g) AND "
+          + "((gs.beginYear * 1000 + gs.beginMonth * 10 + gs.beginWeek) <= :bd) AND "
+          + "((gs.endYear * 1000 + gs.endMonth * 10 + gs.endWeek) >= :ed)", GroupSemester.class);
+      q.setParameter("g", group);
+      q.setParameter("bd", year * 1000 + month * 10 + 4);
+      q.setParameter("ed", year * 1000 + month * 10 + 1);
+      return q.getSingleResult();
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
   public List<GroupSemester> fetchAll(final StudyGroup group) {
     TypedQuery<GroupSemester> q = em.createQuery(

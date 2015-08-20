@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import ru.edu.pgtk.weducation.entity.ExamForm;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyModule;
@@ -75,6 +76,31 @@ public class SubjectsEJB {
     q.setParameter("pln", group.getPlan());
     q.setParameter("c", course);
     q.setParameter("s", semester);
+    return q.getResultList();
+  }
+
+  public List<Subject> fetchExams(final StudyGroup group, final int course, final int semester) {
+    TypedQuery<Subject> q = em.createQuery(
+            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
+            + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND (sl.examForm = :f)) > 0 )"
+            + " ORDER BY s.fullName", Subject.class);
+    q.setParameter("pln", group.getPlan());
+    q.setParameter("c", course);
+    q.setParameter("s", semester);
+    q.setParameter("f", ExamForm.EXAM);
+    return q.getResultList();
+  }
+
+  public List<Subject> fetchZachets(final StudyGroup group, final int course, final int semester) {
+    TypedQuery<Subject> q = em.createQuery(
+            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
+            + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND ((sl.examForm = :f1) OR (sl.examForm = :f2))) > 0 )"
+            + " ORDER BY s.fullName", Subject.class);
+    q.setParameter("pln", group.getPlan());
+    q.setParameter("c", course);
+    q.setParameter("s", semester);
+    q.setParameter("f1", ExamForm.DIFZACHET);
+    q.setParameter("f2", ExamForm.ZACHET);
     return q.getResultList();
   }
   

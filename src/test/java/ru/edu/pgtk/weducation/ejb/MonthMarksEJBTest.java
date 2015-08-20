@@ -1,57 +1,45 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.ejb.embeddable.EJBContainer;
-import javax.naming.NamingException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import ru.edu.pgtk.weducation.entity.MonthMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.utils.ContainerProvider;
 
 /**
  * Тестовый класс для проверки EJB компонента для месячных оценок
  */
 public class MonthMarksEJBTest {
 
-  private static EJBContainer container;
+  private static ContainerProvider provider;
   private static MonthMarksEJB ejb;
   private static StudyGroupsEJB groups;
   private static SubjectsEJB subjects;
 
   @BeforeClass
   public static void setUpClass() {
-    try {
-      Map<String, Object> properties = new HashMap<>();
-      properties.put(EJBContainer.MODULES, new File("target/classes"));
-      properties.put("org.glassfish.ejb.embedded.glassfish.installation.root", "glassfish");
-      properties.put(EJBContainer.APP_NAME, "weducation");
-      container = EJBContainer.createEJBContainer(properties);
-      ejb = (MonthMarksEJB) container.getContext().lookup("java:global/weducation/classes/MonthMarksEJB");
-      groups = (StudyGroupsEJB) container.getContext().lookup("java:global/weducation/classes/StudyGroupsEJB");
-      subjects = (SubjectsEJB) container.getContext().lookup("java:global/weducation/classes/SubjectsEJB");
-    } catch (NamingException e) {
-      fail("Ошибка при иннициализации сервера " + e.getMessage());
-    }
+    provider = new ContainerProvider();
+    ejb = (MonthMarksEJB) provider.getBean("MonthMarksEJB");
+    groups = (StudyGroupsEJB) provider.getBean("StudyGroupsEJB");
+    subjects = (SubjectsEJB) provider.getBean("SubjectsEJB");
   }
 
   @AfterClass
   public static void tearDownClass() {
-    if (null != container) {
-      container.close();
+    try {
+      provider.close();
+    } catch (Exception e) {
+      fail(e.getMessage());
     }
   }
 
   /**
    * Проверим работоспособность сразу всех операций EJB-компонента.
    */
-  @Ignore
   @Test
   public void testOperations() {
     try {
@@ -63,12 +51,12 @@ public class MonthMarksEJBTest {
       // Выберем оценки
       List<MonthMark> marks = ejb.fetchAll(grp, sub, year, month);
       /*
-      Оценок должно быть столько, сколько в группе студентов, 
-      то есть по-любому больше нуля.
-      */
+       Оценок должно быть столько, сколько в группе студентов, 
+       то есть по-любому больше нуля.
+       */
       assertNotNull(marks);
       assertFalse(marks.isEmpty());
-      for (MonthMark m: marks) {
+      for (MonthMark m : marks) {
         // Ставим всем тройки
         m.setMark(3);
         // Сохраняем
@@ -78,7 +66,7 @@ public class MonthMarksEJBTest {
         assertEquals(m.getMark(), newMark.getMark());
         // После сравнения удаляем оценку
         ejb.delete(newMark);
-      }      
+      }
     } catch (Exception e) {
       fail("Неожиданное исключение класса " + e.getClass().getName() + " с сообщением " + e.getMessage());
     }

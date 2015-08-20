@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,9 +23,6 @@ public class Missing implements Serializable {
   @ManyToOne
   @JoinColumn(name = "wms_psncode", nullable = false)
   private Person person;
-
-  @Transient
-  private int personCode;
 
   @Column(name = "wms_month", nullable = false)
   private int month;
@@ -50,12 +46,6 @@ public class Missing implements Serializable {
   @Transient
   private int cardCode;
 
-  @PostLoad
-  private void updateCodes() {
-    personCode = person.getId();
-    cardCode = card.getId();
-  }
-
   public int getId() {
     return id;
   }
@@ -70,14 +60,6 @@ public class Missing implements Serializable {
 
   public void setPerson(Person person) {
     this.person = person;
-  }
-
-  public int getPersonCode() {
-    return personCode;
-  }
-
-  public void setPersonCode(int personCode) {
-    this.personCode = personCode;
   }
 
   public int getMonth() {

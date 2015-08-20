@@ -56,10 +56,11 @@ final class ReportExam implements Comparable<ReportExam> {
     }
   }
 
-  public ReportExam(ReportExamType type, String name) {
+  public ReportExam(int id, final ReportExamType type, final String name) {
     if (null == name) {
       throw new IllegalArgumentException("Значение name не должно быть NULL!");
     }
+    this.id = id;
     this.type = type;
     this.name = name;
   }
@@ -70,5 +71,9 @@ final class ReportExam implements Comparable<ReportExam> {
 
   public String getName() {
     return name;
+  }
+
+  public int getId() {
+    return id;
   }
 }
