@@ -7,9 +7,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -26,6 +25,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
+import ru.edu.pgtk.weducation.ejb.PracticMarksEJB;
 import ru.edu.pgtk.weducation.ejb.PracticsEJB;
 import ru.edu.pgtk.weducation.ejb.SemesterMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
@@ -35,6 +35,7 @@ import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.MonthMark;
 import ru.edu.pgtk.weducation.entity.Practic;
+import ru.edu.pgtk.weducation.entity.PracticMark;
 import ru.edu.pgtk.weducation.entity.School;
 import ru.edu.pgtk.weducation.entity.SemesterMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
@@ -69,6 +70,8 @@ public class GroupReportsEJB {
   private transient MissingsDAO missings;
   @Inject
   private transient CourseWorkMarksEJB cmarks;
+  @Inject
+  private transient PracticMarksEJB pmarks;
   @Inject
   private transient SemesterMarksEJB smarks;
   @Inject
@@ -234,6 +237,24 @@ public class GroupReportsEJB {
     }
   }
 
+  @GET
+  @Path("{groupId: \\d+}/consolidated/{course: \\d+}/{semester: \\d+}")
+  @Produces("application/pdf")
+  public Response consolidatedReport(@PathParam("groupId") int groupCode,
+    @PathParam("course") int course, @PathParam("semester") int semester) {
+    try {
+      StudyGroup grp = groups.get(groupCode);
+      GroupSemester gs = groupSemesters.get(grp, course, semester);
+      if (null == gs) {
+        Response.noContent().build();
+      }
+      return Response.ok(consolidatedSemesterMarks(gs, false)).build();
+    } catch (Exception e) {
+      throw new NotFoundException(e.getMessage());
+    }
+  }
+  
+  
   /**
    * Формирует ведомость сдачи курсовых проектов для группы
    *
@@ -741,7 +762,7 @@ public class GroupReportsEJB {
       String speciality = "Специальность: " + gs.getGroup().getSpeciality().getFullName();
       document.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
       // Настало время сформировать список всего, что будет изучаться
-      Set<ReportExam> items = new TreeSet<>();
+      List<ReportExam> items = new LinkedList<>();
       // Добавляем экзамены
       for (Subject s : subjects.fetchExams(gs.getGroup(), gs.getCourse(), gs.getSemester())) {
         items.add(new ReportExam(s.getId(), ReportExamType.EXAM, s.getShortName()));
@@ -773,12 +794,13 @@ public class GroupReportsEJB {
       table.setWidths(sizes);
       // Добавляем строки таблицы
       PdfPCell numberCell = new PdfPCell(getParagraph("№", regularFont, Paragraph.ALIGN_CENTER));
-      numberCell.setRowspan(2);
+      numberCell.setRowspan(3);
       numberCell.setMinimumHeight(getPt(20));
       numberCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+      numberCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       table.addCell(numberCell);
       PdfPCell nameCell = new PdfPCell(getParagraph("Фамилия имя отчество", regularFont, Paragraph.ALIGN_CENTER));
-      nameCell.setRowspan(2);
+      nameCell.setRowspan(3);
       nameCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       nameCell.setMinimumHeight(getPt(20));
       nameCell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -788,7 +810,6 @@ public class GroupReportsEJB {
         cell.setRowspan(2);
         cell.setRotation(90);
         cell.setMinimumHeight(getPt(20));
-        // Добавить наименование испытания
         table.addCell(cell);
       }
       // Кол-во пропусков
@@ -797,17 +818,26 @@ public class GroupReportsEJB {
       missingCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       table.addCell(missingCell);
       PdfPCell legalCell = new PdfPCell(getParagraph("Уваж.", smallFont, Paragraph.ALIGN_CENTER));
+      legalCell.setRowspan(2);
       legalCell.setMinimumHeight(getPt(20));
       legalCell.setRotation(90);
       table.addCell(legalCell);
       PdfPCell illegalCell = new PdfPCell(getParagraph("Неув.", smallFont, Paragraph.ALIGN_CENTER));
+      illegalCell.setRowspan(2);
       illegalCell.setMinimumHeight(getPt(20));
       illegalCell.setRotation(90);
       table.addCell(illegalCell);
       PdfPCell allCell = new PdfPCell(getParagraph("Всего", smallFont, Paragraph.ALIGN_CENTER));
+      allCell.setRowspan(2);
       allCell.setMinimumHeight(getPt(20));
       allCell.setRotation(90);
       table.addCell(allCell);
+      // Подписи для видов аттестации
+      for (ReportExam item : items) {
+        PdfPCell cell = new PdfPCell(getParagraph(item.getType().getLabel(), smallFont, Paragraph.ALIGN_CENTER));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        table.addCell(cell);
+      }
       int row = 1;
       int legal = 0;
       int illegal = 0;
@@ -822,14 +852,20 @@ public class GroupReportsEJB {
             PdfPCell cell = new PdfPCell();
             if (!empty) {
               try {
-                // Экзамены и зачеты
                 ReportExamType type = item.getType();
                 if ((type == ReportExamType.EXAM) || (type == ReportExamType.ZACHET)) {
+                // Экзамены и зачеты
                   SemesterMark mark = smarks.get(sc, subjects.get(item.getId()), gs.getCourse(), gs.getSemester());
                   cell.addElement(getParagraph(String.valueOf(mark.getMark()), regularFont, Paragraph.ALIGN_CENTER));
-                }
+                } else if (type == ReportExamType.COURSEWORK) {
                 // Курсовые
+                  CourseWorkMark mark = cmarks.get(sc, subjects.get(item.getId()), gs.getCourse(), gs.getSemester());
+                  cell.addElement(getParagraph(String.valueOf(mark.getMark()), regularFont, Paragraph.ALIGN_CENTER));
+                } else if (type == ReportExamType.PRACTIC) {
                 // Практика
+                  PracticMark mark = pmarks.get(sc, practics.get(item.getId()));
+                  cell.addElement(getParagraph(String.valueOf(mark.getMark()), regularFont, Paragraph.ALIGN_CENTER));
+                }
               } catch (Exception e) {
                 // Ничего не делаем, ячейка просто будет пустой
               }
