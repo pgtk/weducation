@@ -35,7 +35,7 @@
               <ui:repeat value="#{practicsMB.practics}" var="practic">
                 <tr>
                   <td>
-                    #{practic.name}
+                    #{practic.fullName}
                   </td>
                   <td>
                     #{practic.length}
@@ -61,7 +61,9 @@
         <h2>Редактирование практики</h2>
         <h:form>
           <h:outputText value="Наименование полное" /><br />
-          <h:inputText value="#{practicsMB.item.name}" class="textEdit" /><p />
+          <h:inputText value="#{practicsMB.item.fullName}" class="textEdit" /><p />
+          <h:outputText value="Наименование сокращенное" /><br />
+          <h:inputText value="#{practicsMB.item.shortName}" class="textEdit" /><p />
           <h:outputText value="Курс" /><br />
           <h:inputText value="#{practicsMB.item.course}" class="textEdit" /><p />
           <h:outputText value="Семестр" /><br />
@@ -84,7 +86,7 @@
         <!-- Delete -->
         <h2>Удаление практики</h2>
         <h:form>
-          <p>Практика "#{practicsMB.item.name}" будет удалена!</p>
+            <p>Практика "#{practicsMB.item.fullName}" будет удалена!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{practicsMB.confirmDelete()}" />
             <h:commandButton value="Отменить" action="#{practicsMB.cancel()}" />

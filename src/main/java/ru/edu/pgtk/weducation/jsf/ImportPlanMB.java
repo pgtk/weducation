@@ -117,7 +117,7 @@ public class ImportPlanMB implements Serializable {
               Practic p = new Practic();
               p.setPlan(sp);
               p.setModule(sm);
-              p.setName(xp.getName());
+              p.setFullName(xp.getName());
               p.setLength(xpl.getWeeks());
               p.setSemester(xpl.getSemester());
               p.setCourse((p.getSemester() + 1) / 2);

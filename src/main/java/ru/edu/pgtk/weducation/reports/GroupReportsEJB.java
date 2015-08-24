@@ -496,11 +496,11 @@ public class GroupReportsEJB {
       missingCell.setColspan(3);
       missingCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       table.addCell(missingCell);
-      PdfPCell legalCell = new PdfPCell(getParagraph("Уваж.", smallFont, Paragraph.ALIGN_CENTER));
+      PdfPCell legalCell = new PdfPCell(getParagraph("Уважительных", smallFont, Paragraph.ALIGN_CENTER));
       legalCell.setMinimumHeight(getPt(20));
       legalCell.setRotation(90);
       table.addCell(legalCell);
-      PdfPCell illegalCell = new PdfPCell(getParagraph("Неув.", smallFont, Paragraph.ALIGN_CENTER));
+      PdfPCell illegalCell = new PdfPCell(getParagraph("Неуважительных", smallFont, Paragraph.ALIGN_CENTER));
       illegalCell.setMinimumHeight(getPt(20));
       illegalCell.setRotation(90);
       table.addCell(illegalCell);
@@ -649,11 +649,11 @@ public class GroupReportsEJB {
       missingCell.setColspan(3);
       missingCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       table.addCell(missingCell);
-      PdfPCell legalCell = new PdfPCell(getParagraph("Уваж.", smallFont, Paragraph.ALIGN_CENTER));
+      PdfPCell legalCell = new PdfPCell(getParagraph("Уважительных", smallFont, Paragraph.ALIGN_CENTER));
       legalCell.setMinimumHeight(getPt(20));
       legalCell.setRotation(90);
       table.addCell(legalCell);
-      PdfPCell illegalCell = new PdfPCell(getParagraph("Неув.", smallFont, Paragraph.ALIGN_CENTER));
+      PdfPCell illegalCell = new PdfPCell(getParagraph("Неувуважительных", smallFont, Paragraph.ALIGN_CENTER));
       illegalCell.setMinimumHeight(getPt(20));
       illegalCell.setRotation(90);
       table.addCell(illegalCell);
@@ -783,7 +783,7 @@ public class GroupReportsEJB {
       }
       // Добавляем Практику
       for (Practic p : practics.fetch(gs.getGroup(), gs.getCourse(), gs.getSemester())) {
-        items.add(new ReportExam(p.getId(), ReportExamType.PRACTIC, p.getName()));
+        items.add(new ReportExam(p.getId(), ReportExamType.PRACTIC, p.getShortName()));
       }
       // Теперь можно создавать таблицу
       // Количество полей будет на 5 больше, чем кол-во дисциплин
@@ -823,12 +823,12 @@ public class GroupReportsEJB {
       missingCell.setColspan(3);
       missingCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       table.addCell(missingCell);
-      PdfPCell legalCell = new PdfPCell(getParagraph("Уваж.", smallFont, Paragraph.ALIGN_CENTER));
+      PdfPCell legalCell = new PdfPCell(getParagraph("Уважительных", smallFont, Paragraph.ALIGN_CENTER));
       legalCell.setRowspan(2);
       legalCell.setMinimumHeight(getPt(20));
       legalCell.setRotation(90);
       table.addCell(legalCell);
-      PdfPCell illegalCell = new PdfPCell(getParagraph("Неув.", smallFont, Paragraph.ALIGN_CENTER));
+      PdfPCell illegalCell = new PdfPCell(getParagraph("Неуважительных", smallFont, Paragraph.ALIGN_CENTER));
       illegalCell.setRowspan(2);
       illegalCell.setMinimumHeight(getPt(20));
       illegalCell.setRotation(90);

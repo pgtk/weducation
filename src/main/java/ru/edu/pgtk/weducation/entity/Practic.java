@@ -26,9 +26,12 @@ public class Practic implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @Column(name = "prc_name", nullable = false, length = 128)
-  private String name;
+  @Column(name = "prc_fullname", nullable = false, length = 255)
+  private String fullName;
 
+  @Column(name = "prc_shortname", nullable = false, length = 30)
+  private String shortName;
+  
   @Column(name = "prc_length", nullable = false)
   private float length;
 
@@ -106,12 +109,20 @@ public class Practic implements Serializable {
     this.moduleCode = moduleCode;
   }
 
-  public String getName() {
-    return name;
+  public String getFullName() {
+    return fullName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setFullName(String fullName) {
+    this.fullName = fullName;
+  }
+
+  public String getShortName() {
+    return shortName;
+  }
+
+  public void setShortName(String shortName) {
+    this.shortName = shortName;
   }
 
   public float getLength() {

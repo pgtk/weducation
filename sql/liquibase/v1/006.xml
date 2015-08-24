@@ -138,7 +138,7 @@
             HAVING (COUNT(psn_pcode) > 1)
             ORDER BY dbl_count DESC, psn_firstname;
         </sql>
-    </changeSet>    
+    </changeSet>
     <changeSet id="006-11" author="gooamoko">
         <comment>
             Создадим вьюху для отображения недельных пропусков с датой для учета по семестрам
@@ -149,5 +149,21 @@
             wms_year AS wmv_year, wms_month AS wmv_month, getDate(wms_year, wms_month, wms_week) AS wmv_date
             FROM weekmissings;
         </sql>
-    </changeSet>    
+    </changeSet>
+    <changeSet id="006-12" author="gooamoko">
+        <comment>
+            Добавим поле в таблицу практик для сокращенного наименования.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE practics ADD COLUMN prc_shortname varchar(30) NOT NULL DEFAULT 'FIXME';
+        </sql>
+    </changeSet>
+    <changeSet id="006-13" author="gooamoko">
+        <comment>
+            Переименуем поле prc_name в prc_fullname.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE practics RENAME COLUMN prc_name TO prc_fullname;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

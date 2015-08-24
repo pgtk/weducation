@@ -33,7 +33,7 @@
                 <h:selectOneMenu  value="#{practicMarksMB.practicCode}" valueChangeListener="#{practicMarksMB.changePractic}">
                     <f:selectItem itemLabel="Выберите практику" itemValue="0" />
                     <f:selectItems value="#{practicMarksMB.practicList}" var="practic" 
-                                   itemLabel="#{practic.name}" itemValue="#{practic.id}" />
+                                   itemLabel="#{practic.fullName}" itemValue="#{practic.id}" />
                     <f:ajax execute="@form" render="practicForm" />
                 </h:selectOneMenu><p />
                 <h:panelGroup rendered="#{not empty practicMarksMB.markList}">
