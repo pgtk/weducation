@@ -19,10 +19,8 @@ import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
-//@ViewScoped
-//@ManagedBean(name = "monthMarksMB")
-@Named("monthMarksMB")
 @ViewScoped
+@Named("monthMarksMB")
 public class MonthMarksMB implements Serializable {
 
   long serialVersionUID = 0L;
@@ -45,8 +43,6 @@ public class MonthMarksMB implements Serializable {
   private List<Subject> subjectList;
   private List<MonthMark> markList;
   private int markDate;
-  private String emptySheetLink;
-  private String filledSheetLink;
 
   /**
    * Функция для построения списка оценок
@@ -56,44 +52,16 @@ public class MonthMarksMB implements Serializable {
       if (subject != null) {
         markList = marks.fetchAll(group, subject, markDate / 100, markDate % 100);
       }
-      emptySheetLink = "reports/group/" + group.getId() + "/monthmarks/empty/"
-        + markDate / 100 + "/" + markDate % 100;
-      filledSheetLink = "reports/group/" + group.getId() + "/monthmarks/filled/"
-        + markDate / 100 + "/" + markDate % 100;
     } else {
       // Если хоть один из параметров отсутствует - очищаем список
       markList = null;
     }
   }
 
-//  private void getSheet(final boolean empty) {
-//    // Get the FacesContext
-//    FacesContext facesContext = FacesContext.getCurrentInstance();
-//    // Get HTTP response
-//    ExternalContext ec = facesContext.getExternalContext();
-//    // Set response headers
-//    ec.responseReset();   // Reset the response in the first place
-//    ec.setResponseContentType("application/pdf");  // Set only the content type
-//    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-//      responseOutputStream.write(monthSheets.getMonthMarksSheet(group, markDate / 100, markDate % 100, empty));
-//      responseOutputStream.flush();
-//      responseOutputStream.close();
-//    } catch (IOException e) {
-//      addMessage(e);
-//    }
-//    facesContext.responseComplete();
-//  }
   public boolean isAviableSheet() {
     return (group != null) && (markDate > 0);
   }
 
-//  public void emptyMonthSheet() {
-//    getSheet(true);
-//  }
-//
-//  public void filledMonthSheet() {
-//    getSheet(false);
-//  }
   public void loadGroup() {
     try {
       if (groupCode > 0) {
@@ -249,13 +217,5 @@ public class MonthMarksMB implements Serializable {
 
   public void setMarkDate(int markDate) {
     this.markDate = markDate;
-  }
-
-  public String getEmptySheetLink() {
-    return emptySheetLink;
-  }
-
-  public String getFilledSheetLink() {
-    return filledSheetLink;
   }
 }

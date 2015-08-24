@@ -40,9 +40,6 @@ public class SemesterSubjectMarksMB implements Serializable {
   private List<GroupSemester> semesterList;
   private List<Subject> subjectList;
   private List<SemesterMark> markList;
-  private String examLink;
-  private String marksLink;
-  private String consolidatedLink;
 
   /**
    * Функция для построения списка оценок
@@ -50,8 +47,6 @@ public class SemesterSubjectMarksMB implements Serializable {
   private void makeList() {
     if ((group != null) && (subject != null) && (semester != null)) {
       markList = marks.fetchAll(group, subject, semester.getCourse(), semester.getSemester());
-      examLink = "reports/group/" + group.getId() + "/exam/" + semester.getCourse()
-        + "/" + semester.getSemester() + "/" + subject.getId();
     } else {
       // Если хоть один из параметров отсутствует - очищаем список
       markList = null;
@@ -87,11 +82,6 @@ public class SemesterSubjectMarksMB implements Serializable {
       int code = (Integer) event.getNewValue();
       if (code > 0) {
         semester = semesters.get(code);
-        // Формируем ссылки для ведомостей
-        marksLink = "reports/group/" + group.getId() + "/semestermarks/" + semester.getCourse()
-          + "/" + semester.getSemester();
-        consolidatedLink = "reports/group/" + group.getId() + "/consolidated/" + semester.getCourse()
-          + "/" + semester.getSemester();
         // Корректируем список дисциплин для этого семестра
         subjectList = subjects.fetch(group, semester.getCourse(), semester.getSemester());
         makeList();
@@ -175,25 +165,5 @@ public class SemesterSubjectMarksMB implements Serializable {
 
   public Subject getSubject() {
     return subject;
-  }
-
-  public String getExamLink() {
-    return examLink;
-  }
-
-  public String getMarksLink() {
-    return marksLink;
-  }
-
-  public void setMarksLink(String marksLink) {
-    this.marksLink = marksLink;
-  }
-
-  public String getConsolidatedLink() {
-    return consolidatedLink;
-  }
-
-  public void setConsolidatedLink(String consolidatedLink) {
-    this.consolidatedLink = consolidatedLink;
   }
 }

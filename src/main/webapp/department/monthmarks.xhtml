@@ -28,11 +28,12 @@
           <f:selectItems value="#{monthMarksMB.months}" />
           <f:ajax execute="@form" render="@form" />
         </h:selectOneMenu><p />
-        <h:panelGroup rendered="#{monthMarksMB.aviableSheet}">
-          <h3>Ведомости</h3>
+        <h:panelGroup rendered="#{monthMarksMB.markDate > 0}">
           <ul>
-            <li><a target="monthsheet" href="#{monthMarksMB.emptySheetLink}">Зачетная</a></li>
-            <li><a target="monthsheet" href="#{monthMarksMB.filledSheetLink}">Сводная</a></li>
+              <li><a target="monthsheet" href="#{linksMB.getEmptyMonthMarks(monthMarksMB.semester, 
+                                                 monthMarksMB.markDate)}">Ведомость аттестации за месяц</a></li>
+              <li><a target="monthsheet" href="#{linksMB.getFilledMonthMarks(monthMarksMB.semester,
+                                                 monthMarksMB.markDate)}">Ведомость успеваемости за месяц</a></li>
           </ul>
         </h:panelGroup>
         <h:outputText value="Дисциплина" /><br />

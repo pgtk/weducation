@@ -130,6 +130,7 @@ public class GroupReportsEJB {
       ResponseBuilder response = Response.ok(exam(sub, gs));
       return response.build();
     } catch (EJBException e) {
+      e.printStackTrace(System.err);
       throw new NotFoundException(e.getMessage());
     }
   }
@@ -157,6 +158,7 @@ public class GroupReportsEJB {
       }
       return Response.ok(courseWork(sub, gs)).build();
     } catch (EJBException e) {
+      e.printStackTrace(System.err);
       throw new NotFoundException(e.getMessage());
     }
   }
@@ -183,6 +185,7 @@ public class GroupReportsEJB {
       ResponseBuilder response = Response.ok(monthMarks(gs, year, month, true));
       return response.build();
     } catch (EJBException e) {
+      e.printStackTrace(System.err);
       throw new NotFoundException(e.getMessage());
     }
   }
@@ -208,6 +211,7 @@ public class GroupReportsEJB {
       }
       return Response.ok(monthMarks(gs, year, month, false)).build();
     } catch (Exception e) {
+      e.printStackTrace(System.err);
       throw new NotFoundException(e.getMessage());
     }
   }
@@ -233,6 +237,7 @@ public class GroupReportsEJB {
       }
       return Response.ok(semesterMarks(gs, true)).build();
     } catch (Exception e) {
+      e.printStackTrace(System.err);
       throw new NotFoundException(e.getMessage());
     }
   }
@@ -250,6 +255,7 @@ public class GroupReportsEJB {
       }
       return Response.ok(consolidatedSemesterMarks(gs, false)).build();
     } catch (Exception e) {
+      e.printStackTrace(System.err);
       throw new NotFoundException(e.getMessage());
     }
   }

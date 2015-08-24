@@ -31,8 +31,6 @@ public class GroupCourseWorkMarksMB implements Serializable {
   private transient GroupSemestersEJB semesters;
   @Inject
   private transient CourseWorkMarksEJB marks;
-//  @Inject
-//  private transient GroupSheetEJB sheet;
   private int groupCode;
   private StudyGroup group;
   private int subjectCode;
@@ -42,7 +40,6 @@ public class GroupCourseWorkMarksMB implements Serializable {
   private List<GroupSemester> semesterList;
   private List<Subject> subjectList;
   private List<CourseWorkMark> markList;
-  private String sheetLink;
 
   /**
    * Функция для построения списка оценок
@@ -50,32 +47,12 @@ public class GroupCourseWorkMarksMB implements Serializable {
   private void makeList() {
     if ((group != null) && (subject != null) && (semester != null)) {
       markList = marks.fetchAll(group, subject, semester.getCourse(), semester.getSemester());
-      sheetLink = "reports/group/" + group.getId() + "/cproject/" + semester.getCourse() +
-        "/" + semester.getSemester() + "/" + subject.getId();
     } else {
       // Если хоть один из параметров отсутствует - очищаем список
       markList = null;
     }
   }
   
-//  public void getCourseWorkSheet() {
-//    // Get the FacesContext
-//    FacesContext facesContext = FacesContext.getCurrentInstance();
-//    // Get HTTP response
-//    ExternalContext ec = facesContext.getExternalContext();
-//    // Set response headers
-//    ec.responseReset();   // Reset the response in the first place
-//    ec.setResponseContentType("application/pdf");  // Set only the content type
-//    try (OutputStream responseOutputStream = ec.getResponseOutputStream()) {
-//      responseOutputStream.write(sheet.getCourseWorkSheet(group, subject, semester.getCourse(), semester.getSemester()));
-//      responseOutputStream.flush();
-//      responseOutputStream.close();
-//    } catch (IOException e) {
-//      addMessage(e);
-//    }
-//    facesContext.responseComplete();
-//  }
-
   public void loadGroup() {
     try {
       if (groupCode > 0) {
@@ -188,9 +165,5 @@ public class GroupCourseWorkMarksMB implements Serializable {
 
   public Subject getSubject() {
     return subject;
-  }
-
-  public String getSheetLink() {
-    return sheetLink;
   }
 }

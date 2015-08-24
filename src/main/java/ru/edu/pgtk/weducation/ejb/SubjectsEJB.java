@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -31,29 +32,29 @@ public class SubjectsEJB {
 
   public int getMaxLoad(final Subject subject) {
     TypedQuery<Long> q = em.createQuery(
-            "SELECT SUM(sl.maximumLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
+      "SELECT SUM(sl.maximumLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
     q.setParameter("s", subject);
     return q.getSingleResult().intValue();
   }
 
   public int getAudLoad(final Subject subject) {
     TypedQuery<Long> q = em.createQuery(
-            "SELECT SUM(sl.auditoryLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
+      "SELECT SUM(sl.auditoryLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
     q.setParameter("s", subject);
     return q.getSingleResult().intValue();
   }
 
   public List<Subject> fetchAll(final StudyPlan plan) {
     TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE (s.plan = :pln) ORDER BY s.fullName", Subject.class);
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", plan);
     return q.getResultList();
   }
 
   public List<Subject> fetchForCard(final StudyCard card) {
     TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
-            + "(s.id NOT IN (SELECT fm.subject.id FROM FinalMark fm WHERE (fm.card = :c))) ORDER BY s.fullName", Subject.class);
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
+      + "(s.id NOT IN (SELECT fm.subject.id FROM FinalMark fm WHERE (fm.card = :c))) ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", card.getPlan());
     q.setParameter("c", card);
     return q.getResultList();
@@ -61,18 +62,18 @@ public class SubjectsEJB {
 
   public List<Subject> fetchCourseWorksForCard(final StudyCard card) {
     TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
-            + "((SELECT COUNT(sl) FROM SubjectLoad sl WHERE (sl.subject = s) AND (sl.courseProjectLoad > 0)) > 0 )"
-            + " ORDER BY s.fullName", Subject.class);
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
+      + "((SELECT COUNT(sl) FROM SubjectLoad sl WHERE (sl.subject = s) AND (sl.courseProjectLoad > 0)) > 0 )"
+      + " ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", card.getPlan());
     return q.getResultList();
   }
-  
+
   public List<Subject> fetchCourseWorks(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
-            + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND (sl.courseProjectLoad > 0)) > 0 )"
-            + " ORDER BY s.fullName", Subject.class);
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
+      + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND (sl.courseProjectLoad > 0)) > 0 )"
+      + " ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", group.getPlan());
     q.setParameter("c", course);
     q.setParameter("s", semester);
@@ -81,9 +82,9 @@ public class SubjectsEJB {
 
   public List<Subject> fetchExams(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
-            + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND (sl.examForm = :f)) > 0 )"
-            + " ORDER BY s.fullName", Subject.class);
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
+      + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND (sl.examForm = :f)) > 0 )"
+      + " ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", group.getPlan());
     q.setParameter("c", course);
     q.setParameter("s", semester);
@@ -93,9 +94,9 @@ public class SubjectsEJB {
 
   public List<Subject> fetchZachets(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
-            + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND ((sl.examForm = :f1) OR (sl.examForm = :f2))) > 0 )"
-            + " ORDER BY s.fullName", Subject.class);
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
+      + "WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s) AND ((sl.examForm = :f1) OR (sl.examForm = :f2))) > 0 )"
+      + " ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", group.getPlan());
     q.setParameter("c", course);
     q.setParameter("s", semester);
@@ -103,18 +104,18 @@ public class SubjectsEJB {
     q.setParameter("f2", ExamForm.ZACHET);
     return q.getResultList();
   }
-  
+
   public List<Subject> fetch(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
-            "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
-            + "((SELECT COUNT(sl) FROM SubjectLoad sl WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s)) > 0 )"
-            + " ORDER BY s.fullName", Subject.class);
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
+      + "((SELECT COUNT(sl) FROM SubjectLoad sl WHERE (sl.subject = s) AND (sl.course = :c) AND (sl.semester = :s)) > 0 )"
+      + " ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", group.getPlan());
     q.setParameter("c", course);
     q.setParameter("s", semester);
     return q.getResultList();
   }
-  
+
   public Subject save(Subject item) {
     if (item.getModuleCode() > 0) {
       StudyModule m = em.find(StudyModule.class, item.getModuleCode());

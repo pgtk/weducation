@@ -5,63 +5,69 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <f:metadata>
-    <f:viewParam name="groupId" value="#{groupCourseWorkMarksMB.groupCode}" />
-    <f:viewAction action="#{groupCourseWorkMarksMB.loadGroup()}" />
-  </f:metadata>
+    <f:metadata>
+        <f:viewParam name="groupId" value="#{groupCourseWorkMarksMB.groupCode}" />
+        <f:viewAction action="#{groupCourseWorkMarksMB.loadGroup()}" />
+    </f:metadata>
 
-  <ui:composition template="/WEB-INF/templates/main.xhtml">
-    <ui:define name="content">
-      <!-- List -->
-      <h2>Оценки за курсовые проекты для группы #{groupCourseWorkMarksMB.group.name}</h2>
-      <h:outputText value="Семестр" /><br />
-      <h:form>
-        <h:selectOneMenu value="#{groupCourseWorkMarksMB.groupCode}" valueChangeListener="#{groupCourseWorkMarksMB.changeSemester}">
-          <f:selectItem itemLabel="Выберите семестр" itemValue="0" />
-          <f:selectItems value="#{groupCourseWorkMarksMB.semesterList}" var="sm" 
-                         itemLabel="#{sm.label}" itemValue="#{sm.id}" />
-          <f:ajax execute="@form" render="@form" />
-        </h:selectOneMenu><p />
-        <h:outputText value="Дисциплина" /><br />
-        <h:selectOneMenu  value="#{groupCourseWorkMarksMB.subjectCode}" valueChangeListener="#{groupCourseWorkMarksMB.changeSubject}">
-          <f:selectItem itemLabel="Выберите дисциплину" itemValue="0" />
-          <f:selectItems value="#{groupCourseWorkMarksMB.subjectList}" var="sub" 
-                         itemLabel="#{sub.fullName}" itemValue="#{sub.id}" />
-          <f:ajax execute="@form" render="@form" />
-        </h:selectOneMenu><p />
-        <h:panelGroup rendered="#{not empty groupCourseWorkMarksMB.markList}">
-          <h3>Ведомости</h3>
-          <ul>
-            <li><a target="cproject" href="#{groupCourseWorkMarksMB.sheetLink}">Ведомость сдачи курсового проекта</a></li>                   
-          </ul>
-          <table class="dataTable">
-            <thead>
-              <tr>
-                <th width="30%">Фамилия Имя Отчество</th>
-                <th width="50%">Тема проекта</th>
-                <th width="20%">Оценка</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ui:repeat value="#{groupCourseWorkMarksMB.markList}" var="mark">
-                <tr class="#{utilsEJB.getEnabledClass(mark.card.active)}">
-                  <td>${mark.card.person.fullName}</td>
-                  <td>${mark.theme}</td>
-                  <td>
-                    <h:inputText value="#{mark.mark}" />
-                  </td>
-                </tr>
-              </ui:repeat>
-            </tbody>
-          </table>
-          <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{groupCourseWorkMarksMB.save()}" />
-          </div>
-        </h:panelGroup>
-        <h:panelGroup rendered="#{empty groupCourseWorkMarksMB.markList}">
-          <p>Для указанных параметров список недоступен или пуст.</p>
-        </h:panelGroup>
-      </h:form>
-    </ui:define>
-  </ui:composition>
+    <ui:composition template="/WEB-INF/templates/main.xhtml">
+        <ui:define name="content">
+            <!-- List -->
+            <h2>Оценки за курсовые проекты для группы #{groupCourseWorkMarksMB.group.name}</h2>
+            <h:outputText value="Семестр" /><br />
+            <h:form>
+                <h:selectOneMenu value="#{groupCourseWorkMarksMB.semesterCode}" valueChangeListener="#{groupCourseWorkMarksMB.changeSemester}">
+                    <f:selectItem itemLabel="Выберите семестр" itemValue="0" />
+                    <f:selectItems value="#{groupCourseWorkMarksMB.semesterList}" var="sm" 
+                                   itemLabel="#{sm.label}" itemValue="#{sm.id}" />
+                    <f:ajax execute="@form" render="@form" />
+                </h:selectOneMenu><p />
+                <h:panelGroup rendered="#{not empty groupCourseWorkMarksMB.semester}">
+                    <ul>
+                        <li><a target="semesterMarks" href="#{linksMB.getSemesterMarksLink(groupCourseWorkMarksMB.semester)}">Зачетная ведомость</a></li>
+                        <li><a target="semesterConsolidates" href="#{linksMB.getConsolidatedMarksLink(groupCourseWorkMarksMB.semester)}">Сводная ведомость</a></li>
+                    </ul>
+                </h:panelGroup>
+                <h:outputText value="Дисциплина" /><br />
+                <h:selectOneMenu  value="#{groupCourseWorkMarksMB.subjectCode}" valueChangeListener="#{groupCourseWorkMarksMB.changeSubject}">
+                    <f:selectItem itemLabel="Выберите дисциплину" itemValue="0" />
+                    <f:selectItems value="#{groupCourseWorkMarksMB.subjectList}" var="sub" 
+                                   itemLabel="#{sub.fullName}" itemValue="#{sub.id}" />
+                    <f:ajax execute="@form" render="@form" />
+                </h:selectOneMenu><p />
+                <h:panelGroup rendered="#{not empty groupCourseWorkMarksMB.markList}">
+                    <ul>
+                        <li><a target="cproject" href="#{linksMB.getCourseWorkMarksLink(groupCourseWorkMarksMB.semester,
+                                                         groupCourseWorkMarksMB.subjectCode)}">Ведомость сдачи курсового проекта</a></li>                   
+                    </ul>
+                    <table class="dataTable">
+                        <thead>
+                            <tr>
+                                <th width="30%">Фамилия Имя Отчество</th>
+                                <th width="50%">Тема проекта</th>
+                                <th width="20%">Оценка</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{groupCourseWorkMarksMB.markList}" var="mark">
+                                <tr class="#{utilsEJB.getEnabledClass(mark.card.active)}">
+                                    <td>${mark.card.person.fullName}</td>
+                                    <td>${mark.theme}</td>
+                                    <td>
+                                        <h:inputText value="#{mark.mark}" />
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                    <div class="buttons">
+                        <h:commandButton value="Сохранить" action="#{groupCourseWorkMarksMB.save()}" />
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{empty groupCourseWorkMarksMB.markList}">
+                    <p>Для указанных параметров список недоступен или пуст.</p>
+                </h:panelGroup>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </html>
