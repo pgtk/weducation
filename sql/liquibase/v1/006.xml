@@ -166,4 +166,130 @@
             ALTER TABLE practics RENAME COLUMN prc_name TO prc_fullname;
         </sql>
     </changeSet>
+    <changeSet id="006-14" author="gooamoko">
+        <comment>
+            добавим в план год. Это начало цепочки изменений, после которых структура specialities -> plans
+            будет серьезно изменена. В планах будет всё, что так любят менять в специальностях министры.
+            В специальностях же останется короткое наименование, описание и признаки активности/доступности для поступления.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE plans ADD COLUMN  pln_beginyear int NOT NULL DEFAULT 0;
+        </sql>
+    </changeSet>
+    <changeSet id="006-15" author="gooamoko">
+        <comment>
+            Обновим год начала действия плана там, где это возможно.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            UPDATE plans SET pln_beginyear = date_part('year', pln_date) WHERE (pln_date IS NOT NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="006-16" author="gooamoko">
+        <comment>
+            Удалим из плана описание.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE plans DROP COLUMN pln_description;
+        </sql>
+    </changeSet>
+    <changeSet id="006-17" author="gooamoko">
+        <comment>
+            Добавим в план наименование специальности.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE plans ADD COLUMN pln_spcname varchar(255) NOT NULL DEFAULT '';
+        </sql>
+    </changeSet>
+    <changeSet id="006-18" author="gooamoko">
+        <comment>
+            Добавим в план квалификацию.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE plans ADD COLUMN pln_kvalification varchar(128) NOT NULL DEFAULT '';
+        </sql>
+    </changeSet>
+    <changeSet id="006-19" author="gooamoko">
+        <comment>
+            Добавим в план специализацию.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE plans ADD COLUMN pln_specialization varchar(128) NOT NULL DEFAULT '';
+        </sql>
+    </changeSet>
+    <changeSet id="006-20" author="gooamoko">
+        <comment>
+            Добавим в план шифр специальности.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE plans ADD COLUMN pln_spckey varchar(128) NOT NULL DEFAULT '';
+        </sql>
+    </changeSet>
+    <changeSet id="006-21" author="gooamoko">
+        <comment>
+            Обновим значения, связанные со специальностью, взяв их у специальности.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            UPDATE plans SET 
+            pln_spckey = (SELECT spc_key FROM specialities WHERE (spc_pcode = pln_spccode)),
+            pln_specialization = (SELECT spc_specialization FROM specialities WHERE (spc_pcode = pln_spccode)),
+            pln_kvalification = (SELECT spc_kvalification FROM specialities WHERE (spc_pcode = pln_spccode)),
+            pln_spcname = (SELECT spc_fullname FROM specialities WHERE (spc_pcode = pln_spccode));            
+        </sql>
+    </changeSet>
+    <changeSet id="006-22" author="gooamoko">
+        <comment>
+            Переименуем полное наименование специальности в описание.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE specialities RENAME COLUMN spc_fullname TO spc_description;
+        </sql>
+    </changeSet>
+    <changeSet id="006-23" author="gooamoko">
+        <comment>
+            Переименуем полное наименование специальности в описание.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE specialities RENAME COLUMN spc_shortname TO spc_name;
+        </sql>
+    </changeSet>
+    <changeSet id="006-24" author="gooamoko">
+        <comment>
+            Грохнем шифр специальности
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE specialities DROP COLUMN spc_key;
+        </sql>
+    </changeSet>
+    <changeSet id="006-25" author="gooamoko">
+        <comment>
+            Грохнем квалификацию специальности
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE specialities DROP COLUMN spc_kvalification;
+        </sql>
+    </changeSet>
+    <changeSet id="006-26" author="gooamoko">
+        <comment>
+            Грохнем специализацию у специальности.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE specialities DROP COLUMN spc_specialization;
+        </sql>
+    </changeSet>
+    <changeSet id="006-27" author="gooamoko">
+        <comment>
+            Грохнем все планы приема.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            DELETE FROM seats;
+        </sql>
+    </changeSet>
+    <changeSet id="006-28" author="gooamoko">
+        <comment>
+            Грохнем все заявки на поступление.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            DELETE FROM requests;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -397,7 +397,6 @@ public class CardReportsEJB {
 
       // Данные для вывода (возможно лучше тут считать всё с карточки)
       School scl = card.getSchool();
-      Speciality spc = card.getSpeciality();
       Person psn = card.getPerson();
       String sclName = scl.getFullName() + "\n" + scl.getPlace();
       // Корректируем надпись с учетом дубликата
@@ -410,7 +409,7 @@ public class CardReportsEJB {
       String spo = "о среднем профессиональном образовании";
       String schoolDirector = scl.getDirector();
       String comissionDirector = card.getComissionDirector();
-      String speciality = spc.getFullName();
+      String speciality = card.getPlan().getSpecialityName();
       String learnLength = getYearString(card.getPlan().getYears()) + " "
         + getMonthString(card.getPlan().getMonths());
       String oldDocument = card.getDocumentName() + ", "
@@ -472,7 +471,7 @@ public class CardReportsEJB {
       firstTableCell.addElement(wrapElement(getParagraph(sclName, regularFont, Paragraph.ALIGN_CENTER), getPt(63)));
       // Квалификация
 //      firstTableCell.addElement(wrapElement(getParagraph(spc.getKvalification(), regularFont, Paragraph.ALIGN_CENTER), 97));
-      firstTableCell.addElement(wrapElement(getParagraph(spc.getKvalification(), regularFont, Paragraph.ALIGN_CENTER), getPt(42)));
+      firstTableCell.addElement(wrapElement(getParagraph(card.getPlan().getKvalification(), regularFont, Paragraph.ALIGN_CENTER), getPt(42)));
       // Регистрационный номер
       firstTableCell.addElement(wrapElement(
         getParagraph(card.getRegistrationNumber(), regularFont,
@@ -596,7 +595,7 @@ public class CardReportsEJB {
         getParagraph(learnLength, regularFont,
           Paragraph.ALIGN_CENTER), getPt(17)));
       innerCell2.addElement(wrapElement(
-        getParagraph(spc.getKvalification(), regularFont,
+        getParagraph(card.getPlan().getKvalification(), regularFont,
           Paragraph.ALIGN_CENTER), getPt(17)));
       innerCell2.addElement(wrapElement(
         getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER), getPt(10)));
@@ -695,14 +694,13 @@ public class CardReportsEJB {
 
       // Данные для вывода (возможно лучше тут считать всё с карточки)
       School scl = card.getSchool();
-      Speciality spc = card.getSpeciality();
       Person psn = card.getPerson();
       String sclName = scl.getFullName() + "\n" + scl.getPlace();
       String comissionDate = Utils.getDateString(card.getComissionDate()) + " года";
       String diplomeDate = Utils.getDateString(card.getDiplomeDate()) + " года";
       String birthDate = Utils.getDateString(psn.getBirthDate()) + " года";
       String schoolDirector = scl.getDirector();
-      String speciality = spc.getFullName();
+      String speciality = card.getPlan().getSpecialityName();
       String studyForm = card.getExtramuralString();
       String oldDocument = card.getDocumentName() + ", "
         + Utils.getYear(card.getDocumentDate()) + " год.";
@@ -820,7 +818,7 @@ public class CardReportsEJB {
         50, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(getParagraph("(специальность)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(
-        getParagraph(spc.getSpecialization(), regularFont, Paragraph.ALIGN_CENTER),
+        getParagraph(card.getPlan().getSpecialization(), regularFont, Paragraph.ALIGN_CENTER),
         30, PdfPCell.ALIGN_CENTER, PdfPCell.ALIGN_BOTTOM));
       innerCell2.addElement(getParagraph("(специализация)", smallFont, Paragraph.ALIGN_CENTER));
       innerCell2.addElement(wrapElement(

@@ -22,20 +22,11 @@ public class Speciality implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @Column(name = "spc_shortname", nullable = false, length = 10)
-  private String shortName;
+  @Column(name = "spc_name", nullable = false, length = 10)
+  private String name;
 
-  @Column(name = "spc_fullname", nullable = false, length = 255)
-  private String fullName;
-
-  @Column(name = "spc_key", nullable = false, length = 20)
-  private String key;
-
-  @Column(name = "spc_kvalification", nullable = false, length = 128)
-  private String kvalification;
-
-  @Column(name = "spc_specialization", nullable = false, length = 128)
-  private String specialization;
+  @Column(name = "spc_description", nullable = false, length = 255)
+  private String description;
 
   @Column(name = "spc_actual", nullable = false)
   private boolean actual;
@@ -48,47 +39,7 @@ public class Speciality implements Serializable {
   }
 
   public String getNameForList() {
-    return key + " (" + shortName + ")";
-  }
-
-  public String getShortName() {
-    return shortName;
-  }
-
-  public void setShortName(String shortName) {
-    this.shortName = shortName;
-  }
-
-  public String getFullName() {
-    return fullName;
-  }
-
-  public void setFullName(String fullName) {
-    this.fullName = fullName;
-  }
-
-  public String getKey() {
-    return key;
-  }
-
-  public void setKey(String key) {
-    this.key = key;
-  }
-
-  public String getKvalification() {
-    return kvalification;
-  }
-
-  public void setKvalification(String kvalification) {
-    this.kvalification = kvalification;
-  }
-
-  public String getSpecialization() {
-    return specialization;
-  }
-
-  public void setSpecialization(String specialization) {
-    this.specialization = specialization;
+    return name;
   }
 
   public boolean isActual() {
@@ -105,5 +56,21 @@ public class Speciality implements Serializable {
 
   public void setAviable(boolean aviable) {
     this.aviable = aviable;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 }

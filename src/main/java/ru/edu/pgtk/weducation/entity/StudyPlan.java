@@ -27,11 +27,23 @@ public class StudyPlan implements Serializable {
   @Column(name = "pln_name", nullable = false, length = 255)
   private String name;
 
-  @Column(name = "pln_description", length = 255)
-  private String description;
+  @Column(name = "pln_spcname", nullable = false, length = 255)
+  private String specialityName;
+
+  @Column(name = "pln_spckey", nullable = false, length = 20)
+  private String specialityKey;
+
+  @Column(name = "pln_kvalification", nullable = false, length = 128)
+  private String kvalification;
+
+  @Column(name = "pln_specialization", nullable = false, length = 128)
+  private String specialization;
 
   @Column(name = "pln_extramural", nullable = false)
   private boolean extramural;
+  
+  @Column(name = "pln_beginyear", nullable = false)
+  private int beginYear;
   
   @Column(name = "pln_years", nullable = false)
   private int years;
@@ -68,7 +80,7 @@ public class StudyPlan implements Serializable {
   }
 
   public String getNameForList() {
-    return name + " (" + getExtramural() + ")";
+    return name + " (" + beginYear + ", " + getExtramural() + ")";
   }
 
   public String getName() {
@@ -77,14 +89,6 @@ public class StudyPlan implements Serializable {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
   }
 
   public boolean isExtramural() {
@@ -133,5 +137,45 @@ public class StudyPlan implements Serializable {
 
   public void setDate(Date date) {
     this.date = date;
+  }
+
+  public String getSpecialityName() {
+    return specialityName;
+  }
+
+  public void setSpecialityName(String specialityName) {
+    this.specialityName = specialityName;
+  }
+
+  public String getSpecialityKey() {
+    return specialityKey;
+  }
+
+  public void setSpecialityKey(String specialityKey) {
+    this.specialityKey = specialityKey;
+  }
+
+  public String getKvalification() {
+    return kvalification;
+  }
+
+  public void setKvalification(String kvalification) {
+    this.kvalification = kvalification;
+  }
+
+  public String getSpecialization() {
+    return specialization;
+  }
+
+  public void setSpecialization(String specialization) {
+    this.specialization = specialization;
+  }
+
+  public int getBeginYear() {
+    return beginYear;
+  }
+
+  public void setBeginYear(int beginYear) {
+    this.beginYear = beginYear;
   }
 }

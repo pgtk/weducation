@@ -124,11 +124,8 @@ public class PlanParser {
     try {
       Node title = plan.getRootNode(TITLE);
       Speciality sp = new Speciality();
-      sp.setKey(plan.getAttributeValue(title, SPEC_KEY));
-      sp.setFullName(plan.getAttributeValue(title, SPEC_NAME));
-      sp.setKvalification(plan.getAttributeValue(title, SPEC_KV));
-      sp.setShortName(getShortName(sp.getFullName()));
-      sp.setSpecialization("не предусмотрено");
+      sp.setName(getShortName(plan.getAttributeValue(title, SPEC_NAME)));
+      sp.setDescription(plan.getAttributeValue(title, SPEC_NAME));
       return sp;
     } catch (NullPointerException e) {
       throw new EJBException("NullPointerException в процессе получения информации о специальности!");
@@ -166,7 +163,10 @@ public class PlanParser {
         planName.append(" заочная форма");
       }
       sp.setName(planName.toString());
-      sp.setDescription(plan.getAttributeValue(title, SPEC_NAME));
+      sp.setSpecialityKey(plan.getAttributeValue(title, SPEC_KEY));
+      sp.setKvalification(plan.getAttributeValue(title, SPEC_KV));
+      sp.setSpecialization("не предусмотрено");
+      sp.setSpecialityName(plan.getAttributeValue(title, SPEC_NAME));
       sp.setYears(toInt(plan.getAttributeValue(title, ED_YEAR), 0));
       sp.setMonths(toInt(plan.getAttributeValue(title, ED_MONTH), 0));
       try {

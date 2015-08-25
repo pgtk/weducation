@@ -54,7 +54,7 @@ public class DepartmentProfile implements Serializable {
   }
 
   public String getNameForList() {
-    return department.getName() + " (" + speciality.getShortName()
+    return department.getName() + " (" + speciality.getName()
             + ", " + getExtramuralString() + " форма)";
   }
 

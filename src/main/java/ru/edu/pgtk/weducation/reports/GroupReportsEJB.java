@@ -277,7 +277,7 @@ public class GroupReportsEJB {
       String description = "группы " + gs.getGroup().getName() + " " + gs.getCourse() + "-го курса "
         + (gs.getGroup().isExtramural() ? "заочной" : "очной") + " формы обучения за " + gs.getSemester() + "-й семестр.";
       document.add(getParagraph(description, regularFont, Paragraph.ALIGN_CENTER));
-      String speciality = "Специальность: " + gs.getGroup().getSpeciality().getFullName();
+      String speciality = "Специальность: " + gs.getGroup().getPlan().getSpecialityName();
       document.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
       document.add(getParagraph("Дисциплина: " + subject.getFullName(), regularFont, Paragraph.ALIGN_CENTER));
       // Теперь можно создавать таблицу
@@ -356,7 +356,7 @@ public class GroupReportsEJB {
       String description = "группы " + gs.getGroup().getName() + " " + gs.getCourse() + "-го курса "
         + (gs.getGroup().isExtramural() ? "заочной" : "очной") + " формы обучения за " + gs.getSemester() + "-й семестр.";
       report.add(getParagraph(description, regularFont, Paragraph.ALIGN_CENTER));
-      String speciality = "Специальность: " + gs.getGroup().getSpeciality().getFullName();
+      String speciality = "Специальность: " + gs.getGroup().getPlan().getSpecialityName();
       report.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
       report.add(getParagraph("Дисциплина: " + subject.getFullName(), regularFont, Paragraph.ALIGN_CENTER));
       // Теперь можно создавать таблицу
@@ -455,7 +455,7 @@ public class GroupReportsEJB {
       String description = "группы " + gs.getGroup().getName() + " " + gs.getCourse() + "-го курса "
         + (gs.getGroup().isExtramural() ? "заочной" : "очной") + " формы обучения за " + getMonthString(month) + " " + year + "-го года.";
       document.add(getParagraph(description, regularFont, Paragraph.ALIGN_CENTER));
-      String speciality = "Специальность: " + gs.getGroup().getSpeciality().getFullName();
+      String speciality = "Специальность: " + gs.getGroup().getPlan().getSpecialityName();
       document.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
       // Настало время узнать список дисциплин
       List<Subject> subjectList = subjects.fetch(gs.getGroup(), gs.getCourse(), gs.getSemester());
@@ -608,7 +608,7 @@ public class GroupReportsEJB {
       String description = "группы " + gs.getGroup().getName() + " " + gs.getCourse() + "-го курса "
         + (gs.getGroup().isExtramural() ? "заочной" : "очной") + " формы обучения за " + gs.getSemester() + "-й семестр.";
       document.add(getParagraph(description, regularFont, Paragraph.ALIGN_CENTER));
-      String speciality = "Специальность: " + gs.getGroup().getSpeciality().getFullName();
+      String speciality = "Специальность: " + gs.getGroup().getPlan().getSpecialityName();
       document.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
       // Настало время узнать список дисциплин
       List<Subject> subjectList = subjects.fetch(gs.getGroup(), gs.getCourse(), gs.getSemester());
@@ -765,7 +765,7 @@ public class GroupReportsEJB {
       String description = "группы " + gs.getGroup().getName() + " " + gs.getCourse() + "-го курса "
         + (gs.getGroup().isExtramural() ? "заочной" : "очной") + " формы обучения за " + gs.getSemester() + "-й семестр.";
       document.add(getParagraph(description, regularFont, Paragraph.ALIGN_CENTER));
-      String speciality = "Специальность: " + gs.getGroup().getSpeciality().getFullName();
+      String speciality = "Специальность: " + gs.getGroup().getPlan().getSpecialityName();
       document.add(getParagraph(speciality, regularFont, Paragraph.ALIGN_CENTER));
       // Настало время сформировать список всего, что будет изучаться
       List<ReportExam> items = new LinkedList<>();

@@ -5,7 +5,6 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Department;
@@ -47,7 +46,7 @@ public class SpecialitiesEJB {
    * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
    */
   public List<Speciality> fetchAll() {
-    TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s ORDER BY s.key, s.fullName", Speciality.class);
+    TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s ORDER BY s.name, s.description", Speciality.class);
     return query.getResultList();
   }
 
@@ -60,7 +59,7 @@ public class SpecialitiesEJB {
   public List<Speciality> fetchAll(final Department department) {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.department = :dep) "
-        + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
+        + "ORDER BY dp.speciality.name, dp.speciality.description", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
   }
@@ -72,7 +71,7 @@ public class SpecialitiesEJB {
    */
   public List<Speciality> fetchActual() {
     TypedQuery<Speciality> query = em.createQuery(
-        "SELECT s FROM Speciality s WHERE (s.actual = true) ORDER BY s.key, s.fullName", Speciality.class);
+        "SELECT s FROM Speciality s WHERE (s.actual = true) ORDER BY s.name, s.description", Speciality.class);
     return query.getResultList();
   }
 
@@ -87,7 +86,7 @@ public class SpecialitiesEJB {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT s FROM Speciality s WHERE (s.actual = true) AND "
         + "((SELECT COUNT(dp.id) FROM DepartmentProfile dp WHERE (dp.speciality = s) AND (dp.extramural = :em)) > 0)"
-        + "ORDER BY s.key, s.fullName", Speciality.class);
+        + "ORDER BY s.name, s.description", Speciality.class);
     query.setParameter("em", extramural);
     return query.getResultList();
   }
@@ -102,7 +101,7 @@ public class SpecialitiesEJB {
   public List<Speciality> fetchActual(final Department department) {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.speciality.actual = true) AND (dp.department = :dep) "
-        + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
+        + "ORDER BY dp.speciality.name, dp.speciality.description", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
   }
@@ -114,7 +113,7 @@ public class SpecialitiesEJB {
    */
   public List<Speciality> fetchAviable() {
     TypedQuery<Speciality> query = em.createQuery(
-        "SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) ORDER BY s.key, s.fullName", Speciality.class);
+        "SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) ORDER BY s.name, s.description", Speciality.class);
     return query.getResultList();
   }
 
@@ -129,7 +128,7 @@ public class SpecialitiesEJB {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) AND "
         + "((SELECT COUNT(dp.id) FROM DepartmentProfile dp WHERE (dp.speciality = s) AND (dp.extramural = :em)) > 0)"
-        + "ORDER BY s.key, s.fullName", Speciality.class);
+        + "ORDER BY s.name, s.description", Speciality.class);
     query.setParameter("em", extramural);
     return query.getResultList();
   }
@@ -145,7 +144,7 @@ public class SpecialitiesEJB {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.speciality.aviable = true)"
         + " AND (dp.speciality.actual = true) AND (dp.department = :dep) "
-        + "ORDER BY dp.speciality.key, dp.speciality.fullName", Speciality.class);
+        + "ORDER BY dp.speciality.name, dp.speciality.description", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
   }
@@ -178,27 +177,6 @@ public class SpecialitiesEJB {
   }
 
   /**
-   * Возвращает одну специальность по шифру.
-   *
-   * Не рекомендуется использовать данный метод, поскольку ключи могут
-   * дублироваться
-   *
-   * @param key шифр специальности (например, 230115)
-   * @return один экземпляр специальности, либо null, если ни одной
-   * специальности с таким шифром найти не удалось.
-   */
-  public Speciality findByKey(final String key) {
-    try {
-      TypedQuery<Speciality> query = em.createQuery(
-          "SELECT s FROM Speciality s WHERE (s.key = :k) ", Speciality.class);
-      query.setParameter("k", key);
-      return query.getSingleResult();
-    } catch (NoResultException e) {
-      return null;
-    }
-  }
-
-  /**
    * Производит поиск специальности похожей на образец
    *
    * @param sample образец для поиска
@@ -208,9 +186,8 @@ public class SpecialitiesEJB {
   public Speciality findLike(final Speciality sample) {
     try {
       TypedQuery<Speciality> query = em.createQuery(
-          "SELECT s FROM Speciality s WHERE (s.key LIKE :k) AND (s.fullName LIKE :fn)", Speciality.class);
-      query.setParameter("k", sample.getKey());
-      query.setParameter("fn", sample.getFullName());
+          "SELECT s FROM Speciality s WHERE (s.name LIKE :n)", Speciality.class);
+      query.setParameter("n", sample.getName());
       return query.getSingleResult();
     } catch (Exception e) {
       return null;

@@ -62,7 +62,8 @@ public class ImportPlanMB implements Serializable {
       parser = new PlanParser(file.getInputStream());
       if ((null != parser) && (parser.isCorrect())) {
         //Импорт плана из файла и сохранение в базу
-        Speciality spc = specialitiesEJB.findByKey(parser.getSpecialityKey());
+        Speciality spc = null;
+//        Speciality spc = specialitiesEJB.findByKey(parser.getSpecialityKey());
         // Если специальности не найдено, то...
         if (null == spc) {
           spc = parser.getSpeciality();
@@ -149,7 +150,7 @@ public class ImportPlanMB implements Serializable {
       if ((null != parser) && (parser.isCorrect())) {
         StudyPlan sp = parser.getStudyPlan();
         return "Обнаружен учебный план специальности \""
-          + sp.getName() + " " + sp.getDescription()
+          + sp.getName() + " " + sp.getSpecialityName()
           + "\". Срок обучения - " + sp.getLength() + ", "
           + sp.getExtramural();
       } else {

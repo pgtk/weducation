@@ -105,11 +105,11 @@ public class ImportCardEJB {
         if (rs.first()) {
           // Что-то нашли, выбираем данные
           Speciality result = new Speciality();
-          result.setKey(rs.getString("sp_Key"));
-          result.setFullName(rs.getString("sp_name"));
-          result.setShortName(rs.getString("sp_shortName"));
-          result.setKvalification(rs.getString("sp_kvalification"));
-          result.setSpecialization(rs.getString("sp_specialization"));
+          result.setDescription(rs.getString("sp_name"));
+          result.setName(rs.getString("sp_shortName"));
+//          result.setKey(rs.getString("sp_Key"));
+//          result.setKvalification(rs.getString("sp_kvalification"));
+//          result.setSpecialization(rs.getString("sp_specialization"));
           return result;
         }
       }
