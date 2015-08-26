@@ -1,5 +1,7 @@
 nb-configuration.xml
 liquibase.properties
+*.iml
 /target/
+.idea/
 /glassfish/domains/domain1/config
 /glassfish/lib/install/applications
