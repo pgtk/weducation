@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.EJBException;
 import org.w3c.dom.Node;
@@ -171,10 +173,14 @@ public class PlanParser {
       sp.setMonths(toInt(plan.getAttributeValue(title, ED_MONTH), 0));
       try {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        sp.setDate(sdf.parse(plan.getAttributeValue(title, PLAN_DATE)));
+        
+        Date planDate = sdf.parse(plan.getAttributeValue(title, PLAN_DATE));
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(planDate);
+        sp.setBeginYear(cal.get(Calendar.YEAR));
       } catch (ParseException e) {
-        // Если распарсить дату не удалось, то ставим текущую
-        sp.setDate(new Date());
+        // Если распарсить дату не удалось, в качестве года указываем 0
+        sp.setBeginYear(0);
       }
       return sp;
     } catch (NullPointerException e) {

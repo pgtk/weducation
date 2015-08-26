@@ -213,6 +213,8 @@ div#error {
 }
 
 ul.errorMessage {
+  color: #c80d0d;
+  text-decoration: none;  
   list-style-type: none;
 }
 

@@ -19,6 +19,10 @@
           Если в списке вы не обнаруживаете нужного вам учебного плана, вам либо придется его добавить,
           либо импортировать из файла программы РУП СПО.
         </p>
+        <p>
+          Если вы уверены в том, что план был добавлен/импортирован, но его всё равно нет,
+          сообщите об этом разработчику. Возможно для вашего отделения неправильно указаны профили обучения.
+        </p>
         <h:form>
           <div class="buttons">
             <h:commandButton value="Добавить" action="#{studyPlansMB.add()}" />
@@ -41,7 +45,7 @@
                     <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.name}" />
                   </td>
                   <td>
-                    <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.description}" />
+                    <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.specialityName}" />
                   </td>
                   <td>
                     <h:commandLink class="action" value="Изменить" action="#{studyPlansMB.edit(stp)}" />
@@ -66,17 +70,46 @@
         <!-- Edit -->
         <h2>Редактирование учебного плана</h2>
         <h:form>
+          <p>В целях сокращения списка специальностей и связанной с этим путаницы,
+            <b>полное наименование специальности, шифр, квалификация и специализация
+              теперь указываются в учебном плане.</b>
+            Таким образом, термин "специальность" в рамках этой базы данных просто
+            группирует учебные планы вместе.</p>
           <h:outputText value="Наименование" /><br />
-          <h:inputText value="#{studyPlansMB.item.name}" class="textEdit" /><p />
-          <h:outputText value="Описание" /><br />
-          <h:inputText value="#{studyPlansMB.item.description}" class="textEdit" /><p />
+          <h:inputText value="#{studyPlansMB.item.name}" required="true"
+                       requiredMessage="Наименование обязательно для заполнения!" class="textEdit" /><p />
+          <h:outputText value="Полное наименование специальности" /><br />
+          <h:inputText value="#{studyPlansMB.item.specialityName}" required="true"
+                       requiredMessage="Полное наименование специальности обязательно для заполнения!" class="textEdit" /><p />
+          <h:outputText value="Код специальности" /><br />
+          <h:inputText value="#{studyPlansMB.item.specialityKey}" required="true"
+                       requiredMessage="Код специальности обязателен для заполнения!" class="textEdit" /><p />
+          <h:outputText value="Квалификация" /><br />
+          <h:inputText value="#{studyPlansMB.item.kvalification}" required="true"
+                       requiredMessage="Квалификация обязательна для заполнения!" class="textEdit" /><p />
+          <h:outputText value="Специализация" /><br />
+          <h:inputText value="#{studyPlansMB.item.specialization}" required="true"
+                       requiredMessage="Специализация обязательна для заполнения!" class="textEdit" /><p />
+          <h:outputText value="Год начала действия учебного плана" /><br />
+          <h:inputText value="#{studyPlansMB.item.beginYear}" required="true"
+                       requiredMessage="Год начала действия учебного плана обязателен для заполнения!"
+                       validatorMessage="Год начала действия учебного плана должен быть целым числом >= 1932" class="textEdit">
+            <f:convertNumber integerOnly="true" />
+            <f:validateLongRange minimum="1932" maximum="9999" />
+          </h:inputText><p />
           <h:outputText value="Количество полных лет обучения" /><br />
-          <h:inputText value="#{studyPlansMB.item.years}" class="textEdit" /><p />
+          <h:inputText value="#{studyPlansMB.item.years}" required="true"
+                       requiredMessage="Количество полных лет обучения обязательно для заполнения!"
+                       validatorMessage="Количество лет должно быть целым числом в диапазоне [1 ... 6]!" class="textEdit">
+            <f:convertNumber integerOnly="true" />
+            <f:validateLongRange minimum="1" maximum="6" />
+          </h:inputText><p />
           <h:outputText value="Количество полных месяцев обучения" /><br />
-          <h:inputText value="#{studyPlansMB.item.months}" class="textEdit" /><p />
-          <h:outputText value="Дата утверждения плана" /><br />
-          <h:inputText value="#{studyPlansMB.item.date}" class="textEdit">
-            <f:convertDateTime pattern="dd.MM.yyyy" />
+          <h:inputText value="#{studyPlansMB.item.months}" required="true"
+                       requiredMessage="Количество полных месяцев обучения обязательно для заполнения!"
+                       validatorMessage="Количество месяцев должно быть целым числом в диапазоне от [0 ... 11]!" class="textEdit">
+            <f:convertNumber integerOnly="true" />
+            <f:validateLongRange minimum="0" maximum="11" />
           </h:inputText><p />
           <h:selectBooleanCheckbox value="#{studyPlansMB.item.extramural}" />
           <h:outputText value="заочная форма обучения" /><p />
@@ -87,7 +120,7 @@
           </h:selectOneMenu><p />
           <div class="buttons">
             <h:commandButton value="Сохранить" action="#{studyPlansMB.save()}" />
-            <h:commandButton value="Отменить" action="#{studyPlansMB.cancel()}" />
+            <h:button value="Отменить" includeViewParams="true" />
           </div>
         </h:form>
       </h:panelGroup>
@@ -98,7 +131,7 @@
           <p>Учебный план "#{studyPlansMB.item.name}" будет удален!</p>
           <div class="buttons">
             <h:commandButton value="Удалить" action="#{studyPlansMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{studyPlansMB.cancel()}" />
+            <h:button value="Отменить" includeViewParams="true" />
           </div>
         </h:form>
       </h:panelGroup>
@@ -115,7 +148,7 @@
             <li><h:link outcome="/gosexams?planId=#{studyPlansMB.item.id}" value="ГОС экзамены по дисциплинам" /></li>
           </ul>
           <div class="buttons">
-            <h:commandButton value="Закрыть" action="#{studyPlansMB.cancel()}" />
+            <h:button value="Отменить" includeViewParams="true" />
           </div>
         </h:form>
       </h:panelGroup>

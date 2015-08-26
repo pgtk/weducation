@@ -292,4 +292,12 @@
             DELETE FROM requests;
         </sql>
     </changeSet>
+    <changeSet id="006-29" author="gooamoko">
+        <comment>
+            Грохнем поле даты учебного плана.
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            ALTER TABLE plans DROP COLUMN pln_date;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -32,20 +32,20 @@ public class StudyPlansEJB {
   }
 
   public List<StudyPlan> fetchAll() {
-    TypedQuery<StudyPlan> q = em.createQuery("SELECT sp FROM StudyPlan sp ORDER BY sp.speciality, sp.date", StudyPlan.class);
+    TypedQuery<StudyPlan> q = em.createQuery("SELECT sp FROM StudyPlan sp ORDER BY sp.speciality, sp.beginYear DESC", StudyPlan.class);
     return q.getResultList();
   }
 
   public List<StudyPlan> findBySpeciality(final Speciality spc) {
     TypedQuery<StudyPlan> q = em.createQuery(
-            "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) ORDER BY sp.date", StudyPlan.class);
+            "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) ORDER BY sp.beginYear DESC", StudyPlan.class);
     q.setParameter("spec", spc);
     return q.getResultList();
   }
 
   public List<StudyPlan> findBySpeciality(final Speciality spc, final boolean extramural) {
     TypedQuery<StudyPlan> q = em.createQuery(
-            "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) AND (sp.extramural = :em)", StudyPlan.class);
+            "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) AND (sp.extramural = :em) ORDER BY sp.beginYear DESC", StudyPlan.class);
     q.setParameter("spec", spc);
     q.setParameter("em", extramural);
     return q.getResultList();
@@ -54,10 +54,11 @@ public class StudyPlansEJB {
   public List<StudyPlan> findByDepartment(final Department dep) {
     TypedQuery<StudyPlan> q = em.createQuery(
             "SELECT sp FROM StudyPlan sp "
-              + "WHERE (sp.speciality.id IN (SELECT dp.speciality.id FROM DepartmentProfile dp WHERE (dp.department = :dep1)))"
-              + " AND (sp.extramural IN (SELECT dp.extramural FROM DepartmentProfile dp WHERE (dp.department = :dep2)))", StudyPlan.class);
-    q.setParameter("dep1", dep);
-    q.setParameter("dep2", dep);
+              + "WHERE (sp.speciality.id IN (SELECT dp.speciality.id FROM DepartmentProfile dp WHERE (dp.department = :dep)))"
+              + " AND (sp.extramural IN (SELECT dp.extramural FROM DepartmentProfile dp WHERE (dp.department = :dep))) "
+              + "ORDER BY sp.speciality, sp.beginYear DESC", StudyPlan.class);
+    q.setParameter("dep", dep);
+//    q.setParameter("dep2", dep);
     return q.getResultList();
   }
   

@@ -1,6 +1,8 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -90,6 +92,10 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
   @Override
   public void newItem() {
     item = new StudyPlan();
+    Calendar cal = new GregorianCalendar();  
+    item.setBeginYear(cal.get(Calendar.YEAR));
+    item.setYears(3);
+    item.setMonths(10);
   }
 
   @Override

@@ -41,7 +41,7 @@
             </thead>
             <tbody>
               <ui:repeat value="#{departmentRootMB.students}" var="student">
-                <tr class="#{departmentRootMB.getStudentClass(student.active)}">
+                  <tr class="#{utilsMB.getRowOnOrOffClass(student.active)}">
                   <td>${student.person.fullName}</td>
                   <td>
                     <h:link target="new" class="action" value="Персона" outcome="/persons?id=#{student.person.id}" />

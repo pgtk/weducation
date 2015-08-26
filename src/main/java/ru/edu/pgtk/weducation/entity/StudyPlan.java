@@ -1,7 +1,6 @@
 package ru.edu.pgtk.weducation.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import ru.edu.pgtk.weducation.utils.Utils;
 
@@ -51,10 +49,6 @@ public class StudyPlan implements Serializable {
   @Column(name = "pln_months", nullable = false)
   private int months;
   
-  @Column(name = "pln_date")
-  @Temporal(javax.persistence.TemporalType.DATE)
-  private Date date;
-
   @ManyToOne
   @JoinColumn(name = "pln_spccode", nullable = false)
   private Speciality speciality;
@@ -129,14 +123,6 @@ public class StudyPlan implements Serializable {
 
   public void setMonths(int months) {
     this.months = months;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
   }
 
   public String getSpecialityName() {

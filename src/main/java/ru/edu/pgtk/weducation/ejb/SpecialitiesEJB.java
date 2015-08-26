@@ -46,7 +46,7 @@ public class SpecialitiesEJB {
    * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
    */
   public List<Speciality> fetchAll() {
-    TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s ORDER BY s.name, s.description", Speciality.class);
+    TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s ORDER BY s.actual DESC, s.name", Speciality.class);
     return query.getResultList();
   }
 
@@ -59,7 +59,7 @@ public class SpecialitiesEJB {
   public List<Speciality> fetchAll(final Department department) {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.department = :dep) "
-        + "ORDER BY dp.speciality.name, dp.speciality.description", Speciality.class);
+        + "ORDER BY dp.speciality.actual DESC, dp.speciality.name", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
   }
@@ -71,7 +71,7 @@ public class SpecialitiesEJB {
    */
   public List<Speciality> fetchActual() {
     TypedQuery<Speciality> query = em.createQuery(
-        "SELECT s FROM Speciality s WHERE (s.actual = true) ORDER BY s.name, s.description", Speciality.class);
+        "SELECT s FROM Speciality s WHERE (s.actual = true) ORDER BY s.actual DESC, s.name", Speciality.class);
     return query.getResultList();
   }
 
@@ -86,7 +86,7 @@ public class SpecialitiesEJB {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT s FROM Speciality s WHERE (s.actual = true) AND "
         + "((SELECT COUNT(dp.id) FROM DepartmentProfile dp WHERE (dp.speciality = s) AND (dp.extramural = :em)) > 0)"
-        + "ORDER BY s.name, s.description", Speciality.class);
+        + "ORDER BY s.actual DESC, s.name", Speciality.class);
     query.setParameter("em", extramural);
     return query.getResultList();
   }
@@ -101,7 +101,7 @@ public class SpecialitiesEJB {
   public List<Speciality> fetchActual(final Department department) {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.speciality.actual = true) AND (dp.department = :dep) "
-        + "ORDER BY dp.speciality.name, dp.speciality.description", Speciality.class);
+        + "ORDER BY dp.speciality.actual DESC, dp.speciality.name", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
   }
@@ -113,7 +113,7 @@ public class SpecialitiesEJB {
    */
   public List<Speciality> fetchAviable() {
     TypedQuery<Speciality> query = em.createQuery(
-        "SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) ORDER BY s.name, s.description", Speciality.class);
+        "SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) ORDER BY s.actual DESC, s.name", Speciality.class);
     return query.getResultList();
   }
 
@@ -128,7 +128,7 @@ public class SpecialitiesEJB {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) AND "
         + "((SELECT COUNT(dp.id) FROM DepartmentProfile dp WHERE (dp.speciality = s) AND (dp.extramural = :em)) > 0)"
-        + "ORDER BY s.name, s.description", Speciality.class);
+        + "ORDER BY s.actual DESC, s.name", Speciality.class);
     query.setParameter("em", extramural);
     return query.getResultList();
   }
@@ -144,7 +144,7 @@ public class SpecialitiesEJB {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.speciality.aviable = true)"
         + " AND (dp.speciality.actual = true) AND (dp.department = :dep) "
-        + "ORDER BY dp.speciality.name, dp.speciality.description", Speciality.class);
+        + "ORDER BY dp.speciality.actual DESC, dp.speciality.name", Speciality.class);
     query.setParameter("dep", department);
     return query.getResultList();
   }
@@ -163,15 +163,15 @@ public class SpecialitiesEJB {
   public List<Speciality> fetchSuggestions(final Person person, final boolean extramural, final int year) {
     TypedQuery<Speciality> query = em.createQuery(
         "SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) AND "
-        + "((SELECT COUNT(dp.id) FROM DepartmentProfile dp WHERE (dp.speciality = s) AND (dp.extramural = :e1)) > 0)"
-        + "AND (s.id NOT IN (SELECT r.speciality.id FROM Request r WHERE (r.extramural = :e2) AND (r.person = :p1) AND (r.year = :y)))"
-        + "AND (s.id NOT IN (SELECT sc.speciality.id FROM StudyCard sc WHERE (sc.person = :p2) AND (sc.extramural = :e3)))"
-        + "ORDER BY s.fullName", Speciality.class);
-    query.setParameter("e1", extramural);
-    query.setParameter("e2", extramural);
-    query.setParameter("e3", extramural);
-    query.setParameter("p1", person);
-    query.setParameter("p2", person);
+        + "((SELECT COUNT(dp.id) FROM DepartmentProfile dp WHERE (dp.speciality = s) AND (dp.extramural = :e)) > 0)"
+        + "AND (s.id NOT IN (SELECT r.speciality.id FROM Request r WHERE (r.extramural = :e) AND (r.person = :p) AND (r.year = :y)))"
+        + "AND (s.id NOT IN (SELECT sc.speciality.id FROM StudyCard sc WHERE (sc.person = :p) AND (sc.extramural = :e)))"
+        + "ORDER BY s.name", Speciality.class);
+    query.setParameter("e", extramural);
+//    query.setParameter("e2", extramural);
+//    query.setParameter("e3", extramural);
+    query.setParameter("p", person);
+//    query.setParameter("p2", person);
     query.setParameter("y", year);
     return query.getResultList();
   }

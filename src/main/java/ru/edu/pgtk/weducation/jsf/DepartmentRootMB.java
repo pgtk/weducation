@@ -87,10 +87,6 @@ public class DepartmentRootMB implements Serializable {
     return new ArrayList<>();
   }
 
-  public String getStudentClass(final boolean enabled) {
-    return (enabled) ? "enabled" : "disabled";
-  }
-
   public String getEditLabel() {
     return edit ? "Сохранить" : "Редактировать";
   }

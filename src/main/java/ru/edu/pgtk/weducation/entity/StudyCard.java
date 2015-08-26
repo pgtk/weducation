@@ -225,6 +225,9 @@ public class StudyCard implements Serializable {
   }
 
   public String getNameForList() {
+    if (plan == null) {
+      return "Неизвестный учебный план!";
+    }
     return plan.getSpecialityKey() + " " + speciality.getName() + " ("
             + getExtramuralString() + ")";
   }
