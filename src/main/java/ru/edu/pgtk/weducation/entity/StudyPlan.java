@@ -74,7 +74,11 @@ public class StudyPlan implements Serializable {
   }
 
   public String getNameForList() {
-    return name + " (" + beginYear + ", " + getExtramural() + ")";
+    String localName = name;
+    if (speciality != null) {
+      localName = speciality.getName();
+    }
+    return localName + " (" + beginYear + "-й год, " + getExtramural() + ")";
   }
 
   public String getName() {

@@ -34,7 +34,7 @@
             <thead>
               <tr>
                 <th width="40%">Наименование</th>
-                <th width="40%">Описание</th>
+                <th width="40%">Наименование специальности</th>
                 <th width="20%">Действия</th>
               </tr>
             </thead>
@@ -42,7 +42,7 @@
               <ui:repeat value="#{studyPlansMB.plans}" var="stp">
                 <tr>
                   <td>
-                    <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.name}" />
+                    <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.nameForList}" />
                   </td>
                   <td>
                     <h:commandLink action="#{studyPlansMB.details(stp)}" value="#{stp.specialityName}" />
