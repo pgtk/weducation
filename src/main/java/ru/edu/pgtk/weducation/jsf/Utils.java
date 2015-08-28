@@ -37,7 +37,8 @@ class Utils {
    * @return истина, если текст бесполезен (null, пустое значение либо строка "null")
    */
   private static boolean isUseless(String text) {
-    return ((null == text) || (text.isEmpty()) || text.contentEquals("null"));
+    return ((null == text) || (text.isEmpty()) || text.contentEquals("null") || 
+      text.contentEquals("Transaction aborted") || text.contentEquals("Transaction marked for rollback"));
   }
 
   /**
@@ -49,12 +50,17 @@ class Utils {
     String message = e.getMessage();
     if (isUseless(message)) {
       Throwable cause = e.getCause();
-      if (cause != null) {
+      while (cause != null) {
         if (isUseless(cause.getMessage())) {
-          message = cause.getClass().getName();
+          cause = cause.getCause();
         } else {
-          message = e.getCause().getMessage();
+          message = cause.getMessage();
+          break;
         }
+      }
+      // Если сообщение все еще бесполезно, то
+      if (isUseless(message)) {
+        message = "При выполнении операции случилось что-то страшное. Обратитесь к разработчику.";
       }
     }
     getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ошибка! " + message, "Error"));
