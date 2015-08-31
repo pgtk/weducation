@@ -43,7 +43,6 @@ public class ImportPlanMB implements Serializable {
 
   private transient Part file;
   private boolean uploaded;
-  private boolean ready;
   private transient PlanParser parser;
   @Inject
   private transient SpecialitiesEJB specialities;
@@ -84,7 +83,6 @@ public class ImportPlanMB implements Serializable {
    * @param event событие.
    */
   public void changeSpeciality(final ValueChangeEvent event) {
-    ready = false;
     try {
       int code = (Integer) event.getNewValue();
       if (code > 0) {
@@ -105,6 +103,7 @@ public class ImportPlanMB implements Serializable {
    * Загружает на сервер данные учебного плана.
    */
   public void upload() {
+    uploaded = false;
     try {
       parser = new PlanParser(file.getInputStream());
       if ((null != parser) && (parser.isCorrect())) {
@@ -113,12 +112,24 @@ public class ImportPlanMB implements Serializable {
         } else {
           // Получаем учебный план
           StudyPlan sp = parser.getStudyPlan();
-          // Кое-что проверим перед импортом.
+          // Проверим перед импортом список планов по выбранной специальности.
           boolean exist = false;
           for (StudyPlan p : existingPlans) {
             if (match(p, sp)) {
               exist = true;
               break;
+            }
+          }
+          // Если совпадений не обнарудено, проверим перед импортом совпадения в общем списке планов
+          if (!exist) {
+            List<StudyPlan> samePlans = plans.findLike(sp);
+            if (!samePlans.isEmpty()) {
+              exist = true;
+              for (StudyPlan p: samePlans) {
+                addMessage("Уже имеется учебный план \"" + p.getNameForList() + "\" с наименованием специальности \"" +
+                  p.getSpecialityName()+"\" и аналогичными другими параметрами в специальности " + 
+                  p.getSpeciality().getName() + ". Импорт невозможен!");
+              }
             }
           }
           if (!exist) {
@@ -200,22 +211,6 @@ public class ImportPlanMB implements Serializable {
 
   public boolean isUploaded() {
     return uploaded;
-  }
-
-  public String getPlanTitle() {
-    try {
-      if ((null != parser) && (parser.isCorrect())) {
-        StudyPlan sp = parser.getStudyPlan();
-        return "Обнаружен учебный план специальности \""
-          + sp.getName() + " " + sp.getSpecialityName()
-          + "\". Срок обучения - " + sp.getLength() + ", "
-          + sp.getExtramural();
-      } else {
-        return "Документ не содержит учебных планов!";
-      }
-    } catch (Exception e) {
-      return "Exception was occured with message " + e.getMessage();
-    }
   }
 
   public int getSpecialityCode() {

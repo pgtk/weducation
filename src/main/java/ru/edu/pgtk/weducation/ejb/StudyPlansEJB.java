@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -38,30 +39,46 @@ public class StudyPlansEJB {
 
   public List<StudyPlan> findBySpeciality(final Speciality spc) {
     TypedQuery<StudyPlan> q = em.createQuery(
-            "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) ORDER BY sp.beginYear DESC", StudyPlan.class);
+      "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) ORDER BY sp.beginYear DESC", StudyPlan.class);
     q.setParameter("spec", spc);
     return q.getResultList();
   }
 
   public List<StudyPlan> findBySpeciality(final Speciality spc, final boolean extramural) {
     TypedQuery<StudyPlan> q = em.createQuery(
-            "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) AND (sp.extramural = :em) ORDER BY sp.beginYear DESC", StudyPlan.class);
+      "SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) AND (sp.extramural = :em) ORDER BY sp.beginYear DESC", StudyPlan.class);
     q.setParameter("spec", spc);
     q.setParameter("em", extramural);
     return q.getResultList();
   }
 
+  public List<StudyPlan> findLike(final StudyPlan plan) {
+    try {
+      TypedQuery<StudyPlan> q = em.createQuery(
+        "SELECT sp FROM StudyPlan sp WHERE (sp.beginYear = :by) AND (sp.specialityName LIKE :sn) "
+        + "AND (sp.specialityKey = :sk) AND (sp.kvalification = :kv) AND (sp.extramural = :em)", StudyPlan.class);
+      q.setParameter("by", plan.getBeginYear());
+      q.setParameter("sn", plan.getSpecialityName());
+      q.setParameter("sk", plan.getSpecialityKey());
+      q.setParameter("kv", plan.getKvalification());
+      q.setParameter("em", plan.getExtramural());
+      return q.getResultList();
+    } catch (Exception e) {
+      return Collections.EMPTY_LIST;
+    }
+  }
+
   public List<StudyPlan> findByDepartment(final Department dep) {
     TypedQuery<StudyPlan> q = em.createQuery(
-            "SELECT sp FROM StudyPlan sp "
-              + "WHERE (sp.speciality.id IN (SELECT dp.speciality.id FROM DepartmentProfile dp WHERE (dp.department = :dep)))"
-              + " AND (sp.extramural IN (SELECT dp.extramural FROM DepartmentProfile dp WHERE (dp.department = :dep))) "
-              + "ORDER BY sp.speciality, sp.beginYear DESC", StudyPlan.class);
+      "SELECT sp FROM StudyPlan sp "
+      + "WHERE (sp.speciality.id IN (SELECT dp.speciality.id FROM DepartmentProfile dp WHERE (dp.department = :dep)))"
+      + " AND (sp.extramural IN (SELECT dp.extramural FROM DepartmentProfile dp WHERE (dp.department = :dep))) "
+      + "ORDER BY sp.speciality, sp.beginYear DESC", StudyPlan.class);
     q.setParameter("dep", dep);
 //    q.setParameter("dep2", dep);
     return q.getResultList();
   }
-  
+
   public StudyPlan save(StudyPlan item) {
     if (item.getSpecialityCode() > 0) {
       Speciality spc = em.find(Speciality.class, item.getSpecialityCode());
