@@ -47,6 +47,17 @@ public class FinalPractic implements Serializable {
       planCode = plan.getId();
     }
   }
+  
+  public FinalPractic() {
+    // Конструктор по умолчанию без параметров
+  }
+  
+  public FinalPractic(final FinalPractic source) {
+    this.length = source.getLength();
+    this.number = source.getNumber();
+    this.name = source.getName();
+    this.plan = source.getPlan();
+  }
 
   public int getId() {
     return id;

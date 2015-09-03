@@ -29,8 +29,14 @@ public class PracticsEJB {
 
   public List<Practic> findByPlan(final StudyPlan plan) {
     TypedQuery<Practic> q = em.createQuery(
-      "SELECT p FROM Practic p WHERE (p.plan = :pln) ORDER BY p.name", Practic.class);
+      "SELECT p FROM Practic p WHERE (p.plan = :pln) ORDER BY p.fullName", Practic.class);
     q.setParameter("pln", plan);
+    return q.getResultList();
+  }
+  
+  public List<Practic> fetch(final StudyModule module) {
+    TypedQuery<Practic> q = em.createQuery("SELECT p FROM Practic p WHERE (p.module = :mod) ORDER BY p.fullName", Practic.class);
+    q.setParameter("mod", module);
     return q.getResultList();
   }
 

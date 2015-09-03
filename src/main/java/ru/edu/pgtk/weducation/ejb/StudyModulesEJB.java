@@ -1,17 +1,19 @@
 package ru.edu.pgtk.weducation.ejb;
 
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import ru.edu.pgtk.weducation.entity.Practic;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.entity.Subject;
 
 @Stateless
 @Named("studyModulesEJB")
@@ -19,8 +21,12 @@ public class StudyModulesEJB {
 
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
-  @EJB
+  @Inject
   private StudyPlansEJB plans;
+  @Inject
+  private SubjectsEJB subjects;
+  @Inject
+  private PracticsEJB practics;
 
   public StudyModule get(final int id) {
     StudyModule result = em.find(StudyModule.class, id);
@@ -56,6 +62,36 @@ public class StudyModulesEJB {
     q.setParameter("pln", card.getPlan());
     q.setParameter("c", card);
     return q.getResultList();
+  }
+  
+  public void copy(final StudyModule source, final StudyModule destination) {
+    if (null == source) {
+      throw new IllegalArgumentException("Модуль-источник равен null! Копирование невозможно!");
+    }
+    if (null == destination) {
+      throw new IllegalArgumentException("Модуль-назначение равен null! Копирование невозможно!");
+    }
+    if (!subjects.fetchForModule(destination).isEmpty()) {
+      throw new IllegalArgumentException("Модуль-назначение уже содержит дисциплины. Копирование невозможно!");
+    }
+    if (!practics.fetch(destination).isEmpty()) {
+      throw new IllegalArgumentException("Модуль-назначение уже содержит практики. Копирование невозможно!");
+    }
+    // Копируем практики
+    for (Practic p: practics.fetch(source)) {
+      Practic copy = new Practic(p);
+      copy.setModule(destination);
+      copy.setPlan(destination.getPlan());
+      practics.save(copy);
+    }
+    // Копируем дисциплины
+    for (Subject s: subjects.fetchForModule(source)) {
+      Subject copy = new Subject(s);
+      copy.setModule(destination);
+      copy.setPlan(destination.getPlan());
+      subjects.save(copy);
+      subjects.copy(s, copy);
+    }
   }
 
   public StudyModule save(StudyModule item) {

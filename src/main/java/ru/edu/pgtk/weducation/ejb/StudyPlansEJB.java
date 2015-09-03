@@ -10,7 +10,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -52,48 +51,32 @@ public class StudyPlansEJB {
 		return q.getResultList();
 	}
 
-	public List<StudyPlan> findLike(final StudyPlan plan) {
-		try {
-			TypedQuery<StudyPlan> q = em.createQuery(
-					"SELECT sp FROM StudyPlan sp WHERE (sp.beginYear = :by) AND (sp.specialityName LIKE :sn) "
-					+ "AND (sp.specialityKey = :sk) AND (sp.kvalification = :kv) AND (sp.extramural = :em)", StudyPlan.class);
-			q.setParameter("by", plan.getBeginYear());
-			q.setParameter("sn", plan.getSpecialityName());
-			q.setParameter("sk", plan.getSpecialityKey());
-			q.setParameter("kv", plan.getKvalification());
-			q.setParameter("em", plan.getExtramural());
-			return q.getResultList();
-		} catch (Exception e) {
-			return Collections.<StudyPlan>emptyList();
-		}
-	}
+  public List<StudyPlan> findByDepartment(final Department dep) {
+    TypedQuery<StudyPlan> q = em.createQuery(
+      "SELECT sp FROM StudyPlan sp "
+      + "WHERE (sp.speciality.id IN (SELECT dp.speciality.id FROM DepartmentProfile dp WHERE (dp.department = :dep)))"
+      + " AND (sp.extramural IN (SELECT dp.extramural FROM DepartmentProfile dp WHERE (dp.department = :dep))) "
+      + "ORDER BY sp.speciality.name, sp.beginYear DESC", StudyPlan.class);
+    q.setParameter("dep", dep);
+    return q.getResultList();
+  }
 
-	public List<StudyPlan> findByDepartment(final Department dep) {
-		TypedQuery<StudyPlan> q = em.createQuery(
-				"SELECT sp FROM StudyPlan sp "
-				+ "WHERE (sp.speciality.id IN (SELECT dp.speciality.id FROM DepartmentProfile dp WHERE (dp.department = :dep)))"
-				+ " AND (sp.extramural IN (SELECT dp.extramural FROM DepartmentProfile dp WHERE (dp.department = :dep))) "
-				+ "ORDER BY sp.speciality.name, sp.beginYear DESC", StudyPlan.class);
-		q.setParameter("dep", dep);
-		return q.getResultList();
-	}
-
-	public StudyPlan save(StudyPlan item) {
-		if (item.getSpecialityCode() > 0) {
-			Speciality spc = em.find(Speciality.class, item.getSpecialityCode());
-			if (null != spc) {
-				item.setSpeciality(spc);
-			} else {
-				throw new EJBException("Wrong Speciality code " + item.getSpecialityCode());
-			}
-		}
-		if (item.getId() == 0) {
-			em.persist(item);
-			return item;
-		} else {
-			return em.merge(item);
-		}
-	}
+  public StudyPlan save(StudyPlan item) {
+    if (item.getSpecialityCode() > 0) {
+      Speciality spc = em.find(Speciality.class, item.getSpecialityCode());
+      if (null != spc) {
+        item.setSpeciality(spc);
+      } else {
+        throw new EJBException("Wrong Speciality code " + item.getSpecialityCode());
+      }
+    }
+    if (item.getId() == 0) {
+      em.persist(item);
+      return item;
+    } else {
+      return em.merge(item);
+    }
+  }
 
 	public void delete(final StudyPlan item) {
 		StudyPlan sp = em.find(StudyPlan.class, item.getId());

@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.ejb.ServicesEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
 import ru.edu.pgtk.weducation.entity.Department;
@@ -8,8 +9,8 @@ import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -22,95 +23,118 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 @ViewScoped
 public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable {
 
-	long serialVersionUID = 0L;
+  long serialVersionUID = 0L;
 
-	@EJB
-	private transient StudyPlansEJB ejb;
-	@EJB
-	private transient DepartmentsEJB departments;
-	@EJB
-	private transient SpecialitiesEJB specialities;
-	private int planCode;
-	private List<StudyPlan> plansList;
-	private List<Speciality> specialitiesList;
-	private Department dep;
+  @Inject
+  private transient StudyPlansEJB ejb;
+  @Inject
+  private transient DepartmentsEJB departments;
+  @Inject
+  private transient SpecialitiesEJB specialities;
+  @Inject
+  private transient ServicesEJB services;
+  private int planCode;
+  private List<StudyPlan> plansList;
+  private List<Speciality> specialitiesList;
+  private Department dep;
+  private boolean copy; // Признак того, что идет операция копирования.
+  private StudyPlan source; // Источник учебного плана для копирования.
 
-	@PostConstruct
-	private void loadDepartment() {
-		try {
-			if ((user != null) && user.isDepartment()) {
-				dep = departments.get(user.getCode());
-			} else {
-				dep = null;
-			}
-		} catch (Exception e) {
-			dep = null;
-		}
-	}
+  @PostConstruct
+  private void loadDepartment() {
+    try {
+      if ((user != null) && user.isDepartment()) {
+        dep = departments.get(user.getCode());
+      } else {
+        dep = null;
+      }
+    } catch (Exception e) {
+      dep = null;
+    }
+  }
 
-	private void prepareList() {
-		if (dep != null) {
-			plansList = ejb.findByDepartment(dep);
-			specialitiesList = specialities.fetchAll(dep);
-		} else {
-			plansList = ejb.fetchAll();
-			specialitiesList = specialities.fetchAll();
-		}
-	}
+  private void prepareList() {
+    if (dep != null) {
+      plansList = ejb.findByDepartment(dep);
+      specialitiesList = specialities.fetchAll(dep);
+    } else {
+      plansList = ejb.fetchAll();
+      specialitiesList = specialities.fetchAll();
+    }
+  }
 
-	public int getPlanCode() {
-		return planCode;
-	}
+  public int getPlanCode() {
+    return planCode;
+  }
 
-	public void setPlanCode(int planCode) {
-		this.planCode = planCode;
-	}
+  public void copy(final StudyPlan source) {
+    // Сохраним источник
+    this.source = source;
+    // Создадим новый учебный план с параметрами исходного
+    item = new StudyPlan(source);
+    // Включим режим редактирования
+    edit = true;
+  }
 
-	public void loadPlan() {
-		try {
-			if (planCode > 0) {
-				item = ejb.get(planCode);
-				details = true;
-			}
-		} catch (Exception e) {
-			addMessage(e);
-		}
-	}
+  public void setPlanCode(int planCode) {
+    this.planCode = planCode;
+  }
 
-	public List<StudyPlan> getPlans() {
-		if (plansList == null) {
-			prepareList();
-		}
-		return plansList;
-	}
+  public void loadPlan() {
+    try {
+      if (planCode > 0) {
+        item = ejb.get(planCode);
+        details = true;
+      }
+    } catch (Exception e) {
+      addMessage(e);
+    }
+  }
 
-	public List<Speciality> getSpecialities() {
-		if (specialitiesList == null) {
-			prepareList();
-		}
-		return specialitiesList;
-	}
+  public List<StudyPlan> getPlans() {
+    if (plansList == null) {
+      prepareList();
+    }
+    return plansList;
+  }
 
-	@Override
-	public void newItem() {
-		item = new StudyPlan();
-		Calendar cal = new GregorianCalendar();
-		item.setBeginYear(cal.get(Calendar.YEAR));
-		item.setYears(3);
-		item.setMonths(10);
-	}
+  public List<Speciality> getSpecialities() {
+    if (specialitiesList == null) {
+      prepareList();
+    }
+    return specialitiesList;
+  }
 
-	@Override
-	public void deleteItem() {
-		if (delete && (null != item)) {
-			ejb.delete(item);
-			prepareList();
-		}
-	}
+  @Override
+  public void newItem() {
+    item = new StudyPlan();
+    Calendar cal = new GregorianCalendar();
+    item.setBeginYear(cal.get(Calendar.YEAR));
+    item.setYears(3);
+    item.setMonths(10);
+  }
 
-	@Override
-	public void saveItem() {
-		ejb.save(item);
-		prepareList();
-	}
+  @Override
+  public void deleteItem() {
+    if (delete && (null != item)) {
+      ejb.delete(item);
+      prepareList();
+    }
+  }
+
+  @Override
+  public void saveItem() {
+    ejb.save(item);
+    // Если это операция копирования и есть источник, то скопируем дисциплины и т.п.
+    if (copy && (null != source)) {
+      services.copyPlan(source, item);
+    }
+    source = null;
+    copy = false;
+    prepareList();
+  }
+
+  public boolean isCopy() {
+    return copy;
+  }
 }

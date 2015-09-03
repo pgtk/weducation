@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +14,7 @@ import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.entity.SubjectLoad;
 
 @Stateless
 @Named("subjectsEJB")
@@ -21,6 +22,8 @@ public class SubjectsEJB {
 
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
+  @Inject
+  private SubjectLoadEJB load;
 
   public Subject get(final int id) {
     Subject result = em.find(Subject.class, id);
@@ -57,6 +60,23 @@ public class SubjectsEJB {
       + "(s.id NOT IN (SELECT fm.subject.id FROM FinalMark fm WHERE (fm.card = :c))) ORDER BY s.fullName", Subject.class);
     q.setParameter("pln", card.getPlan());
     q.setParameter("c", card);
+    return q.getResultList();
+  }
+
+  public List<Subject> fetchForModule(final StudyModule module) {
+    TypedQuery<Subject> q = em.createQuery(
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
+      + "(s.module = :mod) ORDER BY s.fullName", Subject.class);
+    q.setParameter("pln", module.getPlan());
+    q.setParameter("mod", module);
+    return q.getResultList();
+  }
+
+  public List<Subject> fetchNoModules(final StudyPlan plan) {
+    TypedQuery<Subject> q = em.createQuery(
+      "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
+      + "(s.module is null) ORDER BY s.fullName", Subject.class);
+    q.setParameter("pln", plan);
     return q.getResultList();
   }
 
@@ -114,6 +134,29 @@ public class SubjectsEJB {
     q.setParameter("c", course);
     q.setParameter("s", semester);
     return q.getResultList();
+  }
+
+  /**
+   * Копирует учебную нагрузку по семестрам из одной дисциплины в другую.
+   *
+   * @param source дисциплина-источник - та, из которой будет копироваться нагрузка.
+   * @param destination дисциплина-назначение - та, в которую будет копироваться нагрузка.
+   */
+  public void copy(final Subject source, final Subject destination) {
+    if (null == source) {
+      throw new IllegalArgumentException("Дисциплина-источник не может быть null! Копирование невозможно.");
+    }
+    if (null == destination) {
+      throw new IllegalArgumentException("Дисциплина-назначение не может быть null! Копирование невозможно.");
+    }
+    if (!load.fetchAll(destination).isEmpty()) {
+      throw new IllegalArgumentException("Дисциплина-назначение уже имеет какую-то нагрузку. Копирование невозможно!");
+    }
+    for (SubjectLoad sl: load.fetchAll(source)) {
+      SubjectLoad copy = new SubjectLoad(sl);
+      copy.setSubject(destination);
+      load.save(copy);
+    }
   }
 
   public Subject save(Subject item) {

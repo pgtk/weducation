@@ -61,6 +61,26 @@ public class StudyPlan implements Serializable {
     specialityCode = speciality.getId();
   }
 
+  public StudyPlan() {
+    // empty constructor
+  }
+
+  public StudyPlan(final StudyPlan source) {
+    beginYear = source.getBeginYear();
+    extramural = source.isExtramural();
+    years = source.getYears();
+    months = source.getMonths();
+    speciality = source.getSpeciality();
+    if (null != speciality) {
+      specialityCode = speciality.getId();
+    }
+    name = "Копия-" + source.getName();
+    specialityName = source.getSpecialityName();
+    specialityKey = source.getSpecialityKey();
+    kvalification = source.getKvalification();
+    specialization = source.getSpecialization();
+  }
+
   public int getId() {
     return id;
   }
