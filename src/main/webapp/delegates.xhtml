@@ -63,7 +63,7 @@
           <h:inputText value="#{delegatesMB.item.post}" class="textEdit" /><p />
           <h:outputText value="Телефоны (можно ввести несколько, разделяя запятыми) в формате +7(XXX)XXX-XX-XX" /><br />
           <h:inputText value="#{delegatesMB.item.phones}" class="textEdit">
-            <f:validator validatorId="phoneValidator" />
+            <f:validator binding="#{phoneValidator}" />
           </h:inputText><p />
           <h:outputText value="Примечание" /><br />
           <h:inputText value="#{delegatesMB.item.description}" class="textEdit" /><p />

@@ -107,7 +107,7 @@
           </h:selectOneMenu><p />
           <h:outputText value="Телефон в формате +7(XXX)XXX-XX-XX (можно ввести несколько, разделяя запятыми)" /><br />
           <h:inputText value="#{personsMB.item.phones}" class="textEdit">
-            <f:validator validatorId="phoneValidator" />
+            <f:validator binding="#{phoneValidator}" />
           </h:inputText><p />
           <h:outputText value="Средний балл аттестата" /><br />
           <h:inputText value="#{personsMB.item.averageBall}" class="textEdit" /><p />

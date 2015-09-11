@@ -2,23 +2,26 @@ package ru.edu.pgtk.weducation.validators;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Named;
 
-@FacesValidator("phoneValidator")
+//@FacesValidator("phoneValidator")
+@Named("phoneValidator")
+@Stateless
 public class PhoneValidator implements Validator {
 
-  private static final String EMAIL_PATTERN = "\\+7\\(\\d{3}\\)\\d{3}\\-\\d{2}\\-\\d{2} ?\\(?\\D*\\)?";
+  private static final String PATTERN = "\\+7\\(\\d{3}\\)\\d{3}\\-\\d{2}\\-\\d{2} ?\\(?\\D*\\)?";
 
   private final Pattern pattern;
   private Matcher matcher;
 
   public PhoneValidator() {
-    pattern = Pattern.compile(EMAIL_PATTERN);
+    pattern = Pattern.compile(PATTERN);
   }
 
   @Override
