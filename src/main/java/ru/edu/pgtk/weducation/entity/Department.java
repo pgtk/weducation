@@ -31,7 +31,6 @@ public class Department implements Serializable {
   @Column(name = "dep_secretar", nullable = false, length = 128)
   private String secretar;
 
-  // TODO возможно, стоит добавить, является ли отделение заочным?
   public int getId() {
     return id;
   }

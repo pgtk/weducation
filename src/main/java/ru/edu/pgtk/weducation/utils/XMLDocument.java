@@ -136,7 +136,6 @@ public class XMLDocument {
    */
   public String getAttributeValue(Node node, String attributeName) {
     try {
-      // TODO Может стоит возвращать null при отсутствии атрибута с таким именем?
       if (node.hasAttributes()) {
         NamedNodeMap attributes = node.getAttributes();
         for (int a = 0; a < attributes.getLength(); a++) {

@@ -687,7 +687,6 @@ public class GroupReportsEJB {
           legalCell = new PdfPCell();
           illegalCell = new PdfPCell();
           allCell = new PdfPCell();
-          // TODO вывести количество пропусков в заполненной ведомости
           if (!empty) {
             ReportMissing m = missings.getSemesterMissings(sc, gs);
             legalCell.addElement(getParagraph(String.valueOf(m.getLegal()), regularFont, Paragraph.ALIGN_CENTER));
@@ -882,7 +881,6 @@ public class GroupReportsEJB {
           legalCell = new PdfPCell();
           illegalCell = new PdfPCell();
           allCell = new PdfPCell();
-          // TODO вывести количество пропусков в заполненной ведомости
           if (!empty) {
             ReportMissing m = missings.getSemesterMissings(sc, gs);
             legalCell.addElement(getParagraph(String.valueOf(m.getLegal()), regularFont, Paragraph.ALIGN_CENTER));
