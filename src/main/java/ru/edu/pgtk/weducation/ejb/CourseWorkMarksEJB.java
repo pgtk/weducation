@@ -1,15 +1,5 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.LinkedList;
-import java.util.List;
-import javax.ejb.EJBException;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.AccountRole;
 import ru.edu.pgtk.weducation.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
@@ -17,15 +7,26 @@ import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
 
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.ejb.Stateless;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.LinkedList;
+import java.util.List;
+
 @Stateless
 @Named("courseWorkMarksEJB")
 public class CourseWorkMarksEJB {
 
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
-  @Inject
+  @EJB
   SubjectsEJB subjects;
-  @Inject
+  @EJB
   StudyCardsEJB cards;
 
   public CourseWorkMark get(final int id) {

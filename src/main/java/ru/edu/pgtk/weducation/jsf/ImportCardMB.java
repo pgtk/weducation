@@ -1,60 +1,61 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.utils.ImportCardEJB;
+
+import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Map;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import ru.edu.pgtk.weducation.utils.ImportCardEJB;
 
 @ViewScoped
 @Named("importCardMB")
 public class ImportCardMB implements Serializable {
 
-  long serialVersionUID = 0L;
-  
-  @Inject
-  private transient ImportCardEJB ejb;
-  private String groupCode;
-  private boolean success = false;
+	long serialVersionUID = 0L;
 
-  public Map<String, String> getGroups() {
-    return ejb.getGroups();
-  }
+	@EJB
+	private transient ImportCardEJB ejb;
+	private String groupCode;
+	private boolean success = false;
 
-  public void importGroup() {
-    if ((null != groupCode) && (!groupCode.isEmpty())) {
-      try {
-        ejb.importGroup(groupCode);
-        success = true;
-      } catch (Exception e) {
-        Utils.addMessage(e);
-      }
-    }
-  }
+	public Map<String, String> getGroups() {
+		return ejb.getGroups();
+	}
 
-  public void importAll() {
-    try {
-      ejb.importAll();
-      success = true;
-    } catch (Exception e) {
-      Utils.addMessage("Ошибка при импорте групп!");
-    }
-  }
+	public void importGroup() {
+		if ((null != groupCode) && (!groupCode.isEmpty())) {
+			try {
+				ejb.importGroup(groupCode);
+				success = true;
+			} catch (Exception e) {
+				Utils.addMessage(e);
+			}
+		}
+	}
 
-  public void reset() {
-    success = false;
-  }
+	public void importAll() {
+		try {
+			ejb.importAll();
+			success = true;
+		} catch (Exception e) {
+			Utils.addMessage("Ошибка при импорте групп!");
+		}
+	}
 
-  public String getGroupCode() {
-    return groupCode;
-  }
+	public void reset() {
+		success = false;
+	}
 
-  public void setGroupCode(String groupCode) {
-    this.groupCode = groupCode;
-  }
+	public String getGroupCode() {
+		return groupCode;
+	}
 
-  public boolean isSuccess() {
-    return success;
-  }
+	public void setGroupCode(String groupCode) {
+		this.groupCode = groupCode;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
 }

@@ -1,13 +1,15 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import java.io.Serializable;
-import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
 import ru.edu.pgtk.weducation.entity.Account;
 import ru.edu.pgtk.weducation.entity.AccountRole;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+import java.io.Serializable;
+
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
 @Named("accountsMB")
@@ -15,8 +17,8 @@ import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 public class AccountsMB extends GenericBean<Account> implements Serializable {
 
   long serialVersionUID = 0L;
-  
-  @Inject
+
+  @EJB
   private AccountsEJB ejb;
 
   @PostConstruct
