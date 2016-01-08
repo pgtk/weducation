@@ -1,6 +1,5 @@
 package ru.edu.pgtk.weducation.entity;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * Класс учебной нагрузки по дисциплине.
@@ -73,6 +73,23 @@ public class SubjectLoad implements Serializable {
       subjectCode = 0;
     }
   }
+
+	public SubjectLoad() {
+		// empty constructor
+	}
+
+	public SubjectLoad(final SubjectLoad source) {
+		subject = source.getSubject();
+		if (null != subject) {
+			subjectCode = subject.getId();
+		}
+		course = source.getCourse();
+		semester = source.getSemester();
+		auditoryLoad = source.getAuditoryLoad();
+		courseProjectLoad = source.getCourseProjectLoad();
+		examForm = source.getExamForm();
+		maximumLoad = source.getMaximumLoad();
+	}
 
   public int getSubjectCode() {
     return subjectCode;
