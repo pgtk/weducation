@@ -1,6 +1,5 @@
 package ru.edu.pgtk.weducation.entity;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,111 +10,129 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * Класс дисциплины или междисциплинарного курса
- *
  */
 @Entity
 @Table(name = "subjects")
 public class Subject implements Serializable {
 
-  @Id
-  @Column(name = "sub_pcode")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+	@Id
+	@Column(name = "sub_pcode")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-  @Column(name = "sub_fullname", nullable = false)
-  private String fullName;
+	@Column(name = "sub_fullname", nullable = false)
+	private String fullName;
 
-  @Column(name = "sub_shortname")
-  private String shortName;
+	@Column(name = "sub_shortname")
+	private String shortName;
 
-  @ManyToOne
-  @JoinColumn(name = "sub_plncode", nullable = false)
-  private StudyPlan plan;
+	@ManyToOne
+	@JoinColumn(name = "sub_plncode", nullable = false)
+	private StudyPlan plan;
 
-  @Transient
-  private int planCode;
+	@Transient
+	private int planCode;
 
-  @ManyToOne
-  @JoinColumn(name = "sub_modcode")
-  private StudyModule module;
+	@ManyToOne
+	@JoinColumn(name = "sub_modcode")
+	private StudyModule module;
 
-  @Transient
-  private int moduleCode;
-  
-  private void updatePlanCode() {
-    planCode = 0;
-    if (plan != null) {
-      planCode = plan.getId();
-    }
-  }
+	@Transient
+	private int moduleCode;
 
-  private void updateModuleCode() {
-    moduleCode = 0;
-    if (module != null) {
-      moduleCode = module.getId();
-    }
-  }
-  
-  @PostLoad
-  private void updateCodes() {
-    updatePlanCode();
-    updateModuleCode();
-  }
+	private void updatePlanCode() {
+		planCode = 0;
+		if (plan != null) {
+			planCode = plan.getId();
+		}
+	}
 
-  public int getId() {
-    return id;
-  }
+	private void updateModuleCode() {
+		moduleCode = 0;
+		if (module != null) {
+			moduleCode = module.getId();
+		}
+	}
 
-  public String getFullName() {
-    return fullName;
-  }
+	@PostLoad
+	private void updateCodes() {
+		updatePlanCode();
+		updateModuleCode();
+	}
 
-  public void setFullName(String fullName) {
-    this.fullName = fullName;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public String getShortName() {
-    return shortName;
-  }
+	public Subject() {
+		// empty constructor
+	}
 
-  public void setShortName(String shortName) {
-    this.shortName = shortName;
-  }
+	// Конструктор для копирования учебных планов
+	public Subject(final Subject sample) {
+		fullName = sample.getFullName();
+		shortName = sample.getShortName();
+		plan = sample.getPlan();
+		if (null != plan) {
+			planCode = plan.getId();
+		}
+		module = sample.getModule();
+		if (null != module) {
+			moduleCode = sample.getModuleCode();
+		}
+	}
 
-  public StudyPlan getPlan() {
-    return plan;
-  }
+	public String getFullName() {
+		return fullName;
+	}
 
-  public void setPlan(StudyPlan plan) {
-    this.plan = plan;
-    updatePlanCode();
-  }
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 
-  public StudyModule getModule() {
-    return module;
-  }
+	public String getShortName() {
+		return shortName;
+	}
 
-  public void setModule(StudyModule module) {
-    this.module = module;
-    updateModuleCode();
-  }
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
 
-  public int getPlanCode() {
-    return planCode;
-  }
+	public StudyPlan getPlan() {
+		return plan;
+	}
 
-  public void setPlanCode(int planCode) {
-    this.planCode = planCode;
-  }
+	public void setPlan(StudyPlan plan) {
+		this.plan = plan;
+		updatePlanCode();
+	}
 
-  public int getModuleCode() {
-    return moduleCode;
-  }
+	public StudyModule getModule() {
+		return module;
+	}
 
-  public void setModuleCode(int moduleCode) {
-    this.moduleCode = moduleCode;
-  }
+	public void setModule(StudyModule module) {
+		this.module = module;
+		updateModuleCode();
+	}
+
+	public int getPlanCode() {
+		return planCode;
+	}
+
+	public void setPlanCode(int planCode) {
+		this.planCode = planCode;
+	}
+
+	public int getModuleCode() {
+		return moduleCode;
+	}
+
+	public void setModuleCode(int moduleCode) {
+		this.moduleCode = moduleCode;
+	}
 }
