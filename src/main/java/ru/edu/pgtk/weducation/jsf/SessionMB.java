@@ -57,7 +57,7 @@ public class SessionMB implements Serializable {
     sessions.save(session);
     // Добавить логирование!
     System.out.println("Session for " + 
-      ((null != user)? user.getFullName() : "unlogged user") + " started.");
+      ((null != user) ? user.getFullName() : "unlogged user") + " started.");
   }
 
   /**
@@ -67,7 +67,7 @@ public class SessionMB implements Serializable {
   @PreDestroy
   private void stopSession() {
     System.out.println("Session for " + 
-      ((null != user)? user.getFullName() : "unlogged user") + " passivated.");
+      ((null != user) ? user.getFullName() : "unlogged user") + " passivated.");
     // Удаляем из базы данных сессию.
     if (session != null) {
       sessions.delete(session);
@@ -86,7 +86,7 @@ public class SessionMB implements Serializable {
   @PrePassivate
   private void passivateSession() {
     System.out.println("Session for " + 
-      ((null != user)? user.getFullName() : "unlogged user") + " stopped.");
+      ((null != user) ? user.getFullName() : "unlogged user") + " stopped.");
   }
 
   /**
