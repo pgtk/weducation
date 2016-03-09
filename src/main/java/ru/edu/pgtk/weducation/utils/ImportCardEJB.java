@@ -1,24 +1,5 @@
 package ru.edu.pgtk.weducation.utils;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.ejb.Stateless;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import ru.edu.pgtk.weducation.ejb.DelegatesEJB;
 import ru.edu.pgtk.weducation.ejb.PersonsEJB;
 import ru.edu.pgtk.weducation.ejb.PlacesEJB;
@@ -35,6 +16,26 @@ import ru.edu.pgtk.weducation.entity.School;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.ejb.Stateless;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class ImportCardEJB {
@@ -107,9 +108,6 @@ public class ImportCardEJB {
           Speciality result = new Speciality();
           result.setDescription(rs.getString("sp_name"));
           result.setName(rs.getString("sp_shortName"));
-//          result.setKey(rs.getString("sp_Key"));
-//          result.setKvalification(rs.getString("sp_kvalification"));
-//          result.setSpecialization(rs.getString("sp_specialization"));
           return result;
         }
       }

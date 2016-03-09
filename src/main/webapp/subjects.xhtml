@@ -26,7 +26,8 @@
           <table id="dataTable">
             <thead>
               <tr>
-                <th width="60%">Наименование полное</th>
+                <th width="10%">№ по плану</th>
+                <th width="50%">Наименование полное</th>
                 <th width="20%">Наименование сокращенное</th>
                 <th width="20%">Действия</th>
               </tr>
@@ -34,6 +35,9 @@
             <tbody>
               <ui:repeat value="#{subjectsMB.subjects}" var="sub">
                 <tr>
+                  <td>
+                    <h:link class="action" value="#{sub.number}" outcome="/subjectload?subjectId=#{sub.id}"/>
+                  </td>
                   <td>
                     <h:link class="action" value="#{sub.fullName}" outcome="/subjectload?subjectId=#{sub.id}" />
                   </td>
@@ -60,6 +64,9 @@
         <!-- Edit -->
         <h2>Редактирование дисциплины (МДК)</h2>
         <h:form>
+          <h:outputText value="Номер по учебному плану (нумерация сквозная)"/><br/>
+          <h:inputText value="#{subjectsMB.item.number}" class="textEdit"/>
+          <p/>
           <h:outputText value="Наименование полное" /><br />
           <h:inputText value="#{subjectsMB.item.fullName}" class="textEdit" /><p />
           <h:outputText value="Наименование сокращенное" /><br />
