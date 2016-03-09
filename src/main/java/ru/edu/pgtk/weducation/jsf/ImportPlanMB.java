@@ -132,6 +132,8 @@ public class ImportPlanMB implements Serializable {
 					if (!exist) {
 						sp.setSpeciality(speciality);
 						plans.save(sp);
+						int moduleNumber = 0; //Порядковый номер модуля
+						int subjectNumber = 0; //Порядковый номер дисциплины
 						// Импорт модулей
 						for (XMLModule mod : parser.getModules()) {
 							StudyModule sm = null;
@@ -139,6 +141,7 @@ public class ImportPlanMB implements Serializable {
 								sm = new StudyModule();
 								sm.setName(mod.getName());
 								sm.setPlan(sp);
+								sm.setNumber(moduleNumber++);
 								if (mod.getKvExams() > 0) {
 									sm.setExamForm(ExamForm.KVALIFEXAM);
 								}
@@ -154,6 +157,7 @@ public class ImportPlanMB implements Serializable {
 									s.setShortName(getShortName(xs.getName()));
 								}
 								s.setPlan(sp);
+								s.setNumber(subjectNumber++);
 								s.setModule(sm);
 								subjects.save(s);
 								// Нагрузка

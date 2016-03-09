@@ -211,6 +211,7 @@ public class CardReportsEJB {
 			table.addCell(markCell);
 		}
 		for (CourseWorkMark mark : marks) {
+			// TODO тут надо сделать надпись в соответствии с образцом
 			nameCell = new PdfPCell(getParagraph(mark.getSubject().getFullName()
 			                                     + " (" + mark.getTheme() + ")",
 					smallFont, Paragraph.ALIGN_LEFT));

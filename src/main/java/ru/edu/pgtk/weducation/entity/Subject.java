@@ -24,6 +24,9 @@ public class Subject implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(name = "sub_number", nullable = false)
+	private int number;
+
 	@Column(name = "sub_fullname", nullable = false)
 	private String fullName;
 
@@ -134,5 +137,13 @@ public class Subject implements Serializable {
 
 	public void setModuleCode(int moduleCode) {
 		this.moduleCode = moduleCode;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 }

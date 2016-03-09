@@ -1,7 +1,9 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.math.BigDecimal;
-import java.util.List;
+import ru.edu.pgtk.weducation.entity.FinalMark;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyModule;
+
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -10,9 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.FinalMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyModule;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Stateless
 @Named("finalMarksEJB")
@@ -54,7 +55,7 @@ public class FinalMarksEJB {
   public List<FinalMark> fetchModules(final StudyCard card) {
     TypedQuery<FinalMark> q = em.createQuery(
             "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) AND (fm.subject IS NULL)"
-            + "AND (fm.module IS NOT NULL) ORDER BY fm.module.name", FinalMark.class);
+            + "AND (fm.module IS NOT NULL) ORDER BY fm.module.number, fm.module.name", FinalMark.class);
     q.setParameter("c", card);
     return q.getResultList();
   }
@@ -62,7 +63,7 @@ public class FinalMarksEJB {
   public List<FinalMark> fetchModuleSubjects(final StudyCard card, final StudyModule module) {
     TypedQuery<FinalMark> q = em.createQuery(
             "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) AND (fm.module = :m) "
-                    + "ORDER BY fm.subject.fullName", FinalMark.class);
+            + "ORDER BY fm.subject.number, fm.subject.fullName", FinalMark.class);
     q.setParameter("c", card);
     q.setParameter("m", module);
     return q.getResultList();
@@ -71,7 +72,7 @@ public class FinalMarksEJB {
   public List<FinalMark> fetchOnlySubjects(final StudyCard card) {
     TypedQuery<FinalMark> q = em.createQuery(
             "SELECT fm FROM FinalMark fm WHERE (fm.card = :c) AND (fm.subject IS NOT NULL)"
-            + " AND (fm.module IS NULL) ORDER BY fm.subject.fullName", FinalMark.class);
+            + " AND (fm.module IS NULL) ORDER BY fm.subject.number, fm.subject.fullName", FinalMark.class);
     q.setParameter("c", card);
     return q.getResultList();
   }

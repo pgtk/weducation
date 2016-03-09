@@ -25,6 +25,9 @@ public class StudyModule implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(name = "mod_number", nullable = false)
+	private int number;
+
 	@Column(name = "mod_name", nullable = false, length = 255)
 	private String name;
 
@@ -95,5 +98,14 @@ public class StudyModule implements Serializable {
 
 	public void setPlanCode(int planCode) {
 		this.planCode = planCode;
+	}
+
+	public int getNumber() {
+
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 }
