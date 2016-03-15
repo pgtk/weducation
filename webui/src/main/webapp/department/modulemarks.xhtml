@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+    <f:viewParam name="groupId" value="#{semesterModuleMarksMB.groupCode}"/>
+    <f:viewAction action="#{semesterModuleMarksMB.loadGroup()}"/>
+</f:metadata>
+
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+        <!-- List -->
+        <h2>Оценки за семестр по модулям для группы #{semesterModuleMarksMB.group.name}</h2>
+        <h:outputText value="Семестр"/><br/>
+        <h:form>
+            <h:selectOneMenu value="#{semesterModuleMarksMB.groupCode}" valueChangeListener="#{semesterModuleMarksMB.changeSemester}">
+                <f:selectItem itemLabel="Выберите семестр" itemValue="0"/>
+                <f:selectItems value="#{semesterModuleMarksMB.semesterList}" var="sm"
+                               itemLabel="#{sm.label}" itemValue="#{sm.id}"/>
+                <f:ajax execute="@form" render="@form"/>
+            </h:selectOneMenu>
+            <p/>
+            <h:outputText value="Модуль"/><br/>
+            <h:selectOneMenu value="#{semesterModuleMarksMB.moduleCode}" valueChangeListener="#{semesterModuleMarksMB.changeModule}">
+                <f:selectItem itemLabel="Выберите модуль" itemValue="0"/>
+                <f:selectItems value="#{semesterModuleMarksMB.moduleList}" var="module"
+                               itemLabel="#{module.name}" itemValue="#{module.id}"/>
+                <f:ajax execute="@form" render="@form"/>
+            </h:selectOneMenu>
+            <p/>
+            <h:panelGroup rendered="#{not empty semesterModuleMarksMB.markList}">
+                <table class="dataTable">
+                    <thead>
+                    <tr>
+                        <th width="70%">Фамилия Имя Отчество</th>
+                        <th width="30%">Оценка</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat value="#{semesterModuleMarksMB.markList}" var="mark">
+                        <tr class="#{utilsMB.getEnabledClass(mark.card.active)}">
+                            <td>${mark.person.fullName}</td>
+                            <td>
+                                <h:inputText value="#{mark.mark}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+                <div class="buttons">
+                    <h:commandButton value="Сохранить" action="#{semesterModuleMarksMB.save()}"/>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{empty semesterModuleMarksMB.markList}">
+                <p>Для указанных параметров список недоступен или пуст.</p>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

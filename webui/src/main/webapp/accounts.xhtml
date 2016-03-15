@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+      <h:panelGroup layout="block" rendered="#{accountsMB.browse}">
+        <!-- List -->
+        <h2>Учетные записи</h2>
+        <h:form>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{accountsMB.add()}" /></div>
+        </h:form>
+        <h:form id="listForm" rendered="#{not accountsMB.emptyList}">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th width="30%">Полное имя</th>
+                <th width="30%">Логин</th>
+                <th width="20%">Роль</th>
+                <th width="20%">Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+            <ui:repeat value="#{accountsMB.accountList}" var="account">
+                <tr>
+                  <td>
+                    #{account.fullName}
+                  </td>
+                  <td>
+                    #{account.login}
+                  </td>
+                  <td>
+                    #{account.roleString}
+                  </td>
+                  <td>
+                    <h:commandLink class="action" value="Изменить" action="#{accountsMB.edit(account)}" />
+                    <h:commandLink class="action" value="Пароль" action="#{accountsMB.details(account)}" />
+                    <h:commandLink class="action" value="Удалить" action="#{accountsMB.delete(account)}" />
+                  </td>
+                </tr>
+              </ui:repeat>
+            </tbody>
+          </table>
+        </h:form>
+        <h:panelGroup rendered="#{accountsMB.emptyList}">
+          <p>На данный момент нет ни одной записи.</p>
+        </h:panelGroup>
+        <h:form>
+          <div class="buttons"><h:commandButton value="Добавить" action="#{accountsMB.add()}" /></div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{accountsMB.edit}">
+        <!-- Edit -->
+        <h2>Параметры учетной записи</h2>
+        <h:form>
+          <h:outputText value="Полное имя" /><br />
+          <h:inputText value="#{accountsMB.item.fullName}" class="textEdit" /><p />
+          <h:outputText value="Логин" /><br />
+          <h:inputText value="#{accountsMB.item.login}" class="textEdit" /><p />
+          <h:panelGroup rendered="#{accountsMB.item.id == 0}">
+            <h:outputText value="Пароль" /><br />
+            <h:inputSecret value="#{accountsMB.item.password}" class="textEdit" /><p />
+            <h:outputText value="Подтверждение пароля" /><br />
+            <h:inputSecret value="#{accountsMB.item.confirm}" class="textEdit" /><p />
+          </h:panelGroup>
+          <h:outputText value="Роль пользователя" /><br />
+          <h:selectOneMenu value="#{accountsMB.item.role}">
+            <f:selectItems value="#{accountsMB.roles}" var="role" itemLabel="#{role.description}" itemValue="#{role}" />
+            <f:ajax execute="@form" render="@form" />
+          </h:selectOneMenu><p />
+          <h:panelGroup rendered="#{accountsMB.item.department}">
+            <h:outputText value="Отделение" /><br />
+            <h:selectOneMenu value="#{accountsMB.item.code}">
+              <f:selectItem itemLabel="Не привязана к отделению" itemValue="0" />
+              <f:selectItems value="#{accountsMB.departmentsList}" var="dep" itemLabel="#{dep.name}" itemValue="#{dep.id}"/>
+            </h:selectOneMenu><p />
+          </h:panelGroup>
+          <div class="buttons">
+            <h:commandButton value="Сохранить" action="#{accountsMB.save()}" />
+            <h:commandButton value="Отмена" action="#{accountsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{accountsMB.delete}">
+        <!-- Delete -->
+        <h2>Удаление учетной записи</h2>
+        <h:form>
+          <p>Учетная запись "#{accountsMB.item.fullName}" будет удалена!</p>
+          <div class="buttons">
+            <h:commandButton value="Удалить" action="#{accountsMB.confirmDelete()}" />
+            <h:commandButton value="Отмена" action="#{accountsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{accountsMB.details}">
+        <!-- Password change -->
+        <h2>Смена пароля для учетной записи</h2>
+        <h:form>
+          <h3>#{accountsMB.item.fullName}</h3>
+          <h:outputText value="Пароль" /><br />
+          <h:inputSecret value="#{accountsMB.item.password}" class="textEdit" /><p />
+          <h:outputText value="Подтверждение пароля" /><br />
+          <h:inputSecret value="#{accountsMB.item.confirm}" class="textEdit" /><p />
+          <div class="buttons">
+            <h:commandButton value="Сменить пароль" action="#{accountsMB.changePassword()}" />
+            <h:commandButton value="Отмена" action="#{accountsMB.cancel()}" />
+          </div>
+        </h:form>
+      </h:panelGroup>
+      <h:panelGroup layout="block" rendered="#{accountsMB.error}">
+        <ui:include src="/WEB-INF/includes/error.xhtml" />
+      </h:panelGroup>
+    </ui:define>
+  </ui:composition>
+</html>

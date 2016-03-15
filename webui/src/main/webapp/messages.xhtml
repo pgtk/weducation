@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+        <h:panelGroup layout="block" rendered="#{messagesMB.browse}">
+            <h2>#{messagesMB.title}</h2>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="#{messagesMB.label}" action="#{messagesMB.changeThread()}"/>
+                    <h:commandButton rendered="#{messagesMB.outgoing}" value="Новое сообщение" action="#{messagesMB.add()}"/>
+                </div>
+            </h:form>
+            <h:form id="listForm" rendered="#{not messagesMB.emptyList}">
+                <ui:repeat value="#{messagesMB.messages}" var="msg">
+                    <table class="message">
+                        <thead>
+                        <tr>
+                            <th width="80%">
+                                <h:outputText rendered="#{messagesMB.outgoing}" value="#{msg.destinationAccount.fullName}"/>
+                                <h:outputText rendered="#{not messagesMB.outgoing}" value="#{msg.from}"/>
+                            </th>
+                            <th width="20%">#{messagesMB.getMessageTimestamp(msg.timestamp)}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td width="80%">
+                                <h3>#{msg.title}</h3>
+                                <p>#{msg.text}</p>
+                            </td>
+                            <td width="20%" valign="center">
+                                <h:commandButton value="Удалить" action="#{messagesMB.hide(msg)}"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </ui:repeat>
+            </h:form>
+            <h:panelGroup rendered="#{messagesMB.emptyList}">
+                <p>Список сообщений пуст.</p>
+            </h:panelGroup>
+            <h:form rendered="#{not messagesMB.emptyList}">
+                <div class="buttons">
+                    <h:commandButton value="#{messagesMB.label}" action="#{messagesMB.changeThread()}">
+                        <f:ajax execute="@this" render="@all"/>
+                    </h:commandButton>
+                    <h:commandButton rendered="#{messagesMB.outgoing}" value="Новое сообщение" action="#{messagesMB.add()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{messagesMB.edit}">
+            <h2>Редактирование сообщения</h2>
+            <h:form>
+                <h:outputText value="Адресат"/><br/>
+                <h:selectOneMenu value="#{messagesMB.desinationAccountCode}">
+                    <f:selectItem itemLabel="Выберите адресата" itemValue="0"/>
+                    <f:selectItems var="account" value="#{messagesMB.accountsList}"
+                                   itemLabel="#{account.fullName}" itemValue="#{account.id}"/>
+                </h:selectOneMenu>
+                <p/>
+                <h:outputText value="Заголовок"/><br/>
+                <h:inputText value="#{messagesMB.item.title}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Текст сообщения"/><br/>
+                <h:inputTextarea value="#{messagesMB.item.text}" class="textEdit"/>
+                <p/>
+                <div class="buttons">
+                    <h:commandButton value="Сохранить" action="#{messagesMB.save()}"/>
+                    <h:commandButton value="Отменить" action="#{messagesMB.cancel()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+</html>

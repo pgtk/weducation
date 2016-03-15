@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+    <f:viewParam name="groupId" value="#{practicMarksMB.groupCode}"/>
+    <f:viewAction action="#{practicMarksMB.loadGroup()}"/>
+</f:metadata>
+
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+        <!-- List -->
+        <h2>Оценки за семестр по практике для группы #{practicMarksMB.group.name}</h2>
+        <h:outputText value="Семестр"/><br/>
+        <h:form id="practicForm">
+            <h:selectOneMenu value="#{practicMarksMB.groupCode}" valueChangeListener="#{practicMarksMB.changeSemester}">
+                <f:selectItem itemLabel="Выберите семестр" itemValue="0"/>
+                <f:selectItems value="#{practicMarksMB.semesterList}" var="sm"
+                               itemLabel="#{sm.label}" itemValue="#{sm.id}"/>
+                <f:ajax execute="@form" render="practicForm"/>
+            </h:selectOneMenu>
+            <p/>
+            <h:panelGroup rendered="#{not empty practicMarksMB.semester}">
+                <h3>Ведомости</h3>
+                <ul>
+                    <li><a target="semesterMarks" href="#{linksMB.getSemesterMarksLink(practicMarksMB.semester)}">Зачетная</a></li>
+                    <li><a target="semesterConsolidates" href="#{linksMB.getConsolidatedMarksLink(practicMarksMB.semester)}">Сводная</a></li>
+                </ul>
+            </h:panelGroup>
+            <h:outputText value="Практика"/><br/>
+            <h:selectOneMenu value="#{practicMarksMB.practicCode}" valueChangeListener="#{practicMarksMB.changePractic}">
+                <f:selectItem itemLabel="Выберите практику" itemValue="0"/>
+                <f:selectItems value="#{practicMarksMB.practicList}" var="practic"
+                               itemLabel="#{practic.fullName}" itemValue="#{practic.id}"/>
+                <f:ajax execute="@form" render="practicForm"/>
+            </h:selectOneMenu>
+            <p/>
+            <h:panelGroup rendered="#{not empty practicMarksMB.markList}">
+                <table class="dataTable">
+                    <thead>
+                    <tr>
+                        <th width="70%">Фамилия Имя Отчество</th>
+                        <th width="30%">Оценка</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat value="#{practicMarksMB.markList}" var="mark">
+                        <tr class="#{utilsMB.getEnabledClass(mark.card.active)}">
+                            <td>${mark.card.person.fullName}</td>
+                            <td>
+                                <h:inputText value="#{mark.mark}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+                <div class="buttons">
+                    <h:commandButton value="Сохранить" action="#{practicMarksMB.save()}"/>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{empty practicMarksMB.markList}">
+                <p>Для указанных параметров список недоступен или пуст.</p>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

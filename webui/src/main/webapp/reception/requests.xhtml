@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:viewParam name="personId" value="#{requestsMB.personCode}" />
+        <f:viewAction action="#{requestsMB.loadPerson()}" />
+    </f:metadata>  
+
+    <ui:composition template="/WEB-INF/templates/main.xhtml">
+        <ui:define name="content">
+            <!-- List -->
+            <h:panelGroup rendered="#{not requestsMB.edit}">
+                <h2>Заявки на поступление</h2>
+                <h3>Параметры заявок</h3>
+                <p>Персона: #{requestsMB.person.fullName}</p>
+                <h:form id="requestListForm">
+                    <h:outputText value="Год " />
+                    <h:selectOneMenu value="#{requestsMB.year}" valueChangeListener="#{requestsMB.changeYear}">
+                        <f:selectItem itemLabel="Выберите год" itemValue="0" />
+                        <f:selectItems value="#{requestsMB.years}" />
+                        <f:ajax execute="@form" render="requestListForm" />
+                    </h:selectOneMenu><p />
+                    <h:selectBooleanCheckbox valueChangeListener="#{requestsMB.changeForm}" value="#{requestsMB.extramural}">
+                        <f:ajax execute="@form" render="requestListForm" />
+                    </h:selectBooleanCheckbox>
+                    <h:outputText value="Заочная форма обучения" /><br />
+                    <h:panelGroup rendered="#{not empty requestsMB.requestList}">
+                        <h3>Имеющиеся заявки</h3>
+                        <table class="dataTable">
+                            <thead>
+                                <tr>
+                                    <th width="80%">Наименование специальности</th>
+                                    <th width="20%">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ui:repeat value="#{requestsMB.requestList}" var="req">
+                                    <tr>
+                                        <td>#{req.speciality.name}</td>
+                                        <td><h:commandLink class="action" action="#{requestsMB.delete(req)}" value="Удалить" /></td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{empty requestsMB.requestList}">
+                        <p>Для указанных параметров список недоступен или пуст.</p>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not empty requestsMB.specList}">
+                        <div class="buttons">
+                            <h:commandButton rendered="#{not empty requestsMB.specList}" value="Добавить заявки" action="#{requestsMB.addRequests()}" />
+                        </div>
+                    </h:panelGroup>
+                    <h:outputText rendered="#{empty requestsMB.specList}" value="На данный момент, нет предложений для поступления" />
+                </h:form>
+            </h:panelGroup>
+            <!-- List -->
+            <h:panelGroup rendered="#{requestsMB.edit}">
+                <h:form id="requestForm">
+                    <h2>Добавление заявки</h2>
+                    <p>Отметьте те специальности, на которые вы хотите сделать заявку</p>
+                    <h:selectManyListbox value="#{requestsMB.selectedSpecialities}">
+                        <f:selectItems value="#{requestsMB.specList}" var="spc" itemLabel="#{spc.name}" itemValue="#{spc.id}"/>
+                    </h:selectManyListbox>
+                    <div class="buttons">
+                        <h:commandButton value="Сохранить" action="#{requestsMB.save()}" />
+                        <h:commandButton action ="#{requestsMB.cancel()}" value="Отмена" />
+                    </div>
+                </h:form>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
