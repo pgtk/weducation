@@ -1,10 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.AccountRole;
-import ru.edu.pgtk.weducation.entity.CourseWorkMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.entity.*;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
 
 import javax.ejb.EJB;
@@ -66,7 +62,7 @@ public class CourseWorkMarksEJB {
 
   public List<CourseWorkMark> fetchAll(final StudyCard card) {
     TypedQuery<CourseWorkMark> q = em.createQuery(
-      "SELECT cm FROM CourseWorkMark cm WHERE (cm.card = :c) ORDER BY cm.subject.fullName", CourseWorkMark.class);
+            "SELECT cm FROM CourseWorkMark cm WHERE (cm.card = :c) ORDER BY cm.subject.number,  cm.subject.fullName", CourseWorkMark.class);
     q.setParameter("c", card);
     return q.getResultList();
   }
