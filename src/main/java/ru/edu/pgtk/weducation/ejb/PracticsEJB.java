@@ -1,16 +1,17 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.List;
+import ru.edu.pgtk.weducation.entity.Practic;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.StudyModule;
+import ru.edu.pgtk.weducation.entity.StudyPlan;
+
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.Practic;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.StudyModule;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
+import java.util.List;
 
 @Stateless
 @Named("practicsEJB")

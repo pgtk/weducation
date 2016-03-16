@@ -1,13 +1,14 @@
 package ru.edu.pgtk.weducation.reports.dao;
 
+import ru.edu.pgtk.weducation.entity.GroupSemester;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.reports.entity.ReportMissing;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import ru.edu.pgtk.weducation.entity.GroupSemester;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.reports.entity.ReportMissing;
 
 @Stateless
 public class MissingsDAO {

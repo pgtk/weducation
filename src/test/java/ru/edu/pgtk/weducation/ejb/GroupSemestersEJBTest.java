@@ -1,14 +1,15 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.List;
-import javax.ejb.embeddable.EJBContainer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.utils.ContainerProvider;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class GroupSemestersEJBTest {
 

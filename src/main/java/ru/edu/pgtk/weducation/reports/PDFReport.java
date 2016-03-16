@@ -1,10 +1,6 @@
 package ru.edu.pgtk.weducation.reports;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import ru.edu.pgtk.weducation.entity.School;
 

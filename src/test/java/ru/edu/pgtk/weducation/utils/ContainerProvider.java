@@ -1,10 +1,10 @@
 package ru.edu.pgtk.weducation.utils;
 
+import javax.ejb.embeddable.EJBContainer;
+import javax.naming.NamingException;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import javax.ejb.embeddable.EJBContainer;
-import javax.naming.NamingException;
 
 /**
  * Класс-обертка для создания и закрытия EJB-контейнера.

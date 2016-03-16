@@ -1,8 +1,9 @@
 package ru.edu.pgtk.weducation.reports.jsf;
 
+import ru.edu.pgtk.weducation.entity.GroupSemester;
+
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import ru.edu.pgtk.weducation.entity.GroupSemester;
 
 /**
  * Класс для выдачи ссылок на ресурсы.

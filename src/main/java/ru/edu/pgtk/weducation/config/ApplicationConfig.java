@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.config;
 
-import java.util.Set;
 import javax.ws.rs.core.Application;
+import java.util.Set;
 
 /**
  * Класс для конфигурации REST служб.

@@ -1,6 +1,9 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.List;
+import ru.edu.pgtk.weducation.entity.Person;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -8,9 +11,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.Person;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
+import java.util.List;
 
 @Stateless
 @Named("studyCardsEJB")

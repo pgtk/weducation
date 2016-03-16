@@ -1,16 +1,17 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.List;
+import ru.edu.pgtk.weducation.entity.AccountRole;
+import ru.edu.pgtk.weducation.entity.Department;
+import ru.edu.pgtk.weducation.interceptors.Restricted;
+import ru.edu.pgtk.weducation.interceptors.WithLog;
+
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.AccountRole;
-import ru.edu.pgtk.weducation.entity.Department;
-import ru.edu.pgtk.weducation.interceptors.Restricted;
-import ru.edu.pgtk.weducation.interceptors.WithLog;
+import java.util.List;
 
 /**
  * Корпоративный бин для отделений

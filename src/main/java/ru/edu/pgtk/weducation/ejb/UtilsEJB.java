@@ -1,10 +1,10 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.LinkedList;
-import java.util.List;
 import javax.ejb.Singleton;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Класс, для реализации различных популярных списков.

@@ -1,14 +1,15 @@
 package ru.edu.pgtk.weducation.interceptors;
 
-import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
+import ru.edu.pgtk.weducation.entity.AccountRole;
+import ru.edu.pgtk.weducation.jsf.SessionMB;
+
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-import ru.edu.pgtk.weducation.entity.AccountRole;
-import ru.edu.pgtk.weducation.jsf.SessionMB;
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 /**
  * Класс перехватчика системы ббезопасности.

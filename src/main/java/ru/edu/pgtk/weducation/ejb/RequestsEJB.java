@@ -1,17 +1,14 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.List;
-import javax.ejb.EJBException;
-import javax.ejb.Stateless;
-import javax.faces.bean.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Request;
 import ru.edu.pgtk.weducation.entity.Speciality;
+
+import javax.ejb.EJBException;
+import javax.ejb.Stateless;
+import javax.faces.bean.RequestScoped;
+import javax.persistence.*;
+import java.util.List;
 
 @Stateless
 @RequestScoped

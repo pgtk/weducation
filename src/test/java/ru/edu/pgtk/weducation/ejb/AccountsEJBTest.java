@@ -3,10 +3,12 @@ package ru.edu.pgtk.weducation.ejb;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import ru.edu.pgtk.weducation.entity.Account;
 import ru.edu.pgtk.weducation.entity.AccountRole;
 import ru.edu.pgtk.weducation.utils.ContainerProvider;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  *

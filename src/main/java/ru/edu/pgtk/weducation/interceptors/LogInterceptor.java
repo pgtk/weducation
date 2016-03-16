@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.interceptors;
 
-import java.io.Serializable;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+import java.io.Serializable;
 
 /**
  * Класс-перехватчик, реализующий журналирование. Это тестовая реализация класса

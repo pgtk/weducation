@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.List;
+import ru.edu.pgtk.weducation.entity.*;
+
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -8,13 +9,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.ExamForm;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.StudyModule;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
-import ru.edu.pgtk.weducation.entity.Subject;
-import ru.edu.pgtk.weducation.entity.SubjectLoad;
+import java.util.List;
 
 @Stateless
 @Named("subjectsEJB")

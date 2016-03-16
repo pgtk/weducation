@@ -9,11 +9,7 @@ import javax.ejb.EJBException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import static ru.edu.pgtk.weducation.utils.Utils.getShortName;
 import static ru.edu.pgtk.weducation.utils.Utils.toInt;
