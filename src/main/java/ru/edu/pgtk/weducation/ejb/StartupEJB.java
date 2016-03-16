@@ -1,12 +1,13 @@
 package ru.edu.pgtk.weducation.ejb;
 
+import ru.edu.pgtk.weducation.entity.Account;
+import ru.edu.pgtk.weducation.entity.AccountRole;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import ru.edu.pgtk.weducation.entity.Account;
-import ru.edu.pgtk.weducation.entity.AccountRole;
 
 /**
  * EJB для инициализации некоторых параметров. Например, этот бин будет

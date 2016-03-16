@@ -1,13 +1,7 @@
 package ru.edu.pgtk.weducation.reports.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.SqlResultSetMappings;
 
 /**
  * Класс для представления информации о пропусках в каких-либо отчетах.

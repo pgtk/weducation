@@ -1,11 +1,11 @@
 package ru.edu.pgtk.weducation.utils;
 
+import javax.ejb.EJBException;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.ejb.EJBException;
 
 /**
  * Различные утилиты, вынесенные в отдельный класс

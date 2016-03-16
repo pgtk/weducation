@@ -1,13 +1,15 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.entity.Missing;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.utils.ContainerProvider;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class MissingsEJBTest {
 

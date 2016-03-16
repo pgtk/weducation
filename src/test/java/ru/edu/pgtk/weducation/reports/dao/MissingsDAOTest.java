@@ -1,9 +1,8 @@
 package ru.edu.pgtk.weducation.reports.dao;
 
 import org.junit.AfterClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
@@ -12,6 +11,8 @@ import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 import ru.edu.pgtk.weducation.reports.entity.ReportMissing;
 import ru.edu.pgtk.weducation.utils.ContainerProvider;
+
+import static org.junit.Assert.*;
 
 /**
  *

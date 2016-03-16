@@ -1,15 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.PersonsEJB;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
-import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
-import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
-import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
-import ru.edu.pgtk.weducation.entity.Person;
-import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.ejb.*;
+import ru.edu.pgtk.weducation.entity.*;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;

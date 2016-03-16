@@ -1,14 +1,15 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import java.util.Date;
-import java.util.List;
+import ru.edu.pgtk.weducation.entity.Renaming;
+
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import ru.edu.pgtk.weducation.entity.Renaming;
+import java.util.Date;
+import java.util.List;
 
 /**
  * EJB для работы с переименованиями
