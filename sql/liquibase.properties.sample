@@ -1,5 +1,0 @@
-driver: org.postgresql.Driver
-url: jdbc:postgresql://localhost:5432/weducation
-username: appserver
-password: yourpassword
-verbose: true
