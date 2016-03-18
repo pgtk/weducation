@@ -187,8 +187,7 @@ public class CardReportsEJB {
 				title = "профессиональному модулю";
 				name = mark.getSubject().getModule().getName();
 			}
-			nameCell = new PdfPCell(getParagraph(String.format("Курсовой проект (работа) по %s \"%s\" на тему " +
-							"\"%s\"", title, name, mark.getTheme()),
+			nameCell = new PdfPCell(getParagraph(String.format("Курсовой проект (работа) по %s \"%s\" на тему: %s", title, name, mark.getTheme()),
 					smallFont, Paragraph.ALIGN_LEFT));
 			nameCell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 			markCell = new PdfPCell(getParagraph(Utils.getMarkString(mark.getMark()),
@@ -416,7 +415,7 @@ public class CardReportsEJB {
 			marks.add(new MarkItem("в том числе:", "", ""));
 			// TODO Уточнить содержание строки "дипломный проект" и внести изменения.
 			String title = (card.isGosExam()) ? "Итоговый междисциплинарный государственный экзамен"
-					: ("Дипломный проект, работа на тему \"" + card.getDiplomeTheme() + "\"");
+					: ("Выпускная квалификационная работа (дипломный проект, работа) \"" + card.getDiplomeTheme() +"\"");
 			marks.add(new MarkItem(title, "x", Utils.getMarkString(card.getDiplomeMark())));
 			for (GOSMark gm : gosMarks.fetchAll(card)) {
 				marks.add(new MarkItem(gm));
