@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.SchoolsEJB;
+import ru.edu.pgtk.weducation.ejb.SchoolsDAO;
 import ru.edu.pgtk.weducation.entity.School;
 
 import javax.ejb.EJB;
@@ -15,7 +15,7 @@ public class SchoolsMB extends GenericBean<School> implements Serializable {
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient SchoolsEJB ejb;
+	private transient SchoolsDAO ejb;
 
 	@Override
 	public void newItem() {

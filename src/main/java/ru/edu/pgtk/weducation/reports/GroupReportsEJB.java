@@ -6,8 +6,25 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import ru.edu.pgtk.weducation.ejb.*;
-import ru.edu.pgtk.weducation.entity.*;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
+import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
+import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
+import ru.edu.pgtk.weducation.ejb.PracticMarksEJB;
+import ru.edu.pgtk.weducation.ejb.PracticsEJB;
+import ru.edu.pgtk.weducation.ejb.SemesterMarksEJB;
+import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
+import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
+import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
+import ru.edu.pgtk.weducation.entity.CourseWorkMark;
+import ru.edu.pgtk.weducation.entity.GroupSemester;
+import ru.edu.pgtk.weducation.entity.MonthMark;
+import ru.edu.pgtk.weducation.entity.Practic;
+import ru.edu.pgtk.weducation.entity.PracticMark;
+import ru.edu.pgtk.weducation.entity.School;
+import ru.edu.pgtk.weducation.entity.SemesterMark;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.reports.dao.MissingsDAO;
 import ru.edu.pgtk.weducation.reports.entity.ReportMissing;
 
@@ -17,7 +34,12 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import java.io.IOException;
@@ -37,7 +59,7 @@ import static ru.edu.pgtk.weducation.reports.Utils.getMonthString;
 public class GroupReportsEJB {
 
 	@EJB
-	private transient SubjectsEJB subjects;
+	private transient SubjectsDAO subjects;
 	@EJB
 	private transient PracticsEJB practics;
 	@EJB

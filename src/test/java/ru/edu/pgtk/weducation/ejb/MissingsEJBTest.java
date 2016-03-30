@@ -2,6 +2,7 @@ package ru.edu.pgtk.weducation.ejb;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.edu.pgtk.weducation.entity.Missing;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
@@ -9,8 +10,12 @@ import ru.edu.pgtk.weducation.utils.ContainerProvider;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
+@Ignore
 public class MissingsEJBTest {
 
   private static ContainerProvider provider;

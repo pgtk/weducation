@@ -1,25 +1,28 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.*;
+import ru.edu.pgtk.weducation.entity.ExamForm;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.StudyModule;
+import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.entity.SubjectLoad;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
 @Named("subjectsEJB")
-public class SubjectsEJB {
+public class SubjectsEJB extends AbstractEJB implements SubjectsDAO {
 
-  @PersistenceContext(unitName = "weducationPU")
-  private EntityManager em;
   @Inject
   private SubjectLoadEJB load;
 
+  @Override
   public Subject get(final int id) {
     Subject result = em.find(Subject.class, id);
     if (null != result) {
@@ -28,6 +31,7 @@ public class SubjectsEJB {
     throw new EJBException("Subject not found with id " + id);
   }
 
+  @Override
   public int getMaxLoad(final Subject subject) {
     TypedQuery<Long> q = em.createQuery(
       "SELECT SUM(sl.maximumLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
@@ -35,6 +39,7 @@ public class SubjectsEJB {
     return q.getSingleResult().intValue();
   }
 
+  @Override
   public int getAudLoad(final Subject subject) {
     TypedQuery<Long> q = em.createQuery(
       "SELECT SUM(sl.auditoryLoad) FROM SubjectLoad sl WHERE (sl.subject = :s)", Long.class);
@@ -42,6 +47,7 @@ public class SubjectsEJB {
     return q.getSingleResult().intValue();
   }
 
+  @Override
   public List<Subject> fetchAll(final StudyPlan plan) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) ORDER BY s.fullName", Subject.class);
@@ -49,6 +55,7 @@ public class SubjectsEJB {
     return q.getResultList();
   }
 
+  @Override
   public List<Subject> fetchForCard(final StudyCard card) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
@@ -58,6 +65,7 @@ public class SubjectsEJB {
     return q.getResultList();
   }
 
+  @Override
   public List<Subject> fetchForModule(final StudyModule module) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
@@ -67,6 +75,7 @@ public class SubjectsEJB {
     return q.getResultList();
   }
 
+  @Override
   public List<Subject> fetchNoModules(final StudyPlan plan) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
@@ -75,6 +84,7 @@ public class SubjectsEJB {
     return q.getResultList();
   }
 
+  @Override
   public List<Subject> fetchCourseWorksForCard(final StudyCard card) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
@@ -84,6 +94,7 @@ public class SubjectsEJB {
     return q.getResultList();
   }
 
+  @Override
   public List<Subject> fetchCourseWorks(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
@@ -95,6 +106,7 @@ public class SubjectsEJB {
     return q.getResultList();
   }
 
+  @Override
   public List<Subject> fetchExams(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
@@ -107,6 +119,7 @@ public class SubjectsEJB {
     return q.getResultList();
   }
 
+  @Override
   public List<Subject> fetchZachets(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) AND ((SELECT COUNT(sl) FROM SubjectLoad sl "
@@ -120,6 +133,7 @@ public class SubjectsEJB {
     return q.getResultList();
   }
 
+  @Override
   public List<Subject> fetch(final StudyGroup group, final int course, final int semester) {
     TypedQuery<Subject> q = em.createQuery(
       "SELECT s FROM Subject s WHERE (s.plan = :pln) AND "
@@ -137,6 +151,7 @@ public class SubjectsEJB {
    * @param source дисциплина-источник - та, из которой будет копироваться нагрузка.
    * @param destination дисциплина-назначение - та, в которую будет копироваться нагрузка.
    */
+  @Override
   public void copy(final Subject source, final Subject destination) {
     if (null == source) {
       throw new IllegalArgumentException("Дисциплина-источник не может быть null! Копирование невозможно.");
@@ -154,6 +169,7 @@ public class SubjectsEJB {
     }
   }
 
+  @Override
   public Subject save(Subject item) {
     if (item.getModuleCode() > 0) {
       StudyModule m = em.find(StudyModule.class, item.getModuleCode());
@@ -177,6 +193,7 @@ public class SubjectsEJB {
     }
   }
 
+  @Override
   public void delete(Subject item) {
     Subject s = em.find(Subject.class, item.getId());
     if (null != s) {

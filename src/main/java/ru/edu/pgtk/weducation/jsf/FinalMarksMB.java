@@ -3,7 +3,7 @@ package ru.edu.pgtk.weducation.jsf;
 import ru.edu.pgtk.weducation.ejb.FinalMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
-import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
+import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.entity.FinalMark;
 import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.entity.StudyModule;
@@ -32,7 +32,7 @@ public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable
 	@EJB
 	private transient StudyModulesEJB modules;
 	@EJB
-	private transient SubjectsEJB subjects;
+	private transient SubjectsDAO subjects;
 	private StudyCard card;
 	private int cardCode;
 

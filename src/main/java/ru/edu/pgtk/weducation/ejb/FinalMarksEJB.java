@@ -20,7 +20,7 @@ import java.util.List;
 public class FinalMarksEJB {
 
   @EJB
-  private SubjectsEJB subjects;
+  private SubjectsDAO subjects;
   @EJB
   private StudyModulesEJB modules;
   @PersistenceContext(unitName = "weducationPU")

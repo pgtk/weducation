@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.SubjectLoadEJB;
-import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
+import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.entity.ExamForm;
 import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.entity.SubjectLoad;
@@ -21,7 +21,7 @@ public class SubjectLoadMB extends GenericBean<SubjectLoad> implements Serializa
 	@EJB
 	private SubjectLoadEJB ejb;
 	@EJB
-	private SubjectsEJB sejb;
+	private SubjectsDAO sejb;
 
 	private Subject subject = null;
 	private int subjectCode;

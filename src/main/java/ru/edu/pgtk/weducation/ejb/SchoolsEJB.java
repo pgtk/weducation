@@ -6,18 +6,14 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
 @Named("schoolsEJB")
-public class SchoolsEJB {
+public class SchoolsEJB extends AbstractEJB implements SchoolsDAO {
 
-  @PersistenceContext(unitName = "weducationPU")
-  private EntityManager em;
-
+  @Override
   public School get(final int id) {
     School result = em.find(School.class, id);
     if (null != result) {
@@ -25,7 +21,8 @@ public class SchoolsEJB {
     }
     throw new EJBException("School not found with id " + id);
   }
-  
+
+  @Override
   @Produces
   public School getCurrent() {
     TypedQuery<School> q = em.createQuery(
@@ -40,15 +37,17 @@ public class SchoolsEJB {
     if (!result.isEmpty()) {
       return result.get(0);
     }
-    throw new EJBException("Schools table is empty!");
+    throw new EJBException("Can't find current school!");
   }
 
+  @Override
   public List<School> fetchAll() {
     TypedQuery<School> q = em.createQuery(
             "SELECT s FROM School s ORDER BY s.shortName", School.class);
     return q.getResultList();
   }
 
+  @Override
   public School findLike(final School sample) {
     try {
       TypedQuery<School> q = em.createQuery(
@@ -61,6 +60,7 @@ public class SchoolsEJB {
     }
   }
 
+  @Override
   public School save(School item) {
     if (item.getId() == 0) {
       em.persist(item);
@@ -70,6 +70,7 @@ public class SchoolsEJB {
     }
   }
 
+  @Override
   public void delete(final School item) {
     School s = em.find(School.class, item.getId());
     if (null != s) {

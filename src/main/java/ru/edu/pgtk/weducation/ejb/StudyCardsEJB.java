@@ -22,7 +22,7 @@ public class StudyCardsEJB {
   @EJB
   private StudyGroupsEJB groups;
   @EJB
-  private SchoolsEJB schools;
+  private SchoolsDAO schools;
   @EJB
   private SpecialitiesEJB specialities;
   @EJB

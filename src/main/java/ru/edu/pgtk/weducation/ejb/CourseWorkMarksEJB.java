@@ -1,6 +1,10 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.*;
+import ru.edu.pgtk.weducation.entity.AccountRole;
+import ru.edu.pgtk.weducation.entity.CourseWorkMark;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
 
 import javax.ejb.EJB;
@@ -21,7 +25,7 @@ public class CourseWorkMarksEJB {
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
   @EJB
-  SubjectsEJB subjects;
+  SubjectsDAO subjects;
   @EJB
   StudyCardsEJB cards;
 

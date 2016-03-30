@@ -1,6 +1,11 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.*;
+import ru.edu.pgtk.weducation.entity.Practic;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.StudyModule;
+import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.entity.Subject;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -20,7 +25,7 @@ public class StudyModulesEJB {
   @Inject
   private StudyPlansEJB plans;
   @Inject
-  private SubjectsEJB subjects;
+  private SubjectsDAO subjects;
   @Inject
   private PracticsEJB practics;
 

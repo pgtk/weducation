@@ -2,6 +2,7 @@ package ru.edu.pgtk.weducation.ejb;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.edu.pgtk.weducation.entity.Account;
 import ru.edu.pgtk.weducation.entity.AccountRole;
@@ -14,6 +15,7 @@ import static org.junit.Assert.fail;
  *
  * @author user
  */
+@Ignore
 public class AccountsEJBTest {
 
   private static ContainerProvider provider;

@@ -23,7 +23,7 @@ public class ServicesEJB {
   @Inject
   private StudyPlansEJB plans;
   @Inject
-  private SubjectsEJB subjects;
+  private SubjectsDAO subjects;
   @Inject
   private PracticsEJB practics;
   @Inject

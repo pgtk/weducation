@@ -2,7 +2,7 @@ package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.GOSExamsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
-import ru.edu.pgtk.weducation.ejb.SubjectsEJB;
+import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.entity.GOSExam;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 import ru.edu.pgtk.weducation.entity.Subject;
@@ -27,7 +27,7 @@ public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
 	@EJB
 	private transient StudyPlansEJB planEJB;
 	@EJB
-	private transient SubjectsEJB subjectEJB;
+	private transient SubjectsDAO subjectEJB;
 	private StudyPlan plan = null;
 	private int planCode;
 

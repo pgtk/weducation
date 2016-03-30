@@ -2,6 +2,7 @@ package ru.edu.pgtk.weducation.ejb;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.edu.pgtk.weducation.entity.MonthMark;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
@@ -10,24 +11,28 @@ import ru.edu.pgtk.weducation.utils.ContainerProvider;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * Тестовый класс для проверки EJB компонента для месячных оценок
  */
+@Ignore
 public class MonthMarksEJBTest {
 
   private static ContainerProvider provider;
   private static MonthMarksEJB ejb;
   private static StudyGroupsEJB groups;
-  private static SubjectsEJB subjects;
+	private static SubjectsDAO subjects;
 
   @BeforeClass
   public static void setUpClass() {
     provider = new ContainerProvider();
     ejb = (MonthMarksEJB) provider.getBean("MonthMarksEJB");
     groups = (StudyGroupsEJB) provider.getBean("StudyGroupsEJB");
-    subjects = (SubjectsEJB) provider.getBean("SubjectsEJB");
+	  subjects = (SubjectsDAO) provider.getBean("SubjectsEJB");
   }
 
   @AfterClass

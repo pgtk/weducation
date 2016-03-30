@@ -17,7 +17,7 @@ import java.util.List;
 public class GOSMarksEJB {
   
   @EJB
-  private SubjectsEJB subjects;  
+  private SubjectsDAO subjects;
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
   
