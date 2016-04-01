@@ -16,7 +16,7 @@ import java.util.List;
 
 @Stateless
 @Named("studyGroupsEJB")
-public class StudyGroupsEJB {
+public class StudyGroupsEJB extends AbstractEJB implements StudyGroupsDAO {
 
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
@@ -25,6 +25,7 @@ public class StudyGroupsEJB {
   @EJB
   private StudyPlansEJB plans;
 
+  @Override
   public StudyGroup get(final int id) {
     StudyGroup result = em.find(StudyGroup.class, id);
     if (null != result) {
@@ -33,18 +34,21 @@ public class StudyGroupsEJB {
     throw new EJBException("StudyGroup not found with id " + id);
   }
 
+  @Override
   public List<StudyGroup> fetchAll() {
     TypedQuery<StudyGroup> q = em.createQuery(
       "SELECT sg FROM StudyGroup sg ORDER BY sg.course, sg.name", StudyGroup.class);
     return q.getResultList();
   }
 
+  @Override
   public List<StudyGroup> fetchActual() {
     TypedQuery<StudyGroup> q = em.createQuery(
       "SELECT sg FROM StudyGroup sg WHERE (sg.active = true) ORDER BY sg.course, sg.name", StudyGroup.class);
     return q.getResultList();
   }
 
+  @Override
   public List<StudyGroup> findByDepartment(final Department department) {
     TypedQuery<StudyGroup> q = em.createQuery(
       "SELECT sg FROM StudyGroup sg, DepartmentProfile dp "
@@ -72,6 +76,7 @@ public class StudyGroupsEJB {
     return q.getResultList();
   }
 
+  @Override
   public StudyGroup findByName(final String name) {
     try {
       TypedQuery<StudyGroup> q = em.createQuery(
@@ -83,6 +88,7 @@ public class StudyGroupsEJB {
     }
   }
 
+  @Override
   public StudyGroup save(StudyGroup item) {
     try {
       // Получим специальность и учебный план
@@ -111,6 +117,7 @@ public class StudyGroupsEJB {
     }
   }
 
+  @Override
   public void delete(final StudyGroup item) {
     StudyGroup sg = em.find(StudyGroup.class, item.getId());
     if (null != sg) {

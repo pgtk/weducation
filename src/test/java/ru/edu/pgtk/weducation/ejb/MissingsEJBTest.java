@@ -10,23 +10,20 @@ import ru.edu.pgtk.weducation.utils.ContainerProvider;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @Ignore
 public class MissingsEJBTest {
 
   private static ContainerProvider provider;
   private static MissingsEJB ejb;
-  private static StudyGroupsEJB groups;
+  private static StudyGroupsDAO groups;
 
   @BeforeClass
   public static void setUpClass() {
     provider = new ContainerProvider();
     ejb = (MissingsEJB) provider.getBean("MissingsEJB");
-    groups = (StudyGroupsEJB) provider.getBean("StudyGroupsEJB");
+    groups = (StudyGroupsDAO) provider.getBean("StudyGroupsEJB");
   }
 
   @AfterClass

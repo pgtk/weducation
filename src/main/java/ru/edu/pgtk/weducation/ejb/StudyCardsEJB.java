@@ -20,7 +20,7 @@ public class StudyCardsEJB {
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
   @EJB
-  private StudyGroupsEJB groups;
+  private StudyGroupsDAO groups;
   @EJB
   private SchoolsDAO schools;
   @EJB

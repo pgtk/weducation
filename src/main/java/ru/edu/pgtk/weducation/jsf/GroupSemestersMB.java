@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
-import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
+import ru.edu.pgtk.weducation.ejb.GroupSemestersDAO;
+import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
 
@@ -20,9 +20,9 @@ public class GroupSemestersMB extends GenericBean<GroupSemester> implements Seri
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient GroupSemestersEJB ejb;
+	private transient GroupSemestersDAO ejb;
 	@EJB
-	private transient StudyGroupsEJB groups;
+	private transient StudyGroupsDAO groups;
 	private int groupCode;
 	private StudyGroup group;
 

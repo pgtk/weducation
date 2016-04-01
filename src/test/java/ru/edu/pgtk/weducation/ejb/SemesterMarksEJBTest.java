@@ -12,26 +12,23 @@ import ru.edu.pgtk.weducation.utils.ContainerProvider;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @Ignore
 public class SemesterMarksEJBTest {
 
   private static ContainerProvider provider;
   private static SemesterMarksEJB ejb;
-  private static StudyGroupsEJB groups;
-	private static SubjectsDAO subjects;
+  private static StudyGroupsDAO groups;
+  private static SubjectsDAO subjects;
   private static StudyModulesEJB modules;
 
   @BeforeClass
   public static void setUpClass() {
     provider = new ContainerProvider();
     ejb = (SemesterMarksEJB) provider.getBean("SemesterMarksEJB");
-    groups = (StudyGroupsEJB) provider.getBean("StudyGroupsEJB");
-	  subjects = (SubjectsDAO) provider.getBean("SubjectsEJB");
+    groups = (StudyGroupsDAO) provider.getBean("StudyGroupsEJB");
+    subjects = (SubjectsDAO) provider.getBean("SubjectsEJB");
 	  modules = (StudyModulesEJB) provider.getBean("StudyModulesEJB");
   }
 

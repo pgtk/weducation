@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.GroupSemestersEJB;
+import ru.edu.pgtk.weducation.ejb.GroupSemestersDAO;
 import ru.edu.pgtk.weducation.ejb.MissingsEJB;
-import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
+import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.entity.GroupSemester;
 import ru.edu.pgtk.weducation.entity.Missing;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
@@ -26,9 +26,9 @@ public class WeekMissingsMB implements Serializable {
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient StudyGroupsEJB groups;
+	private transient StudyGroupsDAO groups;
 	@EJB
-	private transient GroupSemestersEJB semesters;
+	private transient GroupSemestersDAO semesters;
 	@EJB
 	private transient MissingsEJB ejb;
 	private int groupCode;

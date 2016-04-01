@@ -2,7 +2,7 @@ package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
-import ru.edu.pgtk.weducation.ejb.StudyGroupsEJB;
+import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.entity.Account;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.StudyCard;
@@ -31,7 +31,7 @@ public class DepartmentRootMB implements Serializable {
 	@EJB
 	private transient DepartmentsEJB departments;
 	@EJB
-	private transient StudyGroupsEJB groups;
+	private transient StudyGroupsDAO groups;
 	@EJB
 	private transient StudyCardsEJB cards;
 	private transient Department department;

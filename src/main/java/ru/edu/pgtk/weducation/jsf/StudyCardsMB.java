@@ -24,7 +24,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
 	@EJB
 	private transient PersonsEJB personEJB;
 	@EJB
-	private transient StudyGroupsEJB groupsEJB;
+	private transient StudyGroupsDAO groupsEJB;
 	@EJB
 	private transient StudyPlansEJB plansEJB;
 	@EJB

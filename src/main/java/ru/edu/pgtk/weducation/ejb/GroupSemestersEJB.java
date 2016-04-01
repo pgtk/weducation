@@ -13,11 +13,12 @@ import java.util.List;
 
 @Stateless
 @Named("groupSemestersEJB")
-public class GroupSemestersEJB {
+public class GroupSemestersEJB extends AbstractEJB implements GroupSemestersDAO {
 
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
 
+  @Override
   public GroupSemester get(final int id) {
     GroupSemester result = em.find(GroupSemester.class, id);
     if (null != result) {
@@ -26,6 +27,7 @@ public class GroupSemestersEJB {
     throw new EJBException("GroupSemester not fount with id " + id);
   }
 
+  @Override
   public GroupSemester get(final StudyGroup group, final int course, final int semester) {
     try {
       TypedQuery<GroupSemester> q = em.createQuery(
@@ -38,7 +40,8 @@ public class GroupSemestersEJB {
       return null;
     }
   }
-  
+
+  @Override
   public GroupSemester getByMonth(final StudyGroup group, final int year, final int month) {
     try {
       TypedQuery<GroupSemester> q = em.createQuery(
@@ -54,6 +57,7 @@ public class GroupSemestersEJB {
     }
   }
 
+  @Override
   public List<GroupSemester> fetchAll(final StudyGroup group) {
     TypedQuery<GroupSemester> q = em.createQuery(
       "SELECT gs FROM GroupSemester gs WHERE (gs.group = :grp)", GroupSemester.class);
@@ -61,6 +65,7 @@ public class GroupSemestersEJB {
     return q.getResultList();
   }
 
+  @Override
   public GroupSemester save(GroupSemester item) {
     // Проверим на корректность данные
     if (item.getEndDate() <= item.getBeginDate()) {
@@ -74,6 +79,7 @@ public class GroupSemestersEJB {
     }
   }
 
+  @Override
   public void delete(final GroupSemester item) {
     GroupSemester gs = em.find(GroupSemester.class, item.getId());
     if (null != gs) {
