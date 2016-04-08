@@ -27,7 +27,7 @@ public class CourseWorkMarksEJB {
   @EJB
   SubjectsDAO subjects;
   @EJB
-  StudyCardsEJB cards;
+  StudycardsDAO cards;
 
   public CourseWorkMark get(final int id) {
     CourseWorkMark result = em.find(CourseWorkMark.class, id);

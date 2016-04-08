@@ -22,7 +22,7 @@ public class MonthMarksEJB {
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
   @EJB
-  private StudyCardsEJB cards;
+  private StudycardsDAO cards;
   
   public MonthMark get(final StudyCard card, final Subject subject, final int year, final int month) {
     try {

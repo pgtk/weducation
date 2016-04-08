@@ -1,9 +1,33 @@
 package ru.edu.pgtk.weducation.reports;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
-import ru.edu.pgtk.weducation.ejb.*;
-import ru.edu.pgtk.weducation.entity.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
+import ru.edu.pgtk.weducation.ejb.FinalMarksEJB;
+import ru.edu.pgtk.weducation.ejb.FinalPracticMarksEJB;
+import ru.edu.pgtk.weducation.ejb.GOSMarksEJB;
+import ru.edu.pgtk.weducation.ejb.RenamingsEJB;
+import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.entity.AccountRole;
+import ru.edu.pgtk.weducation.entity.CourseWorkMark;
+import ru.edu.pgtk.weducation.entity.FinalMark;
+import ru.edu.pgtk.weducation.entity.FinalPracticMark;
+import ru.edu.pgtk.weducation.entity.GOSMark;
+import ru.edu.pgtk.weducation.entity.Person;
+import ru.edu.pgtk.weducation.entity.Renaming;
+import ru.edu.pgtk.weducation.entity.School;
+import ru.edu.pgtk.weducation.entity.StudyCard;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
 import ru.edu.pgtk.weducation.interceptors.WithLog;
 import ru.edu.pgtk.weducation.utils.Utils;
@@ -12,7 +36,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,7 +48,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.edu.pgtk.weducation.reports.PDFUtils.*;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.getParagraph;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.getPt;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.putText;
+import static ru.edu.pgtk.weducation.reports.PDFUtils.wrapElement;
 import static ru.edu.pgtk.weducation.utils.Utils.getMonthString;
 import static ru.edu.pgtk.weducation.utils.Utils.getYearString;
 
@@ -51,7 +82,7 @@ public class CardReportsEJB {
 	@EJB
 	private RenamingsEJB renamings;
 	@EJB
-	private StudyCardsEJB cards;
+	private StudycardsDAO cards;
 
 	@GET
 	@Path("{cardId: \\d+}/diplome")

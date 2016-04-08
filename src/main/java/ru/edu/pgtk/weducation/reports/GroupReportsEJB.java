@@ -6,8 +6,25 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import ru.edu.pgtk.weducation.ejb.*;
-import ru.edu.pgtk.weducation.entity.*;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
+import ru.edu.pgtk.weducation.ejb.GroupSemestersDAO;
+import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
+import ru.edu.pgtk.weducation.ejb.PracticMarksEJB;
+import ru.edu.pgtk.weducation.ejb.PracticsEJB;
+import ru.edu.pgtk.weducation.ejb.SemesterMarksEJB;
+import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
+import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
+import ru.edu.pgtk.weducation.entity.CourseWorkMark;
+import ru.edu.pgtk.weducation.entity.GroupSemester;
+import ru.edu.pgtk.weducation.entity.MonthMark;
+import ru.edu.pgtk.weducation.entity.Practic;
+import ru.edu.pgtk.weducation.entity.PracticMark;
+import ru.edu.pgtk.weducation.entity.School;
+import ru.edu.pgtk.weducation.entity.SemesterMark;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.Subject;
 import ru.edu.pgtk.weducation.reports.dao.MissingsDAO;
 import ru.edu.pgtk.weducation.reports.entity.ReportMissing;
 
@@ -17,7 +34,12 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import java.io.IOException;
@@ -43,7 +65,7 @@ public class GroupReportsEJB {
 	@EJB
 	private transient StudyGroupsDAO groups;
 	@EJB
-	private transient StudyCardsEJB cards;
+	private transient StudycardsDAO cards;
 	@EJB
 	private transient MonthMarksEJB marks;
 	@EJB
@@ -66,7 +88,7 @@ public class GroupReportsEJB {
 	private Font smallFont;
 
 	@PostConstruct
-	private void initBean() {
+	public void initBean() {
 		try {
 			BaseFont baseFont = BaseFont.createFont("fonts/times.ttf", BaseFont.IDENTITY_H,
 					BaseFont.EMBEDDED);

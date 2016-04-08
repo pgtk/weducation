@@ -6,20 +6,17 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
 @Named("personsEJB")
-public class PersonsEJB {
+public class PersonsEJB extends AbstractEJB implements PersonsDAO {
 
-  @PersistenceContext(unitName = "weducationPU")
-  private EntityManager em;
   @EJB
   private PlacesEJB places;
 
+  @Override
   public Person get(final int id) {
     Person result = em.find(Person.class, id);
     if (null != result) {
@@ -28,12 +25,14 @@ public class PersonsEJB {
     throw new EJBException("Person not found with id " + id);
   }
 
+  @Override
   public List<Person> fetchAll() {
     TypedQuery<Person> q = em.createQuery(
             "SELECT p FROM Person p ORDER BY p.firstName, p.middleName, p.lastName", Person.class);
     return q.getResultList();
   }
 
+  @Override
   public List<Person> findByName(final String fname) {
     TypedQuery<Person> q = em.createQuery(
             "SELECT p FROM Person p WHERE (p.firstName LIKE :fname) "
@@ -42,6 +41,7 @@ public class PersonsEJB {
     return q.getResultList();
   }
 
+  @Override
   public Person findLike(final Person sample) {
     try {
       TypedQuery<Person> q = em.createQuery("SELECT p FROM Person p WHERE (p.firstName LIKE :fn) "
@@ -58,6 +58,7 @@ public class PersonsEJB {
     }
   }
 
+  @Override
   public Person save(Person item) {
     if (item.getPlaceCode() > 0) {
       item.setPlace(places.get(item.getPlaceCode()));
@@ -70,6 +71,7 @@ public class PersonsEJB {
     }
   }
 
+  @Override
   public void delete(final Person item) {
     Person p = em.find(Person.class, item.getId());
     if (null != p) {

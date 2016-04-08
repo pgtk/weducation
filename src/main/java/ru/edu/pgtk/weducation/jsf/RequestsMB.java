@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.PersonsEJB;
+import ru.edu.pgtk.weducation.ejb.PersonsDAO;
 import ru.edu.pgtk.weducation.ejb.RequestsEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
-import ru.edu.pgtk.weducation.ejb.StudyCardsEJB;
+import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
 import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Request;
 import ru.edu.pgtk.weducation.entity.Speciality;
@@ -13,7 +13,11 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static ru.edu.pgtk.weducation.jsf.Utils.addMessage;
 
@@ -28,9 +32,9 @@ public class RequestsMB implements Serializable {
 	@EJB
 	private transient SpecialitiesEJB specialities;
 	@EJB
-	private transient PersonsEJB persons;
+	private transient PersonsDAO persons;
 	@EJB
-	private transient StudyCardsEJB cards;
+	private transient StudycardsDAO cards;
 	private Person person;
 	private int personCode;
 	private int year;

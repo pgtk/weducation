@@ -1,7 +1,15 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.*;
-import ru.edu.pgtk.weducation.entity.*;
+import ru.edu.pgtk.weducation.ejb.PersonsDAO;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
+import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
+import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.entity.Person;
+import ru.edu.pgtk.weducation.entity.Speciality;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.StudyPlan;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;
@@ -20,9 +28,9 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient StudyCardsEJB ejb;
+	private transient StudycardsDAO ejb;
 	@EJB
-	private transient PersonsEJB personEJB;
+	private transient PersonsDAO personEJB;
 	@EJB
 	private transient StudyGroupsDAO groupsEJB;
 	@EJB

@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.PersonsEJB;
+import ru.edu.pgtk.weducation.ejb.PersonsDAO;
 import ru.edu.pgtk.weducation.entity.ForeignLanguage;
 import ru.edu.pgtk.weducation.entity.Person;
 
@@ -20,7 +20,7 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient PersonsEJB ejb;
+	private transient PersonsDAO ejb;
 
 	private int personCode;
 	private String name;

@@ -21,7 +21,7 @@ public class MissingsEJB {
 	@PersistenceContext(unitName = "weducationPU")
 	private EntityManager em;
 	@EJB
-	private StudyCardsEJB cards;
+	private StudycardsDAO cards;
 
 	public Missing get(final StudyCard card, final int year, final int month, final int week) {
 		try {

@@ -1,6 +1,10 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.*;
+import ru.edu.pgtk.weducation.entity.SemesterMark;
+import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.entity.StudyModule;
+import ru.edu.pgtk.weducation.entity.Subject;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -19,7 +23,7 @@ public class SemesterMarksEJB {
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
   @EJB
-  private StudyCardsEJB cards;
+  private StudycardsDAO cards;
   
   public SemesterMark get(final StudyCard card, final Subject subject, final int course, final int semester) {
     try {
