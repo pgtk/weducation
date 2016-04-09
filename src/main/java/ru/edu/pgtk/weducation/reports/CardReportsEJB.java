@@ -13,7 +13,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksDAO;
 import ru.edu.pgtk.weducation.ejb.FinalMarksEJB;
 import ru.edu.pgtk.weducation.ejb.FinalPracticMarksEJB;
 import ru.edu.pgtk.weducation.ejb.GOSMarksEJB;
@@ -78,7 +78,7 @@ public class CardReportsEJB {
 	@EJB
 	private GOSMarksEJB gosMarks;
 	@EJB
-	private CourseWorkMarksEJB courseWorks;
+	private CourseWorkMarksDAO courseWorks;
 	@EJB
 	private RenamingsEJB renamings;
 	@EJB

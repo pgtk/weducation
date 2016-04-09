@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksDAO;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersDAO;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
@@ -32,7 +32,7 @@ public class GroupCourseWorkMarksMB implements Serializable {
 	@EJB
 	private transient GroupSemestersDAO semesters;
 	@EJB
-	private transient CourseWorkMarksEJB marks;
+	private transient CourseWorkMarksDAO marks;
 	private int groupCode;
 	private StudyGroup group;
 	private int subjectCode;

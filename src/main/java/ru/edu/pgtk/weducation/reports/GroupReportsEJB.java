@@ -6,7 +6,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import ru.edu.pgtk.weducation.ejb.CourseWorkMarksEJB;
+import ru.edu.pgtk.weducation.ejb.CourseWorkMarksDAO;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersDAO;
 import ru.edu.pgtk.weducation.ejb.MonthMarksEJB;
 import ru.edu.pgtk.weducation.ejb.PracticMarksEJB;
@@ -71,7 +71,7 @@ public class GroupReportsEJB {
 	@EJB
 	private transient MissingsDAO missings;
 	@EJB
-	private transient CourseWorkMarksEJB cmarks;
+	private transient CourseWorkMarksDAO cmarks;
 	@EJB
 	private transient PracticMarksEJB pmarks;
 	@EJB
@@ -305,8 +305,9 @@ public class GroupReportsEJB {
 			table.addCell(signCell);
 			int row = 1;
 			PdfPCell cell = new PdfPCell();
+			StudyCard sc;
 			for (CourseWorkMark cm : cmarks.fetchAll(gs.getGroup(), subject, gs.getCourse(), gs.getSemester())) {
-				StudyCard sc = cm.getCard();
+				sc = cm.getCard();
 				if (!sc.isRemanded() && sc.isActive()) {
 					numberCell = new PdfPCell(getParagraph("" + row++, regularFont, Paragraph.ALIGN_CENTER));
 					table.addCell(numberCell);
