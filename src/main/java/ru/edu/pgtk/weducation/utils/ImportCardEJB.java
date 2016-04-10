@@ -4,7 +4,7 @@ import ru.edu.pgtk.weducation.ejb.DelegatesEJB;
 import ru.edu.pgtk.weducation.ejb.PersonsDAO;
 import ru.edu.pgtk.weducation.ejb.PlacesEJB;
 import ru.edu.pgtk.weducation.ejb.SchoolsDAO;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
 import ru.edu.pgtk.weducation.entity.Delegate;
@@ -45,7 +45,7 @@ public class ImportCardEJB {
   @EJB
   private SchoolsDAO schools;
   @EJB
-  private SpecialitiesEJB specialities;
+  private SpecialitiesDAO specialities;
   @EJB
   private PersonsDAO persons;
   @EJB

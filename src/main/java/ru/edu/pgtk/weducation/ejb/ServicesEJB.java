@@ -21,7 +21,7 @@ public class ServicesEJB {
   @PersistenceContext(name = "weducationPU")
   private EntityManager em;
   @Inject
-  private StudyPlansEJB plans;
+  private StudyPlansDAO plans;
   @Inject
   private SubjectsDAO subjects;
   @Inject

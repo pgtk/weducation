@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.PracticsEJB;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
-import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.ejb.SubjectLoadEJB;
 import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.entity.ExamForm;
@@ -45,9 +45,9 @@ public class ImportPlanMB implements Serializable {
 	private transient Part file;
 	private boolean uploaded;
 	@EJB
-	private transient SpecialitiesEJB specialities;
+	private transient SpecialitiesDAO specialities;
 	@EJB
-	private transient StudyPlansEJB plans;
+	private transient StudyPlansDAO plans;
 	@EJB
 	private transient StudyModulesEJB modules;
 	@EJB

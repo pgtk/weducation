@@ -2,8 +2,8 @@ package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.ServicesEJB;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
-import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
+import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
@@ -26,11 +26,11 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
   long serialVersionUID = 0L;
 
   @Inject
-  private transient StudyPlansEJB ejb;
+  private transient StudyPlansDAO ejb;
   @Inject
   private transient DepartmentsEJB departments;
   @Inject
-  private transient SpecialitiesEJB specialities;
+  private transient SpecialitiesDAO specialities;
   @Inject
   private transient ServicesEJB services;
   private int planCode;

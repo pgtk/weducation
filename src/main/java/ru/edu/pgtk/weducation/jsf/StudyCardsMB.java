@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.PersonsDAO;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
-import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
 import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Speciality;
@@ -34,9 +34,9 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
 	@EJB
 	private transient StudyGroupsDAO groupsEJB;
 	@EJB
-	private transient StudyPlansEJB plansEJB;
+	private transient StudyPlansDAO plansEJB;
 	@EJB
-	private transient SpecialitiesEJB specialitiesEJB;
+	private transient SpecialitiesDAO specialitiesDAO;
 
 	private Person person;
 	private Speciality speciality;
@@ -112,7 +112,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
 		try {
 			int code = (Integer) event.getNewValue();
 			if (code > 0) {
-				speciality = specialitiesEJB.get(code);
+				speciality = specialitiesDAO.get(code);
 				item.setSpeciality(speciality);
 			} else {
 				speciality = null;
@@ -125,9 +125,9 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
 
 	public List<Speciality> getSpecialities() {
 		if (item.isActive()) {
-			return specialitiesEJB.fetchActual();
+			return specialitiesDAO.fetchActual();
 		} else {
-			return specialitiesEJB.fetchAll();
+			return specialitiesDAO.fetchAll();
 		}
 	}
 

@@ -20,11 +20,11 @@ public class StudyCardsEJB extends AbstractEJB implements StudycardsDAO {
 	@EJB
 	private SchoolsDAO schools;
 	@EJB
-	private SpecialitiesEJB specialities;
+	private SpecialitiesDAO specialities;
 	@EJB
 	private PersonsDAO persons;
 	@EJB
-	private StudyPlansEJB plans;
+	private StudyPlansDAO plans;
 
 	@Override
 	public StudyCard get(final int id) {

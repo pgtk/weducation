@@ -9,8 +9,6 @@ import ru.edu.pgtk.weducation.interceptors.WithLog;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -20,10 +18,7 @@ import java.util.List;
  */
 @Stateless
 @Named("specialitiesEJB")
-public class SpecialitiesEJB {
-
-	@PersistenceContext(unitName = "weducationPU")
-	EntityManager em;
+public class SpecialitiesEJB extends AbstractEJB implements SpecialitiesDAO {
 
 	/**
 	 * Получает один экземпляр специальности по первичному ключу.
@@ -31,6 +26,7 @@ public class SpecialitiesEJB {
 	 * @return экземпляр специальности, соответствующий указанному идентификатору
 	 * @throws EJBException, если записи с данным идентификатором не обнаружено
 	 */
+	@Override
 	public Speciality get(final int id) {
 		Speciality item = em.find(Speciality.class, id);
 		if (null != item) {
@@ -43,6 +39,7 @@ public class SpecialitiesEJB {
 	 * Получает полный список специальностей.
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchAll() {
 		TypedQuery<Speciality> query = em.createQuery("SELECT s FROM Speciality s ORDER BY s.actual DESC, s.name", Speciality.class);
 		return query.getResultList();
@@ -53,6 +50,7 @@ public class SpecialitiesEJB {
 	 * @param department отделение, для которого ищутся специальности.
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchAll(final Department department) {
 		TypedQuery<Speciality> query = em.createQuery(
 				"SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.department = :dep) "
@@ -65,6 +63,7 @@ public class SpecialitiesEJB {
 	 * Получает список специальностей по которым проводится обучение.
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchActual() {
 		TypedQuery<Speciality> query = em.createQuery(
 				"SELECT s FROM Speciality s WHERE (s.actual = true) ORDER BY s.actual DESC, s.name", Speciality.class);
@@ -77,6 +76,7 @@ public class SpecialitiesEJB {
 	 * @param extramural {@code true} для заочной формы обучения, иначе ложь
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchActual(final boolean extramural) {
 		TypedQuery<Speciality> query = em.createQuery(
 				"SELECT s FROM Speciality s WHERE (s.actual = true) AND "
@@ -92,6 +92,7 @@ public class SpecialitiesEJB {
 	 * @param department отделение, для которого ищутся специальности.
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchActual(final Department department) {
 		TypedQuery<Speciality> query = em.createQuery(
 				"SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.speciality.actual = true) AND (dp.department = :dep) "
@@ -104,6 +105,7 @@ public class SpecialitiesEJB {
 	 * Получает список специальностей по которым проводится набор.
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchAviable() {
 		TypedQuery<Speciality> query = em.createQuery(
 				"SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) ORDER BY s.actual DESC, s.name", Speciality.class);
@@ -116,6 +118,7 @@ public class SpecialitiesEJB {
 	 * @param extramural {@code true} для заочной формы обучения, иначе ложь
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchAviable(final boolean extramural) {
 		TypedQuery<Speciality> query = em.createQuery(
 				"SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) AND "
@@ -131,6 +134,7 @@ public class SpecialitiesEJB {
 	 * @param department отделение, для которого ищутся специальности.
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchAviable(final Department department) {
 		TypedQuery<Speciality> query = em.createQuery(
 				"SELECT dp.speciality FROM DepartmentProfile dp WHERE (dp.speciality.aviable = true)"
@@ -149,6 +153,7 @@ public class SpecialitiesEJB {
 	 * @param year       год поступления
 	 * @return {@code List<Speciality>}, содержащий 0 или более специальностей.
 	 */
+	@Override
 	public List<Speciality> fetchSuggestions(final Person person, final boolean extramural, final int year) {
 		TypedQuery<Speciality> query = em.createQuery(
 				"SELECT s FROM Speciality s WHERE (s.actual = true) AND (s.aviable = true) AND "
@@ -168,6 +173,7 @@ public class SpecialitiesEJB {
 	 * @return Экземпляр специальности или null, если ничего похожего найти не
 	 * удалось.
 	 */
+	@Override
 	public Speciality findLike(final Speciality sample) {
 		try {
 			TypedQuery<Speciality> query = em.createQuery(
@@ -188,6 +194,7 @@ public class SpecialitiesEJB {
 	 * @return Специальность после сохранения (с измененным идентификатором при
 	 * добавлении новой).
 	 */
+	@Override
 	@WithLog
 	@Restricted(allowedRoles = {}) // Разрешено только аминистратору (неявно)
 	public Speciality save(Speciality speciality) {
@@ -205,6 +212,7 @@ public class SpecialitiesEJB {
 	 * ключу и если специальность найдена - выполняется её удаление.
 	 * @param speciality Специальность, которую надо удалить.
 	 */
+	@Override
 	@WithLog
 	@Restricted(allowedRoles = {}) // Неявно разрешено администратору
 	public void delete(final Speciality speciality) {

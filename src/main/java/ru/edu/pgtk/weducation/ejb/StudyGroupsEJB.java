@@ -17,9 +17,9 @@ import java.util.List;
 public class StudyGroupsEJB extends AbstractEJB implements StudyGroupsDAO {
 
 	@EJB
-	private SpecialitiesEJB specialities;
+	private SpecialitiesDAO specialities;
 	@EJB
-	private StudyPlansEJB plans;
+	private StudyPlansDAO plans;
 
 	@Override
 	public StudyGroup get(final int id) {

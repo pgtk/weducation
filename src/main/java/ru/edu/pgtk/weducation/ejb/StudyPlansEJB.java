@@ -4,13 +4,12 @@ import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,11 +18,12 @@ import java.util.List;
  */
 @Stateless
 @Named("studyPlansEJB")
-public class StudyPlansEJB {
+public class StudyPlansEJB extends AbstractEJB implements StudyPlansDAO {
 
-	@PersistenceContext(unitName = "weducationPU")
-	private EntityManager em;
+	@EJB
+	private SpecialitiesDAO specialities;
 
+	@Override
 	public StudyPlan get(final int id) {
 		StudyPlan result = em.find(StudyPlan.class, id);
 		if (null != result) {
@@ -32,11 +32,13 @@ public class StudyPlansEJB {
 		throw new EJBException("StudyPlan not found with id " + id);
 	}
 
+	@Override
 	public List<StudyPlan> fetchAll() {
 		TypedQuery<StudyPlan> q = em.createQuery("SELECT sp FROM StudyPlan sp ORDER BY sp.speciality.name, sp.beginYear DESC", StudyPlan.class);
 		return q.getResultList();
 	}
 
+	@Override
 	public List<StudyPlan> findBySpeciality(final Speciality spc) {
 		TypedQuery<StudyPlan> q = em.createQuery(
 				"SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) ORDER BY sp.beginYear DESC", StudyPlan.class);
@@ -44,6 +46,7 @@ public class StudyPlansEJB {
 		return q.getResultList();
 	}
 
+	@Override
 	public List<StudyPlan> findBySpeciality(final Speciality spc, final boolean extramural) {
 		TypedQuery<StudyPlan> q = em.createQuery(
 				"SELECT sp FROM StudyPlan sp WHERE (sp.speciality = :spec) AND (sp.extramural = :em) ORDER BY sp.beginYear DESC", StudyPlan.class);
@@ -52,6 +55,7 @@ public class StudyPlansEJB {
 		return q.getResultList();
 	}
 
+	@Override
 	public List<StudyPlan> findByDepartment(final Department dep) {
 		TypedQuery<StudyPlan> q = em.createQuery(
 				"SELECT sp FROM StudyPlan sp "
@@ -62,6 +66,7 @@ public class StudyPlansEJB {
 		return q.getResultList();
 	}
 
+	@Override
 	public List<StudyPlan> findLike(final StudyPlan plan) {
 		try {
 			TypedQuery<StudyPlan> q = em.createQuery(
@@ -74,19 +79,16 @@ public class StudyPlansEJB {
 			q.setParameter("em", plan.getExtramural());
 			return q.getResultList();
 		} catch (Exception e) {
-			return Collections.EMPTY_LIST;
+			return new ArrayList<>();
 		}
 	}
 
+	@Override
 	public StudyPlan save(StudyPlan item) {
-		if (item.getSpecialityCode() > 0) {
-			Speciality spc = em.find(Speciality.class, item.getSpecialityCode());
-			if (null != spc) {
-				item.setSpeciality(spc);
-			} else {
-				throw new EJBException("Wrong Speciality code " + item.getSpecialityCode());
-			}
+		if (null == item) {
+			throw new IllegalArgumentException("StudyPlan must be not null!");
 		}
+		item.setSpeciality(specialities.get(item.getSpecialityCode()));
 		if (item.getId() == 0) {
 			em.persist(item);
 			return item;
@@ -95,6 +97,7 @@ public class StudyPlansEJB {
 		}
 	}
 
+	@Override
 	public void delete(final StudyPlan item) {
 		StudyPlan sp = em.find(StudyPlan.class, item.getId());
 		if (null != sp) {

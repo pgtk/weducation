@@ -7,7 +7,11 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.faces.bean.RequestScoped;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +23,7 @@ public class SeatsEJB {
 	private EntityManager em;
 
 	@EJB
-	private SpecialitiesEJB specialities;
+	private SpecialitiesDAO specialities;
 
 	public Seat get(final int id) {
 		Seat result = em.find(Seat.class, id);

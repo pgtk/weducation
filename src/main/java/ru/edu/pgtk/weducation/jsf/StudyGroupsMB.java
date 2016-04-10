@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
-import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.entity.Department;
 import ru.edu.pgtk.weducation.entity.Speciality;
 import ru.edu.pgtk.weducation.entity.StudyGroup;
@@ -29,9 +29,9 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
 	@EJB
 	private transient DepartmentsEJB depejb;
 	@EJB
-	private transient StudyPlansEJB plansEJB;
+	private transient StudyPlansDAO plansEJB;
 	@EJB
-	private transient SpecialitiesEJB spcejb;
+	private transient SpecialitiesDAO spcejb;
 	private Department department;
 	private Speciality speciality;
 	private int departmentCode;

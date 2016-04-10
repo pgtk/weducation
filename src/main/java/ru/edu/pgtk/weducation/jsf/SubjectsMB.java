@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
-import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.entity.StudyModule;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
@@ -26,7 +26,7 @@ public class SubjectsMB extends GenericBean<Subject> implements Serializable {
 	@EJB
 	private transient StudyModulesEJB mejb;
 	@EJB
-	private transient StudyPlansEJB plans;
+	private transient StudyPlansDAO plans;
 
 	private StudyPlan plan = null;
 	private int planCode;

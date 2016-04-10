@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.FinalPracticsEJB;
-import ru.edu.pgtk.weducation.ejb.StudyPlansEJB;
+import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.entity.FinalPractic;
 import ru.edu.pgtk.weducation.entity.StudyPlan;
 
@@ -22,7 +22,7 @@ public class FinalPracticsMB extends GenericBean<FinalPractic> implements Serial
 	@EJB
 	private FinalPracticsEJB ejb;
 	@EJB
-	private StudyPlansEJB planEJB;
+	private StudyPlansDAO planEJB;
 	private StudyPlan plan = null;
 	private int planCode;
 

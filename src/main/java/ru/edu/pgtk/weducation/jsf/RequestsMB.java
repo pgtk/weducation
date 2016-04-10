@@ -2,7 +2,7 @@ package ru.edu.pgtk.weducation.jsf;
 
 import ru.edu.pgtk.weducation.ejb.PersonsDAO;
 import ru.edu.pgtk.weducation.ejb.RequestsEJB;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
 import ru.edu.pgtk.weducation.entity.Person;
 import ru.edu.pgtk.weducation.entity.Request;
@@ -30,7 +30,7 @@ public class RequestsMB implements Serializable {
 	@EJB
 	private transient RequestsEJB ejb;
 	@EJB
-	private transient SpecialitiesEJB specialities;
+	private transient SpecialitiesDAO specialities;
 	@EJB
 	private transient PersonsDAO persons;
 	@EJB

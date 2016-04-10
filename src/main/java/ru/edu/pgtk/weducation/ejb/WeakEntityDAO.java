@@ -7,7 +7,7 @@ package ru.edu.pgtk.weducation.ejb;
  * @author Voronin Leonid
  * @since 30.03.2016
  */
-public interface WeakEntityDAO<T> {
+interface WeakEntityDAO<T> {
 
 	/**
 	 * Получает один экземпляр по значению первичного ключа

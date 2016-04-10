@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.SpecialitiesEJB;
+import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.entity.Speciality;
 
 import javax.ejb.EJB;
@@ -15,7 +15,7 @@ public class SpecialitiesMB extends GenericBean<Speciality> implements Serializa
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient SpecialitiesEJB ejb;
+	private transient SpecialitiesDAO ejb;
 
 	@Override
 	public void newItem() {

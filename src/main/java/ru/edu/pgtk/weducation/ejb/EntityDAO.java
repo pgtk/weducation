@@ -7,7 +7,7 @@ import java.util.List;
  * @author Voronin Leonid
  * @since 30.03.2016
  */
-public interface EntityDAO<T> extends WeakEntityDAO<T> {
+interface EntityDAO<T> extends WeakEntityDAO<T> {
 
 	/**
 	 * Получает список всех сущностей из базы данных
