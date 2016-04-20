@@ -1,10 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.AccountRole;
-import ru.edu.pgtk.weducation.entity.CourseWorkMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.data.entity.*;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
 
 import javax.ejb.EJB;

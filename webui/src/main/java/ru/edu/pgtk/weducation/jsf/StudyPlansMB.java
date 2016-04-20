@@ -1,12 +1,12 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.data.entity.Department;
+import ru.edu.pgtk.weducation.data.entity.Speciality;
+import ru.edu.pgtk.weducation.data.entity.StudyPlan;
 import ru.edu.pgtk.weducation.ejb.DepartmentsEJB;
 import ru.edu.pgtk.weducation.ejb.ServicesEJB;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
-import ru.edu.pgtk.weducation.entity.Department;
-import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;

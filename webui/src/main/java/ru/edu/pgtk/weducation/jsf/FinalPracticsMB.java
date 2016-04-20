@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.data.entity.FinalPractic;
+import ru.edu.pgtk.weducation.data.entity.StudyPlan;
 import ru.edu.pgtk.weducation.ejb.FinalPracticsEJB;
 import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
-import ru.edu.pgtk.weducation.entity.FinalPractic;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

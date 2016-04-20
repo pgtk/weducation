@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.data.entity.Renaming;
 import ru.edu.pgtk.weducation.ejb.RenamingsEJB;
-import ru.edu.pgtk.weducation.entity.Renaming;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.AccountRole;
-import ru.edu.pgtk.weducation.entity.Delegate;
-import ru.edu.pgtk.weducation.entity.Person;
+import ru.edu.pgtk.weducation.data.entity.AccountRole;
+import ru.edu.pgtk.weducation.data.entity.Delegate;
+import ru.edu.pgtk.weducation.data.entity.Person;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
 
 import javax.ejb.EJBException;

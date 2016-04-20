@@ -1,10 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.StudyModule;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
-import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.data.entity.*;
 
 import java.util.List;
 

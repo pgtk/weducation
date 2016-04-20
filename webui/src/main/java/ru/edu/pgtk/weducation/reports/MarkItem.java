@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.reports;
 
-import ru.edu.pgtk.weducation.entity.FinalMark;
-import ru.edu.pgtk.weducation.entity.FinalPracticMark;
-import ru.edu.pgtk.weducation.entity.GOSMark;
+import ru.edu.pgtk.weducation.data.entity.FinalMark;
+import ru.edu.pgtk.weducation.data.entity.FinalPracticMark;
+import ru.edu.pgtk.weducation.data.entity.GOSMark;
 import ru.edu.pgtk.weducation.utils.Utils;
 
 /**

@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.FinalPractic;
-import ru.edu.pgtk.weducation.entity.StudyModule;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
-import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.data.entity.FinalPractic;
+import ru.edu.pgtk.weducation.data.entity.StudyModule;
+import ru.edu.pgtk.weducation.data.entity.StudyPlan;
+import ru.edu.pgtk.weducation.data.entity.Subject;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

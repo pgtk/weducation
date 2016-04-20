@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.reports.dao;
 
-import ru.edu.pgtk.weducation.entity.GroupSemester;
-import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.data.entity.GroupSemester;
+import ru.edu.pgtk.weducation.data.entity.StudyCard;
 import ru.edu.pgtk.weducation.reports.entity.ReportMissing;
 
 import javax.ejb.Stateless;

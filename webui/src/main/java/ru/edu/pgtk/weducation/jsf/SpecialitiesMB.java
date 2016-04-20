@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.data.entity.Speciality;
 import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
-import ru.edu.pgtk.weducation.entity.Speciality;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

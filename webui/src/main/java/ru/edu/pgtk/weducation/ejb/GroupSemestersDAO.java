@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.GroupSemester;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.data.entity.GroupSemester;
+import ru.edu.pgtk.weducation.data.entity.StudyGroup;
 
 import java.util.List;
 

@@ -1,19 +1,15 @@
 package ru.edu.pgtk.weducation.xmlimport;
 
 import org.w3c.dom.Node;
-import ru.edu.pgtk.weducation.entity.ExamForm;
-import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.data.entity.ExamForm;
+import ru.edu.pgtk.weducation.data.entity.Speciality;
+import ru.edu.pgtk.weducation.data.entity.StudyPlan;
 
 import javax.ejb.EJBException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import static ru.edu.pgtk.weducation.utils.Utils.getShortName;
 import static ru.edu.pgtk.weducation.utils.Utils.toInt;

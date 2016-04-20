@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.School;
+import ru.edu.pgtk.weducation.data.entity.School;
 
 /**
  * Интерфейс корпоративного компонента для учебных заведений

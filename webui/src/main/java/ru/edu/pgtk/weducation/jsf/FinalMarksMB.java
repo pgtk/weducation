@@ -1,13 +1,13 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.data.entity.FinalMark;
+import ru.edu.pgtk.weducation.data.entity.StudyCard;
+import ru.edu.pgtk.weducation.data.entity.StudyModule;
+import ru.edu.pgtk.weducation.data.entity.Subject;
 import ru.edu.pgtk.weducation.ejb.FinalMarksEJB;
 import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
 import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
 import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
-import ru.edu.pgtk.weducation.entity.FinalMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyModule;
-import ru.edu.pgtk.weducation.entity.Subject;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;

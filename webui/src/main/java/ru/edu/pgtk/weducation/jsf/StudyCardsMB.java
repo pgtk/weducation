@@ -1,15 +1,7 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.PersonsDAO;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
-import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
-import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
-import ru.edu.pgtk.weducation.ejb.StudycardsDAO;
-import ru.edu.pgtk.weducation.entity.Person;
-import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.data.entity.*;
+import ru.edu.pgtk.weducation.ejb.*;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;

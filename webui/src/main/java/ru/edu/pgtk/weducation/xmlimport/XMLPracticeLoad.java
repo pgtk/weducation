@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.xmlimport;
 
-import ru.edu.pgtk.weducation.entity.ExamForm;
+import ru.edu.pgtk.weducation.data.entity.ExamForm;
 
 /**
  * Класс для реализации семестровой нагрузки по практике.

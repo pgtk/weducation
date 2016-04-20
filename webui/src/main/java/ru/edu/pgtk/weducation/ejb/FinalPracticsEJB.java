@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.FinalPractic;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.data.entity.FinalPractic;
+import ru.edu.pgtk.weducation.data.entity.StudyCard;
+import ru.edu.pgtk.weducation.data.entity.StudyPlan;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;

@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.Place;
+import ru.edu.pgtk.weducation.data.entity.Place;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;

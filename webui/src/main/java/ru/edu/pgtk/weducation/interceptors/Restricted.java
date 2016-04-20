@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.interceptors;
 
-import ru.edu.pgtk.weducation.entity.AccountRole;
+import ru.edu.pgtk.weducation.data.entity.AccountRole;
 
 import javax.enterprise.util.Nonbinding;
 import javax.interceptor.InterceptorBinding;

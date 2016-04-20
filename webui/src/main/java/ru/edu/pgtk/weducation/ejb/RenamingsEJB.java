@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.Renaming;
+import ru.edu.pgtk.weducation.data.entity.Renaming;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;

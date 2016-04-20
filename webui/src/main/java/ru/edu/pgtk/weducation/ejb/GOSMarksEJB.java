@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.GOSMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
+import ru.edu.pgtk.weducation.data.entity.GOSMark;
+import ru.edu.pgtk.weducation.data.entity.StudyCard;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;

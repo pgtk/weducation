@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.ejb
 
-import ru.edu.pgtk.weducation.entity.Speciality
-import ru.edu.pgtk.weducation.entity.StudyPlan
+import ru.edu.pgtk.weducation.data.entity.Speciality
+import ru.edu.pgtk.weducation.data.entity.StudyPlan
 import spock.lang.Specification
 
 import javax.ejb.EJBException

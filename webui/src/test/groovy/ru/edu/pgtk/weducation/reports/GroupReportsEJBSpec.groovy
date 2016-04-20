@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.reports
 
+import ru.edu.pgtk.weducation.data.entity.*
 import ru.edu.pgtk.weducation.ejb.*
-import ru.edu.pgtk.weducation.entity.*
 import spock.lang.Specification
 
 import javax.ejb.EJBException
@@ -52,10 +52,10 @@ class GroupReportsEJBSpec extends Specification {
 		_ * get(1) >> testSubject
 		_ * get(_) >> { throw new EJBException("No Subject with souch ID") }
 		_ * fetch(testGroup, 1, 1) >> [new Subject(id: 1, fullName: "Дисциплина1", shortName: "Д 1"),
-		                               new Subject(id: 2, fullName: "Дисциплина2", shortName: "Д 2"),
-		                               new Subject(id: 3, fullName: "Дисциплина3", shortName: "Д 3"),
-		                               new Subject(id: 4, fullName: "Дисциплина4", shortName: "Д 4"),
-		                               new Subject(id: 5, fullName: "Дисциплина5", shortName: "Д 5")]
+									   new Subject(id: 2, fullName: "Дисциплина2", shortName: "Д 2"),
+									   new Subject(id: 3, fullName: "Дисциплина3", shortName: "Д 3"),
+									   new Subject(id: 4, fullName: "Дисциплина4", shortName: "Д 4"),
+									   new Subject(id: 5, fullName: "Дисциплина5", shortName: "Д 5")]
 		_ * fetch(testGroup, 1, 2) >> new ArrayList<Subject>(); // Допустим, за второй семестр оценок нет
 	}
 

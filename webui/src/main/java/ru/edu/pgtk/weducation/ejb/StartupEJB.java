@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.Account;
-import ru.edu.pgtk.weducation.entity.AccountRole;
+import ru.edu.pgtk.weducation.data.entity.Account;
+import ru.edu.pgtk.weducation.data.entity.AccountRole;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

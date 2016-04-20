@@ -4,8 +4,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import ru.edu.pgtk.weducation.entity.Account;
-import ru.edu.pgtk.weducation.entity.AccountRole;
+import ru.edu.pgtk.weducation.data.entity.Account;
+import ru.edu.pgtk.weducation.data.entity.AccountRole;
 import ru.edu.pgtk.weducation.helpers.ContainerProvider;
 
 import static org.junit.Assert.assertTrue;

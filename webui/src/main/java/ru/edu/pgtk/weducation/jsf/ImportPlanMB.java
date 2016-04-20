@@ -1,24 +1,8 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.ejb.PracticsEJB;
-import ru.edu.pgtk.weducation.ejb.SpecialitiesDAO;
-import ru.edu.pgtk.weducation.ejb.StudyModulesEJB;
-import ru.edu.pgtk.weducation.ejb.StudyPlansDAO;
-import ru.edu.pgtk.weducation.ejb.SubjectLoadEJB;
-import ru.edu.pgtk.weducation.ejb.SubjectsDAO;
-import ru.edu.pgtk.weducation.entity.ExamForm;
-import ru.edu.pgtk.weducation.entity.Practic;
-import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.entity.StudyModule;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
-import ru.edu.pgtk.weducation.entity.Subject;
-import ru.edu.pgtk.weducation.entity.SubjectLoad;
-import ru.edu.pgtk.weducation.xmlimport.PlanParser;
-import ru.edu.pgtk.weducation.xmlimport.XMLModule;
-import ru.edu.pgtk.weducation.xmlimport.XMLPractice;
-import ru.edu.pgtk.weducation.xmlimport.XMLPracticeLoad;
-import ru.edu.pgtk.weducation.xmlimport.XMLSubject;
-import ru.edu.pgtk.weducation.xmlimport.XMLSubjectLoad;
+import ru.edu.pgtk.weducation.data.entity.*;
+import ru.edu.pgtk.weducation.ejb.*;
+import ru.edu.pgtk.weducation.xmlimport.*;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;

@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.Department;
-import ru.edu.pgtk.weducation.entity.Speciality;
-import ru.edu.pgtk.weducation.entity.StudyPlan;
+import ru.edu.pgtk.weducation.data.entity.Department;
+import ru.edu.pgtk.weducation.data.entity.Speciality;
+import ru.edu.pgtk.weducation.data.entity.StudyPlan;
 
 import java.util.List;
 

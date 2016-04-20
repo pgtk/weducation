@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.Practic;
-import ru.edu.pgtk.weducation.entity.PracticMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.data.entity.Practic;
+import ru.edu.pgtk.weducation.data.entity.PracticMark;
+import ru.edu.pgtk.weducation.data.entity.StudyCard;
+import ru.edu.pgtk.weducation.data.entity.StudyGroup;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

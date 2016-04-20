@@ -4,16 +4,13 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import ru.edu.pgtk.weducation.entity.GroupSemester;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
+import ru.edu.pgtk.weducation.data.entity.GroupSemester;
+import ru.edu.pgtk.weducation.data.entity.StudyGroup;
 import ru.edu.pgtk.weducation.helpers.ContainerProvider;
 
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @Ignore
 public class GroupSemestersEJBTest {

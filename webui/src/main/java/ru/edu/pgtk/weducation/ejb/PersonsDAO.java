@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.Person;
+import ru.edu.pgtk.weducation.data.entity.Person;
 
 import java.util.List;
 

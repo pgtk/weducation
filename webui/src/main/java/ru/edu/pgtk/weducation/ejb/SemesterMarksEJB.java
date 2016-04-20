@@ -1,10 +1,6 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.SemesterMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.StudyModule;
-import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.data.entity.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.data.entity.Account;
+import ru.edu.pgtk.weducation.data.entity.AccountRole;
 import ru.edu.pgtk.weducation.ejb.AccountsEJB;
-import ru.edu.pgtk.weducation.entity.Account;
-import ru.edu.pgtk.weducation.entity.AccountRole;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

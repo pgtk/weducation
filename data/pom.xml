@@ -13,6 +13,14 @@
 	<artifactId>data</artifactId>
 	<packaging>jar</packaging>
 
+	<dependencies>
+        <dependency>
+            <groupId>ru.edu.pgtk.weducation</groupId>
+            <artifactId>utils</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+    </dependencies>
+
 	<build>
 		<finalName>${project.parent.artifactId}-${project.artifactId}</finalName>
 		<plugins>

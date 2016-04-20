@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.data.entity.Place;
+import ru.edu.pgtk.weducation.data.entity.PlaceType;
 import ru.edu.pgtk.weducation.ejb.PlacesEJB;
-import ru.edu.pgtk.weducation.entity.Place;
-import ru.edu.pgtk.weducation.entity.PlaceType;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

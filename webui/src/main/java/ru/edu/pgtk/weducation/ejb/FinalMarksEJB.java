@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.FinalMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyModule;
+import ru.edu.pgtk.weducation.data.entity.FinalMark;
+import ru.edu.pgtk.weducation.data.entity.StudyCard;
+import ru.edu.pgtk.weducation.data.entity.StudyModule;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;

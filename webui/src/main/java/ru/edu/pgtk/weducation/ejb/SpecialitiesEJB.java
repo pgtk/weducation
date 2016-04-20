@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.Department;
-import ru.edu.pgtk.weducation.entity.Person;
-import ru.edu.pgtk.weducation.entity.Speciality;
+import ru.edu.pgtk.weducation.data.entity.Department;
+import ru.edu.pgtk.weducation.data.entity.Person;
+import ru.edu.pgtk.weducation.data.entity.Speciality;
 import ru.edu.pgtk.weducation.interceptors.Restricted;
 import ru.edu.pgtk.weducation.interceptors.WithLog;
 

@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.jsf;
 
-import ru.edu.pgtk.weducation.entity.Account;
+import ru.edu.pgtk.weducation.data.entity.Account;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;

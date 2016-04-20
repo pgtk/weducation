@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.ejb;
 
-import ru.edu.pgtk.weducation.entity.CourseWorkMark;
-import ru.edu.pgtk.weducation.entity.StudyCard;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
-import ru.edu.pgtk.weducation.entity.Subject;
+import ru.edu.pgtk.weducation.data.entity.CourseWorkMark;
+import ru.edu.pgtk.weducation.data.entity.StudyCard;
+import ru.edu.pgtk.weducation.data.entity.StudyGroup;
+import ru.edu.pgtk.weducation.data.entity.Subject;
 
 import java.util.List;
 

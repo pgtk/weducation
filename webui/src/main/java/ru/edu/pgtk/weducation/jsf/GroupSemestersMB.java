@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.jsf;
 
+import ru.edu.pgtk.weducation.data.entity.GroupSemester;
+import ru.edu.pgtk.weducation.data.entity.StudyGroup;
 import ru.edu.pgtk.weducation.ejb.GroupSemestersDAO;
 import ru.edu.pgtk.weducation.ejb.StudyGroupsDAO;
-import ru.edu.pgtk.weducation.entity.GroupSemester;
-import ru.edu.pgtk.weducation.entity.StudyGroup;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
