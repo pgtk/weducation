@@ -63,29 +63,31 @@
             Создадим фукцию для очистки "старых" оценок
         </comment>
         <sql splitStatements="false" stripComments="false">
-            CREATE OR REPLACE FUNCTION clearOldGroupMarks(groupId integer) RETURNS void AS '
+            <![CDATA[
+            CREATE OR REPLACE FUNCTION clearOldGroupMarks(integer) RETURNS void AS '
             DELETE FROM fmarks WHERE fmk_subcode NOT IN (SELECT sub_pcode FROM subjects, groups 
-            WHERE (sub_plncode = grp_plncode) AND (grp_pcode = groupId)) 
-            AND (fmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = groupId)));
+            WHERE (sub_plncode = grp_plncode) AND (grp_pcode = $1)) 
+            AND (fmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = $1)));
             DELETE FROM fmarks WHERE fmk_modcode NOT IN (SELECT mod_pcode FROM modules, groups 
-            WHERE (mod_plncode = grp_plncode) AND (grp_pcode = groupId)) 
-            AND (fmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = groupId)));
+            WHERE (mod_plncode = grp_plncode) AND (grp_pcode = $1)) 
+            AND (fmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = $1)));
             DELETE FROM cmarks WHERE cmk_subcode NOT IN (SELECT sub_pcode FROM subjects, groups 
-            WHERE (sub_plncode = grp_plncode) AND (grp_pcode = groupId)) 
-            AND (cmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = groupId)));
+            WHERE (sub_plncode = grp_plncode) AND (grp_pcode = $1)) 
+            AND (cmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = $1)));
             DELETE FROM fpmarks WHERE fpm_fpccode NOT IN (SELECT fpc_pcode FROM finalpractics, groups 
-            WHERE (fpc_plncode = grp_plncode) AND (grp_pcode = groupId)) 
-            AND (fpm_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = groupId)));
+            WHERE (fpc_plncode = grp_plncode) AND (grp_pcode = $1)) 
+            AND (fpm_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = $1)));
             DELETE FROM gmarks WHERE gmk_subcode NOT IN (SELECT sub_pcode FROM subjects, groups 
-            WHERE (sub_plncode = grp_plncode) AND (grp_pcode = groupId)) 
-            AND (gmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = groupId)));
+            WHERE (sub_plncode = grp_plncode) AND (grp_pcode = $1)) 
+            AND (gmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = $1)));
             DELETE FROM pmarks WHERE pmk_prccode NOT IN (SELECT prc_pcode FROM practics, groups 
-            WHERE (prc_plncode = grp_plncode) AND (grp_pcode = groupId)) 
-            AND (pmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = groupId)));
+            WHERE (prc_plncode = grp_plncode) AND (grp_pcode = $1)) 
+            AND (pmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = $1)));
             DELETE FROM monthmarks WHERE mmk_subcode NOT IN (SELECT sub_pcode FROM subjects, groups 
-            WHERE (sub_plncode = grp_plncode) AND (grp_pcode = groupId)) 
-            AND (mmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = groupId)));
+            WHERE (sub_plncode = grp_plncode) AND (grp_pcode = $1)) 
+            AND (mmk_crdcode IN (SELECT crd_pcode FROM cards WHERE (crd_grpcode = $1)));
             ' LANGUAGE SQL;
+            ]]>
         </sql>
     </changeSet>
     <changeSet id="006-7" author="gooamoko">
@@ -111,9 +113,11 @@
             Создадим фукцию для вычисления среднего балла
         </comment>
         <sql splitStatements="false" stripComments="false">
-            CREATE OR REPLACE FUNCTION getAverageMark(cardId integer) RETURNS decimal(3,2) AS ' 
+            <![CDATA[
+            CREATE OR REPLACE FUNCTION getAverageMark(integer) RETURNS decimal(3,2) AS ' 
             SELECT CAST(CAST(SUM(fmv_total) AS decimal(5,2)) / SUM(fmv_count) AS decimal(3,2)) FROM fmarkview 
-            WHERE (fmv_crdcode = cardId);' LANGUAGE sql;
+            WHERE (fmv_crdcode = $1);' LANGUAGE sql;
+            ]]>
         </sql>
     </changeSet>
     <changeSet id="006-9" author="gooamoko">
@@ -121,10 +125,12 @@
             Создадим функцию для вычисления 
         </comment>
         <sql splitStatements="false" stripComments="false">
-            CREATE OR REPLACE FUNCTION countMarks(personId int) RETURNS bigint AS ' 
-            SELECT (SELECT COUNT(*) FROM monthmarks WHERE mmk_psncode = personId) + 
-            (SELECT COUNT(*) FROM fmarks, persons, cards WHERE (crd_pcode = fmk_crdcode) AND (psn_pcode = crd_psncode) AND (psn_pcode = personId));
+            <![CDATA[
+            CREATE OR REPLACE FUNCTION countMarks(integer) RETURNS bigint AS ' 
+            SELECT (SELECT COUNT(*) FROM monthmarks WHERE mmk_psncode = $1) + 
+            (SELECT COUNT(*) FROM fmarks, persons, cards WHERE (crd_pcode = fmk_crdcode) AND (psn_pcode = crd_psncode) AND (psn_pcode = $1));
             ' LANGUAGE SQL;
+            ]]>
         </sql>
     </changeSet>
     <changeSet id="006-10" author="gooamoko">
