@@ -52,8 +52,10 @@
             Создадим фукцию int getDate(int year, int month, int week) для вычисления даты
         </comment>
         <sql splitStatements="false" stripComments="false">
-            CREATE FUNCTION getDate(year int, month int, week int) RETURNS int AS '
-            SELECT (year * 1000 + month * 10 + week);' LANGUAGE SQL;
+            <![CDATA[
+            CREATE FUNCTION getDate(int, int, int) RETURNS int AS '
+            SELECT ($1 * 1000 + $2 * 10 + $3);' LANGUAGE SQL;
+            ]]>
         </sql>
     </changeSet>
     <changeSet id="006-6" author="gooamoko">
