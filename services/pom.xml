@@ -13,8 +13,20 @@
 	<artifactId>services</artifactId>
 	<packaging>jar</packaging>
 
+	<dependencies>
+		<dependency>
+			<groupId>ru.edu.pgtk.weducation</groupId>
+			<artifactId>utils</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ru.edu.pgtk.weducation</groupId>
+			<artifactId>data</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<finalName>${project.parent.artifactId}-${project.artifactId}</finalName>
 	</build>
-
 </project>
