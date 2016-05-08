@@ -13,7 +13,7 @@
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{placesMB.add()}" /></div>
         </h:form>
-        <h:form id="listForm" rendered="#{not empty placesEJB.fetchAll()}">
+        <h:form id="listForm" rendered="#{not placesMB.emptyList}">
           <table id="dataTable">
             <thead>
               <tr>
@@ -23,7 +23,7 @@
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{placesEJB.fetchAll()}" var="place">
+            <ui:repeat value="#{placesMB.list}" var="place">
                 <tr>
                   <td>
                     #{place.type.description}
@@ -40,7 +40,7 @@
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty placesEJB.fetchAll()}">
+        <h:panelGroup rendered="#{placesMB.emptyList}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>

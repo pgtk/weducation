@@ -1,14 +1,18 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.Seat;
-import ru.edu.pgtk.weducation.service.ejb.SeatsEJB;
+import ru.edu.pgtk.weducation.core.ejb.SeatsEJB;
+import ru.edu.pgtk.weducation.core.entity.Seat;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 

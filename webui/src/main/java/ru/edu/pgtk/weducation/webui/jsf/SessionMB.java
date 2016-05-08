@@ -1,11 +1,11 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.Account;
-import ru.edu.pgtk.weducation.data.entity.AccountRole;
-import ru.edu.pgtk.weducation.data.entity.ClientSession;
-import ru.edu.pgtk.weducation.service.ejb.AccountsEJB;
-import ru.edu.pgtk.weducation.service.ejb.ClientSessionsEJB;
-import ru.edu.pgtk.weducation.service.ejb.SessionEJB;
+import ru.edu.pgtk.weducation.core.ejb.AccountsDAO;
+import ru.edu.pgtk.weducation.core.ejb.ClientSessionsEJB;
+import ru.edu.pgtk.weducation.core.ejb.SessionEJB;
+import ru.edu.pgtk.weducation.core.entity.Account;
+import ru.edu.pgtk.weducation.core.entity.AccountRole;
+import ru.edu.pgtk.weducation.core.entity.ClientSession;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -37,7 +37,7 @@ public class SessionMB implements Serializable {
     private String login;
     private String password;
     @Inject
-    private transient AccountsEJB usersEJB;
+    private transient AccountsDAO usersEJB;
     @Inject
     private transient SessionEJB ejbSession;
     @Inject

@@ -1,19 +1,23 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.Person;
-import ru.edu.pgtk.weducation.data.entity.Request;
-import ru.edu.pgtk.weducation.data.entity.Speciality;
-import ru.edu.pgtk.weducation.service.ejb.PersonsDAO;
-import ru.edu.pgtk.weducation.service.ejb.RequestsEJB;
-import ru.edu.pgtk.weducation.service.ejb.SpecialitiesDAO;
-import ru.edu.pgtk.weducation.service.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.PersonsDAO;
+import ru.edu.pgtk.weducation.core.ejb.RequestsEJB;
+import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.entity.Person;
+import ru.edu.pgtk.weducation.core.entity.Request;
+import ru.edu.pgtk.weducation.core.entity.Speciality;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 

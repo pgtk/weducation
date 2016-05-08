@@ -1,10 +1,10 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.ExamForm;
-import ru.edu.pgtk.weducation.data.entity.Subject;
-import ru.edu.pgtk.weducation.data.entity.SubjectLoad;
-import ru.edu.pgtk.weducation.service.ejb.SubjectLoadEJB;
-import ru.edu.pgtk.weducation.service.ejb.SubjectsDAO;
+import ru.edu.pgtk.weducation.core.ejb.SubjectLoadEJB;
+import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
+import ru.edu.pgtk.weducation.core.entity.ExamForm;
+import ru.edu.pgtk.weducation.core.entity.Subject;
+import ru.edu.pgtk.weducation.core.entity.SubjectLoad;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

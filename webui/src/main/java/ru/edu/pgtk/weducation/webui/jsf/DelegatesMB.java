@@ -1,9 +1,9 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.Delegate;
-import ru.edu.pgtk.weducation.data.entity.Person;
-import ru.edu.pgtk.weducation.service.ejb.DelegatesEJB;
-import ru.edu.pgtk.weducation.service.ejb.PersonsDAO;
+import ru.edu.pgtk.weducation.core.ejb.DelegatesEJB;
+import ru.edu.pgtk.weducation.core.ejb.PersonsDAO;
+import ru.edu.pgtk.weducation.core.entity.Delegate;
+import ru.edu.pgtk.weducation.core.entity.Person;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

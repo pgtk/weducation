@@ -1,13 +1,13 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.GroupSemester;
-import ru.edu.pgtk.weducation.data.entity.SemesterMark;
-import ru.edu.pgtk.weducation.data.entity.StudyGroup;
-import ru.edu.pgtk.weducation.data.entity.Subject;
-import ru.edu.pgtk.weducation.service.ejb.GroupSemestersDAO;
-import ru.edu.pgtk.weducation.service.ejb.SemesterMarksEJB;
-import ru.edu.pgtk.weducation.service.ejb.StudyGroupsDAO;
-import ru.edu.pgtk.weducation.service.ejb.SubjectsDAO;
+import ru.edu.pgtk.weducation.core.ejb.GroupSemestersDAO;
+import ru.edu.pgtk.weducation.core.ejb.SemesterMarksEJB;
+import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
+import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
+import ru.edu.pgtk.weducation.core.entity.GroupSemester;
+import ru.edu.pgtk.weducation.core.entity.SemesterMark;
+import ru.edu.pgtk.weducation.core.entity.StudyGroup;
+import ru.edu.pgtk.weducation.core.entity.Subject;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;

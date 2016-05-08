@@ -1,11 +1,11 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.FinalPractic;
-import ru.edu.pgtk.weducation.data.entity.FinalPracticMark;
-import ru.edu.pgtk.weducation.data.entity.StudyCard;
-import ru.edu.pgtk.weducation.service.ejb.FinalPracticMarksEJB;
-import ru.edu.pgtk.weducation.service.ejb.FinalPracticsEJB;
-import ru.edu.pgtk.weducation.service.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.FinalPracticMarksEJB;
+import ru.edu.pgtk.weducation.core.ejb.FinalPracticsEJB;
+import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.entity.FinalPractic;
+import ru.edu.pgtk.weducation.core.entity.FinalPracticMark;
+import ru.edu.pgtk.weducation.core.entity.StudyCard;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

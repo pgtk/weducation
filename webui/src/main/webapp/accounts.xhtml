@@ -13,7 +13,7 @@
         <h:form>
           <div class="buttons"><h:commandButton value="Добавить" action="#{accountsMB.add()}" /></div>
         </h:form>
-        <h:form id="listForm" rendered="#{not empty accountsEJB.fetchAll()}">
+        <h:form id="listForm" rendered="#{not accountsMB.emptyList}">
           <table id="dataTable">
             <thead>
               <tr>
@@ -24,7 +24,7 @@
               </tr>
             </thead>
             <tbody>
-              <ui:repeat value="#{accountsEJB.fetchAll()}" var="account">
+            <ui:repeat value="#{accountsMB.accountList}" var="account">
                 <tr>
                   <td>
                     #{account.fullName}
@@ -45,7 +45,7 @@
             </tbody>
           </table>
         </h:form>
-        <h:panelGroup rendered="#{empty accountsEJB.fetchAll()}">
+        <h:panelGroup rendered="#{accountsMB.emptyList}">
           <p>На данный момент нет ни одной записи.</p>
         </h:panelGroup>
         <h:form>
@@ -75,7 +75,7 @@
             <h:outputText value="Отделение" /><br />
             <h:selectOneMenu value="#{accountsMB.item.code}">
               <f:selectItem itemLabel="Не привязана к отделению" itemValue="0" />
-              <f:selectItems value="#{departmentsEJB.fetchAll()}" var="dep" itemLabel="#{dep.name}" itemValue="#{dep.id}" />
+              <f:selectItems value="#{accountsMB.departmentsList}" var="dep" itemLabel="#{dep.name}" itemValue="#{dep.id}"/>
             </h:selectOneMenu><p />
           </h:panelGroup>
           <div class="buttons">

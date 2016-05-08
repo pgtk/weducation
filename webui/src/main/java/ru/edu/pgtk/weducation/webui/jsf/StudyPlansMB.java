@@ -1,16 +1,16 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.Department;
-import ru.edu.pgtk.weducation.data.entity.Speciality;
-import ru.edu.pgtk.weducation.data.entity.StudyPlan;
-import ru.edu.pgtk.weducation.service.ejb.DepartmentsEJB;
-import ru.edu.pgtk.weducation.service.ejb.ServicesEJB;
-import ru.edu.pgtk.weducation.service.ejb.SpecialitiesDAO;
-import ru.edu.pgtk.weducation.service.ejb.StudyPlansDAO;
+import ru.edu.pgtk.weducation.core.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.core.ejb.ServicesEJB;
+import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
+import ru.edu.pgtk.weducation.core.entity.Department;
+import ru.edu.pgtk.weducation.core.entity.Speciality;
+import ru.edu.pgtk.weducation.core.entity.StudyPlan;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -25,13 +25,13 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
 
   long serialVersionUID = 0L;
 
-  @Inject
+  @EJB
   private transient StudyPlansDAO ejb;
-  @Inject
+  @EJB
   private transient DepartmentsEJB departments;
-  @Inject
+  @EJB
   private transient SpecialitiesDAO specialities;
-  @Inject
+  @EJB
   private transient ServicesEJB services;
   private int planCode;
   private List<StudyPlan> plansList;

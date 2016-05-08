@@ -5,70 +5,70 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <h1>Рабочее место отделения "#{departmentRootMB.department.name}"</h1>
-      <p>Тут в дальнейшем будут расположены кнопки отчетов по отделению.</p>
-      <h2>Группы, семестры и студенты</h2>
-      <h:form id="groupForm">
-        <p>
-          <h:outputText value="Группа " />
-          <h:selectOneMenu valueChangeListener="#{departmentRootMB.changeGroup}" value="#{departmentRootMB.groupCode}">
-            <f:selectItem itemLabel="--- Выберите группу ----" itemValue="0" />
-            <f:selectItems value="#{departmentRootMB.groupList}" var="group"
-                           itemLabel="#{group.name}" itemValue="#{group.id}" />
-            <f:ajax execute="@this" render="groupForm"/>
-          </h:selectOneMenu>
-        </p>
-        <h:panelGroup rendered="#{not empty departmentRootMB.students}">
-          <ul>
-            <li><h:link value="Параметры" outcome="/studygroups?id=#{departmentRootMB.group.id}" /></li>
-            <li><h:link value="Семестры" outcome="/groupsemesters?groupId=#{departmentRootMB.group.id}" /></li>
-            <li><h:link value="Пропуски за неделю" outcome="/department/weekmissings?groupId=#{departmentRootMB.group.id}" /></li>
-            <li><h:link value="Оценки за месяц" outcome="/department/monthmarks?groupId=#{departmentRootMB.group.id}" /></li>
-            <li><h:link value="Оценки за семестр" outcome="/department/subjectmarks?groupId=#{departmentRootMB.group.id}" /></li>
-            <li><h:link value="Оценки по модулям" outcome="/department/modulemarks?groupId=#{departmentRootMB.group.id}" /></li>
-            <li><h:link value="Оценки за курсовые" outcome="/department/courseworkmarks?groupId=#{departmentRootMB.group.id}" /></li>
-            <li><h:link value="Оценки за практику" outcome="/department/practicmarks?groupId=#{departmentRootMB.group.id}" /></li>
-          </ul>
-          <h3>Студенты</h3>
-          <table class="dataTable">
-            <thead>
-              <tr>
-                <th width="70%">Фамилия Имя Отчество</th>
-                <th width="30%">Данные</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ui:repeat value="#{departmentRootMB.students}" var="student">
-                  <tr class="#{utilsMB.getRowOnOrOffClass(student.active)}">
-                  <td>${student.person.fullName}</td>
-                  <td>
-                    <h:link target="new" class="action" value="Персона" outcome="/persons?id=#{student.person.id}" />
-                    <h:link target="new" class="action" value="Карточка" outcome="/studycards?id=#{student.id}" />
-                  </td>
-                </tr>
-              </ui:repeat>
-            </tbody>
-          </table>
-        </h:panelGroup>
-      </h:form>
-      <h2>Параметры отделения</h2>
-      <h:form id="detailsForm">
-        <h:outputText value="Зав. отделением" /><br />
-        <h:outputText rendered="#{not departmentRootMB.edit}" value="#{departmentRootMB.department.master}" />
-        <h:inputText class="textEdit" rendered="#{departmentRootMB.edit}" value="#{departmentRootMB.department.master}" />
-        <p />
-        <h:outputText value="Секретарь" /><br />
-        <h:outputText rendered="#{not departmentRootMB.edit}" value="#{departmentRootMB.department.secretar}" />
-        <h:inputText class="textEdit" rendered="#{departmentRootMB.edit}" value="#{departmentRootMB.department.secretar}" />
-        <p />
-        <div class="buttons">
-          <h:commandButton action="#{departmentRootMB.toggleEdit()}" value="#{departmentRootMB.editLabel}">
-            <f:ajax execute="@form" render="detailsForm" />
-          </h:commandButton>
-        </div>
-      </h:form>
+        <h1>Рабочее место отделения "#{departmentRootMB.department.name}"</h1>
+        <p>Тут в дальнейшем будут расположены кнопки отчетов по отделению.</p>
+        <h2>Группы, семестры и студенты</h2>
+        <h:form id="groupForm">
+            <p>
+                <h:outputText value="Группа "/>
+                <h:selectOneMenu valueChangeListener="#{departmentRootMB.changeGroup}" value="#{departmentRootMB.groupCode}">
+                    <f:selectItem itemLabel="--- Выберите группу ----" itemValue="0"/>
+                    <f:selectItems value="#{departmentRootMB.groupList}" var="group"
+                                   itemLabel="#{group.name}" itemValue="#{group.id}"/>
+                    <f:ajax execute="@this" render="groupForm"/>
+                </h:selectOneMenu>
+            </p>
+            <h:panelGroup rendered="#{not empty departmentRootMB.students}">
+                <ul>
+                    <li><h:link value="Параметры" outcome="/studygroups?id=#{departmentRootMB.group.id}"/></li>
+                    <li><h:link value="Семестры" outcome="/groupsemesters?groupId=#{departmentRootMB.group.id}"/></li>
+                    <li><h:link value="Пропуски за неделю" outcome="/department/weekmissings?groupId=#{departmentRootMB.group.id}"/></li>
+                    <li><h:link value="Оценки за месяц" outcome="/department/monthmarks?groupId=#{departmentRootMB.group.id}"/></li>
+                    <li><h:link value="Оценки за семестр" outcome="/department/subjectmarks?groupId=#{departmentRootMB.group.id}"/></li>
+                    <li><h:link value="Оценки по модулям" outcome="/department/modulemarks?groupId=#{departmentRootMB.group.id}"/></li>
+                    <li><h:link value="Оценки за курсовые" outcome="/department/courseworkmarks?groupId=#{departmentRootMB.group.id}"/></li>
+                    <li><h:link value="Оценки за практику" outcome="/department/practicmarks?groupId=#{departmentRootMB.group.id}"/></li>
+                </ul>
+                <h3>Студенты</h3>
+                <table class="dataTable">
+                    <thead>
+                    <tr>
+                        <th width="70%">Фамилия Имя Отчество</th>
+                        <th width="30%">Данные</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat value="#{departmentRootMB.students}" var="student">
+                        <tr class="#{utilsMB.getEnabledClass(student.active)}">
+                            <td>${student.person.fullName}</td>
+                            <td>
+                                <h:link target="new" class="action" value="Персона" outcome="/persons?id=#{student.person.id}"/>
+                                <h:link target="new" class="action" value="Карточка" outcome="/studycards?id=#{student.id}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </h:form>
+        <h2>Параметры отделения</h2>
+        <h:form id="detailsForm">
+            <h:outputText value="Зав. отделением"/><br/>
+            <h:outputText rendered="#{not departmentRootMB.edit}" value="#{departmentRootMB.department.master}"/>
+            <h:inputText class="textEdit" rendered="#{departmentRootMB.edit}" value="#{departmentRootMB.department.master}"/>
+            <p/>
+            <h:outputText value="Секретарь"/><br/>
+            <h:outputText rendered="#{not departmentRootMB.edit}" value="#{departmentRootMB.department.secretar}"/>
+            <h:inputText class="textEdit" rendered="#{departmentRootMB.edit}" value="#{departmentRootMB.department.secretar}"/>
+            <p/>
+            <div class="buttons">
+                <h:commandButton action="#{departmentRootMB.toggleEdit()}" value="#{departmentRootMB.editLabel}">
+                    <f:ajax execute="@form" render="detailsForm"/>
+                </h:commandButton>
+            </div>
+        </h:form>
     </ui:define>
-  </ui:composition>
+</ui:composition>
 </html>

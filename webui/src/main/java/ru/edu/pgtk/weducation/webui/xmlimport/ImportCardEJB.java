@@ -1,7 +1,21 @@
 package ru.edu.pgtk.weducation.webui.xmlimport;
 
-import ru.edu.pgtk.weducation.data.entity.*;
-import ru.edu.pgtk.weducation.service.ejb.*;
+import ru.edu.pgtk.weducation.core.ejb.DelegatesEJB;
+import ru.edu.pgtk.weducation.core.ejb.PersonsDAO;
+import ru.edu.pgtk.weducation.core.ejb.PlacesEJB;
+import ru.edu.pgtk.weducation.core.ejb.SchoolsDAO;
+import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.entity.Delegate;
+import ru.edu.pgtk.weducation.core.entity.ForeignLanguage;
+import ru.edu.pgtk.weducation.core.entity.Person;
+import ru.edu.pgtk.weducation.core.entity.Place;
+import ru.edu.pgtk.weducation.core.entity.PlaceType;
+import ru.edu.pgtk.weducation.core.entity.School;
+import ru.edu.pgtk.weducation.core.entity.Speciality;
+import ru.edu.pgtk.weducation.core.entity.StudyCard;
+import ru.edu.pgtk.weducation.core.entity.StudyGroup;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,7 +31,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class ImportCardEJB {

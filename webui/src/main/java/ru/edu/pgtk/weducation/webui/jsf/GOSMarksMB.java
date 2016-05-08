@@ -1,11 +1,11 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.data.entity.GOSMark;
-import ru.edu.pgtk.weducation.data.entity.StudyCard;
-import ru.edu.pgtk.weducation.data.entity.Subject;
-import ru.edu.pgtk.weducation.service.ejb.GOSExamsEJB;
-import ru.edu.pgtk.weducation.service.ejb.GOSMarksEJB;
-import ru.edu.pgtk.weducation.service.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.GOSExamsEJB;
+import ru.edu.pgtk.weducation.core.ejb.GOSMarksEJB;
+import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.entity.GOSMark;
+import ru.edu.pgtk.weducation.core.entity.StudyCard;
+import ru.edu.pgtk.weducation.core.entity.Subject;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

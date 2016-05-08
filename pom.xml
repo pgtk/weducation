@@ -6,9 +6,7 @@
     <artifactId>weducation</artifactId>
     <version>1.3</version>
     <modules>
-        <module>utils</module>
-        <module>data</module>
-        <module>services</module>
+        <module>core</module>
         <module>webui</module>
     </modules>
     <packaging>pom</packaging>
