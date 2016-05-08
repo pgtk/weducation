@@ -42,5 +42,99 @@
 			CONSTRAINT messages_accounts_dst_fk FOREIGN KEY(msg_dstaccount) REFERENCES accounts(aco_pcode) ON UPDATE CASCADE ON DELETE CASCADE);
 		</sql>
 	</changeSet>
+	<changeSet id="007-4" author="gooamoko">
+		<comment>
+			Добавим таблицу тестов
+		</comment>
+		<sql>
+			CREATE TABLE tests(
+			tst_pcode serial,
+			tst_title varchar(255) NOT NULL,
+			tst_author varchar(255) NOT NULL,
+			tst_questions int NOT NULL DEFAULT 0,
+			tst_timelimit int NOT NULL DEFAULT 0,
+			tst_maxtries int NOT NULL DEFAULT 1,
+			CONSTRAINT tests_pk PRIMARY KEY(tst_pcode));
+		</sql>
+	</changeSet>
+	<changeSet id="007-5" author="gooamoko">
+		<comment>
+			Добавим таблицу Вопросов для тестов
+		</comment>
+		<sql>
+			CREATE TABLE questions(
+			qst_pcode serial,
+			qst_text text NOT NULL,
+			qst_tstcode int NOT NULL,
+			CONSTRAINT questions_tests_fk FOREIGN KEY(qst_tstcode) REFERENCES tests(tst_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+			CONSTRAINT questions_pk PRIMARY KEY(qst_pcode));
+		</sql>
+	</changeSet>
+	<changeSet id="007-6" author="gooamoko">
+		<comment>
+			Добавим таблицу ответов на вопросы
+		</comment>
+		<sql>
+			CREATE TABLE answers(
+			ans_pcode serial,
+			ans_text varchar(255) NOT NULL,
+			ans_right boolean NOT NULL DEFAULT false,
+			ans_qstcode int NOT NULL,
+			ans_tstcode int NOT NULL,
+			CONSTRAINT answers_questions_fk FOREIGN KEY(ans_qstcode) REFERENCES questions(qst_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+			CONSTRAINT answers_tests_fk FOREIGN KEY(ans_tstcode) REFERENCES tests(tst_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+			CONSTRAINT answers_pk PRIMARY KEY(ans_pcode));
+		</sql>
+	</changeSet>
+	<changeSet id="007-7" author="gooamoko">
+		<comment>
+			Добавим таблицу тестирований
+		</comment>
+		<sql>
+			CREATE TABLE testsessions(
+			tss_pcode serial,
+			tss_timestamp timestamp NOT NULL DEFAULT now(),
+			tss_psncode int NOT NULL,
+			tss_tstcode int NOT NULL,
+			tss_mark int NOT NULL DEFAULT 0,
+			tss_questions int NOT NULL DEFAULT 0,
+			tss_right int NOT NULL DEFAULT 0,
+			CONSTRAINT testsessions_persons_fk FOREIGN KEY(tss_psncode) REFERENCES persons(psn_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+			CONSTRAINT testsessions_tests_fk FOREIGN KEY(tss_tstcode) REFERENCES tests(tst_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+			CONSTRAINT testsessions_pk PRIMARY KEY(tss_pcode));
+		</sql>
+	</changeSet>
+	<changeSet id="007-8" author="gooamoko">
+		<comment>
+			Добавим таблицу тестирований
+		</comment>
+		<sql>
+			CREATE TABLE testdetails(
+			tdt_pcode serial,
+			tdt_qstcode int NOT NULL,
+			tdt_anscode int NOT NULL,
+			CONSTRAINT testdetails_questions_fk FOREIGN KEY(tdt_qstcode) REFERENCES questions(qst_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+			CONSTRAINT testdetails_answers_fk FOREIGN KEY(tdt_anscode) REFERENCES answers(ans_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+			CONSTRAINT testdetails_pk PRIMARY KEY(tdt_pcode));
+		</sql>
+	</changeSet>
+	<changeSet id="007-9" author="gooamoko">
+		<comment>
+			Добавим поле в таблицу тестирований
+		</comment>
+		<sql>
+			ALTER TABLE testdetails ADD COLUMN tdt_tsscode int NOT NULL;
+		</sql>
+	</changeSet>
+	<changeSet id="007-10" author="gooamoko">
+		<comment>
+			Добавим внешний ключ в таблицу тестирований
+		</comment>
+		<sql>
+			ALTER TABLE testdetails ADD CONSTRAINT testdetails_testsessions_fk
+			FOREIGN KEY(tdt_tsscode) REFERENCES testsessions(tss_pcode) ON UPDATE CASCADE ON DELETE CASCADE;
+		</sql>
+	</changeSet>
+
 
 </databaseChangeLog>
