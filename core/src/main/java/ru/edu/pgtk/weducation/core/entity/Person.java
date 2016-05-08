@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
@@ -46,7 +47,7 @@ public class Person implements Serializable {
   private boolean foreign;
 
   @Column(name = "psn_birthdate", nullable = false)
-  @Temporal(javax.persistence.TemporalType.DATE)
+  @Temporal(TemporalType.DATE)
   private Date birthDate;
 
   @Column(name = "psn_birthplace", nullable = false, length = 255)
@@ -68,7 +69,7 @@ public class Person implements Serializable {
   private String passportNumber;
 
   @Column(name = "psn_passportdate")
-  @Temporal(javax.persistence.TemporalType.DATE)
+  @Temporal(TemporalType.DATE)
   private Date passportDate;
 
   @Column(name = "psn_passportdept", length = 255)

@@ -4,8 +4,8 @@ import ru.edu.pgtk.weducation.core.ejb.SeatsEJB;
 import ru.edu.pgtk.weducation.core.entity.Seat;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Calendar;

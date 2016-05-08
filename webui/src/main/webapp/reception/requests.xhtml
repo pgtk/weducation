@@ -40,7 +40,7 @@
                             <tbody>
                                 <ui:repeat value="#{requestsMB.requestList}" var="req">
                                     <tr>
-                                        <td>#{req.speciality.fullName}</td>
+                                        <td>#{req.speciality.name}</td>
                                         <td><h:commandLink class="action" action="#{requestsMB.delete(req)}" value="Удалить" /></td>
                                     </tr>
                                 </ui:repeat>
@@ -64,7 +64,7 @@
                     <h2>Добавление заявки</h2>
                     <p>Отметьте те специальности, на которые вы хотите сделать заявку</p>
                     <h:selectManyListbox value="#{requestsMB.selectedSpecialities}">
-                        <f:selectItems value="#{requestsMB.specList}" var="spc" itemLabel="#{spc.fullName}" itemValue="#{spc.id}" />
+                        <f:selectItems value="#{requestsMB.specList}" var="spc" itemLabel="#{spc.name}" itemValue="#{spc.id}"/>
                     </h:selectManyListbox>
                     <div class="buttons">
                         <h:commandButton value="Сохранить" action="#{requestsMB.save()}" />

@@ -33,7 +33,7 @@
             <tbody>
               <ui:repeat value="#{seatPlansMB.seats}" var="seat">
                 <tr>
-                  <td>#{seat.speciality.fullName}</td>
+                  <td>#{seat.speciality.name}</td>
                   <td><h:inputText value="#{seat.budgetCount}" /></td>
                   <td><h:inputText value="#{seat.commercialCount}" /></td>
                 </tr>
