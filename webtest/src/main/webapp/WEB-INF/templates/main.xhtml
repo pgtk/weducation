@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+    <title>Weducation</title>
+    <base href="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/"/>
+    <link href="#{request.contextPath}/css/main.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+    <div id="content">
+        <h:messages id="messages" class="errorMessage"/>
+        <ui:insert name="content">
+            Это место свободно для вашей рекламы.
+        </ui:insert>
+    </div>
+    <div id="footer">
+        <hr/>
+        &#169; #{sessionBean.copirightYears} Прокопьевский горнотехнический техникум им В.П. Романова.
+        <!-- bottom menu, etc -->
+    </div>
+</h:body>
+</html>

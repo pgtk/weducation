@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.core.ejb;
 
 import ru.edu.pgtk.weducation.core.entity.Person;
+import ru.edu.pgtk.weducation.core.entity.Speciality;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
 import ru.edu.pgtk.weducation.core.entity.StudyGroup;
 
@@ -33,6 +34,16 @@ public class StudyCardsEJB extends AbstractEJB implements StudycardsDAO {
 			return result;
 		}
 		throw new EJBException("Card not found with id " + id);
+	}
+
+	@Override
+	public StudyCard get(Speciality speciality, boolean extramural, String biletNumber) {
+		TypedQuery<StudyCard> q = em.createQuery("SELECT c FROM StudyCard c WHERE (c.speciality = :s) AND (c.extramural = :e) AND (c.biletNumber = :b)",
+				StudyCard.class);
+		q.setParameter("s", speciality);
+		q.setParameter("e", extramural);
+		q.setParameter("b", biletNumber);
+		return q.getSingleResult();
 	}
 
 	@Override

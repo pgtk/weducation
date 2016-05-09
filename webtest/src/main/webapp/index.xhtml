@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+        <h1 align="center">Приложение для онлайн-тестирования</h1>
+        <h:panelGroup rendered="#{not sessionBean.autorized}">
+            <h2 align="center">Укажите данные для установления вашей личности и доступа к тестам и результатам</h2>
+            <h:form>
+                <table class="formTable">
+                    <tr>
+                        <td class="label">Заочная форма обучения</td>
+                        <td class="component">
+                            <h:selectBooleanCheckbox valueChangeListener="#{sessionBean.changeForm}" value="#{sessionBean.extramural}">
+                                <f:ajax execute="@form" render="@all"/>
+                            </h:selectBooleanCheckbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">Специальность</td>
+                        <td class="component">
+                            <h:selectOneMenu value="#{sessionBean.specialityCode}">
+                                <f:selectItem itemLabel="Выберите из списка" itemValue="0"/>
+                                <f:selectItems value="#{sessionBean.specialitiesList}" var="spc"
+                                               itemLabel="#{spc.name}" itemValue="#{spc.id}"/>
+                            </h:selectOneMenu>
+                            <p/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">Номер студенческого билета</td>
+                        <td class="component">
+                            <h:inputText value="#{sessionBean.biletNumber}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <h:commandButton value="Вход" action="#{sessionBean.login()}"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{sessionBean.autorized}">
+            <h2 align="center">Вход выполнен</h2>
+            <p align="center">
+                Вы авторизованы как #{sessionBean.studentCard.person.fullName}. Если это не ваши данные, то
+                завершите работу с приложением и сообщите на отделение об инциденте.
+            </p>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+</html>
