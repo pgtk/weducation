@@ -1,0 +1,131 @@
+body {
+	margin-top: 50px;
+	background: #fffef0;
+	font-family: Verdana, Helvetica, Arial;
+	font-size: 16px;
+	color: #04060c;
+	padding: 0 10px
+}
+
+h1, h2, h3, h4 {
+	font-family: Arial, Verdana, Helvetica;
+	font-weight: lighter;
+	color: #505050;
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+h1 {
+	font-size: 32px;
+}
+
+h2 {
+	font-size: 28px;
+}
+
+h3 {
+	font-size: 24px;
+}
+
+h4 {
+	font-size: 20px;
+}
+
+p {
+	font: 16px verdana, tahoma, arial;
+	color: #04060c;
+	margin-bottom: 5px;
+}
+
+div.buttons {
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	margin-left: 50px;
+}
+
+div.success {
+	border-color: #59d959;
+	background-color: #79f979;
+}
+
+div.error {
+	border-color: #d95959;
+	background-color: #f97979;
+}
+
+.error {
+	color: #d95959;
+}
+
+.errorMessage {
+	font-size: 18px;
+	color: #c80d0d;
+	text-decoration: none;
+}
+
+ul.errorMessage {
+	color: #c80d0d;
+	text-decoration: none;
+	list-style-type: none;
+}
+
+input[type="button"], input[type="submit"], button, .button, a.button:link, a.button:visited {
+	cursor: pointer;
+	font-size: 16px;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	padding: .3em .6em;
+	margin-left: 5px;
+	margin-right: 5px;
+	box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
+	background-color: #174c89;
+	color: #d5d5d5;
+	border: 1px solid #073c79;
+	border-radius: 3px;
+	text-decoration: none;
+}
+
+input[type="text"], input[type="password"] {
+	min-width: 50%;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover, a.button:hover, button:hover {
+	background-color: #376ca9;
+	color: #ffffff;
+}
+
+a {
+	color: #04060c;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #174c89;
+}
+
+table {
+	width: 100%;
+}
+
+table.formTable {
+	border: 0px;
+}
+
+table.formTable tbody td {
+	padding-top: 7px;
+}
+
+table.formTable tbody td.label {
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px;
+	width: 50%;
+}
+
+table.formTable tbody td.component {
+	font-weight: lighter;
+	text-align: left;
+	padding-left: 10px;
+	vertical-align: bottom;
+	width: 50%;
+}

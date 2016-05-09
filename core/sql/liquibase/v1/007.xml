@@ -205,5 +205,21 @@
             ]]>
 		</sql>
 	</changeSet>
+	<changeSet id="007-15" author="gooamoko">
+		<comment>
+			Таблица для связи тестов со специальностями
+		</comment>
+		<sql splitStatements="false" stripComments="false">
+			<![CDATA[
+			CREATE TABLE testlists (
+			tsl_pcode serial,
+			tsl_tstcode int NOT NULL,
+			tsl_spccode int NOT NULL,
+			CONSTRAINT testlists_pk PRIMARY KEY(tsl_pcode),
+			CONSTRAINT testlists_tests_fk FOREIGN KEY(tsl_tstcode) REFERENCES tests(tst_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
+			CONSTRAINT testlists_specialities_fk FOREIGN KEY(tsl_spccode) REFERENCES specialities(spc_pcode) ON UPDATE CASCADE ON DELETE CASCADE);
+            ]]>
+		</sql>
+	</changeSet>
 
 </databaseChangeLog>
