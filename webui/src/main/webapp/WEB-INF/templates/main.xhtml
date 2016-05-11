@@ -17,6 +17,7 @@
           <ul>
             <li><h:commandLink value="На главную" action="#{sessionMB.startPage()}" /></li>
             <h:panelGroup rendered="#{sessionMB.logged}">
+              <li><h:commandLink value="Сообщений: #{sessionMB.newMessages}" action="#{sessionMB.startPage()}" /></li>
               <li><a href="#">Данные</a>
                 <ul>
                   <li><h:link value="Персоны" outcome="/persons" /></li>

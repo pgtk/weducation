@@ -2,6 +2,7 @@ package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.AccountsDAO;
 import ru.edu.pgtk.weducation.core.ejb.ClientSessionsEJB;
+import ru.edu.pgtk.weducation.core.ejb.MessagesDAO;
 import ru.edu.pgtk.weducation.core.ejb.SessionEJB;
 import ru.edu.pgtk.weducation.core.entity.Account;
 import ru.edu.pgtk.weducation.core.entity.AccountRole;
@@ -9,6 +10,7 @@ import ru.edu.pgtk.weducation.core.entity.ClientSession;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.EJB;
 import javax.ejb.PrePassivate;
 import javax.ejb.StatefulTimeout;
 import javax.enterprise.context.SessionScoped;
@@ -36,12 +38,14 @@ public class SessionMB implements Serializable {
     private ClientSession session;
     private String login;
     private String password;
-    @Inject
+    @EJB
     private transient AccountsDAO usersEJB;
-    @Inject
+    @EJB
     private transient SessionEJB ejbSession;
-    @Inject
+    @EJB
     private transient ClientSessionsEJB sessions;
+    @EJB
+    private transient MessagesDAO messgesDao;
 
     /**
      * Иннициализация сессионного бина. В данном методе мы запишем в лог о начале
@@ -90,6 +94,14 @@ public class SessionMB implements Serializable {
         Account user = ejbSession != null ? ejbSession.getUser() : null;
         System.out.println("Session for " +
                 ((null != user) ? user.getFullName() : "unlogged user") + " stopped.");
+    }
+
+    public int getNewMessages() {
+        try {
+            return messgesDao != null ? messgesDao.getIncoming(getUser()).size() : 0;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /**
