@@ -40,9 +40,9 @@ public class SessionMB implements Serializable {
     private String password;
     @EJB
     private transient AccountsDAO usersEJB;
-    @EJB
+    @Inject
     private transient SessionEJB ejbSession;
-    @EJB
+    @Inject
     private transient ClientSessionsEJB sessions;
     @EJB
     private transient MessagesDAO messgesDao;

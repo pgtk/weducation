@@ -17,7 +17,6 @@
           <ul>
             <li><h:commandLink value="На главную" action="#{sessionMB.startPage()}" /></li>
             <h:panelGroup rendered="#{sessionMB.logged}">
-              <li><h:commandLink value="Сообщений: #{sessionMB.newMessages}" action="#{sessionMB.startPage()}" /></li>
               <li><a href="#">Данные</a>
                 <ul>
                   <li><h:link value="Персоны" outcome="/persons" /></li>
@@ -48,10 +47,8 @@
             <li>
               <h:link rendered="#{not sessionMB.logged}" value="Вход" outcome="/loginform" />
               <h:commandLink rendered="#{sessionMB.logged}" value="Выход" action="#{sessionMB.doLogout()}" />
-              <!--
-              <h:link rendered="#{sessionMB.logged}" value="Выход" outcome="/logout" />
-              -->
             </li>
+            <li><h:link rendered="#{sessionMB.logged}" value="Сообщений: #{sessionMB.newMessages}" outcome="/messages" /></li>
           </ul>
         </h:form>
       </div>
