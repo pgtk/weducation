@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.FinalMarksEJB;
+import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyModulesEJB;
-import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.core.entity.FinalMark;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
@@ -28,7 +28,7 @@ public class FinalMarksMB extends GenericBean<FinalMark> implements Serializable
 	@EJB
 	private transient FinalMarksEJB ejb;
 	@EJB
-	private transient StudycardsDAO cards;
+	private transient StudyCardsDAO cards;
 	@EJB
 	private transient StudyModulesEJB modules;
 	@EJB

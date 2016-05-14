@@ -12,7 +12,7 @@ import java.util.List;
  * @author Voronin Leonid
  * @since 08.04.2016
  */
-public interface StudycardsDAO extends EntityDAO<StudyCard> {
+public interface StudyCardsDAO extends EntityDAO<StudyCard> {
 
 	List<StudyCard> findByPerson(final Person person);
 

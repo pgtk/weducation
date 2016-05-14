@@ -23,7 +23,7 @@ public class SemesterMarksEJB {
   @PersistenceContext(unitName = "weducationPU")
   private EntityManager em;
   @EJB
-  private StudycardsDAO cards;
+  private StudyCardsDAO cards;
   
   public SemesterMark get(final StudyCard card, final Subject subject, final int course, final int semester) {
     try {

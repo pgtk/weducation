@@ -33,6 +33,10 @@ public abstract class GenericBean<T> {
 		}
 	}
 
+	protected void addError(Exception e) {
+		addMessage(e);
+	}
+
 	// Создание нового экземпляра
 	public abstract void newItem();
 

@@ -57,6 +57,14 @@ public class AccountsEJB extends AbstractEJB implements AccountsDAO {
 	}
 
 	@Override
+	public List<Account> fetchAdmins() {
+		TypedQuery<Account> q = em.createQuery(
+				"SELECT COUNT(a) FROM Account a WHERE (a.role = :r)", Account.class);
+		q.setParameter("r", AccountRole.ADMIN);
+		return q.getResultList();
+	}
+
+	@Override
 	@WithLog
 	@Restricted(allowedRoles = {}) // Неявно разрешено только админу
 	public Account save(Account item) {

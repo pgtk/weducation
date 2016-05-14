@@ -2,7 +2,7 @@ package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.FinalPracticMarksEJB;
 import ru.edu.pgtk.weducation.core.ejb.FinalPracticsEJB;
-import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.entity.FinalPractic;
 import ru.edu.pgtk.weducation.core.entity.FinalPracticMark;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
@@ -25,7 +25,7 @@ public class FinalPracticMarksMB extends GenericBean<FinalPracticMark> implement
 	@EJB
 	private transient FinalPracticMarksEJB ejb;
 	@EJB
-	private transient StudycardsDAO cards;
+	private transient StudyCardsDAO cards;
 	@EJB
 	private transient FinalPracticsEJB practics;
 	private StudyCard card;

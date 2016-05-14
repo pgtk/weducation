@@ -12,8 +12,8 @@ import ru.edu.pgtk.weducation.core.ejb.MonthMarksEJB;
 import ru.edu.pgtk.weducation.core.ejb.PracticMarksEJB;
 import ru.edu.pgtk.weducation.core.ejb.PracticsEJB;
 import ru.edu.pgtk.weducation.core.ejb.SemesterMarksEJB;
+import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
-import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.core.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.core.entity.GroupSemester;
@@ -65,7 +65,7 @@ public class GroupReportsEJB {
 	@EJB
 	private transient StudyGroupsDAO groups;
 	@EJB
-	private transient StudycardsDAO cards;
+	private transient StudyCardsDAO cards;
 	@EJB
 	private transient MonthMarksEJB marks;
 	@EJB

@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.CourseWorkMarksDAO;
-import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.core.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
@@ -25,7 +25,7 @@ public class CourseWorkMarksMB extends GenericBean<CourseWorkMark> implements Se
 	@EJB
 	private transient CourseWorkMarksDAO ejb;
 	@EJB
-	private transient StudycardsDAO cards;
+	private transient StudyCardsDAO cards;
 	@EJB
 	private transient SubjectsDAO subjects;
 	private StudyCard card;

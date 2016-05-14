@@ -2,7 +2,7 @@ package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.GOSExamsEJB;
 import ru.edu.pgtk.weducation.core.ejb.GOSMarksEJB;
-import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.entity.GOSMark;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
 import ru.edu.pgtk.weducation.core.entity.Subject;
@@ -25,7 +25,7 @@ public class GOSMarksMB extends GenericBean<GOSMark> implements Serializable {
 	@EJB
 	private transient GOSMarksEJB ejb;
 	@EJB
-	private transient StudycardsDAO cards;
+	private transient StudyCardsDAO cards;
 	@EJB
 	private transient GOSExamsEJB exams;
 	private StudyCard card;

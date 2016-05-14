@@ -4,9 +4,9 @@ import ru.edu.pgtk.weducation.core.ejb.FinalMarksEJB;
 import ru.edu.pgtk.weducation.core.ejb.PersonsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SchoolsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
-import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
 import ru.edu.pgtk.weducation.core.entity.Person;
 import ru.edu.pgtk.weducation.core.entity.School;
 import ru.edu.pgtk.weducation.core.entity.Speciality;
@@ -32,7 +32,7 @@ public class StudyCardsMB extends GenericBean<StudyCard> implements Serializable
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient StudycardsDAO ejb;
+	private transient StudyCardsDAO ejb;
 	@EJB
 	private transient PersonsDAO personEJB;
 	@EJB

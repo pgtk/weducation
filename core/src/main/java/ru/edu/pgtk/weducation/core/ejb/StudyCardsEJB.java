@@ -14,7 +14,7 @@ import java.util.List;
 
 @Stateless
 @Named("studyCardsEJB")
-public class StudyCardsEJB extends AbstractEJB implements StudycardsDAO {
+public class StudyCardsEJB extends AbstractEJB implements StudyCardsDAO {
 
 	@EJB
 	private StudyGroupsDAO groups;

@@ -24,7 +24,7 @@ import java.util.List;
 public class PracticMarksEJB {
 
 	@EJB
-	StudycardsDAO cards;
+	StudyCardsDAO cards;
 	@PersistenceContext(unitName = "weducationPU")
 	private EntityManager em;
 

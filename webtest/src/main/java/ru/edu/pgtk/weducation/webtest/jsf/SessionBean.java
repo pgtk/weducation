@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webtest.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
-import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.entity.Speciality;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
 
@@ -34,7 +34,7 @@ public class SessionBean implements Serializable {
 	private boolean autorized = false;
 
 	@EJB
-	private StudycardsDAO cardsDao;
+	private StudyCardsDAO cardsDao;
 	@EJB
 	private SpecialitiesDAO specialitiesDao;
 
@@ -95,20 +95,6 @@ public class SessionBean implements Serializable {
 			addErrorMessage(e);
 		}
 	}
-
-//	public void changeSpeciality(ValueChangeEvent event) {
-//		try {
-//			specialityCode = (Integer) event.getNewValue();
-//			if (specialityCode > 0) {
-//				speciality = specialitiesDao.get(specialityCode);
-//			} else {
-//				speciality = null;
-//			}
-//		} catch (Exception e) {
-//			resetData();
-//			addErrorMessage(e);
-//		}
-//	}
 
 	public StudyCard getStudentCard() {
 		return studentCard;

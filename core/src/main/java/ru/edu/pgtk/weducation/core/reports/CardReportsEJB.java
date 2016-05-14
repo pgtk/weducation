@@ -18,7 +18,7 @@ import ru.edu.pgtk.weducation.core.ejb.FinalMarksEJB;
 import ru.edu.pgtk.weducation.core.ejb.FinalPracticMarksEJB;
 import ru.edu.pgtk.weducation.core.ejb.GOSMarksEJB;
 import ru.edu.pgtk.weducation.core.ejb.RenamingsEJB;
-import ru.edu.pgtk.weducation.core.ejb.StudycardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.entity.AccountRole;
 import ru.edu.pgtk.weducation.core.entity.CourseWorkMark;
 import ru.edu.pgtk.weducation.core.entity.FinalMark;
@@ -82,7 +82,7 @@ public class CardReportsEJB {
 	@EJB
 	private RenamingsEJB renamings;
 	@EJB
-	private StudycardsDAO cards;
+	private StudyCardsDAO cards;
 
 	@GET
 	@Path("{cardId: \\d+}/diplome")

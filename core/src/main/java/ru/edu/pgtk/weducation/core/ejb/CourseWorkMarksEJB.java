@@ -23,7 +23,7 @@ public class CourseWorkMarksEJB extends AbstractEJB implements CourseWorkMarksDA
 	@EJB
 	SubjectsDAO subjects;
 	@EJB
-	StudycardsDAO cards;
+	StudyCardsDAO cards;
 
 	@Override
 	public CourseWorkMark get(final int id) {
