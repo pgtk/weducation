@@ -3,6 +3,8 @@ package ru.edu.pgtk.weducation.core.ejb;
 import ru.edu.pgtk.weducation.core.entity.Test;
 
 import javax.ejb.EJBException;
+import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
  * Корпоративный компонент для управления тестами
  * Created by admin on 17.05.2016.
  */
+@Named("testsEJB")
+@Stateless
 public class TestsEJB extends AbstractEJB implements TestsDAO {
 
     @Override
