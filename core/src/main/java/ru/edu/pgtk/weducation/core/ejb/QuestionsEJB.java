@@ -1,10 +1,13 @@
 package ru.edu.pgtk.weducation.core.ejb;
 
 import ru.edu.pgtk.weducation.core.entity.Question;
+import ru.edu.pgtk.weducation.core.entity.Test;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 /**
  * Корпоративный компонент для работы с вопросами тестов
@@ -14,6 +17,13 @@ import javax.inject.Named;
 @Named("questionsEJB")
 @Stateless
 public class QuestionsEJB extends AbstractEJB implements QuestionsDAO {
+
+	@Override
+	public List<Question> fetchForTest(Test test) {
+		TypedQuery<Question> q = em.createQuery("SELECT q FROM Question q WHERE (q.test = :t) ORDER BY q.id", Question.class);
+		q.setParameter("t", test);
+		return q.getResultList();
+	}
 
 	@Override
 	public Question get(int id) {
