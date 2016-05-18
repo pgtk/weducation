@@ -17,7 +17,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "testdetails")
-public class TestDetails implements Serializable {
+public class TestDetail implements Serializable {
 
 	@Id
 	@Column(name = "tdt_pcode")

@@ -16,62 +16,62 @@ import java.util.List;
  */
 @Named("testSessionsEJB")
 @Stateless
-public class TestSessionsEJB extends AbstractEJB implements TesSessionsDAO {
+public class TestSessionsEJB extends AbstractEJB implements TestSessionsDAO {
 
-    @Override
-    public List<TestSession> fetchForTest(Test test) {
-        TypedQuery<TestSession> q = em.createQuery(
-                "SELECT ts FROM TestSession ts WHERE (ts.test = :t)", TestSession.class);
-        q.setParameter("t",test);
-        return q.getResultList();
-    }
+	@Override
+	public List<TestSession> fetchForTest(Test test) {
+		TypedQuery<TestSession> q = em.createQuery(
+				"SELECT ts FROM TestSession ts WHERE (ts.test = :t)", TestSession.class);
+		q.setParameter("t", test);
+		return q.getResultList();
+	}
 
-    @Override
-    public List<TestSession> fetchFroPerson(Person person) {
-        TypedQuery<TestSession> q = em.createQuery(
-                "SELECT  psn FROM TestSession psn WHERE (psn.test = :p)", TestSession.class);
-        q.setParameter("p", person);
-        return q.getResultList();
-    }
+	@Override
+	public List<TestSession> fetchFroPerson(Person person) {
+		TypedQuery<TestSession> q = em.createQuery(
+				"SELECT  psn FROM TestSession psn WHERE (psn.test = :p)", TestSession.class);
+		q.setParameter("p", person);
+		return q.getResultList();
+	}
 
-    @Override
-    public List<TestSession> fetchAll() {
-        TypedQuery<TestSession> q = em.createQuery(
-                "SELECT ts FROM TestSession ts", TestSession.class);
-        return q.getResultList();
-    }
+	@Override
+	public List<TestSession> fetchAll() {
+		TypedQuery<TestSession> q = em.createQuery(
+				"SELECT ts FROM TestSession ts", TestSession.class);
+		return q.getResultList();
+	}
 
-    @Override
-    public TestSession get(int id) {
-        TestSession result = em.find(TestSession.class, id);
-        if (result != null) {
-            return result;
-        }
-        throw new EJBException("Answer not found with id " + id);
+	@Override
+	public TestSession get(int id) {
+		TestSession result = em.find(TestSession.class, id);
+		if (result != null) {
+			return result;
+		}
+		throw new EJBException("Answer not found with id " + id);
 
-    }
+	}
 
-    @Override
-    public TestSession save(TestSession item) {
-        if (item == null) {
-            throw new EJBException("You can't save nothing");
-        }
-        if (item.getId() > 0) {
-            return em.merge(item);
-        } else {
-            em.persist(item);
-            return item;
-        }
+	@Override
+	public TestSession save(TestSession item) {
+		if (item == null) {
+			throw new EJBException("You can't save nothing");
+		}
+		if (item.getId() > 0) {
+			return em.merge(item);
+		} else {
+			em.persist(item);
+			return item;
+		}
 
-    }
+	}
 
-    @Override
-    public void delete(TestSession item) {
-        if (item != null) {
-            TestSession ts = em.find(TestSession.class, item.getId());
-            if (ts != null) {
-                em.remove(ts);
-            }
-        }
-    }
+	@Override
+	public void delete(TestSession item) {
+		if (item != null) {
+			TestSession ts = em.find(TestSession.class, item.getId());
+			if (ts != null) {
+				em.remove(ts);
+			}
+		}
+	}
 }
