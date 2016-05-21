@@ -30,6 +30,9 @@ public class Answer implements Serializable {
     @JoinColumn(name = "ans_tstcode", nullable = false)
     private Test test;
 
+    @Transient
+    private boolean selected;
+
     public int getId() {
         return id;
     }
@@ -64,5 +67,13 @@ public class Answer implements Serializable {
 
     public void setTest(Test test) {
         this.test = test;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

@@ -8,7 +8,7 @@
 <ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
         <h1 align="center">Приложение для онлайн-тестирования</h1>
-        <h:panelGroup rendered="#{not sessionBean.autorized}">
+        <h:panelGroup rendered="#{not sessionBean.authorized}">
             <h2 align="center">Укажите данные для установления вашей личности и доступа к тестам и результатам</h2>
             <h:form>
                 <table class="formTable">
@@ -45,12 +45,27 @@
                 </table>
             </h:form>
         </h:panelGroup>
-        <h:panelGroup rendered="#{sessionBean.autorized}">
+        <h:panelGroup rendered="#{sessionBean.authorized}">
             <h2 align="center">Вход выполнен</h2>
             <p align="center">
-                Вы авторизованы как #{sessionBean.studentCard.person.fullName}. Если это не ваши данные, то
+                Вы авторизованы как #{sessionBean.studentCard.person.shortName}. Если это не ваши данные, то
                 завершите работу с приложением и сообщите на отделение об инциденте.
             </p>
+            <h:outputText rendered="#{empty sessionBean.testsList}"
+                          value="На данный момент для вас доступны следующие тесты:"/>
+            <h:form rendered="#{not empty sessionBean.testsList}">
+                <ui:repeat value="#{sessionBean.testsList}" var="test">
+                    <div>
+                        <h3 align="center"><h:link value="#{test.title}" outcome="/test?id=#{test.id}"/></h3>
+                        <p><b>Автор: </b>#{test.author}</p>
+                        <p><b>Лимит времени: </b>#{test.timeLimit}</p>
+                        <p><b>Попыток: </b>#{test.triesLimit}</p>
+                    </div>
+                </ui:repeat>
+                <p align="center">
+                    <h:commandButton value="Выход" action="#{sessionBean.logout()}"/>
+                </p>
+            </h:form>
         </h:panelGroup>
     </ui:define>
 </ui:composition>

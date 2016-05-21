@@ -11,7 +11,8 @@ import java.util.List;
  * Created by admin on 18.05.2016.
  */
 public interface TestSessionsDAO extends EntityDAO<TestSession> {
-	List<TestSession> fetchForTest(final Test test);
 
-	List<TestSession> fetchFroPerson(final Person person);
+    List<TestSession> fetch(final Test test, final Person person);
+
+    int getSessionsCount(final Test test, final Person person);
 }

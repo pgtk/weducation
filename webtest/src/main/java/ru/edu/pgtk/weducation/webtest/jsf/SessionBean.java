@@ -2,13 +2,14 @@ package ru.edu.pgtk.weducation.webtest.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
+import ru.edu.pgtk.weducation.core.ejb.TestsDAO;
+import ru.edu.pgtk.weducation.core.entity.Person;
 import ru.edu.pgtk.weducation.core.entity.Speciality;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
+import ru.edu.pgtk.weducation.core.entity.Test;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -19,116 +20,118 @@ import java.util.List;
 
 /**
  * Сессионный компонент для веб-приложения
+ *
  * @author Voronin Leonid
  * @since 09.05.2016
  */
 @Named("sessionBean")
 @SessionScoped
-public class SessionBean implements Serializable {
+public class SessionBean extends AbstractBean implements Serializable {
 
-	private StudyCard studentCard = null;
-	private Speciality speciality = null;
-	private int specialityCode;
-	private String biletNumber;
-	private boolean extramural = false;
-	private boolean autorized = false;
+    private StudyCard studentCard = null;
+    private Speciality speciality = null;
+    private int specialityCode;
+    private String biletNumber;
+    private boolean extramural = false;
+    private boolean authorized = false;
+    private List<Test> testsList;
 
-	@EJB
-	private StudyCardsDAO cardsDao;
-	@EJB
-	private SpecialitiesDAO specialitiesDao;
+    @EJB
+    private transient StudyCardsDAO cardsDao;
+    @EJB
+    private transient SpecialitiesDAO specialitiesDao;
+    @EJB
+    private transient TestsDAO testsDAO;
 
-	private void resetData() {
-		studentCard = null;
-		speciality = null;
-		autorized = false;
-	}
+    private void resetData() {
+        testsList = null;
+        studentCard = null;
+        speciality = null;
+        authorized = false;
+    }
 
-	private void addErrorMessage(Exception e) {
-		Throwable t = e;
-		String message = t.getMessage();
-		if (message == null || message.isEmpty()) {
-			if (t.getCause() != null) {
-				t = t.getCause();
-				message = t.getMessage();
-			}
-		}
-		if (message == null || message.isEmpty()) {
-			message = "Исключение " + t.getClass().getName();
-		}
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, t.getClass().getName());
-		FacesContext.getCurrentInstance().addMessage(t.getClass().getName(), msg);
-	}
+    public String getCopirightYears() {
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+        return "1932 - " + sdf.format(new Date());
+    }
 
-	public String getCopirightYears() {
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
-		return "1932 - " + sdf.format(new Date());
-	}
+    public void login() {
+        try {
+            // Если специальности нет, но можно попробовать найти - делаем.
+            if (speciality == null && specialityCode > 0) {
+                speciality = specialitiesDao.get(specialityCode);
+            }
+            if (speciality != null && cardsDao != null) {
+                studentCard = cardsDao.get(speciality, extramural, biletNumber);
+                if (studentCard != null) {
+                    authorized = true;
+                    testsList = testsDAO.fetchForSpeciality(speciality);
+                }
+            }
+        } catch (Exception e) {
+            resetData();
+            addErrorMessage(e);
+        }
+    }
 
-	public void login() {
-		try {
-			// Если специальности нет, но можно попробовать найти - делаем.
-			if (speciality == null && specialityCode > 0) {
-				speciality = specialitiesDao.get(specialityCode);
-			}
-			if (speciality != null && cardsDao != null) {
-				studentCard = cardsDao.get(speciality, extramural, biletNumber);
-				if (studentCard != null) {
-					autorized = true;
-				}
-			}
-		} catch (Exception e) {
-			resetData();
-			addErrorMessage(e);
-		}
-	}
+    public void logout() {
+        resetData();
+    }
 
-	public List<Speciality> getSpecialitiesList() {
-		return specialitiesDao != null ? specialitiesDao.fetchActual(extramural) : Collections.emptyList();
-	}
+    public List<Speciality> getSpecialitiesList() {
+        return specialitiesDao != null ? specialitiesDao.fetchActual(extramural) : Collections.emptyList();
+    }
 
-	public void changeForm(ValueChangeEvent event) {
-		try {
-			extramural = (Boolean) event.getNewValue();
-		} catch (Exception e) {
-			resetData();
-			addErrorMessage(e);
-		}
-	}
+    public void changeForm(ValueChangeEvent event) {
+        try {
+            extramural = (Boolean) event.getNewValue();
+        } catch (Exception e) {
+            resetData();
+            addErrorMessage(e);
+        }
+    }
 
-	public StudyCard getStudentCard() {
-		return studentCard;
-	}
+    public Person getPerson() {
+        return studentCard == null ? null : studentCard.getPerson();
+    }
 
-	public int getSpecialityCode() {
-		return specialityCode;
-	}
+    public StudyCard getStudentCard() {
+        return studentCard;
+    }
 
-	public void setSpecialityCode(int specialityCode) {
-		this.specialityCode = specialityCode;
-	}
+    public List<Test> getTestsList() {
+        return testsList == null ? Collections.EMPTY_LIST : testsList;
+    }
 
-	public String getBiletNumber() {
-		return biletNumber;
-	}
+    public int getSpecialityCode() {
+        return specialityCode;
+    }
 
-	public void setBiletNumber(String biletNumber) {
-		this.biletNumber = biletNumber;
-	}
+    public void setSpecialityCode(int specialityCode) {
+        this.specialityCode = specialityCode;
+    }
 
-	public boolean isExtramural() {
-		return extramural;
-	}
+    public String getBiletNumber() {
+        return biletNumber;
+    }
 
-	public void setExtramural(boolean extramural) {
-		this.extramural = extramural;
-	}
+    public void setBiletNumber(String biletNumber) {
+        this.biletNumber = biletNumber;
+    }
 
-	public boolean isAutorized() {
-		return autorized;
-	}
+    public boolean isExtramural() {
+        return extramural;
+    }
 
-	public Speciality getSpeciality() {
-		return speciality;
-	}
+    public void setExtramural(boolean extramural) {
+        this.extramural = extramural;
+    }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public Speciality getSpeciality() {
+        return speciality;
+    }
 }

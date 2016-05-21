@@ -1,6 +1,9 @@
 package ru.edu.pgtk.weducation.core.ejb;
 
+import ru.edu.pgtk.weducation.core.entity.Speciality;
 import ru.edu.pgtk.weducation.core.entity.Test;
+
+import java.util.List;
 
 /**
  * Интерфейс корпоративного компонента для работы с тестами
@@ -8,5 +11,5 @@ import ru.edu.pgtk.weducation.core.entity.Test;
  */
 public interface TestsDAO extends EntityDAO<Test> {
 
-//    List<Test> fetchForSpeciality(final Speciality speciality)
+    List<Test> fetchForSpeciality(final Speciality speciality);
 }

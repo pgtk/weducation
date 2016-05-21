@@ -2,6 +2,8 @@ package ru.edu.pgtk.weducation.core.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * Класс для хранения сущности "Вопрос"
@@ -9,7 +11,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "questions")
-public class Question implements Serializable {
+public class Question implements Serializable, Comparable<Question> {
 
     @Id
     @Column(name = "qst_pcode")
@@ -22,6 +24,15 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "qst_tstcode", nullable = false)
     private Test test;
+
+    @Transient
+    private int number;
+
+    @PostLoad
+    private void countNumber() {
+        Random rnd = new Random((new Date()).getTime());
+        number = rnd.nextInt();
+    }
 
     public int getId() {
         return id;
@@ -41,5 +52,17 @@ public class Question implements Serializable {
 
     public void setTest(Test test) {
         this.test = test;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    @Override
+    public int compareTo(Question o) {
+        if (o == null) {
+            return 1;
+        }
+        return number - o.getNumber();
     }
 }
