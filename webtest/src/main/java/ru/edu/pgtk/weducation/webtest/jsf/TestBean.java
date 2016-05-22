@@ -9,7 +9,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Компонент-подложка для конкретного теста, выбранного пользователем
@@ -35,7 +38,8 @@ public class TestBean extends AbstractBean implements Serializable {
     private int testCode;
     private Test test;
     private Person person;
-    private SortedMap<Question, List<Answer>> questions;
+    private List<Question> questions;
+    private List<Answer> answers;
     private boolean testing;
     private Date beginDate;
     private Date endDate;
@@ -49,6 +53,7 @@ public class TestBean extends AbstractBean implements Serializable {
         endDate = null;
         currentSession = null;
         questions = null;
+        answers = null;
     }
 
     public void loadTest() {
@@ -67,12 +72,9 @@ public class TestBean extends AbstractBean implements Serializable {
     public void beginTest() {
         if (!isError() && isCanRunTest()) {
             try {
-                questions = new TreeMap<>();
+                questions = new ArrayList<>();
                 // Выбираем вопросы с вариантами ответов
-                for (Question question : questionsDao.fetchForTest(test)) {
-                    List<Answer> answers = answersDao.fetchForQuestion(question);
-                    questions.put(question, answers);
-                }
+                questions = questionsDao.fetchForTest(test);
                 if (!questions.isEmpty()) {
                     // Вычислить время начала и окончания
                     beginDate = new Date();
@@ -86,6 +88,7 @@ public class TestBean extends AbstractBean implements Serializable {
                     currentSession.setQuestions(questions.size());
                     currentSession.setTimestamp(beginDate);
                     testSessionsDao.save(currentSession);
+                    currentQuestion = questions.get(0);
                     testing = true;
                 }
             } catch (Exception e) {
@@ -105,21 +108,37 @@ public class TestBean extends AbstractBean implements Serializable {
         // Сохранить результат в базу, удалить вопрос из мапы
         if (currentQuestion != null) {
             boolean rightAnswer = true;
-            for (Answer answer : questions.get(currentQuestion)) {
+            for (Answer answer : answers) {
                 if (answer.isRight() != answer.isSelected()) {
                     rightAnswer = false;
                 }
                 if (answer.isSelected()) {
                     // Сохраним детали
+                    TestDetail detail = new TestDetail();
+                    detail.setTestSession(currentSession);
+                    detail.setAnswer(answer);
+                    detail.setQuestion(currentQuestion);
+                    testDetailsDao.save(detail);
                 }
             }
+            answers = null;
             if (rightAnswer) {
-                currentSession.setRightAnswers(currentSession.getRightAnswers() + 1);
+                int total = currentSession.getQuestions();
+                int right = currentSession.getRightAnswers() + 1;
+                int mark = 0;
+                if (total > 0) {
+                    mark = (int) Math.round(((double) right / total) * 5);
+                }
+                currentSession.setRightAnswers(right);
+                currentSession.setMark(mark);
+                testSessionsDao.save(currentSession);
             }
-            testSessionsDao.save(currentSession);
             questions.remove(currentQuestion);
             if (!questions.isEmpty()) {
-                currentQuestion = questions.firstKey();
+                currentQuestion = questions.get(0);
+            } else {
+                currentQuestion = null;
+                reset();
             }
         }
     }
@@ -153,21 +172,16 @@ public class TestBean extends AbstractBean implements Serializable {
     }
 
     public List<Question> getQuestionsList() {
-        if (questions == null || questions.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<Question> result = new ArrayList<>();
-        for (Map.Entry<Question, List<Answer>> entry : questions.entrySet()) {
-            result.add(entry.getKey());
-        }
-        return result;
+        return questions == null ? Collections.emptyList() : questions;
     }
 
     public List<Answer> getAnswersList() {
-        if (currentQuestion != null && questions != null) {
-            return questions.get(currentQuestion);
+        if (currentQuestion != null) {
+            if (answers == null) {
+                answers = answersDao.fetchForQuestion(currentQuestion);
+            }
         }
-        return Collections.emptyList();
+        return answers == null ? Collections.emptyList() : answers;
     }
 
     public List<TestSession> getTestSessionsList() {

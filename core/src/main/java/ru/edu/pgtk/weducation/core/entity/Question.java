@@ -3,6 +3,7 @@ package ru.edu.pgtk.weducation.core.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -31,7 +32,7 @@ public class Question implements Serializable, Comparable<Question> {
     @PostLoad
     private void countNumber() {
         Random rnd = new Random((new Date()).getTime());
-        number = rnd.nextInt();
+        number = rnd.nextInt(100);
     }
 
     public int getId() {
@@ -64,5 +65,22 @@ public class Question implements Serializable, Comparable<Question> {
             return 1;
         }
         return number - o.getNumber();
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * text.hashCode() + id + number;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Question) {
+            Question q = (Question) obj;
+            return q.getId() == id && q.getNumber() == number && Objects.equals(q.getText(), text);
+        }
+        return false;
     }
 }
