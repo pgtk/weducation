@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:metadata>
+    <f:viewParam id="id" name="id" value="#{testBean.testCode}"/>
+    <f:viewAction action="#{testBean.loadTest()}"/>
+</f:metadata>
+
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+        <h:panelGroup rendered="#{testBean.error}">
+            <h2 align="center">Ой, что-то не так...</h2>
+            <p>
+                В работе программы произошла ошибка, в результате которой вы не можете в данный момент
+                работать с данным тестом. Приносим извинения за доставленные неудобства.
+            </p>
+            <p align="center">
+                <h:button value="На главную" outcome="/index"/>
+            </p>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{not testBean.error}">
+            <h:panelGroup rendered="#{not testBean.testing}">
+                <h2>#{testBean.test.title}</h2>
+                <h:form>
+                    <h:outputText rendered="#{empty testBean.testSessionsList}"
+                                  value="На данный момент у вас нет результатов тестирования"/>
+                    <h:panelGroup rendered="#{not empty testBean.testSessionsList}">
+                        <ul>
+                            <ui:repeat value="#{testBean.testSessionsList}" var="ts">
+                                <li>Тестирование #{ts.dateOfTest}, #{ts.markForTest}. Всего вопросов: #{ts.totalAnswered},
+                                    правильных ответов: #{ts.rightAnswered}</li>
+                            </ui:repeat>
+                        </ul>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{testBean.canRunTest}">
+                        <p align="center">
+                            <h:commandButton value="Начать тестирование" action="#{testBean.beginTest()}"/>
+                        </p>
+                    </h:panelGroup>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{testBean.testing}">
+                <div class="quetionList" style="overflow-y: scroll;max-height: 150px;height: 150px;min-height: 150px">
+                    <h:form id="questionSelectForm">
+                        <ul>
+                            <ui:repeat value="#{testBean.questionsList}" var="question">
+                                <li><h:commandLink value="#{question.text}" action="#{testBean.select(question)}"/></li>
+                            </ui:repeat>
+                        </ul>
+                    </h:form>
+                </div>
+                <div class="questionText" style="overflow-y: scroll;max-height: 300px;height: 300px;min-height: 300px">
+                    <h:outputText rendered="#{empty testBean.currentQuestion}" value="Выберите вопрос из списка"/>
+                    <h:form rendered="#{not empty testBean.currentQuestion}">
+                        <h3>#{testBean.currentQuestion.text}</h3>
+                        <h:panelGroup rendered="#{not empty testBean.answersList}">
+                            <table style="border: 0;">
+                                <tbody>
+                                <ui:repeat value="#{testBean.answersList}" var="answer">
+                                    <tr>
+                                        <td valign="center" width="30px">
+                                            <h:selectBooleanCheckbox value="#{answer.selected}"/>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{answer.text}"/>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                                </tbody>
+                            </table>
+                        </h:panelGroup>
+                        <p align="center">
+                            <h:commandButton value="Ответить" action="#{testBean.answer()}"/>
+                        </p>
+                    </h:form>
+                </div>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+</html>

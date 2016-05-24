@@ -22,7 +22,18 @@ public class TestSessionsEJB extends AbstractEJB implements TesSessionsDAO {
     public List<TestSession> fetchForTest(Test test) {
         TypedQuery<TestSession> q = em.createQuery(
                 "SELECT ts FROM TestSession ts WHERE (ts.test = :t)", TestSession.class);
-        q.setParameter("t",test);
+        q.setParameter("t", test);
+    }
+
+    @Override
+    public List<TestSession> fetch(Test test, Person person) {
+        if (test == null || person == null) {
+            throw new IllegalArgumentException("Cannot fetch TestSession if Test or Person is NULL!");
+        }
+        TypedQuery<TestSession> q = em.createQuery(
+                "SELECT ts FROM TestSession ts WHERE (ts.test = :t) AND (ts.person = :p)", TestSession.class);
+        q.setParameter("t", test);
+        q.setParameter("p", person);
         return q.getResultList();
     }
 
@@ -32,6 +43,17 @@ public class TestSessionsEJB extends AbstractEJB implements TesSessionsDAO {
                 "SELECT  psn FROM TestSession psn WHERE (psn.test = :p)", TestSession.class);
         q.setParameter("p", person);
         return q.getResultList();
+    }
+
+    public int getSessionsCount(Test test, Person person) {
+        if (test == null || person == null) {
+            return 0;
+        }
+        TypedQuery<Long> q = em.createQuery(
+                "SELECT COUNT(ts) FROM TestSession ts WHERE (ts.test = :t) AND (ts.person = :p)", Long.class);
+        q.setParameter("t", test);
+        q.setParameter("p", person);
+        return q.getSingleResult().intValue();
     }
 
     @Override

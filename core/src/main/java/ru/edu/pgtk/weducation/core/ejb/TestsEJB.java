@@ -1,5 +1,5 @@
 package ru.edu.pgtk.weducation.core.ejb;
-
+import ru.edu.pgtk.weducation.core.entity.Speciality;
 import ru.edu.pgtk.weducation.core.entity.Test;
 
 import javax.ejb.EJBException;
@@ -20,6 +20,18 @@ public class TestsEJB extends AbstractEJB implements TestsDAO {
     public List<Test> fetchAll() {
        TypedQuery<Test> q = em.createQuery("SELECT t FROM Test t", Test.class);
        return q.getResultList();
+    }
+
+    @Override
+    public List<Test> fetchForSpeciality(Speciality speciality) {
+        if (speciality == null) {
+            throw new IllegalArgumentException("Cannot fetch Tests for NULL speciality!");
+        }
+        TypedQuery<Test> q = em.createQuery(
+                "SELECT t FROM Test t WHERE (t.id IN (SELECT tl.id FROM TestList tl WHERE (tl.speciality = :s))) ORDER BY t.title",
+                Test.class);
+        q.setParameter("s", speciality);
+        return q.getResultList();
     }
 
     @Override

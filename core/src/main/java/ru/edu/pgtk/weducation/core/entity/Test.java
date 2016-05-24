@@ -64,6 +64,14 @@ public class Test implements Serializable {
         return timeForTest;
     }
 
+    public String getTimeLimit() {
+        return timeForTest > 0 ? timeForTest + " минут" : "нет ограничения";
+    }
+
+    public String getTriesLimit() {
+        return maxTries > 0 ? String.valueOf(maxTries) : "не ограничено";
+    }
+
     public void setTimeForTest(int timeForTest) {
         this.timeForTest = timeForTest;
     }

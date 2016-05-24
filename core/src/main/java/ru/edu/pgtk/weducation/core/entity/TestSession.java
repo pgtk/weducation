@@ -2,6 +2,7 @@ package ru.edu.pgtk.weducation.core.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -37,6 +38,44 @@ public class TestSession implements Serializable {
     @ManyToOne
     @JoinColumn(name = "tss_tstcode", nullable = false)
     private Test test;
+
+    private String stringify(int value) {
+        return value >= 0 ? String.valueOf(value) : "неизвестно";
+    }
+
+    public String getDateOfTest() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        return timestamp == null ? "Неизвестно" : sdf.format(timestamp);
+    }
+
+    public String getRightAnswered() {
+        return stringify(rightAnswers);
+    }
+
+    public String getWrongAnswered() {
+        return stringify(questions - rightAnswers);
+    }
+
+    public String getTotalAnswered() {
+        return stringify(questions);
+    }
+
+    public String getMarkForTest() {
+        switch (mark) {
+            case 0:
+            case 1:
+            case 2:
+                return "Неудовлетворительно";
+            case 3:
+                return "Удовлетворительно";
+            case 4:
+                return "Хорошо";
+            case 5:
+                return "Отлично";
+            default:
+                return "Неизвестно";
+        }
+    }
 
     public int getId() {
         return id;
