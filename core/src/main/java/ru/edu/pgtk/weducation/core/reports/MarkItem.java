@@ -18,25 +18,25 @@ class MarkItem {
   public String load = "";
   public String mark = "x";
 
-  public MarkItem(final String subject, final String load, final String mark) {
+  MarkItem(final String subject, final String load, final String mark) {
     this.subject = subject;
     this.load = load;
     this.mark = mark;
   }
 
-  public MarkItem(final String subject, final float load, final int mark) {
+  MarkItem(final String subject, final float load, final int mark) {
     this.subject = subject;
     this.load = Utils.getLenString(load);
     this.mark = Utils.getMarkString(mark);
   }
 
-  public MarkItem(final String subject, final int load, final int mark) {
+  MarkItem(final String subject, final int load, final int mark) {
     this.subject = subject;
     this.load = load + "";
     this.mark = Utils.getMarkString(mark);
   }
 
-  public MarkItem(final FinalMark mark) {
+  MarkItem(final FinalMark mark) {
     if (mark.isModuleMark()) {
       this.subject = mark.getModule().getName();
     } else {
