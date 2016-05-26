@@ -196,19 +196,22 @@ public class Utils {
     if (length > 1000) {
       throw new IllegalArgumentException("Values more than 1000 is not allowed!");
     }
-    if (length == 1) {
-      return String.format("%2.1f %s", length, "неделя");
+    final String OUT_FORMAT = "%2.1f %s";
+    long ilength = (long) Math.floor(length);
+    float tail = length - ilength;
+    if (ilength > 20) {
+      ilength %= 10;
     }
-    String prefix = "недель";
-    if (length > 1) {
-      long ilength = (long) Math.ceil(length);
-      if (ilength > 20) {
-        ilength %= 10;
-      }
-      if (ilength < 5) {
-        prefix = " недели";
-      }
+    float val = ilength + tail;
+    if (val > 0 && val < 1) {
+      return String.format(OUT_FORMAT, length, "недели");
     }
-    return String.format("%2.1f %s", length, prefix);
+    if (val == 1) {
+      return String.format(OUT_FORMAT, length, "неделя");
+    }
+    if (val > 1 && val < 5) {
+      return String.format(OUT_FORMAT, length, "недели");
+    }
+    return String.format(OUT_FORMAT, length, "недель");
   }
 }
