@@ -48,13 +48,13 @@ class MarkItem {
     this.mark = Utils.getMarkString(mark.getMark());
   }
 
-  public MarkItem(final FinalPracticMark mark) {
+  MarkItem(final FinalPracticMark mark) {
     this.subject = mark.getPractic().getName();
     this.load = Utils.getLenString(mark.getPractic().getLength());
     this.mark = Utils.getMarkString(mark.getMark());
   }
 
-  public MarkItem(final GOSMark mark) {
+  MarkItem(final GOSMark mark) {
     this.subject = "Государственный экзамен (" + mark.getSubject().getFullName() + ")";
     this.load = "x";
     this.mark = Utils.getMarkString(mark.getMark());
