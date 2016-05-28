@@ -45,7 +45,8 @@ class Utils {
 		String message = e.getMessage();
 		if (isUseless(message)) {
 			Throwable cause = e.getCause();
-			while (cause != null) {
+			int deep = 0;
+			while (cause != null && 3 > deep++) {
 				if (isUseless(cause.getMessage())) {
 					cause = cause.getCause();
 				} else {
@@ -58,7 +59,10 @@ class Utils {
 				message = "При выполнении операции случилось что-то страшное. Обратитесь к разработчику.";
 			}
 		}
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ошибка! " + message, "Error"));
+		FacesContext context = getFacesContext();
+		if (context != null) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ошибка! " + message, "Error"));
+		}
 	}
 
 	/**
