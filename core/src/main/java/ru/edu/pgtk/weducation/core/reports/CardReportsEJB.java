@@ -436,10 +436,8 @@ public class CardReportsEJB {
 			// Отступ от верхнего края страницы
 			firstTableCell.addElement(wrapElement(new Phrase(" ", regularFont), getPt(42)));
 			// Наименование учебного заведения
-//      firstTableCell.addElement(wrapElement(getParagraph(sclName, regularFont, Paragraph.ALIGN_CENTER), 188));
 			firstTableCell.addElement(wrapElement(getParagraph(sclName, regularFont, Paragraph.ALIGN_CENTER), getPt(63)));
 			// Квалификация
-//      firstTableCell.addElement(wrapElement(getParagraph(spc.getKvalification(), regularFont, Paragraph.ALIGN_CENTER), 97));
 			firstTableCell.addElement(wrapElement(getParagraph(card.getPlan().getKvalification(), regularFont, Paragraph.ALIGN_CENTER), getPt(42)));
 			// Регистрационный номер
 			firstTableCell.addElement(wrapElement(
