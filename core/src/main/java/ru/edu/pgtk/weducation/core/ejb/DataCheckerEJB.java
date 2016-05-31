@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.core.ejb;
 
+import ru.edu.pgtk.weducation.core.entity.Person;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
 import ru.edu.pgtk.weducation.core.entity.StudyPlan;
 
@@ -7,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,7 +34,43 @@ public class DataCheckerEJB extends AbstractEJB implements DataCheckerDAO {
         q.setParameter("crd", card);
         q.setParameter("id", card.getPlan().getId());
         resultSet.addAll(q.getResultList());
-        // TODO Добавить поиск планов по другим оценкам
+        // Оценки за семестр
+        q = em.createQuery(
+                "SELECT sp FROM StudyPlan sp WHERE (sp.id IN (SELECT smk.subject.plan.id " +
+                        "FROM SemesterMark smk WHERE (smk.card = :crd))) AND (sp.id <> :id)",
+                StudyPlan.class);
+        q.setParameter("crd", card);
+        q.setParameter("id", card.getPlan().getId());
+        resultSet.addAll(q.getResultList());
+        // Оценки за курсовые
+        q = em.createQuery(
+                "SELECT sp FROM StudyPlan sp WHERE (sp.id IN (SELECT cmk.subject.plan.id " +
+                        "FROM CourseWorkMark cmk WHERE (cmk.card = :crd))) AND (sp.id <> :id)",
+                StudyPlan.class);
+        q.setParameter("crd", card);
+        q.setParameter("id", card.getPlan().getId());
+        resultSet.addAll(q.getResultList());
+        // Оценки за ГОС экзамены
+        q = em.createQuery(
+                "SELECT sp FROM StudyPlan sp WHERE (sp.id IN (SELECT gmk.subject.plan.id " +
+                        "FROM GOSMark gmk WHERE (gmk.card = :crd))) AND (sp.id <> :id)",
+                StudyPlan.class);
+        q.setParameter("crd", card);
+        q.setParameter("id", card.getPlan().getId());
+        resultSet.addAll(q.getResultList());
+        // Оценки за практику
+        q = em.createQuery(
+                "SELECT sp FROM StudyPlan sp WHERE (sp.id IN (SELECT pmk.practic.plan.id " +
+                        "FROM PracticMark pmk WHERE (pmk.card = :crd))) AND (sp.id <> :id)",
+                StudyPlan.class);
+        q.setParameter("crd", card);
+        q.setParameter("id", card.getPlan().getId());
+        resultSet.addAll(q.getResultList());
         return resultSet;
+    }
+
+    @Override
+    public List<Person> findLike(Person person) {
+        return null;
     }
 }
