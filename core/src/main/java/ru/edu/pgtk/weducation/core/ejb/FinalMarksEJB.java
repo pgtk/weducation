@@ -22,7 +22,7 @@ public class FinalMarksEJB {
 	@EJB
 	private SubjectsDAO subjects;
 	@EJB
-	private StudyModulesEJB modules;
+	private StudyModulesDAO modules;
 	@PersistenceContext(unitName = "weducationPU")
 	private EntityManager em;
 

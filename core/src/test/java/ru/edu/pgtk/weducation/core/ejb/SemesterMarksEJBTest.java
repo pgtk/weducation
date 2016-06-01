@@ -12,10 +12,7 @@ import ru.edu.pgtk.weducation.core.helpers.ContainerProvider;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @Ignore
 public class SemesterMarksEJBTest {
@@ -24,7 +21,7 @@ public class SemesterMarksEJBTest {
   private static SemesterMarksEJB ejb;
   private static StudyGroupsDAO groups;
   private static SubjectsDAO subjects;
-  private static StudyModulesEJB modules;
+  private static StudyModulesDAO modules;
 
   @BeforeClass
   public static void setUpClass() {
@@ -32,7 +29,7 @@ public class SemesterMarksEJBTest {
     ejb = (SemesterMarksEJB) provider.getBean("SemesterMarksEJB");
     groups = (StudyGroupsDAO) provider.getBean("StudyGroupsEJB");
     subjects = (SubjectsDAO) provider.getBean("SubjectsEJB");
-	  modules = (StudyModulesEJB) provider.getBean("StudyModulesEJB");
+    modules = (StudyModulesDAO) provider.getBean("StudyModulesEJB");
   }
 
   @AfterClass

@@ -3,7 +3,7 @@ package ru.edu.pgtk.weducation.webui.jsf;
 import ru.edu.pgtk.weducation.core.ejb.GroupSemestersDAO;
 import ru.edu.pgtk.weducation.core.ejb.SemesterMarksEJB;
 import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
-import ru.edu.pgtk.weducation.core.ejb.StudyModulesEJB;
+import ru.edu.pgtk.weducation.core.ejb.StudyModulesDAO;
 import ru.edu.pgtk.weducation.core.entity.GroupSemester;
 import ru.edu.pgtk.weducation.core.entity.SemesterMark;
 import ru.edu.pgtk.weducation.core.entity.StudyGroup;
@@ -28,7 +28,7 @@ public class SemesterModuleMarksMB implements Serializable {
 	@EJB
 	private transient StudyGroupsDAO groups;
 	@EJB
-	private transient StudyModulesEJB modules;
+	private transient StudyModulesDAO modules;
 	@EJB
 	private transient GroupSemestersDAO semesters;
 	@EJB

@@ -1,24 +1,8 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.PracticsEJB;
-import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
-import ru.edu.pgtk.weducation.core.ejb.StudyModulesEJB;
-import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
-import ru.edu.pgtk.weducation.core.ejb.SubjectLoadEJB;
-import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
-import ru.edu.pgtk.weducation.core.entity.ExamForm;
-import ru.edu.pgtk.weducation.core.entity.Practic;
-import ru.edu.pgtk.weducation.core.entity.Speciality;
-import ru.edu.pgtk.weducation.core.entity.StudyModule;
-import ru.edu.pgtk.weducation.core.entity.StudyPlan;
-import ru.edu.pgtk.weducation.core.entity.Subject;
-import ru.edu.pgtk.weducation.core.entity.SubjectLoad;
-import ru.edu.pgtk.weducation.webui.xmlimport.PlanParser;
-import ru.edu.pgtk.weducation.webui.xmlimport.XMLModule;
-import ru.edu.pgtk.weducation.webui.xmlimport.XMLPractice;
-import ru.edu.pgtk.weducation.webui.xmlimport.XMLPracticeLoad;
-import ru.edu.pgtk.weducation.webui.xmlimport.XMLSubject;
-import ru.edu.pgtk.weducation.webui.xmlimport.XMLSubjectLoad;
+import ru.edu.pgtk.weducation.core.ejb.*;
+import ru.edu.pgtk.weducation.core.entity.*;
+import ru.edu.pgtk.weducation.webui.xmlimport.*;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;
@@ -49,7 +33,7 @@ public class ImportPlanMB implements Serializable {
 	@EJB
 	private transient StudyPlansDAO plans;
 	@EJB
-	private transient StudyModulesEJB modules;
+	private transient StudyModulesDAO modules;
 	@EJB
 	private transient PracticsEJB practics;
 	@EJB

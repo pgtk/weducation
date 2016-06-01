@@ -27,7 +27,7 @@ public class ServicesEJB {
   @Inject
   private PracticsEJB practics;
   @Inject
-  private StudyModulesEJB modules;
+  private StudyModulesDAO modules;
   @Inject
   private FinalPracticsEJB fpractics;
   
