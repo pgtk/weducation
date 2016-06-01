@@ -6,17 +6,12 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
 @Named("studyModulesEJB")
 public class StudyModulesEJB extends AbstractEJB implements StudyModulesDAO {
-
-    @PersistenceContext(unitName = "weducationPU")
-    private EntityManager em;
     @Inject
     private StudyPlansDAO plans;
     @Inject
