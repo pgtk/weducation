@@ -7,9 +7,7 @@ import ru.edu.pgtk.weducation.core.entity.StudyPlan;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Сервисный класс для проверки данных
@@ -71,6 +69,78 @@ public class DataCheckerEJB extends AbstractEJB implements DataCheckerDAO {
 
     @Override
     public List<Person> findLike(Person person) {
-        return null;
+        List<Person> result = new ArrayList<>();
+        TypedQuery<Person> q = em.createQuery(
+                "SELECT p FROM Person p WHERE (p.firstName = :fn) AND (p.middleName = :mn) AND (p.lastName = :ln)", Person.class);
+        q.setParameter("fn", person.getFirstName());
+        q.setParameter("mn", person.getMiddleName());
+        q.setParameter("ln", person.getLastName());
+        List<Person> candidates = q.getResultList();
+        for (Person candidate : candidates) {
+            if (matchLevel(person, candidate) > 10) {
+                result.add(candidate);
+            }
+        }
+        return result;
+    }
+
+
+    public int matchLevel(Person source, Person aperson) {
+        int level = 0; // Степень схожести
+        if (source == null || aperson == null) {
+            return level;
+        }
+        if (Objects.equals(source.getFullName(), aperson.getFullName())) {
+            level += 5;
+        }
+        if (source.isForeign() == aperson.isForeign()) {
+            level += 1;
+        }
+        if (source.isOrphan() == aperson.isOrphan()) {
+            level += 1;
+        }
+        if (source.isInvalid() == aperson.isInvalid()) {
+            level += 1;
+        }
+        if (source.getAverageBall() == aperson.getAverageBall()) {
+            level += 1;
+        }
+        if (source.getPlaceCode() == aperson.getPlaceCode()) {
+            level += 1;
+        }
+        if (source.getLanguage() == aperson.getLanguage()) {
+            level += 1;
+        }
+        if (Objects.equals(source.getBirthDate(), aperson.getBirthDate())) {
+            level += 5;
+        }
+        if (Objects.equals(source.getBirthPlace(), aperson.getBirthPlace())) {
+            level += 5;
+        }
+        if (Objects.equals(source.getPassportSeria(), aperson.getPassportSeria())) {
+            level += 1;
+        }
+        if (source.getPassportNumber() != null && Objects.equals(source.getPassportNumber(), aperson.getPassportNumber())) {
+            level += 50;
+        }
+        if (Objects.equals(source.getPassportDate(), aperson.getPassportDate())) {
+            level += 5;
+        }
+        if (Objects.equals(source.getPassportDept(), aperson.getPassportDept())) {
+            level += 5;
+        }
+        if (source.getInn() != null && Objects.equals(source.getInn(), aperson.getInn())) {
+            level += 50;
+        }
+        if (source.getSnils() != null && Objects.equals(source.getSnils(), aperson.getSnils())) {
+            level += 50;
+        }
+        if (Objects.equals(source.getPhones(), aperson.getPhones())) {
+            level += 5;
+        }
+        if (Objects.equals(source.getAddress(), aperson.getAddress())) {
+            level += 5;
+        }
+        return level;
     }
 }
