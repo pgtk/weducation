@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.GOSExamsEJB;
+import ru.edu.pgtk.weducation.core.ejb.GOSExamsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.core.entity.GOSExam;
@@ -23,7 +23,7 @@ public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient GOSExamsEJB ejb;
+	private transient GOSExamsDAO ejb;
 	@EJB
 	private transient StudyPlansDAO planEJB;
 	@EJB

@@ -30,7 +30,7 @@
                 <f:ajax execute="@form" render="@form"/>
             </h:selectOneMenu>
             <p/>
-            <h:panelGroup rendered="#{not empty weekMissingsMB.missingList}">
+            <h:panelGroup rendered="#{not empty weekMissingsMB.weekMissingList}">
                 <table class="dataTable">
                     <thead>
                     <tr>
@@ -40,14 +40,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <ui:repeat value="#{weekMissingsMB.missingList}" var="missing">
-                        <tr class="#{utilsMB.getEnabledClass(missing.card.active)}">
-                            <td>${missing.person.fullName}</td>
+                    <ui:repeat value="#{weekMissingsMB.weekMissingList}" var="weekMissing">
+                        <tr class="#{utilsMB.getEnabledClass(weekMissing.card.active)}">
+                            <td>${weekMissing.person.fullName}</td>
                             <td>
-                                <h:inputText value="#{missing.legal}"/>
+                                <h:inputText value="#{weekMissing.legal}"/>
                             </td>
                             <td>
-                                <h:inputText value="#{missing.illegal}"/>
+                                <h:inputText value="#{weekMissing.illegal}"/>
                             </td>
                         </tr>
                     </ui:repeat>
@@ -57,7 +57,7 @@
                     <h:commandButton value="Сохранить" action="#{weekMissingsMB.save()}"/>
                 </div>
             </h:panelGroup>
-            <h:panelGroup rendered="#{empty weekMissingsMB.missingList}">
+            <h:panelGroup rendered="#{empty weekMissingsMB.weekMissingList}">
                 <p>Для указанных параметров список недоступен или пуст.</p>
             </h:panelGroup>
         </h:form>

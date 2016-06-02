@@ -41,11 +41,11 @@ public class CardReportsEJB {
 	private Font bigFont;
 	private Font hugeFont;
 	@EJB
-	private FinalMarksEJB finalMarks;
+	private FinalMarksDAO finalMarks;
 	@EJB
-	private FinalPracticMarksEJB practicMarks;
+	private FinalPracticMarksDAO practicMarks;
 	@EJB
-	private GOSMarksEJB gosMarks;
+	private GOSMarksDAO gosMarks;
 	@EJB
 	private CourseWorkMarksDAO courseWorks;
 	@EJB

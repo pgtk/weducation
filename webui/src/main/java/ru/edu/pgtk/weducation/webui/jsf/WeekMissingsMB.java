@@ -1,11 +1,11 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.GroupSemestersDAO;
-import ru.edu.pgtk.weducation.core.ejb.MissingsEJB;
 import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
+import ru.edu.pgtk.weducation.core.ejb.WeekMissingsDAO;
 import ru.edu.pgtk.weducation.core.entity.GroupSemester;
-import ru.edu.pgtk.weducation.core.entity.Missing;
 import ru.edu.pgtk.weducation.core.entity.StudyGroup;
+import ru.edu.pgtk.weducation.core.entity.WeekMissing;
 
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;
@@ -30,13 +30,13 @@ public class WeekMissingsMB implements Serializable {
 	@EJB
 	private transient GroupSemestersDAO semesters;
 	@EJB
-	private transient MissingsEJB ejb;
+	private transient WeekMissingsDAO ejb;
 	private int groupCode;
 	private StudyGroup group;
 	private int semesterCode;
 	private GroupSemester semester;
 	private List<GroupSemester> semesterList;
-	private List<Missing> missingList;
+	private List<WeekMissing> weekMissingList;
 	private int missingDate;
 
 	/**
@@ -48,10 +48,10 @@ public class WeekMissingsMB implements Serializable {
 			int tail = missingDate % 1000;
 			int month = tail / 10;
 			int week = tail % 10;
-			missingList = ejb.fetchAll(group, year, month, week);
+			weekMissingList = ejb.fetchAll(group, year, month, week);
 		} else {
 			// Если хоть один из параметров отсутствует - очищаем список
-			missingList = null;
+			weekMissingList = null;
 		}
 	}
 
@@ -69,8 +69,8 @@ public class WeekMissingsMB implements Serializable {
 
 	public void save() {
 		try {
-			if (missingList != null) {
-				for (Missing m : missingList) {
+			if (weekMissingList != null) {
+				for (WeekMissing m : weekMissingList) {
 					ejb.save(m);
 				}
 			}
@@ -173,7 +173,7 @@ public class WeekMissingsMB implements Serializable {
 		this.missingDate = missingDate;
 	}
 
-	public List<Missing> getMissingList() {
-		return missingList;
+	public List<WeekMissing> getWeekMissingList() {
+		return weekMissingList;
 	}
 }

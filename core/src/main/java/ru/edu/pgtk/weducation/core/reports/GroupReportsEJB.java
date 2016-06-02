@@ -6,25 +6,8 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import ru.edu.pgtk.weducation.core.ejb.CourseWorkMarksDAO;
-import ru.edu.pgtk.weducation.core.ejb.GroupSemestersDAO;
-import ru.edu.pgtk.weducation.core.ejb.MonthMarksEJB;
-import ru.edu.pgtk.weducation.core.ejb.PracticMarksEJB;
-import ru.edu.pgtk.weducation.core.ejb.PracticsEJB;
-import ru.edu.pgtk.weducation.core.ejb.SemesterMarksEJB;
-import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
-import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
-import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
-import ru.edu.pgtk.weducation.core.entity.CourseWorkMark;
-import ru.edu.pgtk.weducation.core.entity.GroupSemester;
-import ru.edu.pgtk.weducation.core.entity.MonthMark;
-import ru.edu.pgtk.weducation.core.entity.Practic;
-import ru.edu.pgtk.weducation.core.entity.PracticMark;
-import ru.edu.pgtk.weducation.core.entity.School;
-import ru.edu.pgtk.weducation.core.entity.SemesterMark;
-import ru.edu.pgtk.weducation.core.entity.StudyCard;
-import ru.edu.pgtk.weducation.core.entity.StudyGroup;
-import ru.edu.pgtk.weducation.core.entity.Subject;
+import ru.edu.pgtk.weducation.core.ejb.*;
+import ru.edu.pgtk.weducation.core.entity.*;
 import ru.edu.pgtk.weducation.core.reports.dao.MissingsDAO;
 import ru.edu.pgtk.weducation.core.reports.entity.ReportMissing;
 
@@ -34,12 +17,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.InternalServerErrorException;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import java.io.IOException;
@@ -67,7 +45,7 @@ public class GroupReportsEJB {
 	@EJB
 	private transient StudyCardsDAO cards;
 	@EJB
-	private transient MonthMarksEJB marks;
+	private transient MonthMarksDAO marks;
 	@EJB
 	private transient MissingsDAO missings;
 	@EJB

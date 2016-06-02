@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.AccountsDAO;
-import ru.edu.pgtk.weducation.core.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.core.ejb.DepartmentsDAO;
 import ru.edu.pgtk.weducation.core.entity.Account;
 import ru.edu.pgtk.weducation.core.entity.AccountRole;
 import ru.edu.pgtk.weducation.core.entity.Department;
@@ -25,7 +25,7 @@ public class AccountsMB extends GenericBean<Account> implements Serializable {
 	@EJB
 	private AccountsDAO ejb;
 	@EJB
-	private DepartmentsEJB departmentsDao;
+	private DepartmentsDAO departmentsDao;
 
 	private void updateList() {
 		accountList = ejb != null ? ejb.fetchAll() : null;

@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.core.ejb.DepartmentsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
@@ -27,7 +27,7 @@ public class StudyGroupsMB extends GenericBean<StudyGroup> implements Serializab
 	@EJB
 	private transient StudyGroupsDAO ejb;
 	@EJB
-	private transient DepartmentsEJB depejb;
+	private transient DepartmentsDAO depejb;
 	@EJB
 	private transient StudyPlansDAO plansEJB;
 	@EJB

@@ -29,7 +29,7 @@ public class ServicesEJB {
   @Inject
   private StudyModulesDAO modules;
   @Inject
-  private FinalPracticsEJB fpractics;
+  private FinalPracticsDAO fpractics;
   
   /**
    * Копирует содержимое из другого плана.

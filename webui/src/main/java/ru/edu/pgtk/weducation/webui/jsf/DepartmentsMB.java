@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.core.ejb.DepartmentsDAO;
 import ru.edu.pgtk.weducation.core.entity.Department;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +20,7 @@ public class DepartmentsMB extends GenericBean<Department> implements Serializab
 	private List<Department> list;
 
 	@EJB
-	private transient DepartmentsEJB ejb;
+	private transient DepartmentsDAO ejb;
 	private int departmentCode;
 
 	@PostConstruct
