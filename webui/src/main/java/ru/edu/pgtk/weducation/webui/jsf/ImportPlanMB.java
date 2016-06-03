@@ -35,7 +35,7 @@ public class ImportPlanMB implements Serializable {
 	@EJB
 	private transient StudyModulesDAO modules;
 	@EJB
-	private transient PracticsEJB practics;
+	private transient PracticsDAO practics;
 	@EJB
 	private transient SubjectsDAO subjects;
 	@EJB

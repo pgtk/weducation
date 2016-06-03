@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.PracticsEJB;
+import ru.edu.pgtk.weducation.core.ejb.PracticsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyModulesDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.core.entity.Practic;
@@ -22,7 +22,7 @@ public class PracticsMB extends GenericBean<Practic> implements Serializable {
 	long serialVersionUID = 0L;
 
 	@EJB
-	private PracticsEJB ejb;
+	private PracticsDAO ejb;
 	@EJB
 	private StudyModulesDAO mejb;
 	@EJB

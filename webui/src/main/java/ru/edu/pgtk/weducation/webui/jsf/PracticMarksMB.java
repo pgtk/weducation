@@ -1,8 +1,8 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.GroupSemestersDAO;
-import ru.edu.pgtk.weducation.core.ejb.PracticMarksEJB;
-import ru.edu.pgtk.weducation.core.ejb.PracticsEJB;
+import ru.edu.pgtk.weducation.core.ejb.PracticMarksDAO;
+import ru.edu.pgtk.weducation.core.ejb.PracticsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.core.entity.GroupSemester;
 import ru.edu.pgtk.weducation.core.entity.Practic;
@@ -32,11 +32,11 @@ public class PracticMarksMB implements Serializable {
 	@EJB
 	private transient StudyGroupsDAO groups;
 	@EJB
-	private transient PracticsEJB practics;
+	private transient PracticsDAO practics;
 	@EJB
 	private transient GroupSemestersDAO semesters;
 	@EJB
-	private transient PracticMarksEJB marks;
+	private transient PracticMarksDAO marks;
 	private int groupCode;
 	private StudyGroup group;
 	private int practicCode;

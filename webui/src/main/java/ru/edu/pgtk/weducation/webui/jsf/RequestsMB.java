@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.PersonsDAO;
-import ru.edu.pgtk.weducation.core.ejb.RequestsEJB;
+import ru.edu.pgtk.weducation.core.ejb.RequestsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.entity.Person;
@@ -13,11 +13,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 
@@ -28,7 +24,7 @@ public class RequestsMB implements Serializable {
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient RequestsEJB ejb;
+	private transient RequestsDAO ejb;
 	@EJB
 	private transient SpecialitiesDAO specialities;
 	@EJB

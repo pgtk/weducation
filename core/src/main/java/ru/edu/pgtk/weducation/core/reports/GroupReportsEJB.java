@@ -39,7 +39,7 @@ public class GroupReportsEJB {
 	@EJB
 	private transient SubjectsDAO subjects;
 	@EJB
-	private transient PracticsEJB practics;
+	private transient PracticsDAO practics;
 	@EJB
 	private transient StudyGroupsDAO groups;
 	@EJB
@@ -51,7 +51,7 @@ public class GroupReportsEJB {
 	@EJB
 	private transient CourseWorkMarksDAO cmarks;
 	@EJB
-	private transient PracticMarksEJB pmarks;
+	private transient PracticMarksDAO pmarks;
 	@EJB
 	private transient SemesterMarksEJB smarks;
 	@EJB

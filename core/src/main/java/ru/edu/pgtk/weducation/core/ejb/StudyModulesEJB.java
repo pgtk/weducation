@@ -17,7 +17,7 @@ public class StudyModulesEJB extends AbstractEJB implements StudyModulesDAO {
     @Inject
     private SubjectsDAO subjects;
     @Inject
-    private PracticsEJB practics;
+    private PracticsDAO practics;
 
     @Override
     public StudyModule get(final int id) {
