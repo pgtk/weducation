@@ -53,7 +53,7 @@ public class GroupReportsEJB {
 	@EJB
 	private transient PracticMarksDAO pmarks;
 	@EJB
-	private transient SemesterMarksEJB smarks;
+	private transient SemesterMarksDAO smarks;
 	@EJB
 	private transient GroupSemestersDAO groupSemesters;
 	@Inject

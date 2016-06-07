@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.core.interceptors;
 
-import ru.edu.pgtk.weducation.core.ejb.SessionEJB;
+import ru.edu.pgtk.weducation.core.ejb.SessionDAO;
 import ru.edu.pgtk.weducation.core.entity.AccountRole;
 
 import javax.inject.Inject;
@@ -32,7 +32,7 @@ import java.lang.reflect.Method;
 public class SecurityInterceptor implements Serializable {
 
     @Inject
-    private transient SessionEJB session;
+    private transient SessionDAO session;
 
     @AroundInvoke
     public Object checkSecurity(InvocationContext context) throws Exception {

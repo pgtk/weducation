@@ -39,7 +39,7 @@ public class ImportPlanMB implements Serializable {
 	@EJB
 	private transient SubjectsDAO subjects;
 	@EJB
-	private transient SubjectLoadEJB load;
+	private transient SubjectLoadDAO load;
 	private int specialityCode;
 	private Speciality speciality;
 	private List<StudyPlan> existingPlans;

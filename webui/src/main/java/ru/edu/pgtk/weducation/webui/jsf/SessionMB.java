@@ -3,7 +3,7 @@ package ru.edu.pgtk.weducation.webui.jsf;
 import ru.edu.pgtk.weducation.core.ejb.AccountsDAO;
 import ru.edu.pgtk.weducation.core.ejb.ClientSessionsEJB;
 import ru.edu.pgtk.weducation.core.ejb.MessagesDAO;
-import ru.edu.pgtk.weducation.core.ejb.SessionEJB;
+import ru.edu.pgtk.weducation.core.ejb.SessionDAO;
 import ru.edu.pgtk.weducation.core.entity.Account;
 import ru.edu.pgtk.weducation.core.entity.AccountRole;
 import ru.edu.pgtk.weducation.core.entity.ClientSession;
@@ -41,7 +41,7 @@ public class SessionMB implements Serializable {
     @EJB
     private transient AccountsDAO usersEJB;
     @Inject
-    private transient SessionEJB ejbSession;
+    private transient SessionDAO ejbSession;
     @Inject
     private transient ClientSessionsEJB sessions;
     @EJB

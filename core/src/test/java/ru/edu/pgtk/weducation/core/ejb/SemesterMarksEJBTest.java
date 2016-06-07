@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 public class SemesterMarksEJBTest {
 
   private static ContainerProvider provider;
-  private static SemesterMarksEJB ejb;
+  private static SemesterMarksDAO ejb;
   private static StudyGroupsDAO groups;
   private static SubjectsDAO subjects;
   private static StudyModulesDAO modules;
@@ -26,7 +26,7 @@ public class SemesterMarksEJBTest {
   @BeforeClass
   public static void setUpClass() {
     provider = new ContainerProvider();
-    ejb = (SemesterMarksEJB) provider.getBean("SemesterMarksEJB");
+    ejb = (SemesterMarksDAO) provider.getBean("SemesterMarksEJB");
     groups = (StudyGroupsDAO) provider.getBean("StudyGroupsEJB");
     subjects = (SubjectsDAO) provider.getBean("SubjectsEJB");
     modules = (StudyModulesDAO) provider.getBean("StudyModulesEJB");

@@ -1,12 +1,6 @@
 package ru.edu.pgtk.weducation.core.ejb;
 
-import ru.edu.pgtk.weducation.core.entity.ExamForm;
-import ru.edu.pgtk.weducation.core.entity.StudyCard;
-import ru.edu.pgtk.weducation.core.entity.StudyGroup;
-import ru.edu.pgtk.weducation.core.entity.StudyModule;
-import ru.edu.pgtk.weducation.core.entity.StudyPlan;
-import ru.edu.pgtk.weducation.core.entity.Subject;
-import ru.edu.pgtk.weducation.core.entity.SubjectLoad;
+import ru.edu.pgtk.weducation.core.entity.*;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -20,7 +14,7 @@ import java.util.List;
 public class SubjectsEJB extends AbstractEJB implements SubjectsDAO {
 
   @Inject
-  private SubjectLoadEJB load;
+  private SubjectLoadDAO load;
 
   @Override
   public Subject get(final int id) {

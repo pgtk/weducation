@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.SubjectLoadEJB;
+import ru.edu.pgtk.weducation.core.ejb.SubjectLoadDAO;
 import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.core.entity.ExamForm;
 import ru.edu.pgtk.weducation.core.entity.Subject;
@@ -19,7 +19,7 @@ public class SubjectLoadMB extends GenericBean<SubjectLoad> implements Serializa
 	long serialVersionUID = 0L;
 
 	@EJB
-	private SubjectLoadEJB ejb;
+	private SubjectLoadDAO ejb;
 	@EJB
 	private SubjectsDAO sejb;
 

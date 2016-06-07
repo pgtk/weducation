@@ -12,22 +12,26 @@ import java.io.Serializable;
  */
 @Named("SessionEJB")
 @SessionScoped
-public class SessionEJB implements Serializable {
+public class SessionEJB implements Serializable, SessionDAO {
 
     private transient Account user;
 
+    @Override
     public boolean isAdmin() {
         return (user != null) && user.isAdmin();
     }
 
+    @Override
     public Account getUser() {
         return user;
     }
 
+    @Override
     public void setUser(Account user) {
         this.user = user;
     }
 
+    @Override
     public boolean isLogged() {
         return user != null;
     }

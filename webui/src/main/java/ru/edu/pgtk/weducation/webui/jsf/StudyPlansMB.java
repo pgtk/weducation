@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.DepartmentsDAO;
-import ru.edu.pgtk.weducation.core.ejb.ServicesEJB;
+import ru.edu.pgtk.weducation.core.ejb.ServicesDAO;
 import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.core.entity.Department;
@@ -32,7 +32,7 @@ public class StudyPlansMB extends GenericBean<StudyPlan> implements Serializable
   @EJB
   private transient SpecialitiesDAO specialities;
   @EJB
-  private transient ServicesEJB services;
+  private transient ServicesDAO services;
   private int planCode;
   private List<StudyPlan> plansList;
   private List<Speciality> specialitiesList;
