@@ -4,10 +4,12 @@ import ru.edu.pgtk.weducation.core.entity.ClientSession;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
+@Named("clientSessionsEJB")
 public class ClientSessionsEJB extends AbstractEJB implements ClientSessionsDAO {
 
     @Override

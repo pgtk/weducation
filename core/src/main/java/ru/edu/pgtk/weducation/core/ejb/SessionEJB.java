@@ -3,6 +3,7 @@ package ru.edu.pgtk.weducation.core.ejb;
 import ru.edu.pgtk.weducation.core.entity.Account;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Named;
 import java.io.Serializable;
 
@@ -10,7 +11,8 @@ import java.io.Serializable;
  * EJB компонент для управления сессией.
  * Основное назначение данного компонента - хранение информации о пользователе и о его роли.
  */
-@Named("SessionEJB")
+@Named("sessionEJB")
+@Default
 @SessionScoped
 public class SessionEJB implements Serializable, SessionDAO {
 

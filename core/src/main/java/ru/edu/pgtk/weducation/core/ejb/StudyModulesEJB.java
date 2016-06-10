@@ -2,9 +2,9 @@ package ru.edu.pgtk.weducation.core.ejb;
 
 import ru.edu.pgtk.weducation.core.entity.*;
 
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.List;
 @Stateless
 @Named("studyModulesEJB")
 public class StudyModulesEJB extends AbstractEJB implements StudyModulesDAO {
-    @Inject
+    @EJB
     private StudyPlansDAO plans;
-    @Inject
+    @EJB
     private SubjectsDAO subjects;
-    @Inject
+    @EJB
     private PracticsDAO practics;
 
     @Override
@@ -91,6 +91,9 @@ public class StudyModulesEJB extends AbstractEJB implements StudyModulesDAO {
 
     @Override
     public StudyModule save(StudyModule item) {
+        if (item == null) {
+            throw new IllegalArgumentException("You can't save NULL StudyModule!");
+        }
         item.setPlan(plans.get(item.getPlanCode()));
         if (item.getId() == 0) {
             em.persist(item);

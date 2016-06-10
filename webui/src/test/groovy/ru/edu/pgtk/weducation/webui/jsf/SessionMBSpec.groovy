@@ -41,7 +41,7 @@ class SessionMBSpec extends Specification {
 
     def setup() {
         sessionBean = new SessionMB(usersEJB: accountsDao, session: new ClientSession(),
-                ejbSession: new SessionEJB(), sessions: clientSessionsDao)
+                ejbSession: new SessionEJB(), sessionsDao: clientSessionsDao)
     }
 
     // Тест попытки входа пользователя с правильными логином и паролем

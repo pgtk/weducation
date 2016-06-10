@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.AccountsDAO;
-import ru.edu.pgtk.weducation.core.ejb.ClientSessionsEJB;
+import ru.edu.pgtk.weducation.core.ejb.ClientSessionsDAO;
 import ru.edu.pgtk.weducation.core.ejb.MessagesDAO;
 import ru.edu.pgtk.weducation.core.ejb.SessionDAO;
 import ru.edu.pgtk.weducation.core.entity.Account;
@@ -41,9 +41,9 @@ public class SessionMB implements Serializable {
     @EJB
     private transient AccountsDAO usersEJB;
     @Inject
-    private transient SessionDAO ejbSession;
-    @Inject
-    private transient ClientSessionsEJB sessions;
+    private SessionDAO ejbSession;
+    @EJB
+    private transient ClientSessionsDAO sessionsDao;
     @EJB
     private transient MessagesDAO messgesDao;
 
@@ -59,7 +59,7 @@ public class SessionMB implements Serializable {
         session.setHostAddress(request.getRemoteHost());
         session.setCraetionTime(new Date());
         session.setAccount(user);
-        sessions.save(session);
+        sessionsDao.save(session);
         // Добавить логирование!
         System.out.println("Session for " +
                 ((null != user) ? user.getFullName() : "unlogged user") + " started.");
@@ -76,7 +76,7 @@ public class SessionMB implements Serializable {
                 ((null != user) ? user.getFullName() : "unlogged user") + " passivated.");
         // Удаляем из базы данных сессию.
         if (session != null) {
-            sessions.delete(session);
+            sessionsDao.delete(session);
         }
         // На всякий случай обнулим пользователя
         if (null != user) {
@@ -150,7 +150,7 @@ public class SessionMB implements Serializable {
                 try {
                     ejbSession.setUser(user);
                     session.setAccount(user);
-                    sessions.save(session);
+                    sessionsDao.save(session);
                 } catch (Exception e) {
                     addMessage(e);
                 }
@@ -173,7 +173,7 @@ public class SessionMB implements Serializable {
         ejbSession.setUser(null);
         if (null != session) {
             session.setAccount(null);
-            sessions.save(session);
+            sessionsDao.save(session);
         }
         return startPage();
     }
