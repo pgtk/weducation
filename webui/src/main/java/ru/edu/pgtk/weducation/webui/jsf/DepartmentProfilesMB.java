@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.DepartmentProfilesEJB;
-import ru.edu.pgtk.weducation.core.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.core.ejb.DepartmentProfilesDAO;
+import ru.edu.pgtk.weducation.core.ejb.DepartmentsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SpecialitiesDAO;
 import ru.edu.pgtk.weducation.core.entity.Department;
 import ru.edu.pgtk.weducation.core.entity.DepartmentProfile;
@@ -23,9 +23,9 @@ public class DepartmentProfilesMB extends GenericBean<DepartmentProfile> impleme
 	private List<DepartmentProfile> list;
 
 	@EJB
-	private DepartmentProfilesEJB ejb;
+	private DepartmentProfilesDAO ejb;
 	@EJB
-	private DepartmentsEJB departmentsDao;
+	private DepartmentsDAO departmentsDao;
 	@EJB
 	private SpecialitiesDAO specialitiesDao;
 

@@ -11,10 +11,7 @@ import ru.edu.pgtk.weducation.core.helpers.ContainerProvider;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Тестовый класс для проверки EJB компонента для месячных оценок
@@ -23,14 +20,14 @@ import static org.junit.Assert.fail;
 public class MonthMarksEJBTest {
 
   private static ContainerProvider provider;
-  private static MonthMarksEJB ejb;
+  private static MonthMarksDAO ejb;
   private static StudyGroupsDAO groups;
   private static SubjectsDAO subjects;
 
   @BeforeClass
   public static void setUpClass() {
     provider = new ContainerProvider();
-    ejb = (MonthMarksEJB) provider.getBean("MonthMarksEJB");
+    ejb = (MonthMarksDAO) provider.getBean("MonthMarksEJB");
     groups = (StudyGroupsDAO) provider.getBean("StudyGroupsEJB");
     subjects = (SubjectsDAO) provider.getBean("SubjectsEJB");
   }

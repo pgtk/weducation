@@ -7,17 +7,13 @@ import ru.edu.pgtk.weducation.core.interceptors.Restricted;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
-public class DelegatesEJB {
+public class DelegatesEJB extends AbstractEJB implements DelegatesDAO {
 
-  @PersistenceContext(unitName = "weducationPU")
-  private EntityManager em;
-
+  @Override
   public Delegate get(final int id) {
     Delegate result = em.find(Delegate.class, id);
     if (null != result) {
@@ -26,12 +22,14 @@ public class DelegatesEJB {
     throw new EJBException("Delegate not found with id " + id);
   }
 
+  @Override
   public List<Delegate> fetchAll(final Person person) {
     TypedQuery<Delegate> q = em.createQuery("SELECT d FROM Delegate d WHERE (d.person = :p)", Delegate.class);
     q.setParameter("p", person);
     return q.getResultList();
   }
 
+  @Override
   @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.RECEPTION})
   public Delegate save(Delegate item) {
     if (item.getId() == 0) {
@@ -42,6 +40,7 @@ public class DelegatesEJB {
     }
   }
 
+  @Override
   @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.RECEPTION})
   public void delete(final Delegate item) {
     Delegate d = em.find(Delegate.class, item.getId());

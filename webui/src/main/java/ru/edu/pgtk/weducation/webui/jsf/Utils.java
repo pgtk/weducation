@@ -70,8 +70,11 @@ class Utils {
 	 * @param message сообщение об ошибке.
 	 */
 	public static void addMessage(final String message) {
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, "Error"));
-	}
+        FacesContext context = getFacesContext();
+        if (context != null) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, "Error"));
+        }
+    }
 
 	public static ExternalContext getExternalContext() {
 		return getFacesContext().getExternalContext();

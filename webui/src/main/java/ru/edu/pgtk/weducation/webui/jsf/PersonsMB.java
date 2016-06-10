@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.PersonsDAO;
-import ru.edu.pgtk.weducation.core.ejb.PlacesEJB;
+import ru.edu.pgtk.weducation.core.ejb.PlacesDAO;
 import ru.edu.pgtk.weducation.core.entity.ForeignLanguage;
 import ru.edu.pgtk.weducation.core.entity.Person;
 import ru.edu.pgtk.weducation.core.entity.Place;
@@ -25,7 +25,7 @@ public class PersonsMB extends GenericBean<Person> implements Serializable {
 	@EJB
 	private transient PersonsDAO ejb;
 	@EJB
-	private transient PlacesEJB placesDao;
+	private transient PlacesDAO placesDao;
 
 	private int personCode;
 	private String name;

@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
 import ru.edu.pgtk.weducation.core.ejb.GroupSemestersDAO;
-import ru.edu.pgtk.weducation.core.ejb.MonthMarksEJB;
+import ru.edu.pgtk.weducation.core.ejb.MonthMarksDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.core.ejb.SubjectsDAO;
 import ru.edu.pgtk.weducation.core.entity.GroupSemester;
@@ -34,7 +34,7 @@ public class MonthMarksMB implements Serializable {
 	@EJB
 	private transient GroupSemestersDAO semesters;
 	@EJB
-	private transient MonthMarksEJB marks;
+	private transient MonthMarksDAO marks;
 	private int groupCode;
 	private StudyGroup group;
 	private int subjectCode;

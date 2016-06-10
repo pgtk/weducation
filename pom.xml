@@ -52,6 +52,13 @@
             <version>1.0-groovy-2.4</version>
             <scope>test</scope>
         </dependency>
+        <!-- http://mvnrepository.com/artifact/cglib/cglib-nodep -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

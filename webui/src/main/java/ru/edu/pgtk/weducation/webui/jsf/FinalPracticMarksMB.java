@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.FinalPracticMarksEJB;
-import ru.edu.pgtk.weducation.core.ejb.FinalPracticsEJB;
+import ru.edu.pgtk.weducation.core.ejb.FinalPracticMarksDAO;
+import ru.edu.pgtk.weducation.core.ejb.FinalPracticsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.entity.FinalPractic;
 import ru.edu.pgtk.weducation.core.entity.FinalPracticMark;
@@ -23,11 +23,11 @@ public class FinalPracticMarksMB extends GenericBean<FinalPracticMark> implement
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient FinalPracticMarksEJB ejb;
+	private transient FinalPracticMarksDAO ejb;
 	@EJB
 	private transient StudyCardsDAO cards;
 	@EJB
-	private transient FinalPracticsEJB practics;
+	private transient FinalPracticsDAO practics;
 	private StudyCard card;
 	private int cardCode;
 

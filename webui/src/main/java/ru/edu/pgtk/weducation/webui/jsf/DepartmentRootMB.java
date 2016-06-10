@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.DepartmentsEJB;
+import ru.edu.pgtk.weducation.core.ejb.DepartmentsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyGroupsDAO;
 import ru.edu.pgtk.weducation.core.entity.Account;
@@ -29,7 +29,7 @@ public class DepartmentRootMB implements Serializable {
 	@Inject
 	private transient Account account;
 	@EJB
-	private transient DepartmentsEJB departments;
+	private transient DepartmentsDAO departments;
 	@EJB
 	private transient StudyGroupsDAO groups;
 	@EJB

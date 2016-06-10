@@ -1,18 +1,12 @@
 package ru.edu.pgtk.weducation.core.reports.entity;
 
-import javax.persistence.Column;
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.SqlResultSetMappings;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Класс для представления информации о пропусках в каких-либо отчетах.
  *
- * Данный класс отличается от {@code Missing} отсутствием какой-либо информации
+ * Данный класс отличается от {@code WeekMissing} отсутствием какой-либо информации
  * о неделе, месяце или годе. Тут есть только информация о персоне, личной
  * карточке и количестве пропусков.
  *

@@ -4,28 +4,25 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import ru.edu.pgtk.weducation.core.entity.Missing;
 import ru.edu.pgtk.weducation.core.entity.StudyGroup;
+import ru.edu.pgtk.weducation.core.entity.WeekMissing;
 import ru.edu.pgtk.weducation.core.helpers.ContainerProvider;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @Ignore
-public class MissingsEJBTest {
+public class WeekMissingsEJBTest {
 
   private static ContainerProvider provider;
-  private static MissingsEJB ejb;
+  private static WeekMissingsDAO ejb;
   private static StudyGroupsDAO groups;
 
   @BeforeClass
   public static void setUpClass() {
     provider = new ContainerProvider();
-    ejb = (MissingsEJB) provider.getBean("MissingsEJB");
+    ejb = (WeekMissingsDAO) provider.getBean("WeekMissingsEJB");
     groups = (StudyGroupsDAO) provider.getBean("StudyGroupsEJB");
   }
 
@@ -50,25 +47,25 @@ public class MissingsEJBTest {
       int month = 9;
       int week = 1;
       // Выберем пропуски
-      List<Missing> marks = ejb.fetchAll(grp, year, month, week);
+      List<WeekMissing> marks = ejb.fetchAll(grp, year, month, week);
       /*
        Пропусков должно быть столько, сколько в группе студентов, 
        то есть по-любому больше нуля.
        */
       assertNotNull(marks);
       assertFalse(marks.isEmpty());
-      for (Missing m : marks) {
+      for (WeekMissing m : marks) {
         // Ставим по 10 часов уважительно и по 8 неуважительно
         m.setLegal(10);
         m.setIllegal(8);
         // Сохраняем
         m = ejb.save(m);
-        Missing newMissing = ejb.get(m.getCard(), year, month, week);
-        assertNotNull(newMissing);
-        assertEquals(m.getLegal(), newMissing.getLegal());
-        assertEquals(m.getIllegal(), newMissing.getIllegal());
+        WeekMissing newWeekMissing = ejb.get(m.getCard(), year, month, week);
+        assertNotNull(newWeekMissing);
+        assertEquals(m.getLegal(), newWeekMissing.getLegal());
+        assertEquals(m.getIllegal(), newWeekMissing.getIllegal());
         // После сравнения удаляем пропуск
-        ejb.delete(newMissing);
+        ejb.delete(newWeekMissing);
       }
     } catch (Exception e) {
       fail("Неожиданное исключение класса " + e.getClass().getName() + " с сообщением " + e.getMessage());

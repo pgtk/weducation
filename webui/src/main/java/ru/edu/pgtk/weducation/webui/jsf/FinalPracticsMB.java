@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.FinalPracticsEJB;
+import ru.edu.pgtk.weducation.core.ejb.FinalPracticsDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.core.entity.FinalPractic;
 import ru.edu.pgtk.weducation.core.entity.StudyPlan;
@@ -20,7 +20,7 @@ public class FinalPracticsMB extends GenericBean<FinalPractic> implements Serial
 	long serialVersionUID = 0L;
 
 	@EJB
-	private FinalPracticsEJB ejb;
+	private FinalPracticsDAO ejb;
 	@EJB
 	private StudyPlansDAO planEJB;
 	private StudyPlan plan = null;

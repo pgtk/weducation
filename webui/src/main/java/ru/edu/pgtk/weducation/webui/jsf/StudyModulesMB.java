@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.StudyModulesEJB;
+import ru.edu.pgtk.weducation.core.ejb.StudyModulesDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyPlansDAO;
 import ru.edu.pgtk.weducation.core.entity.ExamForm;
 import ru.edu.pgtk.weducation.core.entity.StudyModule;
@@ -21,7 +21,7 @@ public class StudyModulesMB extends GenericBean<StudyModule> implements Serializ
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient StudyModulesEJB ejb;
+	private transient StudyModulesDAO ejb;
 	@EJB
 	private transient StudyPlansDAO planEJB;
 

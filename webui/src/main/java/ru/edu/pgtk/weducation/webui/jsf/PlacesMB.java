@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.PlacesEJB;
+import ru.edu.pgtk.weducation.core.ejb.PlacesDAO;
 import ru.edu.pgtk.weducation.core.entity.Place;
 import ru.edu.pgtk.weducation.core.entity.PlaceType;
 
@@ -19,7 +19,7 @@ public class PlacesMB extends GenericBean<Place> implements Serializable {
 	private List<Place> list;
 
 	@EJB
-	private transient PlacesEJB ejb;
+	private transient PlacesDAO ejb;
 
 	@PostConstruct
 	private void updateList() {

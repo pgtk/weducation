@@ -14,7 +14,7 @@ import java.util.List;
 public class PersonsEJB extends AbstractEJB implements PersonsDAO {
 
   @EJB
-  private PlacesEJB places;
+  private PlacesDAO places;
 
   @Override
   public Person get(final int id) {

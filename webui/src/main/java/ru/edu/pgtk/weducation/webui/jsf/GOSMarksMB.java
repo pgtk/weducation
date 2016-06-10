@@ -1,7 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.GOSExamsEJB;
-import ru.edu.pgtk.weducation.core.ejb.GOSMarksEJB;
+import ru.edu.pgtk.weducation.core.ejb.GOSExamsDAO;
+import ru.edu.pgtk.weducation.core.ejb.GOSMarksDAO;
 import ru.edu.pgtk.weducation.core.ejb.StudyCardsDAO;
 import ru.edu.pgtk.weducation.core.entity.GOSMark;
 import ru.edu.pgtk.weducation.core.entity.StudyCard;
@@ -23,11 +23,11 @@ public class GOSMarksMB extends GenericBean<GOSMark> implements Serializable {
 	long serialVersionUID = 0L;
 
 	@EJB
-	private transient GOSMarksEJB ejb;
+	private transient GOSMarksDAO ejb;
 	@EJB
 	private transient StudyCardsDAO cards;
 	@EJB
-	private transient GOSExamsEJB exams;
+	private transient GOSExamsDAO exams;
 	private StudyCard card;
 	private int cardCode;
 
