@@ -1,6 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.core.ejb.RenamingsEJB;
+import ru.edu.pgtk.weducation.core.ejb.RenamingsDAO;
 import ru.edu.pgtk.weducation.core.entity.Renaming;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +22,7 @@ public class RenamingsMB extends GenericBean<Renaming> implements Serializable {
 	private List<Renaming> list;
 
 	@EJB
-	private transient RenamingsEJB ejb;
+	private transient RenamingsDAO ejb;
 
 	@PostConstruct
 	private void updateList() {
