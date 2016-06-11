@@ -49,7 +49,7 @@ public class CardReportsEJB {
 	@EJB
 	private CourseWorkMarksDAO courseWorks;
 	@EJB
-	private RenamingsEJB renamings;
+	private RenamingsDAO renamings;
 	@EJB
 	private StudyCardsDAO cards;
 
