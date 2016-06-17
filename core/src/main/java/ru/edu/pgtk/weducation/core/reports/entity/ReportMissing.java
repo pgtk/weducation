@@ -14,17 +14,17 @@ import java.io.Serializable;
  */
 @Entity
 @SqlResultSetMappings({
-  @SqlResultSetMapping(
-    name = "missingSummary",
-    classes = {
-      @ConstructorResult(targetClass = ReportMissing.class,
-        columns = {
-          @ColumnResult(name = "mis_crdcode", type = Integer.class),
-          @ColumnResult(name = "mis_legal", type = Integer.class),
-          @ColumnResult(name = "mis_illegal", type = Integer.class),}
-      )
-    }
-  )
+        @SqlResultSetMapping(
+                name = "missingSummary",
+                classes = {
+                        @ConstructorResult(targetClass = ReportMissing.class,
+                                columns = {
+                                        @ColumnResult(name = "mis_crdcode", type = Integer.class),
+                                        @ColumnResult(name = "mis_legal", type = Integer.class),
+                                        @ColumnResult(name = "mis_illegal", type = Integer.class),}
+                        )
+                }
+        )
 })
 public class ReportMissing implements Serializable {
 

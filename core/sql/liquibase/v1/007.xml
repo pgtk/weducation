@@ -240,5 +240,22 @@
             ]]>
         </sql>
     </changeSet>
+    <changeSet id="007-17" author="gooamoko">
+        <comment>
+            Новое представление для выборки отчета по выданным дипломам
+        </comment>
+        <sql splitStatements="false" stripComments="false">
+            <![CDATA[
+            CREATE VIEW diplomeblanks AS
+            SELECT crd_pcode AS dbk_pcode, crd_spccode AS dbk_spccode, crd_extramural AS dbk_extramural,
+            (psn_firstname || ' ' || psn_middlename || ' ' || psn_lastname) AS dbk_fullname,
+            (date_part('year', crd_edate) != date_part('year', now())) AS dbk_duplicate,
+            crd_red AS dbk_red, crd_diplomenumber AS dbk_diplomenumber, crd_appendixnumber AS dbk_appendixnumber,
+            crd_regnumber dbk_regnumber, crd_diplomedate AS dbk_diplomedate, crd_edate AS dbk_edate
+            FROM cards, persons WHERE (crd_psncode = psn_pcode) AND (crd_remanded = false)
+            AND (date_part('year', crd_diplomedate) = date_part('year', now()))
+            ]]>
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
