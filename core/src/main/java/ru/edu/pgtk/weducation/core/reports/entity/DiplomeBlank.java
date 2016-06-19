@@ -3,6 +3,7 @@ package ru.edu.pgtk.weducation.core.reports.entity;
 import ru.edu.pgtk.weducation.core.entity.Speciality;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -65,6 +66,14 @@ public class DiplomeBlank {
 
     public boolean isExtramural() {
         return extramural;
+    }
+
+    public String getDuplicateString() {
+        return duplicate ? "Дубликат" : "";
+    }
+
+    public String getGiplomeGetDate() {
+        return diplomeDate == null ? "" : new SimpleDateFormat("dd.MM.yyyy").format(diplomeDate);
     }
 
     public boolean isDuplicate() {

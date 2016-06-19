@@ -3,6 +3,8 @@ package ru.edu.pgtk.weducation.core.reports.dao;
 import ru.edu.pgtk.weducation.core.entity.Department;
 import ru.edu.pgtk.weducation.core.reports.entity.DiplomeBlank;
 
+import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -12,14 +14,21 @@ import java.util.List;
  * Класс для получения списков бланков дипломов
  * Created by leonid on 17.06.16.
  */
+@Stateless
+@Named("diplomeBlanksDAO")
 public class DiplomeBlanksDAO {
 
     @PersistenceContext(unitName = "weducationPU")
     private EntityManager em;
 
+    /**
+     * Получает полный список дипломов
+     *
+     * @return List<DiplomeBlank>
+     */
     public List<DiplomeBlank> fetchAll() {
-        // TODO выбрать всё по аналогии с другими методами этого класса и добавить сортировку
-        return null;
+        TypedQuery<DiplomeBlank> q = em.createQuery("SELECT db FROM DiplomeBlank db", DiplomeBlank.class);
+        return q.getResultList();
     }
 
     /**
