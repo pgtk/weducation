@@ -1,0 +1,10 @@
+rootProject.name = 'weducation'
+include ':core'
+include ':webui'
+include ':webtest'
+include ':testcreator'
+
+project(':core').projectDir = "$rootDir/core" as File
+project(':webui').projectDir = "$rootDir/webui" as File
+project(':webtest').projectDir = "$rootDir/webtest" as File
+project(':testcreator').projectDir = "$rootDir/testcreator" as File

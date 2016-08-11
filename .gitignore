@@ -3,7 +3,10 @@ liquibase.properties
 /*/liquibase.properties
 *.iml
 /target/
+/build/
 /*/target
+/*/build
 .idea/
+.gradle/
 /glassfish/domains/domain1/config
 /glassfish/lib/install/applications
