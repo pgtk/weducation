@@ -13,4 +13,5 @@
   <include file="sql/liquibase/v1/005.xml"/>
   <include file="sql/liquibase/v1/006.xml"/>
   <include file="sql/liquibase/v1/007.xml"/>
+  <include file="sql/liquibase/v1/008.xml"/>
 </databaseChangeLog>

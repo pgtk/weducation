@@ -1,7 +1,0 @@
-group = 'ru.edu.pgtk.weducation'
-apply plugin: 'war'
-
-description = ''
-dependencies {
-  compile project(':core')
-}
