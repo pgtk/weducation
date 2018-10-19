@@ -2,7 +2,6 @@ package ru.edu.pgtk.weducation.core.reports
 
 import ru.edu.pgtk.weducation.core.ejb.*
 import ru.edu.pgtk.weducation.core.entity.*
-import ru.edu.pgtk.weducation.data.entity.*
 import spock.lang.Specification
 
 import javax.ejb.EJBException
@@ -38,15 +37,15 @@ class GroupReportsEJBSpec extends Specification {
 	def person9 = new Person(id: 1, firstName: "Цой", middleName: "Виктор", lastName: "Робертович")
 
 	// Личные карточки студентов
-	def card1 = new StudyCard(id: 1, active: true, remanded: false, extramural: false, person: person1);
-	def card2 = new StudyCard(id: 2, active: true, remanded: false, extramural: false, person: person2);
-	def card3 = new StudyCard(id: 3, active: true, remanded: false, extramural: false, person: person3);
-	def card4 = new StudyCard(id: 4, active: true, remanded: false, extramural: false, person: person4);
-	def card5 = new StudyCard(id: 5, active: true, remanded: false, extramural: false, person: person5);
-	def card6 = new StudyCard(id: 6, active: true, remanded: false, extramural: false, person: person6);
-	def card7 = new StudyCard(id: 7, active: true, remanded: false, extramural: false, person: person7);
-	def card8 = new StudyCard(id: 8, active: true, remanded: false, extramural: false, person: person8);
-	def card9 = new StudyCard(id: 9, active: true, remanded: false, extramural: false, person: person9);
+	def card1 = new StudyCard(id: 1, active: true, remanded: false, extramural: false, person: person1)
+	def card2 = new StudyCard(id: 2, active: true, remanded: false, extramural: false, person: person2)
+	def card3 = new StudyCard(id: 3, active: true, remanded: false, extramural: false, person: person3)
+	def card4 = new StudyCard(id: 4, active: true, remanded: false, extramural: false, person: person4)
+	def card5 = new StudyCard(id: 5, active: true, remanded: false, extramural: false, person: person5)
+	def card6 = new StudyCard(id: 6, active: true, remanded: false, extramural: false, person: person6)
+	def card7 = new StudyCard(id: 7, active: true, remanded: false, extramural: false, person: person7)
+	def card8 = new StudyCard(id: 8, active: true, remanded: false, extramural: false, person: person8)
+	def card9 = new StudyCard(id: 9, active: true, remanded: false, extramural: false, person: person9)
 
 	// Фейковый класс для иммитации EJB компонента
 	def subjects = Mock(SubjectsDAO) {
@@ -57,11 +56,11 @@ class GroupReportsEJBSpec extends Specification {
 									   new Subject(id: 3, fullName: "Дисциплина3", shortName: "Д 3"),
 									   new Subject(id: 4, fullName: "Дисциплина4", shortName: "Д 4"),
 									   new Subject(id: 5, fullName: "Дисциплина5", shortName: "Д 5")]
-		_ * fetch(testGroup, 1, 2) >> new ArrayList<Subject>(); // Допустим, за второй семестр оценок нет
+		_ * fetch(testGroup, 1, 2) >> new ArrayList<Subject>() // Допустим, за второй семестр оценок нет
 	}
 
 	def groups = Mock(StudyGroupsDAO) {
-		_ * get(_) >> testGroup;
+		_ * get(_) >> testGroup
 	}
 
 	def semester = Mock(GroupSemestersDAO) {
@@ -91,7 +90,7 @@ class GroupReportsEJBSpec extends Specification {
 	def school = new School(id: 1, fullName: "Тестовое учебное заведение имени разработчиков программного обеспечения",
 			shortName: "ТУЗ им. РПО", director: "Фамилия И. О.")
 
-	def GroupReportsEJB report
+	GroupReportsEJB report
 
 	def setup() {
 		// Создаем класс с подмененными зависимостями
@@ -128,7 +127,7 @@ class GroupReportsEJBSpec extends Specification {
 	 */
 	def "Exam report with incorrect parameters will produce exception"() {
 		when:
-		def result = report.examReport(groupCode, courseNum, semesterNum, subjectCode)
+		report.examReport(groupCode, courseNum, semesterNum, subjectCode)
 
 		then:
 		thrown(NotFoundException)
@@ -172,7 +171,7 @@ class GroupReportsEJBSpec extends Specification {
 	 */
 	def "CourseWork report with incorrect parameters will produce exception"() {
 		when:
-		def result = report.courseWorkReport(groupCode, courseNum, semesterNum, subjectCode)
+		report.courseWorkReport(groupCode, courseNum, semesterNum, subjectCode)
 
 		then:
 		thrown(NotFoundException)
