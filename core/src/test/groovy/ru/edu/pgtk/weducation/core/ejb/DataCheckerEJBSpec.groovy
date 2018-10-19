@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 class DataCheckerEJBSpec extends Specification {
 
 
-    def DataCheckerEJB instance
+    DataCheckerEJB instance
 
     def person = new Person(id: 1, firstName: "Иванов", middleName: "Иван", lastName: "Иванович",
             birthDate: parseDate("1996-05-12"), passportDate: parseDate("2010-05-12"), passportSeria: "32 10",
@@ -49,7 +49,7 @@ class DataCheckerEJBSpec extends Specification {
         def level = instance.matchLevel(person, differ1)
 
         then:
-        level <= 10;
+        level <= 10
     }
 
     // Одинаковые персоны
@@ -58,7 +58,7 @@ class DataCheckerEJBSpec extends Specification {
         def level = instance.matchLevel(person, person)
 
         then:
-        level >= 150;
+        level >= 150
     }
 
     // Среднестатистические разногласия в данных
@@ -67,7 +67,7 @@ class DataCheckerEJBSpec extends Specification {
         def level = instance.matchLevel(person, match1)
 
         then:
-        level > 30;
+        level > 30
     }
 
     // Совпадает номер паспорта
@@ -76,7 +76,7 @@ class DataCheckerEJBSpec extends Specification {
         def level = instance.matchLevel(person, match2)
 
         then:
-        level >= 50;
+        level >= 50
     }
 
     // Совпадает ИНН
@@ -85,7 +85,7 @@ class DataCheckerEJBSpec extends Specification {
         def level = instance.matchLevel(person, match3)
 
         then:
-        level >= 50;
+        level >= 50
     }
 
     // Совпадает СНИЛС
@@ -94,15 +94,15 @@ class DataCheckerEJBSpec extends Specification {
         def level = instance.matchLevel(person, match4)
 
         then:
-        level >= 50;
+        level >= 50
     }
 
     def parseDate(String dateVal) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd")
         try {
-            return sdf.parse(dateVal);
+            return sdf.parse(dateVal)
         } catch (Exception e) {
-            return null;
+            return null
         }
     }
 }

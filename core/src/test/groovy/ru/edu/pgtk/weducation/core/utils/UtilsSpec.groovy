@@ -35,8 +35,8 @@ class UtilsSpec extends Specification {
         23   | "недели"
     }
 
-    def boolean correctString(float value, String suffix) {
-        String sampleString = String.format("%2.1f %s", value, suffix);
+    boolean correctString(float value, String suffix) {
+        String sampleString = String.format("%2.1f %s", value, suffix)
         return Utils.getLenString(value) == sampleString
     }
 }

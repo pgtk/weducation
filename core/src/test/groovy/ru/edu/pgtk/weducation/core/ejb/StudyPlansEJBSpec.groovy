@@ -29,7 +29,7 @@ class StudyPlansEJBSpec extends Specification {
 	}
 
 	// Экземпляр тестируемого класса
-	def StudyPlansDAO instance = new StudyPlansEJB(em: em, specialities: specDao)
+	StudyPlansDAO instance = new StudyPlansEJB(em: em, specialities: specDao)
 
 	def "Test that get() method with correct id will return StudyPlan"() {
 		when:
@@ -38,12 +38,12 @@ class StudyPlansEJBSpec extends Specification {
 		then:
 		noExceptionThrown()
 		plan != null
-		plan.id == 1;
+		plan.id == 1
 	}
 
 	def "Test that get() method with incorrect id will throw exception"() {
 		when:
-		def plan = instance.get(0)
+		instance.get(0)
 
 		then:
 		thrown(EJBException)
@@ -82,7 +82,7 @@ class StudyPlansEJBSpec extends Specification {
 		def studyPlan = null
 
 		when:
-		def result = instance.save(studyPlan)
+		instance.save(studyPlan)
 
 		then:
 		thrown(IllegalArgumentException)
@@ -94,7 +94,7 @@ class StudyPlansEJBSpec extends Specification {
 				specialityName: "Test", specialityKey: "01.02.03")
 
 		when:
-		def result = instance.save(studyPlan)
+		instance.save(studyPlan)
 
 		then:
 		thrown(EJBException)
@@ -106,7 +106,7 @@ class StudyPlansEJBSpec extends Specification {
 				specialityName: "Test", specialityKey: "01.02.03")
 
 		when:
-		def result = instance.save(studyPlan)
+		instance.save(studyPlan)
 
 		then:
 		thrown(EJBException)
