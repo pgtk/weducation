@@ -8,8 +8,6 @@
     <modules>
         <module>core</module>
         <module>webui</module>
-        <module>webtest</module>
-        <module>testcreator</module>
     </modules>
     <packaging>pom</packaging>
 
