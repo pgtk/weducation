@@ -7,10 +7,12 @@ import ru.edu.pgtk.weducation.core.interceptors.Restricted;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
+@Named("delegatesEJB")
 public class DelegatesEJB extends AbstractEJB implements DelegatesDAO {
 
   @Override
