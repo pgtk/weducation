@@ -33,7 +33,7 @@ public class ImportCardEJB {
     @EJB
     private StudyCardsDAO cards;
     @EJB
-    private DelegatesEJB delegates;
+    private DelegatesDAO delegates;
     @EJB
     private StudyGroupsDAO groups;
     private Connection con;
