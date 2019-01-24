@@ -15,39 +15,39 @@ import java.util.List;
 @Named("delegatesEJB")
 public class DelegatesEJB extends AbstractEJB implements DelegatesDAO {
 
-  @Override
-  public Delegate get(final int id) {
-    Delegate result = em.find(Delegate.class, id);
-    if (null != result) {
-      return result;
+    @Override
+    public Delegate get(final int id) {
+        Delegate result = em.find(Delegate.class, id);
+        if (null != result) {
+            return result;
+        }
+        throw new EJBException("Delegate not found with id " + id);
     }
-    throw new EJBException("Delegate not found with id " + id);
-  }
 
-  @Override
-  public List<Delegate> fetchAll(final Person person) {
-    TypedQuery<Delegate> q = em.createQuery("SELECT d FROM Delegate d WHERE (d.person = :p)", Delegate.class);
-    q.setParameter("p", person);
-    return q.getResultList();
-  }
-
-  @Override
-  @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.RECEPTION})
-  public Delegate save(Delegate item) {
-    if (item.getId() == 0) {
-      em.persist(item);
-      return item;
-    } else {
-      return em.merge(item);
+    @Override
+    public List<Delegate> fetchAll(final Person person) {
+        TypedQuery<Delegate> q = em.createQuery("SELECT d FROM Delegate d WHERE (d.person = :p)", Delegate.class);
+        q.setParameter("p", person);
+        return q.getResultList();
     }
-  }
 
-  @Override
-  @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.RECEPTION})
-  public void delete(final Delegate item) {
-    Delegate d = em.find(Delegate.class, item.getId());
-    if (null != d) {
-      em.remove(d);
+    @Override
+    @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.RECEPTION})
+    public Delegate save(Delegate item) {
+        if (item.getId() == 0) {
+            em.persist(item);
+            return item;
+        } else {
+            return em.merge(item);
+        }
     }
-  }
+
+    @Override
+    @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.RECEPTION})
+    public void delete(final Delegate item) {
+        Delegate d = em.find(Delegate.class, item.getId());
+        if (null != d) {
+            em.remove(d);
+        }
+    }
 }

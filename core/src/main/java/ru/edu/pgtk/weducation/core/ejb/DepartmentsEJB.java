@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Корпоративный бин для отделений
+ *
  * @author Воронин Леонид
  */
 @Stateless

@@ -16,12 +16,12 @@ import java.io.Serializable;
 @WithLog
 public class LogInterceptor implements Serializable {
 
-  long serialVersionUID = 20150806L;
-  
-  @AroundInvoke
-  private Object logMethod(InvocationContext context) throws Exception {
-    System.out.println("Method " + context.getMethod().getName()
-        + " of class " + context.getTarget().getClass().getName() + " was called.");
-    return context.proceed();
-  }
+    long serialVersionUID = 20150806L;
+
+    @AroundInvoke
+    private Object logMethod(InvocationContext context) throws Exception {
+        System.out.println("Method " + context.getMethod().getName()
+                + " of class " + context.getTarget().getClass().getName() + " was called.");
+        return context.proceed();
+    }
 }

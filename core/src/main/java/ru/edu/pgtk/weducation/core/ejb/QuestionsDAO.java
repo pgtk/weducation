@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Интерфейс для корпоративного компонента управления вопросами
+ *
  * @author Voronin Leonid
  * @since 17.05.2016
  */

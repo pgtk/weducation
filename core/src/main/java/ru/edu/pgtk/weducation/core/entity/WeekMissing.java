@@ -7,106 +7,106 @@ import java.io.Serializable;
 @Table(name = "weekmissings")
 public class WeekMissing implements Serializable {
 
-  @Id
-  @Column(name = "wms_pcode")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+    @Id
+    @Column(name = "wms_pcode")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-  @ManyToOne
-  @JoinColumn(name = "wms_psncode", nullable = false)
-  private Person person;
+    @ManyToOne
+    @JoinColumn(name = "wms_psncode", nullable = false)
+    private Person person;
 
-  @Column(name = "wms_month", nullable = false)
-  private int month;
+    @Column(name = "wms_month", nullable = false)
+    private int month;
 
-  @Column(name = "wms_year", nullable = false)
-  private int year;
+    @Column(name = "wms_year", nullable = false)
+    private int year;
 
-  @Column(name = "wms_week", nullable = false)
-  private int week;
+    @Column(name = "wms_week", nullable = false)
+    private int week;
 
-  @Column(name = "wms_legal", nullable = false)
-  private int legal;
+    @Column(name = "wms_legal", nullable = false)
+    private int legal;
 
-  @Column(name = "wms_illegal", nullable = false)
-  private int illegal;
+    @Column(name = "wms_illegal", nullable = false)
+    private int illegal;
 
-  @ManyToOne
-  @JoinColumn(name = "wms_crdcode", nullable = false)
-  private StudyCard card;
+    @ManyToOne
+    @JoinColumn(name = "wms_crdcode", nullable = false)
+    private StudyCard card;
 
-  @Transient
-  private int cardCode;
+    @Transient
+    private int cardCode;
 
-  public int getId() {
-    return id;
-  }
-  
-  public int getAll() {
-    return legal + illegal;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public Person getPerson() {
-    return person;
-  }
+    public int getAll() {
+        return legal + illegal;
+    }
 
-  public void setPerson(Person person) {
-    this.person = person;
-  }
+    public Person getPerson() {
+        return person;
+    }
 
-  public int getMonth() {
-    return month;
-  }
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
-  public void setMonth(int month) {
-    this.month = month;
-  }
+    public int getMonth() {
+        return month;
+    }
 
-  public int getYear() {
-    return year;
-  }
+    public void setMonth(int month) {
+        this.month = month;
+    }
 
-  public void setYear(int year) {
-    this.year = year;
-  }
+    public int getYear() {
+        return year;
+    }
 
-  public int getWeek() {
-    return week;
-  }
+    public void setYear(int year) {
+        this.year = year;
+    }
 
-  public void setWeek(int week) {
-    this.week = week;
-  }
+    public int getWeek() {
+        return week;
+    }
 
-  public int getLegal() {
-    return legal;
-  }
+    public void setWeek(int week) {
+        this.week = week;
+    }
 
-  public void setLegal(int legal) {
-    this.legal = legal;
-  }
+    public int getLegal() {
+        return legal;
+    }
 
-  public int getIllegal() {
-    return illegal;
-  }
+    public void setLegal(int legal) {
+        this.legal = legal;
+    }
 
-  public void setIllegal(int illegal) {
-    this.illegal = illegal;
-  }
+    public int getIllegal() {
+        return illegal;
+    }
 
-  public StudyCard getCard() {
-    return card;
-  }
+    public void setIllegal(int illegal) {
+        this.illegal = illegal;
+    }
 
-  public void setCard(StudyCard card) {
-    this.card = card;
-  }
+    public StudyCard getCard() {
+        return card;
+    }
 
-  public int getCardCode() {
-    return cardCode;
-  }
+    public void setCard(StudyCard card) {
+        this.card = card;
+    }
 
-  public void setCardCode(int cardCode) {
-    this.cardCode = cardCode;
-  }
+    public int getCardCode() {
+        return cardCode;
+    }
+
+    public void setCardCode(int cardCode) {
+        this.cardCode = cardCode;
+    }
 }

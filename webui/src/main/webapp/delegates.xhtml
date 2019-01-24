@@ -5,107 +5,127 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <f:metadata>
-    <f:viewParam name="personId" value="#{delegatesMB.personCode}" />
-    <f:viewParam name="id" value="#{delegatesMB.code}" />
-    <f:viewAction action="#{delegatesMB.preparePage()}" />
-  </f:metadata>  
+<f:metadata>
+    <f:viewParam name="personId" value="#{delegatesMB.personCode}"/>
+    <f:viewParam name="id" value="#{delegatesMB.code}"/>
+    <f:viewAction action="#{delegatesMB.preparePage()}"/>
+</f:metadata>
 
-  <ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <h:panelGroup layout="block" rendered="#{delegatesMB.browse}">
-        <!-- List -->
-        <h2>Законные представители</h2>
-        <p><h:link outcome="/persons?id=#{delegatesMB.personCode}" value="Персона: #{delegatesMB.person.fullName}" /></p>
-        <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{delegatesMB.add()}" /></div>
-        </h:form>
-        <h:form id="listForm" rendered="#{not empty delegatesMB.delegates}">
-          <table id="dataTable">
-            <thead>
-              <tr>
-                <th width="80%">Фамилия Имя Отчество</th>
-                <th width="20%">Действия</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ui:repeat value="#{delegatesMB.delegates}" var="delegate">
-                <tr>
-                  <td>
-                    <h:commandLink action="#{delegatesMB.details(delegate)}" value="#{delegate.fullName}" />
-                  </td>
-                  <td>
-                    <h:commandLink class="action" value="Изменить" action="#{delegatesMB.edit(delegate)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{delegatesMB.delete(delegate)}" />
-                  </td>
-                </tr>
-              </ui:repeat>
-            </tbody>
-          </table>
-        </h:form>
-        <h:panelGroup rendered="#{empty delegatesMB.delegates}">
-          <p>На данный момент нет ни одной записи.</p>
+        <h:panelGroup layout="block" rendered="#{delegatesMB.browse}">
+            <!-- List -->
+            <h2>Законные представители</h2>
+            <p>
+                <h:link outcome="/persons?id=#{delegatesMB.personCode}"
+                        value="Персона: #{delegatesMB.person.fullName}"/>
+            </p>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{delegatesMB.add()}"/>
+                </div>
+            </h:form>
+            <h:form id="listForm" rendered="#{not empty delegatesMB.delegates}">
+                <table id="dataTable">
+                    <thead>
+                    <tr>
+                        <th width="80%">Фамилия Имя Отчество</th>
+                        <th width="20%">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat value="#{delegatesMB.delegates}" var="delegate">
+                        <tr>
+                            <td>
+                                <h:commandLink action="#{delegatesMB.details(delegate)}" value="#{delegate.fullName}"/>
+                            </td>
+                            <td>
+                                <h:commandLink class="action" value="Изменить" action="#{delegatesMB.edit(delegate)}"/>
+                                <h:commandLink class="action" value="Удалить" action="#{delegatesMB.delete(delegate)}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:form>
+            <h:panelGroup rendered="#{empty delegatesMB.delegates}">
+                <p>На данный момент нет ни одной записи.</p>
+            </h:panelGroup>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{delegatesMB.add()}"/>
+                </div>
+            </h:form>
         </h:panelGroup>
-        <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{delegatesMB.add()}" /></div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{delegatesMB.edit}">
-        <!-- Edit -->
-        <h2>Редактирование законного представителя</h2>
-        <p><h:link outcome="/persons?id=#{delegatesMB.personCode}" value="Персона: #{delegatesMB.person.fullName}" /></p>
-        <h:form>
-          <h:outputText value="Фамилия Имя Отчество" /><br />
-          <h:inputText value="#{delegatesMB.item.fullName}" class="textEdit" /><p />
-          <h:outputText value="Место работы" /><br />
-          <h:inputText value="#{delegatesMB.item.job}" class="textEdit" /><p />
-          <h:outputText value="Должность" /><br />
-          <h:inputText value="#{delegatesMB.item.post}" class="textEdit" /><p />
-          <h:outputText value="Телефоны (можно ввести несколько, разделяя запятыми) в формате +7(XXX)XXX-XX-XX" /><br />
-          <h:inputText value="#{delegatesMB.item.phones}" class="textEdit">
-            <f:validator binding="#{phoneValidator}" />
-          </h:inputText><p />
-          <h:outputText value="Примечание" /><br />
-          <h:inputText value="#{delegatesMB.item.description}" class="textEdit" /><p />
-          <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{delegatesMB.save()}" />
-            <h:commandButton value="Отменить" action="#{delegatesMB.cancelEdit()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{delegatesMB.delete}">
-        <!-- Delete -->
-        <h2>Удаление законного представителя</h2>
-        <h:form>
-          <p>Законный представитель "#{delegatesMB.item.fullName}" будет удален!</p>
-          <div class="buttons">
-            <h:commandButton value="Удалить" action="#{delegatesMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{delegatesMB.cancelDelete()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup rendered="#{delegatesMB.details}">
-        <!-- Details -->
-        <h2>#{delegatesMB.item.fullName}</h2>
-        <h3>Персона #{delegatesMB.item.person.fullName}</h3>
-        <h:form>
-          <p>
-            <b>Фамилия Имя Отчество: </b>#{delegatesMB.item.fullName}<br />
-            <b>Место работы: </b>#{delegatesMB.item.job}<br />
-            <b>Должность: </b>#{delegatesMB.item.post}<br />
-            <b>Телефоны: </b>#{delegatesMB.item.phones}<br />
-            <b>Примечание: </b>#{delegatesMB.item.description}<br />
-          </p>
-          <div class="buttons">
-            <h:commandButton value="Редактировать" action="#{delegatesMB.switchEdit()}" />
-            <h:commandButton value="Список" action="#{delegatesMB.cancel()}" />
-            <h:commandButton value="Удалить" action="#{delegatesMB.switchDelete()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup rendered="#{delegatesMB.error}">
-        <ui:include src="/WEB-INF/includes/error.xhtml" />
-      </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{delegatesMB.edit}">
+            <!-- Edit -->
+            <h2>Редактирование законного представителя</h2>
+            <p>
+                <h:link outcome="/persons?id=#{delegatesMB.personCode}"
+                        value="Персона: #{delegatesMB.person.fullName}"/>
+            </p>
+            <h:form>
+                <h:outputText value="Фамилия Имя Отчество"/>
+                <br/>
+                <h:inputText value="#{delegatesMB.item.fullName}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Место работы"/>
+                <br/>
+                <h:inputText value="#{delegatesMB.item.job}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Должность"/>
+                <br/>
+                <h:inputText value="#{delegatesMB.item.post}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Телефоны (можно ввести несколько, разделяя запятыми) в формате +7(XXX)XXX-XX-XX"/>
+                <br/>
+                <h:inputText value="#{delegatesMB.item.phones}" class="textEdit">
+                    <f:validator binding="#{phoneValidator}"/>
+                </h:inputText>
+                <p/>
+                <h:outputText value="Примечание"/>
+                <br/>
+                <h:inputText value="#{delegatesMB.item.description}" class="textEdit"/>
+                <p/>
+                <div class="buttons">
+                    <h:commandButton value="Сохранить" action="#{delegatesMB.save()}"/>
+                    <h:commandButton value="Отменить" action="#{delegatesMB.cancelEdit()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{delegatesMB.delete}">
+            <!-- Delete -->
+            <h2>Удаление законного представителя</h2>
+            <h:form>
+                <p>Законный представитель "#{delegatesMB.item.fullName}" будет удален!</p>
+                <div class="buttons">
+                    <h:commandButton value="Удалить" action="#{delegatesMB.confirmDelete()}"/>
+                    <h:commandButton value="Отменить" action="#{delegatesMB.cancelDelete()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{delegatesMB.details}">
+            <!-- Details -->
+            <h2>#{delegatesMB.item.fullName}</h2>
+            <h3>Персона #{delegatesMB.item.person.fullName}</h3>
+            <h:form>
+                <p>
+                    <b>Фамилия Имя Отчество: </b>#{delegatesMB.item.fullName}<br/>
+                    <b>Место работы: </b>#{delegatesMB.item.job}<br/>
+                    <b>Должность: </b>#{delegatesMB.item.post}<br/>
+                    <b>Телефоны: </b>#{delegatesMB.item.phones}<br/>
+                    <b>Примечание: </b>#{delegatesMB.item.description}<br/>
+                </p>
+                <div class="buttons">
+                    <h:commandButton value="Редактировать" action="#{delegatesMB.switchEdit()}"/>
+                    <h:commandButton value="Список" action="#{delegatesMB.cancel()}"/>
+                    <h:commandButton value="Удалить" action="#{delegatesMB.switchDelete()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{delegatesMB.error}">
+            <ui:include src="/WEB-INF/includes/error.xhtml"/>
+        </h:panelGroup>
     </ui:define>
-  </ui:composition>
+</ui:composition>
 </html>

@@ -18,63 +18,63 @@ import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 @ViewScoped
 public class StudyModulesMB extends GenericBean<StudyModule> implements Serializable {
 
-	long serialVersionUID = 0L;
+    long serialVersionUID = 0L;
 
-	@EJB
-	private transient StudyModulesDAO ejb;
-	@EJB
-	private transient StudyPlansDAO planEJB;
+    @EJB
+    private transient StudyModulesDAO ejb;
+    @EJB
+    private transient StudyPlansDAO planEJB;
 
-	private StudyPlan plan = null;
-	private int planCode;
+    private StudyPlan plan = null;
+    private int planCode;
 
-	public StudyPlan getPlan() {
-		return plan;
-	}
+    public StudyPlan getPlan() {
+        return plan;
+    }
 
-	public int getPlanCode() {
-		return planCode;
-	}
+    public int getPlanCode() {
+        return planCode;
+    }
 
-	public void setPlanCode(int planCode) {
-		this.planCode = planCode;
-	}
+    public void setPlanCode(int planCode) {
+        this.planCode = planCode;
+    }
 
-	public void loadPlan() {
-		try {
-			if (planCode > 0) {
-				plan = planEJB.get(planCode);
-			} else {
-				addMessage("Wrond StudyPlan identifier " + planCode);
-			}
-		} catch (Exception e) {
-			addMessage(e);
-		}
-	}
+    public void loadPlan() {
+        try {
+            if (planCode > 0) {
+                plan = planEJB.get(planCode);
+            } else {
+                addMessage("Wrond StudyPlan identifier " + planCode);
+            }
+        } catch (Exception e) {
+            addMessage(e);
+        }
+    }
 
-	public List<StudyModule> getStudyModules() {
-		return ejb.fetchAll(plan);
-	}
+    public List<StudyModule> getStudyModules() {
+        return ejb.fetchAll(plan);
+    }
 
-	public ExamForm[] getExamForms() {
-		return ExamForm.values();
-	}
+    public ExamForm[] getExamForms() {
+        return ExamForm.values();
+    }
 
-	@Override
-	public void newItem() {
-		item = new StudyModule();
-		item.setPlan(plan);
-	}
+    @Override
+    public void newItem() {
+        item = new StudyModule();
+        item.setPlan(plan);
+    }
 
-	@Override
-	public void deleteItem() {
-		if ((null != item) && delete) {
-			ejb.delete(item);
-		}
-	}
+    @Override
+    public void deleteItem() {
+        if ((null != item) && delete) {
+            ejb.delete(item);
+        }
+    }
 
-	@Override
-	public void saveItem() {
-		ejb.save(item);
-	}
+    @Override
+    public void saveItem() {
+        ejb.save(item);
+    }
 }

@@ -11,7 +11,9 @@
             <!-- List -->
             <h2>Переименования</h2>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{renamingsMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{renamingsMB.add()}"/>
+                </div>
             </h:form>
             <h:form id="listForm" rendered="#{not renamingsMB.emptyList}">
                 <table id="dataTable">
@@ -44,20 +46,25 @@
                 <p>На данный момент нет ни одной записи.</p>
             </h:panelGroup>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{renamingsMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{renamingsMB.add()}"/>
+                </div>
             </h:form>
         </h:panelGroup>
         <h:panelGroup layout="block" rendered="#{renamingsMB.edit}">
             <!-- Edit -->
             <h2>Редактирование переименования</h2>
             <h:form>
-                <h:outputText value="Старое наименование"/><br/>
+                <h:outputText value="Старое наименование"/>
+                <br/>
                 <h:inputText value="#{renamingsMB.item.oldName}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Новое наименование"/><br/>
+                <h:outputText value="Новое наименование"/>
+                <br/>
                 <h:inputText value="#{renamingsMB.item.newName}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Дата переименования"/><br/>
+                <h:outputText value="Дата переименования"/>
+                <br/>
                 <h:inputText value="#{renamingsMB.item.date}" class="textEdit">
                     <f:convertDateTime pattern="d.M.yyyy"/>
                 </h:inputText>

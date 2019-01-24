@@ -18,8 +18,8 @@ public class TestsEJB extends AbstractEJB implements TestsDAO {
 
     @Override
     public List<Test> fetchAll() {
-       TypedQuery<Test> q = em.createQuery("SELECT t FROM Test t", Test.class);
-       return q.getResultList();
+        TypedQuery<Test> q = em.createQuery("SELECT t FROM Test t", Test.class);
+        return q.getResultList();
     }
 
     @Override

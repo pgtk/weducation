@@ -14,7 +14,8 @@
     <ui:define name="content">
         <!-- List -->
         <h2>Оценки за месяц по дисциплинам и МДК для группы #{monthMarksMB.group.name}</h2>
-        <h:outputText value="Семестр"/><br/>
+        <h:outputText value="Семестр"/>
+        <br/>
         <h:form>
             <h:selectOneMenu value="#{monthMarksMB.groupCode}" valueChangeListener="#{monthMarksMB.changeSemester}">
                 <f:selectItem itemLabel="Выберите семестр" itemValue="0"/>
@@ -23,7 +24,8 @@
                 <f:ajax execute="@form" render="@form"/>
             </h:selectOneMenu>
             <p/>
-            <h:outputText value="Месяц, год"/><br/>
+            <h:outputText value="Месяц, год"/>
+            <br/>
             <h:selectOneMenu value="#{monthMarksMB.markDate}" valueChangeListener="#{monthMarksMB.changeDate}">
                 <f:selectItem itemLabel="Выберите период" itemValue="0"/>
                 <f:selectItems value="#{monthMarksMB.months}"/>
@@ -38,7 +40,8 @@
                                                  monthMarksMB.markDate)}">Ведомость успеваемости за месяц</a></li>
                 </ul>
             </h:panelGroup>
-            <h:outputText value="Дисциплина"/><br/>
+            <h:outputText value="Дисциплина"/>
+            <br/>
             <h:selectOneMenu value="#{monthMarksMB.subjectCode}" valueChangeListener="#{monthMarksMB.changeSubject}">
                 <f:selectItem itemLabel="Выберите дисциплину" itemValue="0"/>
                 <f:selectItems value="#{monthMarksMB.subjectList}" var="sub"

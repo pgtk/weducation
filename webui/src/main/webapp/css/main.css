@@ -1,325 +1,332 @@
 body {
-  margin-top: 50px;
-  background: #fffef0;
-  font-family: Verdana, Helvetica, Arial;
-  font-size: 16px;
-  color: #04060c;
-  padding: 0 10px
+    margin-top: 50px;
+    background: #fffef0;
+    font-family: Verdana, Helvetica, Arial;
+    font-size: 16px;
+    color: #04060c;
+    padding: 0 10px
 }
 
-h1,h2,h3,h4 {
-  font-family: Arial, Verdana, Helvetica;
-  font-weight: lighter;
-  color: #505050;
-  margin-top: 10px;
-  margin-bottom: 5px;
+h1, h2, h3, h4 {
+    font-family: Arial, Verdana, Helvetica;
+    font-weight: lighter;
+    color: #505050;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 h1 {
-  font-size: 32px;
+    font-size: 32px;
 }
 
 h2 {
-  font-size: 28px;
+    font-size: 28px;
 }
 
 h3 {
-  font-size: 24px;
+    font-size: 24px;
 }
 
 h4 {
-  font-size: 20px;
+    font-size: 20px;
 }
 
 p {
-  font: 16px verdana, tahoma, arial;
-  color: #04060c;
-  margin-bottom: 5px;
+    font: 16px verdana, tahoma, arial;
+    color: #04060c;
+    margin-bottom: 5px;
 }
 
 /** Стили для верхней панели и выпадающего меню */
 #top-panel {
-  display: block;
-  position: fixed;
-  height: 30px;
-  top: 0;
-  left: 0;
-  padding: 0;
-  margin: 0;
-  z-index: 800;
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  border: 0;
-  background: #04060c;
-  color: #c5b5a5;
-  line-height: 30px;
-  font-size: 16px;
-  font-family: sans-serif;
-  -o-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
-  -moz-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
-  -webkit-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
-  box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
+    display: block;
+    position: fixed;
+    height: 30px;
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    z-index: 800;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 0;
+    background: #04060c;
+    color: #c5b5a5;
+    line-height: 30px;
+    font-size: 16px;
+    font-family: sans-serif;
+    -o-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
+    -moz-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
+    -webkit-box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
+    box-shadow: 0px 2px 5px rgba(36, 38, 44, 0.5);
 }
 
-#top-panel a,#top-panel a:visited {
-  text-decoration: none;
-  color: #d5d5d5;
+#top-panel a, #top-panel a:visited {
+    text-decoration: none;
+    color: #d5d5d5;
 }
 
 #top-panel a:hover {
-  text-decoration: none;
-  color: #ffffff;
+    text-decoration: none;
+    color: #ffffff;
 }
 
 /** Dropdown menu */
 #top-menu {
-  margin-left: 20px;
-  margin-right: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
-#top-menu ul{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background-color: #04060c;
+#top-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: #04060c;
 }
 
-#top-menu ul li{
-  float: left;
-  position: relative;
+#top-menu ul li {
+    float: left;
+    position: relative;
 }
 
-#top-menu ul li a{
-  display: block;
-  padding: 0 5px 0 5px;
-  font-size: 16px;
-  text-decoration: none;
-  color: #d5d5d5;
+#top-menu ul li a {
+    display: block;
+    padding: 0 5px 0 5px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #d5d5d5;
 }
 
-#top-menu ul li:hover{
-  height: 100%;
-  background-color: #34363c;
+#top-menu ul li:hover {
+    height: 100%;
+    background-color: #34363c;
 }
+
 #top-menu ul li:hover a {
-  color: #ffffff;
+    color: #ffffff;
 }
-#top-menu ul li ul{
-  display:none;
+
+#top-menu ul li ul {
+    display: none;
 }
-#top-menu ul li:hover ul{
-  display: block;
-  position: absolute;
-  width: 200px;
-  background-color: #34363c;  
+
+#top-menu ul li:hover ul {
+    display: block;
+    position: absolute;
+    width: 200px;
+    background-color: #34363c;
 }
-#top-menu ul li:hover ul a{
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #d5d5d5;
-  display: inline-block;
-  width:100%;
+
+#top-menu ul li:hover ul a {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #d5d5d5;
+    display: inline-block;
+    width: 100%;
 }
-#top-menu ul li ul li{
-  width:100%;
+
+#top-menu ul li ul li {
+    width: 100%;
 }
-#top-menu ul li:hover ul a:hover{
-  background-color: #64666c;
-  color: #ffffff;
+
+#top-menu ul li:hover ul a:hover {
+    background-color: #64666c;
+    color: #ffffff;
 }
+
 /** Конец стилей для dropdown menu */
 
 
 .groupHeader {
-  font-family: verdana, tahoma, arial;
-  font-size: 18px;
-  font-weight: bold;
-  color: #505050;
+    font-family: verdana, tahoma, arial;
+    font-size: 18px;
+    font-weight: bold;
+    color: #505050;
 }
 
 #container {
-  margin-left: 20px;
-  margin-right: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 div.roundbox {
-  font-size: 18px;
-  text-decoration: none;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid;
-  display: block;
-  top: 10px;
-  left: 0;
-  bottom: 20px;
-  padding: 5px;
-  margin: 0px 0px 20px 0px;
-  width: 100%;	
+    font-size: 18px;
+    text-decoration: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid;
+    display: block;
+    top: 10px;
+    left: 0;
+    bottom: 20px;
+    padding: 5px;
+    margin: 0px 0px 20px 0px;
+    width: 100%;
 }
 
 div.buttons {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  margin-left: 50px;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 50px;
 }
 
 div#breadcrumb, div#find {
-  border-color: #dfded0;
-  background-color: #efeee0;
+    border-color: #dfded0;
+    background-color: #efeee0;
 }
 
 div#breadcrumb a {
-  margin-left: 5px;
-  margin-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 div#success {
-  border-color: #59d959;
-  background-color: #79f979;
+    border-color: #59d959;
+    background-color: #79f979;
 }
 
 div#error {
-  border-color: #d95959;
-  background-color: #f97979;
+    border-color: #d95959;
+    background-color: #f97979;
 }
 
 #header h1 {
-  margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 #content {
-  float:left;
-  width:100%;
+    float: left;
+    width: 100%;
 }
 
 #footer {
-  top: 20px;
-  clear:both; /*No floating elements are allowed on left or right*/
-  text-align:center;
+    top: 20px;
+    clear: both; /*No floating elements are allowed on left or right*/
+    text-align: center;
 }
 
 .error {
-  color: #d95959;
+    color: #d95959;
 }
 
 .errorMessage {
-  font-size: 18px;
-  color: #c80d0d;
-  text-decoration: none;  
+    font-size: 18px;
+    color: #c80d0d;
+    text-decoration: none;
 }
 
 ul.errorMessage {
-  color: #c80d0d;
-  text-decoration: none;  
-  list-style-type: none;
+    color: #c80d0d;
+    text-decoration: none;
+    list-style-type: none;
 }
 
 .info, .disabled {
-  font-size: 16px;
-  color: #909090;
-  text-decoration: none;
+    font-size: 16px;
+    color: #909090;
+    text-decoration: none;
 }
 
 .enabled {
-  font-size: 16px;
-  color: #04060c;
-  text-decoration: none;
+    font-size: 16px;
+    color: #04060c;
+    text-decoration: none;
 }
 
-input[type="button"],input[type="submit"],button,.button,a.button:link,a.button:visited {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Verdana, Helvetica, Arial, sans-serif;
-  padding: .3em .6em;
-  margin-left: 5px;
-  margin-right: 5px;
-  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
-  background-color: #174c89;
-  color: #d5d5d5;
-  border: 1px solid #073c79;
-  border-radius: 3px;
-  text-decoration: none;
+input[type="button"], input[type="submit"], button, .button, a.button:link, a.button:visited {
+    cursor: pointer;
+    font-size: 16px;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    padding: .3em .6em;
+    margin-left: 5px;
+    margin-right: 5px;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
+    background-color: #174c89;
+    color: #d5d5d5;
+    border: 1px solid #073c79;
+    border-radius: 3px;
+    text-decoration: none;
 }
 
 input[type="text"], input[type="password"] {
-  min-width: 50%;
+    min-width: 50%;
 }
 
-input[type="button"]:hover,input[type="submit"]:hover,a.button:hover, button:hover {
-  background-color: #376ca9;
-  color: #ffffff;	
+input[type="button"]:hover, input[type="submit"]:hover, a.button:hover, button:hover {
+    background-color: #376ca9;
+    color: #ffffff;
 }
 
 a {
-  color: #04060c;
-  text-decoration: none;
+    color: #04060c;
+    text-decoration: none;
 }
 
 a:hover {
-  color: #174c89;
+    color: #174c89;
 }
 
 a.action {
-  font-size: 16px;
-  font-family: Verdana, Helvetica, Arial, sans-serif;
-  text-decoration: none;
-  margin-left: 10px;
-  cursor: pointer;
+    font-size: 16px;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    text-decoration: none;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 table {
-  width: 100%;
+    width: 100%;
 }
 
 table.details {
-  border : 0;
+    border: 0;
 }
 
 table.details tbody td {
-  padding-top: 7px;
+    padding-top: 7px;
 }
 
 table.details tbody td.label {
-  font-weight: bold;
-  text-align: right;
-  padding-right: 10px;
-  width: 20%;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px;
+    width: 20%;
 }
 
 table.details tbody td.value {
-  font-weight: lighter;
-  text-align: left;
-  padding-left: 10px;
-  vertical-align: bottom;
-  width: 80%;
+    font-weight: lighter;
+    text-align: left;
+    padding-left: 10px;
+    vertical-align: bottom;
+    width: 80%;
 }
 
 .dataTable tbody tr:hover {
-  background: #efeee0;
+    background: #efeee0;
 }
 
 .dataTable thead th {
-  font-family: verdana, tahoma, arial;
-  font-size: 16px;
-  font-weight: normal;
-  text-align: center;
-  background: #dfded0;
-  color: #000000;
+    font-family: verdana, tahoma, arial;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    background: #dfded0;
+    color: #000000;
 }
 
 #dataTable tbody tr:hover {
-  background: #efeee0;
+    background: #efeee0;
 }
 
 #dataTable thead th {
-  font-family: verdana, tahoma, arial;
-  font-size: 16px;
-  font-weight: normal;
-  text-align: center;
-  background: #dfded0;
-  color: #000000;
+    font-family: verdana, tahoma, arial;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    background: #dfded0;
+    color: #000000;
 }

@@ -20,75 +20,75 @@ import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 @ViewScoped
 public class AccountsMB extends GenericBean<Account> implements Serializable {
 
-	long serialVersionUID = 0L;
-	private List<Account> accountList;
-	@EJB
-	private AccountsDAO ejb;
-	@EJB
-	private DepartmentsDAO departmentsDao;
+    long serialVersionUID = 0L;
+    private List<Account> accountList;
+    @EJB
+    private AccountsDAO ejb;
+    @EJB
+    private DepartmentsDAO departmentsDao;
 
-	private void updateList() {
-		accountList = ejb != null ? ejb.fetchAll() : null;
-	}
+    private void updateList() {
+        accountList = ejb != null ? ejb.fetchAll() : null;
+    }
 
-	public List<Department> getDepartmentsList() {
-		return departmentsDao != null ? departmentsDao.fetchAll() : Collections.EMPTY_LIST;
-	}
+    public List<Department> getDepartmentsList() {
+        return departmentsDao != null ? departmentsDao.fetchAll() : Collections.EMPTY_LIST;
+    }
 
-	@PostConstruct
-	private void checkRestrictions() {
-		if ((null == user) || (!user.isAdmin())) {
-			error = true;
-		} else {
-			updateList();
-		}
-	}
+    @PostConstruct
+    private void checkRestrictions() {
+        if ((null == user) || (!user.isAdmin())) {
+            error = true;
+        } else {
+            updateList();
+        }
+    }
 
-	public boolean isEmptyList() {
-		return accountList == null || accountList.isEmpty();
-	}
+    public boolean isEmptyList() {
+        return accountList == null || accountList.isEmpty();
+    }
 
-	public List<Account> getAccountList() {
-		return accountList;
-	}
+    public List<Account> getAccountList() {
+        return accountList;
+    }
 
-	public AccountRole[] getRoles() {
-		return AccountRole.values();
-	}
+    public AccountRole[] getRoles() {
+        return AccountRole.values();
+    }
 
-	public void changePassword() {
-		if (null != item) {
-			try {
-				item.updatePassword();
-				ejb.save(item);
-				resetState();
-				updateList();
-			} catch (Exception e) {
-				addMessage(e);
-			}
-		}
-	}
+    public void changePassword() {
+        if (null != item) {
+            try {
+                item.updatePassword();
+                ejb.save(item);
+                resetState();
+                updateList();
+            } catch (Exception e) {
+                addMessage(e);
+            }
+        }
+    }
 
-	@Override
-	public void newItem() {
-		checkRestrictions();
-		item = new Account();
-	}
+    @Override
+    public void newItem() {
+        checkRestrictions();
+        item = new Account();
+    }
 
-	@Override
-	public void deleteItem() {
-		if ((null != item) && delete) {
-			ejb.delete(item);
-			updateList();
-		}
-	}
+    @Override
+    public void deleteItem() {
+        if ((null != item) && delete) {
+            ejb.delete(item);
+            updateList();
+        }
+    }
 
-	@Override
-	public void saveItem() {
-		if (item.getId() == 0) {
-			item.updatePassword();
-		}
-		ejb.save(item);
-		updateList();
-	}
+    @Override
+    public void saveItem() {
+        if (item.getId() == 0) {
+            item.updatePassword();
+        }
+        ejb.save(item);
+        updateList();
+    }
 }

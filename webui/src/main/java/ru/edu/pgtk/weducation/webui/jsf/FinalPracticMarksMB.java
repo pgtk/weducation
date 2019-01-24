@@ -20,68 +20,68 @@ import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 @Named("finalPracticMarksMB")
 public class FinalPracticMarksMB extends GenericBean<FinalPracticMark> implements Serializable {
 
-	long serialVersionUID = 0L;
+    long serialVersionUID = 0L;
 
-	@EJB
-	private transient FinalPracticMarksDAO ejb;
-	@EJB
-	private transient StudyCardsDAO cards;
-	@EJB
-	private transient FinalPracticsDAO practics;
-	private StudyCard card;
-	private int cardCode;
+    @EJB
+    private transient FinalPracticMarksDAO ejb;
+    @EJB
+    private transient StudyCardsDAO cards;
+    @EJB
+    private transient FinalPracticsDAO practics;
+    private StudyCard card;
+    private int cardCode;
 
-	public void loadCard() {
-		try {
-			if (cardCode > 0) {
-				card = cards.get(cardCode);
-			}
-		} catch (Exception e) {
-			addMessage(e);
-		}
-	}
+    public void loadCard() {
+        try {
+            if (cardCode > 0) {
+                card = cards.get(cardCode);
+            }
+        } catch (Exception e) {
+            addMessage(e);
+        }
+    }
 
-	public List<FinalPracticMark> getMarks() {
-		if (null != card) {
-			return ejb.fetchAll(card);
-		}
-		return new ArrayList<>();
-	}
+    public List<FinalPracticMark> getMarks() {
+        if (null != card) {
+            return ejb.fetchAll(card);
+        }
+        return new ArrayList<>();
+    }
 
-	public List<FinalPractic> getPractics() {
-		if (null != card) {
-			return practics.fetchForCard(card);
-		}
-		return new ArrayList<>();
-	}
+    public List<FinalPractic> getPractics() {
+        if (null != card) {
+            return practics.fetchForCard(card);
+        }
+        return new ArrayList<>();
+    }
 
-	public StudyCard getCard() {
-		return card;
-	}
+    public StudyCard getCard() {
+        return card;
+    }
 
-	public int getCardCode() {
-		return cardCode;
-	}
+    public int getCardCode() {
+        return cardCode;
+    }
 
-	public void setCardCode(int cardCode) {
-		this.cardCode = cardCode;
-	}
+    public void setCardCode(int cardCode) {
+        this.cardCode = cardCode;
+    }
 
-	@Override
-	public void newItem() {
-		item = new FinalPracticMark();
-		item.setCard(card);
-	}
+    @Override
+    public void newItem() {
+        item = new FinalPracticMark();
+        item.setCard(card);
+    }
 
-	@Override
-	public void deleteItem() {
-		if ((null != item) && delete) {
-			ejb.delete(item);
-		}
-	}
+    @Override
+    public void deleteItem() {
+        if ((null != item) && delete) {
+            ejb.delete(item);
+        }
+    }
 
-	@Override
-	public void saveItem() {
-		ejb.save(item);
-	}
+    @Override
+    public void saveItem() {
+        ejb.save(item);
+    }
 }

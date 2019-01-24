@@ -13,7 +13,8 @@
         <h:form id="groupForm">
             <p>
                 <h:outputText value="Группа "/>
-                <h:selectOneMenu valueChangeListener="#{departmentRootMB.changeGroup}" value="#{departmentRootMB.groupCode}">
+                <h:selectOneMenu valueChangeListener="#{departmentRootMB.changeGroup}"
+                                 value="#{departmentRootMB.groupCode}">
                     <f:selectItem itemLabel="--- Выберите группу ----" itemValue="0"/>
                     <f:selectItems value="#{departmentRootMB.groupList}" var="group"
                                    itemLabel="#{group.name}" itemValue="#{group.id}"/>
@@ -22,14 +23,36 @@
             </p>
             <h:panelGroup rendered="#{not empty departmentRootMB.students}">
                 <ul>
-                    <li><h:link value="Параметры" outcome="/studygroups?id=#{departmentRootMB.group.id}"/></li>
-                    <li><h:link value="Семестры" outcome="/groupsemesters?groupId=#{departmentRootMB.group.id}"/></li>
-                    <li><h:link value="Пропуски за неделю" outcome="/department/weekmissings?groupId=#{departmentRootMB.group.id}"/></li>
-                    <li><h:link value="Оценки за месяц" outcome="/department/monthmarks?groupId=#{departmentRootMB.group.id}"/></li>
-                    <li><h:link value="Оценки за семестр" outcome="/department/subjectmarks?groupId=#{departmentRootMB.group.id}"/></li>
-                    <li><h:link value="Оценки по модулям" outcome="/department/modulemarks?groupId=#{departmentRootMB.group.id}"/></li>
-                    <li><h:link value="Оценки за курсовые" outcome="/department/courseworkmarks?groupId=#{departmentRootMB.group.id}"/></li>
-                    <li><h:link value="Оценки за практику" outcome="/department/practicmarks?groupId=#{departmentRootMB.group.id}"/></li>
+                    <li>
+                        <h:link value="Параметры" outcome="/studygroups?id=#{departmentRootMB.group.id}"/>
+                    </li>
+                    <li>
+                        <h:link value="Семестры" outcome="/groupsemesters?groupId=#{departmentRootMB.group.id}"/>
+                    </li>
+                    <li>
+                        <h:link value="Пропуски за неделю"
+                                outcome="/department/weekmissings?groupId=#{departmentRootMB.group.id}"/>
+                    </li>
+                    <li>
+                        <h:link value="Оценки за месяц"
+                                outcome="/department/monthmarks?groupId=#{departmentRootMB.group.id}"/>
+                    </li>
+                    <li>
+                        <h:link value="Оценки за семестр"
+                                outcome="/department/subjectmarks?groupId=#{departmentRootMB.group.id}"/>
+                    </li>
+                    <li>
+                        <h:link value="Оценки по модулям"
+                                outcome="/department/modulemarks?groupId=#{departmentRootMB.group.id}"/>
+                    </li>
+                    <li>
+                        <h:link value="Оценки за курсовые"
+                                outcome="/department/courseworkmarks?groupId=#{departmentRootMB.group.id}"/>
+                    </li>
+                    <li>
+                        <h:link value="Оценки за практику"
+                                outcome="/department/practicmarks?groupId=#{departmentRootMB.group.id}"/>
+                    </li>
                 </ul>
                 <h3>Студенты</h3>
                 <table class="dataTable">
@@ -44,8 +67,10 @@
                         <tr class="#{utilsMB.getEnabledClass(student.active)}">
                             <td>${student.person.fullName}</td>
                             <td>
-                                <h:link target="new" class="action" value="Персона" outcome="/persons?id=#{student.person.id}"/>
-                                <h:link target="new" class="action" value="Карточка" outcome="/studycards?id=#{student.id}"/>
+                                <h:link target="new" class="action" value="Персона"
+                                        outcome="/persons?id=#{student.person.id}"/>
+                                <h:link target="new" class="action" value="Карточка"
+                                        outcome="/studycards?id=#{student.id}"/>
                             </td>
                         </tr>
                     </ui:repeat>
@@ -55,13 +80,17 @@
         </h:form>
         <h2>Параметры отделения</h2>
         <h:form id="detailsForm">
-            <h:outputText value="Зав. отделением"/><br/>
+            <h:outputText value="Зав. отделением"/>
+            <br/>
             <h:outputText rendered="#{not departmentRootMB.edit}" value="#{departmentRootMB.department.master}"/>
-            <h:inputText class="textEdit" rendered="#{departmentRootMB.edit}" value="#{departmentRootMB.department.master}"/>
+            <h:inputText class="textEdit" rendered="#{departmentRootMB.edit}"
+                         value="#{departmentRootMB.department.master}"/>
             <p/>
-            <h:outputText value="Секретарь"/><br/>
+            <h:outputText value="Секретарь"/>
+            <br/>
             <h:outputText rendered="#{not departmentRootMB.edit}" value="#{departmentRootMB.department.secretar}"/>
-            <h:inputText class="textEdit" rendered="#{departmentRootMB.edit}" value="#{departmentRootMB.department.secretar}"/>
+            <h:inputText class="textEdit" rendered="#{departmentRootMB.edit}"
+                         value="#{departmentRootMB.department.secretar}"/>
             <p/>
             <div class="buttons">
                 <h:commandButton action="#{departmentRootMB.toggleEdit()}" value="#{departmentRootMB.editLabel}">

@@ -16,7 +16,9 @@
             <!-- List -->
             <h2>Отделения</h2>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{departmentsMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{departmentsMB.add()}"/>
+                </div>
             </h:form>
             <h:form id="listForm" rendered="#{not departmentsMB.emptyList}">
                 <table id="dataTable">
@@ -49,20 +51,25 @@
                 <p>На данный момент нет ни одной записи.</p>
             </h:panelGroup>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{departmentsMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{departmentsMB.add()}"/>
+                </div>
             </h:form>
         </h:panelGroup>
         <h:panelGroup layout="block" rendered="#{departmentsMB.edit}">
             <!-- Edit -->
             <h2>Редактирование отделения</h2>
             <h:form>
-                <h:outputText value="Наименование"/><br/>
+                <h:outputText value="Наименование"/>
+                <br/>
                 <h:inputText value="#{departmentsMB.item.name}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Зав. отделением"/><br/>
+                <h:outputText value="Зав. отделением"/>
+                <br/>
                 <h:inputText value="#{departmentsMB.item.master}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Секретарь"/><br/>
+                <h:outputText value="Секретарь"/>
+                <br/>
                 <h:inputText value="#{departmentsMB.item.secretar}" class="textEdit"/>
                 <p/>
                 <div class="buttons">
@@ -87,8 +94,10 @@
             <h2>Детали отделения</h2>
             <h:form>
                 <h3>#{departmentsMB.item.name}</h3>
-                <p><h:link outcome="/studygroups?departmentId=#{departmentsMB.item.id}"
-                           value="Редактирование групп"/></p>
+                <p>
+                    <h:link outcome="/studygroups?departmentId=#{departmentsMB.item.id}"
+                            value="Редактирование групп"/>
+                </p>
                 <div class="buttons">
                     <h:commandButton value="Закрыть" action="#{departmentsMB.cancel()}"/>
                 </div>

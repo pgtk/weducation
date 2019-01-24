@@ -4,19 +4,19 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-  <ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <h1>Ваш сеанс работы был автоматически завершен</h1>
-      <p>
-        Поскольку вы не работали с приложением продолжительное время, 
-        ваш сеанс работы был автоматически завершен. Это сделано для обеспечения 
-        безопасности вашего рабочего места, чтобы, например, злоумышленник не мог 
-        работать от вашего имени пока вас нет за рабочим местом.
-      </p>
-      <div class="buttons">
-        <h:button value="Авторизация" outcome="/loginform" />
-        <h:button value="На главную" outcome="/index" />
-      </div>
+        <h1>Ваш сеанс работы был автоматически завершен</h1>
+        <p>
+            Поскольку вы не работали с приложением продолжительное время,
+            ваш сеанс работы был автоматически завершен. Это сделано для обеспечения
+            безопасности вашего рабочего места, чтобы, например, злоумышленник не мог
+            работать от вашего имени пока вас нет за рабочим местом.
+        </p>
+        <div class="buttons">
+            <h:button value="Авторизация" outcome="/loginform"/>
+            <h:button value="На главную" outcome="/index"/>
+        </div>
     </ui:define>
-  </ui:composition>
+</ui:composition>
 </html>

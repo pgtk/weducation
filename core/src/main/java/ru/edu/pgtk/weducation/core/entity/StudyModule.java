@@ -14,98 +14,99 @@ import java.io.Serializable;
 
 /**
  * Модуль учебного плана в который входят МДК
+ *
  * @author Воронин Леонид
  */
 @Entity
 @Table(name = "modules")
 public class StudyModule implements Serializable {
 
-	@Id
-	@Column(name = "mod_pcode")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @Column(name = "mod_pcode")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	@Column(name = "mod_number", nullable = false)
-	private int number;
+    @Column(name = "mod_number", nullable = false)
+    private int number;
 
-	@Column(name = "mod_name", nullable = false, length = 255)
-	private String name;
+    @Column(name = "mod_name", nullable = false, length = 255)
+    private String name;
 
-	@ManyToOne
-	@JoinColumn(name = "mod_plncode", nullable = false)
-	private StudyPlan plan;
+    @ManyToOne
+    @JoinColumn(name = "mod_plncode", nullable = false)
+    private StudyPlan plan;
 
-	@Transient
-	private int planCode;
+    @Transient
+    private int planCode;
 
-	@Column(name = "mod_exfcode")
-	private ExamForm examForm = ExamForm.NONE;
+    @Column(name = "mod_exfcode")
+    private ExamForm examForm = ExamForm.NONE;
 
-	@PostLoad
-	private void updateCodes() {
-		planCode = plan.getId();
-	}
+    @PostLoad
+    private void updateCodes() {
+        planCode = plan.getId();
+    }
 
-	public StudyModule() {
-		// Empty constructor
-	}
+    public StudyModule() {
+        // Empty constructor
+    }
 
-	public StudyModule(final StudyModule sample) {
-		name = sample.getName();
-		plan = sample.getPlan();
-		if (null != plan) {
-			planCode = plan.getId();
-		}
-		examForm = sample.getExamForm();
-	}
+    public StudyModule(final StudyModule sample) {
+        name = sample.getName();
+        plan = sample.getPlan();
+        if (null != plan) {
+            planCode = plan.getId();
+        }
+        examForm = sample.getExamForm();
+    }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public ExamForm getExamForm() {
-		return examForm;
-	}
+    public ExamForm getExamForm() {
+        return examForm;
+    }
 
-	public void setExamForm(ExamForm examForm) {
-		this.examForm = examForm;
-	}
+    public void setExamForm(ExamForm examForm) {
+        this.examForm = examForm;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public StudyPlan getPlan() {
-		return plan;
-	}
+    public StudyPlan getPlan() {
+        return plan;
+    }
 
-	public void setPlan(StudyPlan plan) {
-		this.plan = plan;
-		if (null != plan) {
-			planCode = plan.getId();
-		} else {
-			planCode = 0;
-		}
-	}
+    public void setPlan(StudyPlan plan) {
+        this.plan = plan;
+        if (null != plan) {
+            planCode = plan.getId();
+        } else {
+            planCode = 0;
+        }
+    }
 
-	public int getPlanCode() {
-		return planCode;
-	}
+    public int getPlanCode() {
+        return planCode;
+    }
 
-	public void setPlanCode(int planCode) {
-		this.planCode = planCode;
-	}
+    public void setPlanCode(int planCode) {
+        this.planCode = planCode;
+    }
 
-	public int getNumber() {
+    public int getNumber() {
 
-		return number;
-	}
+        return number;
+    }
 
-	public void setNumber(int number) {
-		this.number = number;
-	}
+    public void setNumber(int number) {
+        this.number = number;
+    }
 }

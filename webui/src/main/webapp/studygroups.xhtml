@@ -5,135 +5,155 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <f:metadata>
-    <f:viewParam name="departmentId" value="#{studyGroupsMB.departmentCode}" />
-    <f:viewParam name="id" value="#{studyGroupsMB.groupCode}" />
-    <f:viewAction action="#{studyGroupsMB.preparePage()}" />
-  </f:metadata>  
+<f:metadata>
+    <f:viewParam name="departmentId" value="#{studyGroupsMB.departmentCode}"/>
+    <f:viewParam name="id" value="#{studyGroupsMB.groupCode}"/>
+    <f:viewAction action="#{studyGroupsMB.preparePage()}"/>
+</f:metadata>
 
-  <ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <h:panelGroup layout="block" rendered="#{studyGroupsMB.browse}">
-        <!-- List -->
-        <h2>Группы</h2>
-        <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{studyGroupsMB.add()}" /></div>
-        </h:form>
-        <h:form id="listForm" rendered="#{not empty studyGroupsMB.studyGroups}">
-          <table id="dataTable">
-            <thead>
-              <tr>
-                <th width="40%">Наименование</th>
-                <th width="40%">Куратор</th>
-                <th width="20%">Действия</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ui:repeat value="#{studyGroupsMB.studyGroups}" var="sg">
-                <tr>
-                  <td>
-                    #{sg.name}
-                  </td>
-                  <td>
-                    #{sg.master}
-                  </td>
-                  <td>
-                    <h:commandLink class="action" value="Изменить" action="#{studyGroupsMB.edit(sg)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{studyGroupsMB.delete(sg)}" />
-                  </td>
-                </tr>
-              </ui:repeat>
-            </tbody>
-          </table>
-        </h:form>
-        <h:panelGroup rendered="#{empty studyGroupsMB.studyGroups}">
-          <p>На данный момент нет ни одной записи.</p>
+        <h:panelGroup layout="block" rendered="#{studyGroupsMB.browse}">
+            <!-- List -->
+            <h2>Группы</h2>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{studyGroupsMB.add()}"/>
+                </div>
+            </h:form>
+            <h:form id="listForm" rendered="#{not empty studyGroupsMB.studyGroups}">
+                <table id="dataTable">
+                    <thead>
+                    <tr>
+                        <th width="40%">Наименование</th>
+                        <th width="40%">Куратор</th>
+                        <th width="20%">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat value="#{studyGroupsMB.studyGroups}" var="sg">
+                        <tr>
+                            <td>
+                                #{sg.name}
+                            </td>
+                            <td>
+                                #{sg.master}
+                            </td>
+                            <td>
+                                <h:commandLink class="action" value="Изменить" action="#{studyGroupsMB.edit(sg)}"/>
+                                <h:commandLink class="action" value="Удалить" action="#{studyGroupsMB.delete(sg)}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:form>
+            <h:panelGroup rendered="#{empty studyGroupsMB.studyGroups}">
+                <p>На данный момент нет ни одной записи.</p>
+            </h:panelGroup>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{studyGroupsMB.add()}"/>
+                </div>
+            </h:form>
         </h:panelGroup>
-        <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{studyGroupsMB.add()}" /></div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{studyGroupsMB.edit}">
-        <!-- Edit -->
-        <h2>Редактирование группы</h2>
-        <h:form>
-          <h3>Важно!</h3>
-          <p>
-            При создании группы, можно указать только специальность, по которой
-            производится набор (актуальную).
-          </p>
-          <p>
-            Обратите внимание, что изменение специальности, учебного плана
-            и формы обучения для группы приведет к изменению этих параметров
-            в личных карточках студентов группы.
-          </p>
-          <p>
-            При смене специальности и (или) учебного плана, выставленные ранее
-            оценки студентам группы по старому учебному плану будут недоступны.
-            Оценки по новому учебному плану надо будет выставлять заново.
-          </p>
-          <h:outputText value="Наименование" /><br />
-          <h:inputText value="#{studyGroupsMB.item.name}" class="textEdit" /><p />
-          <h:selectBooleanCheckbox value="#{studyGroupsMB.item.extramural}">
-            <f:ajax event="change" execute="@form" render="plan globalMessages" />
-          </h:selectBooleanCheckbox>
-          <h:outputText value="заочная форма обучения" /><p />
-          <h:outputText value="Специальность" /><br />
-          <h:selectOneMenu id="speciality" value="#{studyGroupsMB.item.specialityCode}"
-                           valueChangeListener="#{studyGroupsMB.changeSpeciality}">
-            <f:selectItems value="#{studyGroupsMB.specialities}" var="spc" 
-                           itemLabel="#{spc.nameForList}" itemValue="#{spc.id}" />
-            <f:ajax event="change" execute="@form" render="plan globalMessages" />
-          </h:selectOneMenu><p />
-          <h:outputText value="Учебный план" /><br />
-          <h:selectOneMenu id="plan" value="#{studyGroupsMB.item.planCode}">
-            <f:selectItems value="#{studyGroupsMB.studyPlans}" var="plan" 
-                           itemLabel="#{plan.nameForList}" itemValue="#{plan.id}" />
-          </h:selectOneMenu><p />
-          <h:outputText value="Год формирования" /><br />
-          <h:inputText value="#{studyGroupsMB.item.year}" class="textEdit" /><p />
-          <h:outputText value="Курс" /><br />
-          <h:inputText value="#{studyGroupsMB.item.course}" class="textEdit" /><p />
-          <h:outputText value="Эта группа" /><br />
-          <h:selectOneMenu value="#{studyGroupsMB.item.active}">
-            <f:selectItem itemLabel="Актуальная" itemValue="true" />
-            <f:selectItem itemLabel="Находится в архиве" itemValue="false" />
-          </h:selectOneMenu><p />
-          <h:selectBooleanCheckbox value="#{studyGroupsMB.item.commercial}" />
-          <h:outputText value="обучение с полным возмещением затрат" /><p />
-          <h:outputText value="Куратор" /><br />
-          <h:inputText value="#{studyGroupsMB.item.master}" class="textEdit" /><p />
-          <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{studyGroupsMB.save()}" />
-            <h:button value="Отменить" includeViewParams="true" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{studyGroupsMB.delete}">
-        <!-- Delete -->
-        <h2>Удаление группы</h2>
-        <h:form>
-          <p>Группа "#{studyGroupsMB.item.name}" будет удалена!</p>
-          <div class="buttons">
-            <h:commandButton value="Удалить" action="#{studyGroupsMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{studyGroupsMB.cancelDelete()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup rendered="#{studyGroupsMB.details}">
-        <!-- Details -->
-        <h2>Группа #{studyGroupsMB.item.name}</h2>
-        <h:form>
-          <div class="buttons">
-            <h:commandButton value="Редактировать" action="#{studyGroupsMB.switchEdit()}" />
-            <h:commandButton value="Список" action="#{studyGroupsMB.cancel()}" />
-            <h:commandButton value="Удалить" action="#{studyGroupsMB.switchDelete()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup rendered="#{studyGroupsMB.error}">
-        <ui:include src="/WEB-INF/includes/error.xhtml" />
-      </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{studyGroupsMB.edit}">
+            <!-- Edit -->
+            <h2>Редактирование группы</h2>
+            <h:form>
+                <h3>Важно!</h3>
+                <p>
+                    При создании группы, можно указать только специальность, по которой
+                    производится набор (актуальную).
+                </p>
+                <p>
+                    Обратите внимание, что изменение специальности, учебного плана
+                    и формы обучения для группы приведет к изменению этих параметров
+                    в личных карточках студентов группы.
+                </p>
+                <p>
+                    При смене специальности и (или) учебного плана, выставленные ранее
+                    оценки студентам группы по старому учебному плану будут недоступны.
+                    Оценки по новому учебному плану надо будет выставлять заново.
+                </p>
+                <h:outputText value="Наименование"/>
+                <br/>
+                <h:inputText value="#{studyGroupsMB.item.name}" class="textEdit"/>
+                <p/>
+                <h:selectBooleanCheckbox value="#{studyGroupsMB.item.extramural}">
+                    <f:ajax event="change" execute="@form" render="plan globalMessages"/>
+                </h:selectBooleanCheckbox>
+                <h:outputText value="заочная форма обучения"/>
+                <p/>
+                <h:outputText value="Специальность"/>
+                <br/>
+                <h:selectOneMenu id="speciality" value="#{studyGroupsMB.item.specialityCode}"
+                                 valueChangeListener="#{studyGroupsMB.changeSpeciality}">
+                    <f:selectItems value="#{studyGroupsMB.specialities}" var="spc"
+                                   itemLabel="#{spc.nameForList}" itemValue="#{spc.id}"/>
+                    <f:ajax event="change" execute="@form" render="plan globalMessages"/>
+                </h:selectOneMenu>
+                <p/>
+                <h:outputText value="Учебный план"/>
+                <br/>
+                <h:selectOneMenu id="plan" value="#{studyGroupsMB.item.planCode}">
+                    <f:selectItems value="#{studyGroupsMB.studyPlans}" var="plan"
+                                   itemLabel="#{plan.nameForList}" itemValue="#{plan.id}"/>
+                </h:selectOneMenu>
+                <p/>
+                <h:outputText value="Год формирования"/>
+                <br/>
+                <h:inputText value="#{studyGroupsMB.item.year}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Курс"/>
+                <br/>
+                <h:inputText value="#{studyGroupsMB.item.course}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Эта группа"/>
+                <br/>
+                <h:selectOneMenu value="#{studyGroupsMB.item.active}">
+                    <f:selectItem itemLabel="Актуальная" itemValue="true"/>
+                    <f:selectItem itemLabel="Находится в архиве" itemValue="false"/>
+                </h:selectOneMenu>
+                <p/>
+                <h:selectBooleanCheckbox value="#{studyGroupsMB.item.commercial}"/>
+                <h:outputText value="обучение с полным возмещением затрат"/>
+                <p/>
+                <h:outputText value="Куратор"/>
+                <br/>
+                <h:inputText value="#{studyGroupsMB.item.master}" class="textEdit"/>
+                <p/>
+                <div class="buttons">
+                    <h:commandButton value="Сохранить" action="#{studyGroupsMB.save()}"/>
+                    <h:button value="Отменить" includeViewParams="true"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{studyGroupsMB.delete}">
+            <!-- Delete -->
+            <h2>Удаление группы</h2>
+            <h:form>
+                <p>Группа "#{studyGroupsMB.item.name}" будет удалена!</p>
+                <div class="buttons">
+                    <h:commandButton value="Удалить" action="#{studyGroupsMB.confirmDelete()}"/>
+                    <h:commandButton value="Отменить" action="#{studyGroupsMB.cancelDelete()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{studyGroupsMB.details}">
+            <!-- Details -->
+            <h2>Группа #{studyGroupsMB.item.name}</h2>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Редактировать" action="#{studyGroupsMB.switchEdit()}"/>
+                    <h:commandButton value="Список" action="#{studyGroupsMB.cancel()}"/>
+                    <h:commandButton value="Удалить" action="#{studyGroupsMB.switchDelete()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{studyGroupsMB.error}">
+            <ui:include src="/WEB-INF/includes/error.xhtml"/>
+        </h:panelGroup>
     </ui:define>
-  </ui:composition>
+</ui:composition>
 </html>
