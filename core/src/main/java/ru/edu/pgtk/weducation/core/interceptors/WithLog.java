@@ -10,8 +10,9 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Аннотация, которая будет говорить о необходимости логировать 
+ * Аннотация, которая будет говорить о необходимости логировать
  * методы и конструкторы определенных компонентов.
+ *
  * @author Воронин Леонид
  */
 @Inherited
@@ -19,5 +20,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 public @interface WithLog {
-  // Никаких параметров для аннотации не предусмотрено  
+    // Никаких параметров для аннотации не предусмотрено
 }

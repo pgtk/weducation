@@ -11,7 +11,8 @@
             <h:form>
                 <div class="buttons">
                     <h:commandButton value="#{messagesMB.label}" action="#{messagesMB.changeThread()}"/>
-                    <h:commandButton rendered="#{messagesMB.outgoing}" value="Новое сообщение" action="#{messagesMB.add()}"/>
+                    <h:commandButton rendered="#{messagesMB.outgoing}" value="Новое сообщение"
+                                     action="#{messagesMB.add()}"/>
                 </div>
             </h:form>
             <h:form id="listForm" rendered="#{not messagesMB.emptyList}">
@@ -20,7 +21,8 @@
                         <thead>
                         <tr>
                             <th width="80%">
-                                <h:outputText rendered="#{messagesMB.outgoing}" value="#{msg.destinationAccount.fullName}"/>
+                                <h:outputText rendered="#{messagesMB.outgoing}"
+                                              value="#{msg.destinationAccount.fullName}"/>
                                 <h:outputText rendered="#{not messagesMB.outgoing}" value="#{msg.from}"/>
                             </th>
                             <th width="20%">#{messagesMB.getMessageTimestamp(msg.timestamp)}</th>
@@ -48,24 +50,28 @@
                     <h:commandButton value="#{messagesMB.label}" action="#{messagesMB.changeThread()}">
                         <f:ajax execute="@this" render="@all"/>
                     </h:commandButton>
-                    <h:commandButton rendered="#{messagesMB.outgoing}" value="Новое сообщение" action="#{messagesMB.add()}"/>
+                    <h:commandButton rendered="#{messagesMB.outgoing}" value="Новое сообщение"
+                                     action="#{messagesMB.add()}"/>
                 </div>
             </h:form>
         </h:panelGroup>
         <h:panelGroup layout="block" rendered="#{messagesMB.edit}">
             <h2>Редактирование сообщения</h2>
             <h:form>
-                <h:outputText value="Адресат"/><br/>
+                <h:outputText value="Адресат"/>
+                <br/>
                 <h:selectOneMenu value="#{messagesMB.desinationAccountCode}">
                     <f:selectItem itemLabel="Выберите адресата" itemValue="0"/>
                     <f:selectItems var="account" value="#{messagesMB.accountsList}"
                                    itemLabel="#{account.fullName}" itemValue="#{account.id}"/>
                 </h:selectOneMenu>
                 <p/>
-                <h:outputText value="Заголовок"/><br/>
+                <h:outputText value="Заголовок"/>
+                <br/>
                 <h:inputText value="#{messagesMB.item.title}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Текст сообщения"/><br/>
+                <h:outputText value="Текст сообщения"/>
+                <br/>
                 <h:inputTextarea value="#{messagesMB.item.text}" class="textEdit"/>
                 <p/>
                 <div class="buttons">

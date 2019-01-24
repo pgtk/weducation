@@ -12,50 +12,50 @@ import java.util.Map;
 @Named("importCardMB")
 public class ImportCardMB implements Serializable {
 
-	long serialVersionUID = 0L;
+    long serialVersionUID = 0L;
 
-	@EJB
-	private transient ImportCardEJB ejb;
-	private String groupCode;
-	private boolean success = false;
+    @EJB
+    private transient ImportCardEJB ejb;
+    private String groupCode;
+    private boolean success = false;
 
-	public Map<String, String> getGroups() {
-		return ejb.getGroups();
-	}
+    public Map<String, String> getGroups() {
+        return ejb.getGroups();
+    }
 
-	public void importGroup() {
-		if ((null != groupCode) && (!groupCode.isEmpty())) {
-			try {
-				ejb.importGroup(groupCode);
-				success = true;
-			} catch (Exception e) {
-				Utils.addMessage(e);
-			}
-		}
-	}
+    public void importGroup() {
+        if ((null != groupCode) && (!groupCode.isEmpty())) {
+            try {
+                ejb.importGroup(groupCode);
+                success = true;
+            } catch (Exception e) {
+                Utils.addMessage(e);
+            }
+        }
+    }
 
-	public void importAll() {
-		try {
-			ejb.importAll();
-			success = true;
-		} catch (Exception e) {
-			Utils.addMessage("Ошибка при импорте групп!");
-		}
-	}
+    public void importAll() {
+        try {
+            ejb.importAll();
+            success = true;
+        } catch (Exception e) {
+            Utils.addMessage("Ошибка при импорте групп!");
+        }
+    }
 
-	public void reset() {
-		success = false;
-	}
+    public void reset() {
+        success = false;
+    }
 
-	public String getGroupCode() {
-		return groupCode;
-	}
+    public String getGroupCode() {
+        return groupCode;
+    }
 
-	public void setGroupCode(String groupCode) {
-		this.groupCode = groupCode;
-	}
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
 
-	public boolean isSuccess() {
-		return success;
-	}
+    public boolean isSuccess() {
+        return success;
+    }
 }

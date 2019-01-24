@@ -10,44 +10,45 @@ import java.io.Serializable;
 
 /**
  * Класс, инкапсулирующий в себе населенный пункт.
+ *
  * @author Воронин Леонид
  */
 @Entity
 @Table(name = "places")
 public class Place implements Serializable {
-  
-  @Id
-  @Column(name = "plc_pcode")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-  
-  @Column(name = "plc_type", nullable = false)
-  private PlaceType type;
-  
-  @Column(name = "plc_name", nullable = false, length = 255)
-  private String name;
 
-  public String getFullName() {
-    return type.getPrefix() + " " + name;
-  }
+    @Id
+    @Column(name = "plc_pcode")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-  public PlaceType getType() {
-    return type;
-  }
+    @Column(name = "plc_type", nullable = false)
+    private PlaceType type;
 
-  public void setType(PlaceType type) {
-    this.type = type;
-  }
-  
-  public String getName() {
-    return name;
-  }
+    @Column(name = "plc_name", nullable = false, length = 255)
+    private String name;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public String getFullName() {
+        return type.getPrefix() + " " + name;
+    }
 
-  public int getId() {
-    return id;
-  }
+    public PlaceType getType() {
+        return type;
+    }
+
+    public void setType(PlaceType type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

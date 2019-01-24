@@ -5,93 +5,115 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <f:metadata>
-    <f:viewParam name="groupId" value="#{groupSemestersMB.groupCode}" />
-    <f:viewAction action="#{groupSemestersMB.loadGroup()}" />
-  </f:metadata>
+<f:metadata>
+    <f:viewParam name="groupId" value="#{groupSemestersMB.groupCode}"/>
+    <f:viewAction action="#{groupSemestersMB.loadGroup()}"/>
+</f:metadata>
 
-  <ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <h:panelGroup layout="block" rendered="#{groupSemestersMB.browse}">
-        <!-- List -->
-        <h2>Семестры для группы #{groupSemestersMB.group.name}</h2>
-        <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{groupSemestersMB.add()}" /></div>
-        </h:form>
-        <h:form id="listForm" rendered="#{not empty groupSemestersMB.semesters}">
-          <table id="dataTable">
-            <thead>
-              <tr>
-                <th width="20%">Курс</th>
-                <th width="20%">Семестр</th>
-                <th width="20%">Начало</th>
-                <th width="20%">Окончание</th>
-                <th width="20%">Действия</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ui:repeat value="#{groupSemestersMB.semesters}" var="semester">
-                <tr>
-                  <td>#{semester.course}</td>
-                  <td>#{semester.semester}</td>
-                  <td>#{semester.beginDateString}</td>
-                  <td>#{semester.endDateString}</td>
-                  <td>
-                    <h:commandLink class="action" value="Изменить" action="#{groupSemestersMB.edit(semester)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{groupSemestersMB.delete(semester)}" />
-                  </td>
-                </tr>
-              </ui:repeat>
-            </tbody>
-          </table>
-        </h:form>
-        <h:panelGroup rendered="#{empty groupSemestersMB.semesters}">
-          <p>На данный момент нет ни одной записи.</p>
+        <h:panelGroup layout="block" rendered="#{groupSemestersMB.browse}">
+            <!-- List -->
+            <h2>Семестры для группы #{groupSemestersMB.group.name}</h2>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{groupSemestersMB.add()}"/>
+                </div>
+            </h:form>
+            <h:form id="listForm" rendered="#{not empty groupSemestersMB.semesters}">
+                <table id="dataTable">
+                    <thead>
+                    <tr>
+                        <th width="20%">Курс</th>
+                        <th width="20%">Семестр</th>
+                        <th width="20%">Начало</th>
+                        <th width="20%">Окончание</th>
+                        <th width="20%">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat value="#{groupSemestersMB.semesters}" var="semester">
+                        <tr>
+                            <td>#{semester.course}</td>
+                            <td>#{semester.semester}</td>
+                            <td>#{semester.beginDateString}</td>
+                            <td>#{semester.endDateString}</td>
+                            <td>
+                                <h:commandLink class="action" value="Изменить"
+                                               action="#{groupSemestersMB.edit(semester)}"/>
+                                <h:commandLink class="action" value="Удалить"
+                                               action="#{groupSemestersMB.delete(semester)}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:form>
+            <h:panelGroup rendered="#{empty groupSemestersMB.semesters}">
+                <p>На данный момент нет ни одной записи.</p>
+            </h:panelGroup>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{groupSemestersMB.add()}"/>
+                </div>
+            </h:form>
         </h:panelGroup>
-        <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{groupSemestersMB.add()}" /></div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{groupSemestersMB.edit}">
-        <!-- Edit -->
-        <h2>Редактирование семестра группы</h2>
-        <h:form>
-          <h:outputText value="Курс" /><br />
-          <h:inputText value="#{groupSemestersMB.item.course}" class="textEdit" /><p />
-          <h:outputText value="Семестр" /><br />
-          <h:inputText value="#{groupSemestersMB.item.semester}" class="textEdit" /><p />
-          <h:outputText value="Год начала" /><br />
-          <h:inputText value="#{groupSemestersMB.item.beginYear}" class="textEdit" /><p />
-          <h:outputText value="Месяц начала" /><br />
-          <h:inputText value="#{groupSemestersMB.item.beginMonth}" class="textEdit" /><p />
-          <h:outputText value="Неделя начала" /><br />
-          <h:inputText value="#{groupSemestersMB.item.beginWeek}" class="textEdit" /><p />
-          <h:outputText value="Год окончания" /><br />
-          <h:inputText value="#{groupSemestersMB.item.endYear}" class="textEdit" /><p />
-          <h:outputText value="Месяц окончания" /><br />
-          <h:inputText value="#{groupSemestersMB.item.endMonth}" class="textEdit" /><p />
-          <h:outputText value="Неделя окончания" /><br />
-          <h:inputText value="#{groupSemestersMB.item.endWeek}" class="textEdit" /><p />
-          <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{groupSemestersMB.save()}" />
-            <h:commandButton value="Отменить" action="#{groupSemestersMB.cancel()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{groupSemestersMB.delete}">
-        <!-- Delete -->
-        <h2>Удаление семестра группы</h2>
-        <h:form>
-          <p>Семестр "#{groupSemestersMB.item.semester}" будет удален!</p>
-          <div class="buttons">
-            <h:commandButton value="Удалить" action="#{groupSemestersMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{groupSemestersMB.cancel()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{groupSemestersMB.error}">
-        <ui:include src="/WEB-INF/includes/error.xhtml" />
-      </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{groupSemestersMB.edit}">
+            <!-- Edit -->
+            <h2>Редактирование семестра группы</h2>
+            <h:form>
+                <h:outputText value="Курс"/>
+                <br/>
+                <h:inputText value="#{groupSemestersMB.item.course}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Семестр"/>
+                <br/>
+                <h:inputText value="#{groupSemestersMB.item.semester}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Год начала"/>
+                <br/>
+                <h:inputText value="#{groupSemestersMB.item.beginYear}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Месяц начала"/>
+                <br/>
+                <h:inputText value="#{groupSemestersMB.item.beginMonth}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Неделя начала"/>
+                <br/>
+                <h:inputText value="#{groupSemestersMB.item.beginWeek}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Год окончания"/>
+                <br/>
+                <h:inputText value="#{groupSemestersMB.item.endYear}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Месяц окончания"/>
+                <br/>
+                <h:inputText value="#{groupSemestersMB.item.endMonth}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Неделя окончания"/>
+                <br/>
+                <h:inputText value="#{groupSemestersMB.item.endWeek}" class="textEdit"/>
+                <p/>
+                <div class="buttons">
+                    <h:commandButton value="Сохранить" action="#{groupSemestersMB.save()}"/>
+                    <h:commandButton value="Отменить" action="#{groupSemestersMB.cancel()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{groupSemestersMB.delete}">
+            <!-- Delete -->
+            <h2>Удаление семестра группы</h2>
+            <h:form>
+                <p>Семестр "#{groupSemestersMB.item.semester}" будет удален!</p>
+                <div class="buttons">
+                    <h:commandButton value="Удалить" action="#{groupSemestersMB.confirmDelete()}"/>
+                    <h:commandButton value="Отменить" action="#{groupSemestersMB.cancel()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{groupSemestersMB.error}">
+            <ui:include src="/WEB-INF/includes/error.xhtml"/>
+        </h:panelGroup>
     </ui:define>
-  </ui:composition>
+</ui:composition>
 </html>

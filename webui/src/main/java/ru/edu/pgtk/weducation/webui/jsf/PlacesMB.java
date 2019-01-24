@@ -15,43 +15,43 @@ import java.util.List;
 @Named("placesMB")
 public class PlacesMB extends GenericBean<Place> implements Serializable {
 
-	long serialVersionUID = 0L;
-	private List<Place> list;
+    long serialVersionUID = 0L;
+    private List<Place> list;
 
-	@EJB
-	private transient PlacesDAO ejb;
+    @EJB
+    private transient PlacesDAO ejb;
 
-	@PostConstruct
-	private void updateList() {
-		list = ejb != null ? ejb.fetchAll() : null;
-	}
+    @PostConstruct
+    private void updateList() {
+        list = ejb != null ? ejb.fetchAll() : null;
+    }
 
-	public List<Place> getList() {
-		return list;
-	}
+    public List<Place> getList() {
+        return list;
+    }
 
-	public boolean isEmptyList() {
-		return list == null || list.isEmpty();
-	}
+    public boolean isEmptyList() {
+        return list == null || list.isEmpty();
+    }
 
-	public PlaceType[] getPlaceTypes() {
-		return PlaceType.values();
-	}
+    public PlaceType[] getPlaceTypes() {
+        return PlaceType.values();
+    }
 
-	@Override
-	public void newItem() {
-		item = new Place();
-	}
+    @Override
+    public void newItem() {
+        item = new Place();
+    }
 
-	@Override
-	public void deleteItem() {
-		if ((null != item) && delete) {
-			ejb.delete(item);
-		}
-	}
+    @Override
+    public void deleteItem() {
+        if ((null != item) && delete) {
+            ejb.delete(item);
+        }
+    }
 
-	@Override
-	public void saveItem() {
-		ejb.save(item);
-	}
+    @Override
+    public void saveItem() {
+        ejb.save(item);
+    }
 }

@@ -10,59 +10,59 @@ import java.util.List;
  */
 public class XMLSubject {
 
-  private String index = "";    // индекс (ЕН, ОП)
-  private String name = "";     // Наименование предмета
-  private XMLModule module = null; // родительский элемент
-  private List<XMLSubjectLoad> load = new ArrayList<>(); // список нагрузки по семестрам
+    private String index = "";    // индекс (ЕН, ОП)
+    private String name = "";     // Наименование предмета
+    private XMLModule module = null; // родительский элемент
+    private List<XMLSubjectLoad> load = new ArrayList<>(); // список нагрузки по семестрам
 
-  public XMLSubject() {
-    super();
-  }
+    public XMLSubject() {
+        super();
+    }
 
-  @Override
-  public String toString() {
-    return "Subject [index=" + index + ", name=" + name + ", load=" + load + "]";
-  }
+    @Override
+    public String toString() {
+        return "Subject [index=" + index + ", name=" + name + ", load=" + load + "]";
+    }
 
-  public XMLSubject(XMLModule module, String index, String name) {
-    this.index = index;
-    this.name = name;
-    this.module = module;
-  }
+    public XMLSubject(XMLModule module, String index, String name) {
+        this.index = index;
+        this.name = name;
+        this.module = module;
+    }
 
-  public void addLoad(XMLSubjectLoad subjLoad) {
-    load.add(subjLoad);
-  }
+    public void addLoad(XMLSubjectLoad subjLoad) {
+        load.add(subjLoad);
+    }
 
-  public List<XMLSubjectLoad> getLoad() {
-    return load;
-  }
+    public List<XMLSubjectLoad> getLoad() {
+        return load;
+    }
 
-  public String getFullName() {
-    return index + " " + name;
-  }
+    public String getFullName() {
+        return index + " " + name;
+    }
 
-  public String getIndex() {
-    return index;
-  }
+    public String getIndex() {
+        return index;
+    }
 
-  public void setIndex(String index) {
-    this.index = index;
-  }
+    public void setIndex(String index) {
+        this.index = index;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public XMLModule getModule() {
-    return module;
-  }
+    public XMLModule getModule() {
+        return module;
+    }
 
-  public void setModule(XMLModule module) {
-    this.module = module;
-  }
+    public void setModule(XMLModule module) {
+        this.module = module;
+    }
 }

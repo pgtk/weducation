@@ -10,7 +10,9 @@
             <!-- List -->
             <h2>Учебное заведение</h2>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{schoolsMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{schoolsMB.add()}"/>
+                </div>
             </h:form>
             <h:form id="listForm" rendered="#{not schoolsMB.emptyList}">
                 <table id="dataTable">
@@ -43,23 +45,29 @@
                 <p>На данный момент нет ни одной записи.</p>
             </h:panelGroup>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{schoolsMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{schoolsMB.add()}"/>
+                </div>
             </h:form>
         </h:panelGroup>
         <h:panelGroup layout="block" rendered="#{schoolsMB.edit}">
             <!-- Edit -->
             <h2>Редактирование учебного заведения</h2>
             <h:form>
-                <h:outputText value="Наименование полное"/><br/>
+                <h:outputText value="Наименование полное"/>
+                <br/>
                 <h:inputText value="#{schoolsMB.item.fullName}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Наименование сокращенное"/><br/>
+                <h:outputText value="Наименование сокращенное"/>
+                <br/>
                 <h:inputText value="#{schoolsMB.item.shortName}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Населенный пункт"/><br/>
+                <h:outputText value="Населенный пункт"/>
+                <br/>
                 <h:inputText value="#{schoolsMB.item.place}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Руководитель"/><br/>
+                <h:outputText value="Руководитель"/>
+                <br/>
                 <h:inputText value="#{schoolsMB.item.director}" class="textEdit"/>
                 <p/>
                 <div class="buttons">

@@ -5,26 +5,29 @@ import com.itextpdf.text.Element;
 
 /**
  * Интерфейс для работы с различными отчетами.
+ *
  * @author Воронин Леонид
  */
 public interface Report {
 
-	enum Orientation {
-		PORTRET,
-		LANDSCAPE
-	}
+    enum Orientation {
+        PORTRET,
+        LANDSCAPE
+    }
 
-	/**
-	 * Метод для добавления различных элементов в отчет.
-	 * Позволяет добавлять в отчет различные таблицы, параграфы и т.п.
-	 * @param element элемент отчета
-	 * @throws DocumentException
-	 */
-	void add(Element element) throws DocumentException;
+    /**
+     * Метод для добавления различных элементов в отчет.
+     * Позволяет добавлять в отчет различные таблицы, параграфы и т.п.
+     *
+     * @param element элемент отчета
+     * @throws DocumentException
+     */
+    void add(Element element) throws DocumentException;
 
-	/**
-	 * Возвращает содержимое PDF документа в виде массива байт.
-	 * @return массив байт
-	 */
-	byte[] getData();
+    /**
+     * Возвращает содержимое PDF документа в виде массива байт.
+     *
+     * @return массив байт
+     */
+    byte[] getData();
 }

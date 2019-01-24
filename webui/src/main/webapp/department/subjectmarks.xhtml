@@ -14,9 +14,11 @@
     <ui:define name="content">
         <!-- List -->
         <h2>Оценки за семестр по дисциплинам и МДК для группы #{semesterSubjectMarksMB.group.name}</h2>
-        <h:outputText value="Семестр"/><br/>
+        <h:outputText value="Семестр"/>
+        <br/>
         <h:form>
-            <h:selectOneMenu value="#{semesterSubjectMarksMB.groupCode}" valueChangeListener="#{semesterSubjectMarksMB.changeSemester}">
+            <h:selectOneMenu value="#{semesterSubjectMarksMB.groupCode}"
+                             valueChangeListener="#{semesterSubjectMarksMB.changeSemester}">
                 <f:selectItem itemLabel="Выберите семестр" itemValue="0"/>
                 <f:selectItems value="#{semesterSubjectMarksMB.semesterList}" var="sm"
                                itemLabel="#{sm.label}" itemValue="#{sm.id}"/>
@@ -25,12 +27,18 @@
             <p/>
             <h:panelGroup rendered="#{not empty semesterSubjectMarksMB.semester}">
                 <ul>
-                    <li><a target="semesterMarks" href="#{linksMB.getSemesterMarksLink(semesterSubjectMarksMB.semester)}">Зачетная ведомость</a></li>
-                    <li><a target="semesterConsolidates" href="#{linksMB.getConsolidatedMarksLink(semesterSubjectMarksMB.semester)}">Сводная ведомость</a></li>
+                    <li><a target="semesterMarks"
+                           href="#{linksMB.getSemesterMarksLink(semesterSubjectMarksMB.semester)}">Зачетная
+                        ведомость</a></li>
+                    <li><a target="semesterConsolidates"
+                           href="#{linksMB.getConsolidatedMarksLink(semesterSubjectMarksMB.semester)}">Сводная
+                        ведомость</a></li>
                 </ul>
             </h:panelGroup>
-            <h:outputText value="Дисциплина"/><br/>
-            <h:selectOneMenu value="#{semesterSubjectMarksMB.subjectCode}" valueChangeListener="#{semesterSubjectMarksMB.changeSubject}">
+            <h:outputText value="Дисциплина"/>
+            <br/>
+            <h:selectOneMenu value="#{semesterSubjectMarksMB.subjectCode}"
+                             valueChangeListener="#{semesterSubjectMarksMB.changeSubject}">
                 <f:selectItem itemLabel="Выберите дисциплину" itemValue="0"/>
                 <f:selectItems value="#{semesterSubjectMarksMB.subjectList}" var="sub"
                                itemLabel="#{sub.fullName}" itemValue="#{sub.id}"/>

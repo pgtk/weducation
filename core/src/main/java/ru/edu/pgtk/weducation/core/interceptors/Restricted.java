@@ -14,6 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Аннотация для организации системы безопасности на основе перехватчиков.
+ *
  * @author Воронин Леонид
  */
 @Inherited
@@ -21,6 +22,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 public @interface Restricted {
-  @Nonbinding
-  AccountRole[] allowedRoles();
+    @Nonbinding
+    AccountRole[] allowedRoles();
 }

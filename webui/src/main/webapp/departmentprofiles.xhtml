@@ -11,7 +11,9 @@
             <!-- List -->
             <h2>Профили обучения</h2>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{departmentProfilesMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{departmentProfilesMB.add()}"/>
+                </div>
             </h:form>
             <h:form id="listForm" rendered="#{not departmentProfilesMB.emptyList}">
                 <table id="dataTable">
@@ -30,8 +32,10 @@
                             <td>#{dp.speciality.nameForList}</td>
                             <td>#{dp.extramuralString}</td>
                             <td>
-                                <h:commandLink class="action" value="Изменить" action="#{departmentProfilesMB.edit(dp)}"/>
-                                <h:commandLink class="action" value="Удалить" action="#{departmentProfilesMB.delete(dp)}"/>
+                                <h:commandLink class="action" value="Изменить"
+                                               action="#{departmentProfilesMB.edit(dp)}"/>
+                                <h:commandLink class="action" value="Удалить"
+                                               action="#{departmentProfilesMB.delete(dp)}"/>
                             </td>
                         </tr>
                     </ui:repeat>
@@ -42,20 +46,24 @@
                 <p>На данный момент нет ни одной записи.</p>
             </h:panelGroup>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{departmentProfilesMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{departmentProfilesMB.add()}"/>
+                </div>
             </h:form>
         </h:panelGroup>
         <h:panelGroup layout="block" rendered="#{departmentProfilesMB.edit}">
             <!-- Edit -->
             <h2>Редактирование профиля обучения</h2>
             <h:form>
-                <h:outputText value="Отделение"/><br/>
+                <h:outputText value="Отделение"/>
+                <br/>
                 <h:selectOneMenu value="#{departmentProfilesMB.item.departmentCode}">
                     <f:selectItems value="#{departmentProfilesMB.departmentsList}" var="dep"
                                    itemLabel="#{dep.name}" itemValue="#{dep.id}"/>
                 </h:selectOneMenu>
                 <p/>
-                <h:outputText value="Специальность"/><br/>
+                <h:outputText value="Специальность"/>
+                <br/>
                 <h:selectOneMenu value="#{departmentProfilesMB.item.specialityCode}">
                     <f:selectItems value="#{departmentProfilesMB.specialitiesList}" var="spc"
                                    itemLabel="#{spc.nameForList}" itemValue="#{spc.id}"/>

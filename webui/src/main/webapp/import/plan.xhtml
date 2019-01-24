@@ -32,9 +32,11 @@
                     <li>Импортируются практики.</li>
                 </ul>
                 <p>Выберите специальность, для которой будете загружать план<br/>
-                    <h:selectOneMenu value="#{importPlanMB.specialityCode}" valueChangeListener="#{importPlanMB.changeSpeciality}">
+                    <h:selectOneMenu value="#{importPlanMB.specialityCode}"
+                                     valueChangeListener="#{importPlanMB.changeSpeciality}">
                         <f:selectItem itemLabel="Выберите специальность" itemValue="0"/>
-                        <f:selectItems value="#{importPlanMB.specialitiesList}" var="spc" itemLabel="#{spc.name}" itemValue="#{spc.id}"/>
+                        <f:selectItems value="#{importPlanMB.specialitiesList}" var="spc" itemLabel="#{spc.name}"
+                                       itemValue="#{spc.id}"/>
                         <f:ajax execute="@form" render="uploadForm"/>
                     </h:selectOneMenu>
                 </p>
@@ -47,7 +49,8 @@
                     </ul>
                     <p>Удостоверьтесь, что в списке нет плана, который вы собираетесь импортировать.</p>
                 </h:panelGroup>
-                <p>Решили импортировать? Тогда выберите для загрузки файл учебного плана, созданный в программе РУП СПО</p>
+                <p>Решили импортировать? Тогда выберите для загрузки файл учебного плана, созданный в программе РУП
+                    СПО</p>
                 <h:inputFile id="file" value="#{importPlanMB.file}"/>
                 <p/>
                 <div class="buttons">

@@ -9,5 +9,6 @@ import ru.edu.pgtk.weducation.core.entity.ClientSession;
 public interface ClientSessionsDAO extends EntityDAO<ClientSession> {
 
     ClientSession add(ClientSession item);
+
     ClientSession update(ClientSession item);
 }

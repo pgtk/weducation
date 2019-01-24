@@ -5,114 +5,129 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <f:metadata>
-    <f:viewParam name="cardId" value="#{finalMarksMB.cardCode}" />
-    <f:viewAction action="#{finalMarksMB.loadCard()}" />
-  </f:metadata>  
+<f:metadata>
+    <f:viewParam name="cardId" value="#{finalMarksMB.cardCode}"/>
+    <f:viewAction action="#{finalMarksMB.loadCard()}"/>
+</f:metadata>
 
-  <ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/templates/main.xhtml">
     <ui:define name="content">
-      <div class="roundbox" id="breadcrumb">
-        <h:link rendered="#{finalMarksMB.cardCode > 0}" outcome="/persons" value="Персоны" />
-        <h:link rendered="#{finalMarksMB.cardCode > 0}" outcome="/persons?id=#{finalMarksMB.card.person.id}"
-                value="#{finalMarksMB.card.person.fullName}" />
-        <h:link rendered="#{finalMarksMB.cardCode > 0}" outcome="/studycards?personId=#{finalMarksMB.card.person.id}"
-                value="Личные карточки" />
-        <h:link rendered="#{finalMarksMB.cardCode > 0}" outcome="/studycards?id=#{finalMarksMB.card.id}"
-                value="#{finalMarksMB.card.nameForList}" />
-      </div>
-      <h:panelGroup layout="block" rendered="#{finalMarksMB.browse}">
-        <!-- List -->
-        <h2>Итоговые оценки по дисциплинам и МДК</h2>
-        <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{finalMarksMB.add()}" /></div>
-        </h:form>
-        <h:form id="listForm" rendered="#{not empty finalMarksMB.subjectMarks}">
-          <table id="dataTable">
-            <thead>
-              <tr>
-                <th width="50%">Наименование</th>
-                <th width="10%">Максимум</th>
-                <th width="10%">Аудиторно</th>
-                <th width="10%">Оценка</th>
-                <th width="20%">Действия</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ui:repeat value="#{finalMarksMB.subjectMarks}" var="mark">
-                <tr>
-                  <td>
-                    #{mark.subject.fullName}
-                  </td>
-                  <td align="right">
-                    #{mark.maximumLoad}
-                  </td>
-                  <td align="right">
-                    #{mark.auditoryLoad}
-                  </td>
-                  <td align="right">
-                    #{mark.mark}
-                  </td>
-                  <td>
-                    <h:commandLink class="action" value="Изменить" action="#{finalMarksMB.edit(mark)}" />
-                    <h:commandLink class="action" value="Удалить" action="#{finalMarksMB.delete(mark)}" />
-                  </td>
-                </tr>
-              </ui:repeat>
-            </tbody>
-          </table>
-        </h:form>
-        <h:panelGroup rendered="#{empty finalMarksMB.subjectMarks}">
-          <p>На данный момент нет ни одной записи.</p>
+        <div class="roundbox" id="breadcrumb">
+            <h:link rendered="#{finalMarksMB.cardCode > 0}" outcome="/persons" value="Персоны"/>
+            <h:link rendered="#{finalMarksMB.cardCode > 0}" outcome="/persons?id=#{finalMarksMB.card.person.id}"
+                    value="#{finalMarksMB.card.person.fullName}"/>
+            <h:link rendered="#{finalMarksMB.cardCode > 0}"
+                    outcome="/studycards?personId=#{finalMarksMB.card.person.id}"
+                    value="Личные карточки"/>
+            <h:link rendered="#{finalMarksMB.cardCode > 0}" outcome="/studycards?id=#{finalMarksMB.card.id}"
+                    value="#{finalMarksMB.card.nameForList}"/>
+        </div>
+        <h:panelGroup layout="block" rendered="#{finalMarksMB.browse}">
+            <!-- List -->
+            <h2>Итоговые оценки по дисциплинам и МДК</h2>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{finalMarksMB.add()}"/>
+                </div>
+            </h:form>
+            <h:form id="listForm" rendered="#{not empty finalMarksMB.subjectMarks}">
+                <table id="dataTable">
+                    <thead>
+                    <tr>
+                        <th width="50%">Наименование</th>
+                        <th width="10%">Максимум</th>
+                        <th width="10%">Аудиторно</th>
+                        <th width="10%">Оценка</th>
+                        <th width="20%">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat value="#{finalMarksMB.subjectMarks}" var="mark">
+                        <tr>
+                            <td>
+                                #{mark.subject.fullName}
+                            </td>
+                            <td align="right">
+                                #{mark.maximumLoad}
+                            </td>
+                            <td align="right">
+                                #{mark.auditoryLoad}
+                            </td>
+                            <td align="right">
+                                #{mark.mark}
+                            </td>
+                            <td>
+                                <h:commandLink class="action" value="Изменить" action="#{finalMarksMB.edit(mark)}"/>
+                                <h:commandLink class="action" value="Удалить" action="#{finalMarksMB.delete(mark)}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:form>
+            <h:panelGroup rendered="#{empty finalMarksMB.subjectMarks}">
+                <p>На данный момент нет ни одной записи.</p>
+            </h:panelGroup>
+            <h:form>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{finalMarksMB.add()}"/>
+                </div>
+            </h:form>
         </h:panelGroup>
-        <h:form>
-          <div class="buttons"><h:commandButton value="Добавить" action="#{finalMarksMB.add()}" /></div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{finalMarksMB.edit}">
-        <!-- Edit -->
-        <h2>Редактирование итоговой оценки дисциплины и МДК</h2>
-        <h:form>
-          <h:outputText value="Наименование дисциплины или МДК" /><br />
-          <h:selectOneMenu rendered="#{finalMarksMB.item.subjectCode == 0}" 
-                           value="#{finalMarksMB.item.subjectCode}" valueChangeListener="#{finalMarksMB.countLoad}">
-            <f:selectItem itemLabel="---- Выберите дисциплину ----" itemValue="0" />
-            <f:selectItems value="#{finalMarksMB.subjects}" var="subject" 
-                           itemLabel="#{subject.fullName}" itemValue="#{subject.id}" />
-            <f:ajax event="change" execute="@this" render="@form" />
-          </h:selectOneMenu>
-          <h:outputText rendered="#{finalMarksMB.item.subjectCode != 0}" value="#{finalMarksMB.item.subject.fullName}" /><p />
-          <h:outputText value="Максимальная нагрузка" /><br />
-          <h:inputText id="maxload" value="#{finalMarksMB.item.maximumLoad}" class="textEdit" /><p />
-          <h:outputText value="Аудиторная нагрузка" /><br />
-          <h:inputText id="audload" value="#{finalMarksMB.item.auditoryLoad}" class="textEdit" /><p />
-          <h:outputText value="Итоговая оценка" /><br />
-          <h:selectOneMenu value="#{finalMarksMB.item.mark}">
-            <f:selectItem itemLabel="Удовлетворительно" itemValue="3" />
-            <f:selectItem itemLabel="Хорошо" itemValue="4" />
-            <f:selectItem itemLabel="Отлично" itemValue="5" />
-            <f:selectItem itemLabel="Зачтено" itemValue="13" />
-          </h:selectOneMenu><p />
-          <div class="buttons">
-            <h:commandButton value="Сохранить" action="#{finalMarksMB.save()}" />
-            <h:commandButton value="Отменить" action="#{finalMarksMB.cancel()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{finalMarksMB.delete}">
-        <!-- Delete -->
-        <h2>Удаление итоговой оценки дисциплины и МДК</h2>
-        <h:form>
-          <p>Оценка за дисциплину (МДК) "#{finalMarksMB.item.module.name}" будет удалена!</p>
-          <div class="buttons">
-            <h:commandButton value="Удалить" action="#{finalMarksMB.confirmDelete()}" />
-            <h:commandButton value="Отменить" action="#{finalMarksMB.cancel()}" />
-          </div>
-        </h:form>
-      </h:panelGroup>
-      <h:panelGroup layout="block" rendered="#{finalMarksMB.error}">
-        <ui:include src="/WEB-INF/includes/error.xhtml" />
-      </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{finalMarksMB.edit}">
+            <!-- Edit -->
+            <h2>Редактирование итоговой оценки дисциплины и МДК</h2>
+            <h:form>
+                <h:outputText value="Наименование дисциплины или МДК"/>
+                <br/>
+                <h:selectOneMenu rendered="#{finalMarksMB.item.subjectCode == 0}"
+                                 value="#{finalMarksMB.item.subjectCode}"
+                                 valueChangeListener="#{finalMarksMB.countLoad}">
+                    <f:selectItem itemLabel="---- Выберите дисциплину ----" itemValue="0"/>
+                    <f:selectItems value="#{finalMarksMB.subjects}" var="subject"
+                                   itemLabel="#{subject.fullName}" itemValue="#{subject.id}"/>
+                    <f:ajax event="change" execute="@this" render="@form"/>
+                </h:selectOneMenu>
+                <h:outputText rendered="#{finalMarksMB.item.subjectCode != 0}"
+                              value="#{finalMarksMB.item.subject.fullName}"/>
+                <p/>
+                <h:outputText value="Максимальная нагрузка"/>
+                <br/>
+                <h:inputText id="maxload" value="#{finalMarksMB.item.maximumLoad}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Аудиторная нагрузка"/>
+                <br/>
+                <h:inputText id="audload" value="#{finalMarksMB.item.auditoryLoad}" class="textEdit"/>
+                <p/>
+                <h:outputText value="Итоговая оценка"/>
+                <br/>
+                <h:selectOneMenu value="#{finalMarksMB.item.mark}">
+                    <f:selectItem itemLabel="Удовлетворительно" itemValue="3"/>
+                    <f:selectItem itemLabel="Хорошо" itemValue="4"/>
+                    <f:selectItem itemLabel="Отлично" itemValue="5"/>
+                    <f:selectItem itemLabel="Зачтено" itemValue="13"/>
+                </h:selectOneMenu>
+                <p/>
+                <div class="buttons">
+                    <h:commandButton value="Сохранить" action="#{finalMarksMB.save()}"/>
+                    <h:commandButton value="Отменить" action="#{finalMarksMB.cancel()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{finalMarksMB.delete}">
+            <!-- Delete -->
+            <h2>Удаление итоговой оценки дисциплины и МДК</h2>
+            <h:form>
+                <p>Оценка за дисциплину (МДК) "#{finalMarksMB.item.module.name}" будет удалена!</p>
+                <div class="buttons">
+                    <h:commandButton value="Удалить" action="#{finalMarksMB.confirmDelete()}"/>
+                    <h:commandButton value="Отменить" action="#{finalMarksMB.cancel()}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{finalMarksMB.error}">
+            <ui:include src="/WEB-INF/includes/error.xhtml"/>
+        </h:panelGroup>
     </ui:define>
-  </ui:composition>
+</ui:composition>
 </html>

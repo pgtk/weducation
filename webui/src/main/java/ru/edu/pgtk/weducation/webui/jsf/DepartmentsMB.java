@@ -16,67 +16,67 @@ import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 @ViewScoped
 public class DepartmentsMB extends GenericBean<Department> implements Serializable {
 
-	long serialVersionUID = 0L;
-	private List<Department> list;
+    long serialVersionUID = 0L;
+    private List<Department> list;
 
-	@EJB
-	private transient DepartmentsDAO ejb;
-	private int departmentCode;
+    @EJB
+    private transient DepartmentsDAO ejb;
+    private int departmentCode;
 
-	@PostConstruct
-	private void updateList() {
-		list = ejb != null ? ejb.fetchAll() : null;
-	}
+    @PostConstruct
+    private void updateList() {
+        list = ejb != null ? ejb.fetchAll() : null;
+    }
 
-	public boolean isEmptyList() {
-		return list == null || list.isEmpty();
-	}
+    public boolean isEmptyList() {
+        return list == null || list.isEmpty();
+    }
 
-	public List<Department> getList() {
-		return list;
-	}
+    public List<Department> getList() {
+        return list;
+    }
 
-	public void loadDepartment() {
-		try {
-			// Получим код отделения из параметра, если есть
-			if (user.isDepartment() && (user.getCode() > 0)) {
-				departmentCode = user.getCode();
-			}
-			if (departmentCode > 0) {
-				item = ejb.get(departmentCode);
-				details = true;
-			}
-		} catch (Exception e) {
-			addMessage(e);
-			departmentCode = 0;
-			resetState();
-		}
-	}
+    public void loadDepartment() {
+        try {
+            // Получим код отделения из параметра, если есть
+            if (user.isDepartment() && (user.getCode() > 0)) {
+                departmentCode = user.getCode();
+            }
+            if (departmentCode > 0) {
+                item = ejb.get(departmentCode);
+                details = true;
+            }
+        } catch (Exception e) {
+            addMessage(e);
+            departmentCode = 0;
+            resetState();
+        }
+    }
 
-	public int getDepartmentCode() {
-		return departmentCode;
-	}
+    public int getDepartmentCode() {
+        return departmentCode;
+    }
 
-	public void setDepartmentCode(int departmentCode) {
-		this.departmentCode = departmentCode;
-	}
+    public void setDepartmentCode(int departmentCode) {
+        this.departmentCode = departmentCode;
+    }
 
-	@Override
-	public void newItem() {
-		item = new Department();
-	}
+    @Override
+    public void newItem() {
+        item = new Department();
+    }
 
-	@Override
-	public void deleteItem() {
-		if (delete && (item != null)) {
-			ejb.delete(item);
-			updateList();
-		}
-	}
+    @Override
+    public void deleteItem() {
+        if (delete && (item != null)) {
+            ejb.delete(item);
+            updateList();
+        }
+    }
 
-	@Override
-	public void saveItem() {
-		ejb.save(item);
-		updateList();
-	}
+    @Override
+    public void saveItem() {
+        ejb.save(item);
+        updateList();
+    }
 }

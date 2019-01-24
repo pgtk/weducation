@@ -14,40 +14,40 @@ import java.util.List;
 @ViewScoped
 public class SpecialitiesMB extends GenericBean<Speciality> implements Serializable {
 
-	long serialVersionUID = 0L;
-	private List<Speciality> specialityList;
-	@EJB
-	private transient SpecialitiesDAO ejb;
+    long serialVersionUID = 0L;
+    private List<Speciality> specialityList;
+    @EJB
+    private transient SpecialitiesDAO ejb;
 
-	@PostConstruct
-	private void updateList() {
-		specialityList = ejb != null ? ejb.fetchAll() : null;
-	}
+    @PostConstruct
+    private void updateList() {
+        specialityList = ejb != null ? ejb.fetchAll() : null;
+    }
 
-	public List<Speciality> getSpecialityList() {
-		return specialityList;
-	}
+    public List<Speciality> getSpecialityList() {
+        return specialityList;
+    }
 
-	public boolean isEmptyList() {
-		return specialityList == null || specialityList.isEmpty();
-	}
+    public boolean isEmptyList() {
+        return specialityList == null || specialityList.isEmpty();
+    }
 
-	@Override
-	public void newItem() {
-		item = new Speciality();
-	}
+    @Override
+    public void newItem() {
+        item = new Speciality();
+    }
 
-	@Override
-	public void deleteItem() {
-		if (delete && (null != item)) {
-			ejb.delete(item);
-			updateList();
-		}
-	}
+    @Override
+    public void deleteItem() {
+        if (delete && (null != item)) {
+            ejb.delete(item);
+            updateList();
+        }
+    }
 
-	@Override
-	public void saveItem() {
-		ejb.save(item);
-		updateList();
-	}
+    @Override
+    public void saveItem() {
+        ejb.save(item);
+        updateList();
+    }
 }

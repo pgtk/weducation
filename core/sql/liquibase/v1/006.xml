@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
     <changeSet id="006-1" author="gooamoko">
@@ -19,8 +19,10 @@
             req_extramural boolean NOT NULL,
             CONSTRAINT unique_requests UNIQUE(req_psncode, req_spccode, req_year, req_extramural),
             CONSTRAINT requests_pk PRIMARY KEY(req_pcode),
-            CONSTRAINT requests_persons_fk FOREIGN KEY(req_psncode) REFERENCES persons(psn_pcode) ON UPDATE CASCADE ON DELETE CASCADE,
-            CONSTRAINT requests_specialities_fk FOREIGN KEY(req_spccode) REFERENCES specialities(spc_pcode) ON UPDATE CASCADE ON DELETE CASCADE);
+            CONSTRAINT requests_persons_fk FOREIGN KEY(req_psncode) REFERENCES persons(psn_pcode) ON UPDATE CASCADE ON
+            DELETE CASCADE,
+            CONSTRAINT requests_specialities_fk FOREIGN KEY(req_spccode) REFERENCES specialities(spc_pcode) ON UPDATE
+            CASCADE ON DELETE CASCADE);
         </sql>
     </changeSet>
     <changeSet id="006-2" author="gooamoko">
@@ -122,7 +124,7 @@
     </changeSet>
     <changeSet id="006-9" author="gooamoko">
         <comment>
-            Создадим функцию для вычисления 
+            Создадим функцию для вычисления
         </comment>
         <sql splitStatements="false" stripComments="false">
             <![CDATA[
@@ -182,10 +184,11 @@
         <comment>
             добавим в план год. Это начало цепочки изменений, после которых структура specialities -> plans
             будет серьезно изменена. В планах будет всё, что так любят менять в специальностях министры.
-            В специальностях же останется короткое наименование, описание и признаки активности/доступности для поступления.
+            В специальностях же останется короткое наименование, описание и признаки активности/доступности для
+            поступления.
         </comment>
         <sql splitStatements="false" stripComments="false">
-            ALTER TABLE plans ADD COLUMN  pln_beginyear int NOT NULL DEFAULT 0;
+            ALTER TABLE plans ADD COLUMN pln_beginyear int NOT NULL DEFAULT 0;
         </sql>
     </changeSet>
     <changeSet id="006-15" author="gooamoko">
@@ -241,11 +244,11 @@
             Обновим значения, связанные со специальностью, взяв их у специальности.
         </comment>
         <sql splitStatements="false" stripComments="false">
-            UPDATE plans SET 
+            UPDATE plans SET
             pln_spckey = (SELECT spc_key FROM specialities WHERE (spc_pcode = pln_spccode)),
             pln_specialization = (SELECT spc_specialization FROM specialities WHERE (spc_pcode = pln_spccode)),
             pln_kvalification = (SELECT spc_kvalification FROM specialities WHERE (spc_pcode = pln_spccode)),
-            pln_spcname = (SELECT spc_fullname FROM specialities WHERE (spc_pcode = pln_spccode));            
+            pln_spcname = (SELECT spc_fullname FROM specialities WHERE (spc_pcode = pln_spccode));
         </sql>
     </changeSet>
     <changeSet id="006-22" author="gooamoko">

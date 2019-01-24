@@ -19,67 +19,67 @@ import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 @ViewScoped
 public class SubjectsMB extends GenericBean<Subject> implements Serializable {
 
-	long serialVersionUID = 0L;
+    long serialVersionUID = 0L;
 
-	@EJB
-	private transient SubjectsDAO ejb;
-	@EJB
-	private transient StudyModulesDAO mejb;
-	@EJB
-	private transient StudyPlansDAO plans;
+    @EJB
+    private transient SubjectsDAO ejb;
+    @EJB
+    private transient StudyModulesDAO mejb;
+    @EJB
+    private transient StudyPlansDAO plans;
 
-	private StudyPlan plan = null;
-	private int planCode;
+    private StudyPlan plan = null;
+    private int planCode;
 
-	public int getPlanCode() {
-		return planCode;
-	}
+    public int getPlanCode() {
+        return planCode;
+    }
 
-	public void setPlanCode(int planCode) {
-		this.planCode = planCode;
-	}
+    public void setPlanCode(int planCode) {
+        this.planCode = planCode;
+    }
 
-	public StudyPlan getPlan() {
-		return plan;
-	}
+    public StudyPlan getPlan() {
+        return plan;
+    }
 
-	public void setPlan(StudyPlan plan) {
-		this.plan = plan;
-	}
+    public void setPlan(StudyPlan plan) {
+        this.plan = plan;
+    }
 
-	public void loadPlan() {
-		try {
-			if (planCode > 0) {
-				plan = plans.get(planCode);
-			}
-		} catch (Exception e) {
-			addMessage(e);
-		}
-	}
+    public void loadPlan() {
+        try {
+            if (planCode > 0) {
+                plan = plans.get(planCode);
+            }
+        } catch (Exception e) {
+            addMessage(e);
+        }
+    }
 
-	public List<Subject> getSubjects() {
-		return ejb.fetchAll(plan);
-	}
+    public List<Subject> getSubjects() {
+        return ejb.fetchAll(plan);
+    }
 
-	public List<StudyModule> getStudyModules() {
-		return mejb.fetchAll(plan);
-	}
+    public List<StudyModule> getStudyModules() {
+        return mejb.fetchAll(plan);
+    }
 
-	@Override
-	public void newItem() {
-		item = new Subject();
-		item.setPlan(plan);
-	}
+    @Override
+    public void newItem() {
+        item = new Subject();
+        item.setPlan(plan);
+    }
 
-	@Override
-	public void deleteItem() {
-		if ((null != item) && delete) {
-			ejb.delete(item);
-		}
-	}
+    @Override
+    public void deleteItem() {
+        if ((null != item) && delete) {
+            ejb.delete(item);
+        }
+    }
 
-	@Override
-	public void saveItem() {
-		ejb.save(item);
-	}
+    @Override
+    public void saveItem() {
+        ejb.save(item);
+    }
 }

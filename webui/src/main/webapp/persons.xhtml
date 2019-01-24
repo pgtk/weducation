@@ -16,7 +16,9 @@
             <!-- List -->
             <h2>Персоны</h2>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{personsMB.add()}"/>
+                </div>
             </h:form>
             <h:form id="searchForm">
                 <div class="roundbox" id="find">
@@ -43,10 +45,12 @@
                                 <h:link outcome="/persons?id=#{psn.id}" target="psn_#{psn.id}" value="#{psn.fullName}"/>
                             </td>
                             <td>
-                                <h:link outcome="/persons?id=#{psn.id}" target="psn_#{psn.id}" value="#{psn.birthDateString}"/>
+                                <h:link outcome="/persons?id=#{psn.id}" target="psn_#{psn.id}"
+                                        value="#{psn.birthDateString}"/>
                             </td>
                             <td>
-                                <h:link outcome="/persons?id=#{psn.id}" target="psn_#{psn.id}" value="#{psn.birthPlace}"/>
+                                <h:link outcome="/persons?id=#{psn.id}" target="psn_#{psn.id}"
+                                        value="#{psn.birthPlace}"/>
                             </td>
                             <td>
                                 <h:commandLink class="action" value="Изменить" action="#{personsMB.edit(psn)}"/>
@@ -61,49 +65,61 @@
                 <p>Нет записей, удовлетворяющих вашему критерию поиска.</p>
             </h:panelGroup>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{personsMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{personsMB.add()}"/>
+                </div>
             </h:form>
         </h:panelGroup>
         <h:panelGroup layout="block" rendered="#{personsMB.edit}">
             <!-- Edit -->
             <h2>Редактирование персоны</h2>
             <h:form>
-                <h:outputText value="Фамилия"/><br/>
+                <h:outputText value="Фамилия"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.firstName}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Имя"/><br/>
+                <h:outputText value="Имя"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.middleName}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Отчество"/><br/>
+                <h:outputText value="Отчество"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.lastName}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Дата рождения"/><br/>
+                <h:outputText value="Дата рождения"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.birthDate}" class="textEdit">
                     <f:convertDateTime pattern="dd.MM.yyyy"/>
                 </h:inputText>
                 <p/>
-                <h:outputText value="Место рождения"/><br/>
+                <h:outputText value="Место рождения"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.birthPlace}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Пол"/><br/>
+                <h:outputText value="Пол"/>
+                <br/>
                 <h:selectOneMenu value="#{personsMB.item.male}">
                     <f:selectItem itemLabel="мужской" itemValue="true"/>
                     <f:selectItem itemLabel="женский" itemValue="false"/>
                 </h:selectOneMenu>
                 <p/>
-                <h:outputText value="Гражданство"/><br/>
+                <h:outputText value="Гражданство"/>
+                <br/>
                 <h:selectOneMenu value="#{personsMB.item.foreign}">
                     <f:selectItem itemLabel="Россия" itemValue="false"/>
                     <f:selectItem itemLabel="другое" itemValue="true"/>
                 </h:selectOneMenu>
                 <p/>
-                <h:outputText value="Населенный пункт"/><br/>
+                <h:outputText value="Населенный пункт"/>
+                <br/>
                 <h:selectOneMenu value="#{personsMB.item.placeCode}">
                     <f:selectItem itemLabel="Неизвестен" itemValue="0"/>
-                    <f:selectItems value="#{personsMB.placesList}" var="place" itemLabel="#{place.fullName}" itemValue="#{place.id}"/>
+                    <f:selectItems value="#{personsMB.placesList}" var="place" itemLabel="#{place.fullName}"
+                                   itemValue="#{place.id}"/>
                 </h:selectOneMenu>
                 <p/>
-                <h:outputText value="Адрес"/><br/>
+                <h:outputText value="Адрес"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.address}" class="textEdit"/>
                 <p/>
                 <h:selectBooleanCheckbox value="#{personsMB.item.orphan}"/>
@@ -112,37 +128,47 @@
                 <h:selectBooleanCheckbox value="#{personsMB.item.invalid}"/>
                 <h:outputText value="Инвалид"/>
                 <p/>
-                <h:outputText value="Изучаемый иностранный язык"/><br/>
+                <h:outputText value="Изучаемый иностранный язык"/>
+                <br/>
                 <h:selectOneMenu value="#{personsMB.item.language}">
-                    <f:selectItems value="#{personsMB.languages}" var="lang" itemLabel="#{lang.description}" itemValue="#{lang}"/>
+                    <f:selectItems value="#{personsMB.languages}" var="lang" itemLabel="#{lang.description}"
+                                   itemValue="#{lang}"/>
                 </h:selectOneMenu>
                 <p/>
-                <h:outputText value="Телефон в формате +7(XXX)XXX-XX-XX (можно ввести несколько, разделяя запятыми)"/><br/>
+                <h:outputText value="Телефон в формате +7(XXX)XXX-XX-XX (можно ввести несколько, разделяя запятыми)"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.phones}" class="textEdit">
                     <f:validator binding="#{phoneValidator}"/>
                 </h:inputText>
                 <p/>
-                <h:outputText value="Средний балл аттестата"/><br/>
+                <h:outputText value="Средний балл аттестата"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.averageBall}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Серия паспорта"/><br/>
+                <h:outputText value="Серия паспорта"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.passportSeria}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Номер паспорта"/><br/>
+                <h:outputText value="Номер паспорта"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.passportNumber}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Кем выдан паспорт"/><br/>
+                <h:outputText value="Кем выдан паспорт"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.passportDept}" class="textEdit"/>
                 <p/>
-                <h:outputText value="Дата выдачи"/><br/>
+                <h:outputText value="Дата выдачи"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.passportDate}" class="textEdit">
                     <f:convertDateTime pattern="dd.MM.yyyy"/>
                 </h:inputText>
                 <p/>
-                <h:outputText value="ИНН"/><br/>
+                <h:outputText value="ИНН"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.inn}" class="textEdit"/>
                 <p/>
-                <h:outputText value="СНИЛС"/><br/>
+                <h:outputText value="СНИЛС"/>
+                <br/>
                 <h:inputText value="#{personsMB.item.snils}" class="textEdit"/>
                 <p/>
                 <div class="buttons">
@@ -185,15 +211,21 @@
                     <b>СНИЛС: </b>#{personsMB.item.snils}<br/>
                 </p>
                 <h:panelGroup rendered="#{not empty personsMB.item.delegates}">
-                    <p><b><h:link outcome="/delegates?personId=#{personsMB.item.id}" value="Законные представители:"/></b><br/>
+                    <p><b>
+                        <h:link outcome="/delegates?personId=#{personsMB.item.id}" value="Законные представители:"/>
+                    </b><br/>
                         <ui:repeat value="#{personsMB.item.delegates}" var="del">
-                            <h:link outcome="/delegates?id=#{del.id}" target="delegate" value="#{del.fullName}"/><br/>
+                            <h:link outcome="/delegates?id=#{del.id}" target="delegate" value="#{del.fullName}"/>
+                            <br/>
                         </ui:repeat>
                     </p>
                 </h:panelGroup>
                 <h3>Заявки на поступление</h3>
                 <ul>
-                    <li><h:link outcome="/reception/requests?personId=#{personsMB.item.id}" value="Список заявок" target="request"/></li>
+                    <li>
+                        <h:link outcome="/reception/requests?personId=#{personsMB.item.id}" value="Список заявок"
+                                target="request"/>
+                    </li>
                 </ul>
                 <div class="buttons">
                     <h:commandButton value="Редактировать данные" action="#{personsMB.switchEdit()}"/>

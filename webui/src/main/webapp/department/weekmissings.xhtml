@@ -14,7 +14,8 @@
     <ui:define name="content">
         <!-- List -->
         <h2>Пропуски за неделю для группы #{weekMissingsMB.group.name}</h2>
-        <h:outputText value="Семестр"/><br/>
+        <h:outputText value="Семестр"/>
+        <br/>
         <h:form>
             <h:selectOneMenu value="#{weekMissingsMB.groupCode}" valueChangeListener="#{weekMissingsMB.changeSemester}">
                 <f:selectItem itemLabel="Выберите семестр" itemValue="0"/>
@@ -23,7 +24,8 @@
                 <f:ajax execute="@form" render="@form"/>
             </h:selectOneMenu>
             <p/>
-            <h:outputText value="Месяц, год, неделя"/><br/>
+            <h:outputText value="Месяц, год, неделя"/>
+            <br/>
             <h:selectOneMenu value="#{weekMissingsMB.missingDate}" valueChangeListener="#{weekMissingsMB.changeDate}">
                 <f:selectItem itemLabel="Выберите период" itemValue="0"/>
                 <f:selectItems value="#{weekMissingsMB.dates}"/>

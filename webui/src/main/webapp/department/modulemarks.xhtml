@@ -14,17 +14,21 @@
     <ui:define name="content">
         <!-- List -->
         <h2>Оценки за семестр по модулям для группы #{semesterModuleMarksMB.group.name}</h2>
-        <h:outputText value="Семестр"/><br/>
+        <h:outputText value="Семестр"/>
+        <br/>
         <h:form>
-            <h:selectOneMenu value="#{semesterModuleMarksMB.groupCode}" valueChangeListener="#{semesterModuleMarksMB.changeSemester}">
+            <h:selectOneMenu value="#{semesterModuleMarksMB.groupCode}"
+                             valueChangeListener="#{semesterModuleMarksMB.changeSemester}">
                 <f:selectItem itemLabel="Выберите семестр" itemValue="0"/>
                 <f:selectItems value="#{semesterModuleMarksMB.semesterList}" var="sm"
                                itemLabel="#{sm.label}" itemValue="#{sm.id}"/>
                 <f:ajax execute="@form" render="@form"/>
             </h:selectOneMenu>
             <p/>
-            <h:outputText value="Модуль"/><br/>
-            <h:selectOneMenu value="#{semesterModuleMarksMB.moduleCode}" valueChangeListener="#{semesterModuleMarksMB.changeModule}">
+            <h:outputText value="Модуль"/>
+            <br/>
+            <h:selectOneMenu value="#{semesterModuleMarksMB.moduleCode}"
+                             valueChangeListener="#{semesterModuleMarksMB.changeModule}">
                 <f:selectItem itemLabel="Выберите модуль" itemValue="0"/>
                 <f:selectItems value="#{semesterModuleMarksMB.moduleList}" var="module"
                                itemLabel="#{module.name}" itemValue="#{module.id}"/>

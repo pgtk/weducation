@@ -16,70 +16,70 @@ import java.io.Serializable;
 @Table(name = "gmarks")
 public class GOSMark implements Serializable {
 
-  @Id
-  @Column(name = "gmk_pcode")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+    @Id
+    @Column(name = "gmk_pcode")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-  @Column(name = "gmk_mark", nullable = false)
-  private int mark;
+    @Column(name = "gmk_mark", nullable = false)
+    private int mark;
 
-  @ManyToOne
-  @JoinColumn(name = "gmk_subcode", nullable = false)
-  private Subject subject;
+    @ManyToOne
+    @JoinColumn(name = "gmk_subcode", nullable = false)
+    private Subject subject;
 
-  @ManyToOne
-  @JoinColumn(name = "gmk_crdcode", nullable = false)
-  private StudyCard card;
+    @ManyToOne
+    @JoinColumn(name = "gmk_crdcode", nullable = false)
+    private StudyCard card;
 
-  @Transient
-  private int subjectCode;
-  
-  private void updateSubjectCode() {
-    if (subject != null) {
-      subjectCode = subject.getId();
+    @Transient
+    private int subjectCode;
+
+    private void updateSubjectCode() {
+        if (subject != null) {
+            subjectCode = subject.getId();
+        }
     }
-  }
-  
-  @PostLoad
-  private void updateCodes() {
-    updateSubjectCode();
-  }
 
-  public int getId() {
-    return id;
-  }
+    @PostLoad
+    private void updateCodes() {
+        updateSubjectCode();
+    }
 
-  public int getMark() {
-    return mark;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public void setMark(int mark) {
-    this.mark = mark;
-  }
+    public int getMark() {
+        return mark;
+    }
 
-  public Subject getSubject() {
-    return subject;
-  }
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
 
-  public void setSubject(Subject subject) {
-    this.subject = subject;
-    updateSubjectCode();
-  }
+    public Subject getSubject() {
+        return subject;
+    }
 
-  public StudyCard getCard() {
-    return card;
-  }
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+        updateSubjectCode();
+    }
 
-  public void setCard(StudyCard card) {
-    this.card = card;
-  }
+    public StudyCard getCard() {
+        return card;
+    }
 
-  public int getSubjectCode() {
-    return subjectCode;
-  }
+    public void setCard(StudyCard card) {
+        this.card = card;
+    }
 
-  public void setSubjectCode(int subjectCode) {
-    this.subjectCode = subjectCode;
-  }
+    public int getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(int subjectCode) {
+        this.subjectCode = subjectCode;
+    }
 }

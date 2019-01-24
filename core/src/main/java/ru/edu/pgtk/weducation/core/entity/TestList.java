@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * Класс для сущности "Список тестов по специальности"
+ *
  * @author Voronin Leonid
  * @since 17.05.2016
  */
@@ -19,36 +20,36 @@ import java.io.Serializable;
 @Table(name = "testlists")
 public class TestList implements Serializable {
 
-	@Id
-	@Column(name = "tsl_pcode")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @Column(name = "tsl_pcode")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "tsl_tstcode", nullable = false)
-	private Test test;
+    @ManyToOne
+    @JoinColumn(name = "tsl_tstcode", nullable = false)
+    private Test test;
 
-	@ManyToOne
-	@JoinColumn(name = "tsl_spccode", nullable = false)
-	private Speciality speciality;
+    @ManyToOne
+    @JoinColumn(name = "tsl_spccode", nullable = false)
+    private Speciality speciality;
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Test getTest() {
-		return test;
-	}
+    public Test getTest() {
+        return test;
+    }
 
-	public void setTest(Test test) {
-		this.test = test;
-	}
+    public void setTest(Test test) {
+        this.test = test;
+    }
 
-	public Speciality getSpeciality() {
-		return speciality;
-	}
+    public Speciality getSpeciality() {
+        return speciality;
+    }
 
-	public void setSpeciality(Speciality speciality) {
-		this.speciality = speciality;
-	}
+    public void setSpeciality(Speciality speciality) {
+        this.speciality = speciality;
+    }
 }

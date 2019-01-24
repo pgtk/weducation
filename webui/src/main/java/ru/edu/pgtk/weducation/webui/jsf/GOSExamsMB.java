@@ -20,70 +20,70 @@ import static ru.edu.pgtk.weducation.webui.jsf.Utils.addMessage;
 @ViewScoped
 public class GOSExamsMB extends GenericBean<GOSExam> implements Serializable {
 
-	long serialVersionUID = 0L;
+    long serialVersionUID = 0L;
 
-	@EJB
-	private transient GOSExamsDAO ejb;
-	@EJB
-	private transient StudyPlansDAO planEJB;
-	@EJB
-	private transient SubjectsDAO subjectEJB;
-	private StudyPlan plan = null;
-	private int planCode;
+    @EJB
+    private transient GOSExamsDAO ejb;
+    @EJB
+    private transient StudyPlansDAO planEJB;
+    @EJB
+    private transient SubjectsDAO subjectEJB;
+    private StudyPlan plan = null;
+    private int planCode;
 
-	public List<GOSExam> getGosexams() {
-		if (null != plan) {
-			return ejb.fetchAll(plan);
-		}
-		return new ArrayList<>();
-	}
+    public List<GOSExam> getGosexams() {
+        if (null != plan) {
+            return ejb.fetchAll(plan);
+        }
+        return new ArrayList<>();
+    }
 
-	public List<Subject> getSubjects() {
-		if (null != plan) {
-			return subjectEJB.fetchAll(plan);
-		}
-		return new ArrayList<>();
-	}
+    public List<Subject> getSubjects() {
+        if (null != plan) {
+            return subjectEJB.fetchAll(plan);
+        }
+        return new ArrayList<>();
+    }
 
-	public StudyPlan getPlan() {
-		return plan;
-	}
+    public StudyPlan getPlan() {
+        return plan;
+    }
 
-	public int getPlanCode() {
-		return planCode;
-	}
+    public int getPlanCode() {
+        return planCode;
+    }
 
-	public void setPlanCode(int planCode) {
-		this.planCode = planCode;
-	}
+    public void setPlanCode(int planCode) {
+        this.planCode = planCode;
+    }
 
-	public void loadPlan() {
-		try {
-			if (planCode > 0) {
-				plan = planEJB.get(planCode);
-			} else {
-				addMessage("Wrond StudyPlan identifier " + planCode);
-			}
-		} catch (Exception e) {
-			addMessage(e);
-		}
-	}
+    public void loadPlan() {
+        try {
+            if (planCode > 0) {
+                plan = planEJB.get(planCode);
+            } else {
+                addMessage("Wrond StudyPlan identifier " + planCode);
+            }
+        } catch (Exception e) {
+            addMessage(e);
+        }
+    }
 
-	@Override
-	public void newItem() {
-		item = new GOSExam();
-		item.setPlan(plan);
-	}
+    @Override
+    public void newItem() {
+        item = new GOSExam();
+        item.setPlan(plan);
+    }
 
-	@Override
-	public void deleteItem() {
-		if (delete && (item != null)) {
-			ejb.delete(item);
-		}
-	}
+    @Override
+    public void deleteItem() {
+        if (delete && (item != null)) {
+            ejb.delete(item);
+        }
+    }
 
-	@Override
-	public void saveItem() {
-		ejb.save(item);
-	}
+    @Override
+    public void saveItem() {
+        ejb.save(item);
+    }
 }

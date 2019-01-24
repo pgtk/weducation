@@ -10,7 +10,9 @@
             <!-- List -->
             <h2>Специальности</h2>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{specialitiesMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{specialitiesMB.add()}"/>
+                </div>
             </h:form>
             <h:form id="listForm" rendered="#{not specialitiesMB.emptyList}">
                 <table id="dataTable">
@@ -43,7 +45,9 @@
                 <p>На данный момент нет ни одной записи.</p>
             </h:panelGroup>
             <h:form>
-                <div class="buttons"><h:commandButton value="Добавить" action="#{specialitiesMB.add()}"/></div>
+                <div class="buttons">
+                    <h:commandButton value="Добавить" action="#{specialitiesMB.add()}"/>
+                </div>
             </h:form>
         </h:panelGroup>
         <h:panelGroup layout="block" rendered="#{specialitiesMB.edit}">
@@ -53,11 +57,13 @@
                 <p>Под наименованием понимается принятое сокращенное название специальности.
                     Например, <b>"ПОВТ", "ДПА"</b>.
                     Общая длина наименования не должна превышать 20 символов</p>
-                <h:outputText value="Наименование"/><br/>
+                <h:outputText value="Наименование"/>
+                <br/>
                 <h:inputText value="#{specialitiesMB.item.name}" required="true"
                              requiredMessage="Наименование специальности обязательно для заполнения!" class="textEdit"/>
                 <p/>
-                <h:outputText value="Описание"/><br/>
+                <h:outputText value="Описание"/>
+                <br/>
                 <h:inputText value="#{specialitiesMB.item.description}" required="true"
                              requiredMessage="Описание специальности обязательно для заполнения!" class="textEdit"/>
                 <p/>
