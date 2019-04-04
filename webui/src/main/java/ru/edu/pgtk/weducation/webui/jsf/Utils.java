@@ -50,7 +50,7 @@ class Utils {
         if (isUseless(message)) {
             Throwable cause = e.getCause();
             int deep = 0;
-            while (cause != null && 3 > deep++) {
+            while (cause != null && 10 > deep++) {
                 if (isUseless(cause.getMessage())) {
                     cause = cause.getCause();
                 } else {
@@ -65,7 +65,7 @@ class Utils {
         }
         FacesContext context = getFacesContext();
         if (context != null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ошибка! " + message, "Error"));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ошибка! " + message, "Error"));
         }
     }
 
@@ -77,7 +77,7 @@ class Utils {
     public static void addMessage(final String message) {
         FacesContext context = getFacesContext();
         if (context != null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, "Error"));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, "Error"));
         }
     }
 
