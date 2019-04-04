@@ -1,6 +1,7 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
-import ru.edu.pgtk.weducation.webui.xmlimport.ImportCardEJB;
+import ru.edu.pgtk.weducation.core.importcards.ImportCardDAO;
+import ru.edu.pgtk.weducation.core.importcards.OldCardsDAO;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -15,18 +16,20 @@ public class ImportCardMB implements Serializable {
     long serialVersionUID = 0L;
 
     @EJB
-    private transient ImportCardEJB ejb;
+    private transient ImportCardDAO importCard;
+    @EJB
+    private transient OldCardsDAO oldCards;
     private String groupCode;
     private boolean success = false;
 
     public Map<String, String> getGroups() {
-        return ejb.getGroups();
+        return oldCards.getGroups();
     }
 
     public void importGroup() {
         if ((null != groupCode) && (!groupCode.isEmpty())) {
             try {
-                ejb.importGroup(groupCode);
+                importCard.importGroup(groupCode);
                 success = true;
             } catch (Exception e) {
                 Utils.addMessage(e);
@@ -36,10 +39,10 @@ public class ImportCardMB implements Serializable {
 
     public void importAll() {
         try {
-            ejb.importAll();
+            importCard.importAll();
             success = true;
         } catch (Exception e) {
-            Utils.addMessage("Ошибка при импорте групп!");
+            Utils.addMessage("Ошибка при импорте групп. " + e.getMessage());
         }
     }
 
