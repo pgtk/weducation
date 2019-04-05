@@ -10,6 +10,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -210,6 +211,7 @@ public class SpecialitiesEJB extends AbstractEJB implements SpecialitiesDAO {
     @Override
     @WithLog
     @Restricted(allowedRoles = {}) // Разрешено только аминистратору (неявно)
+    @Transactional(Transactional.TxType.REQUIRED)
     public Speciality save(Speciality speciality) {
         if (speciality.getId() == 0) {
             em.persist(speciality);
@@ -229,6 +231,7 @@ public class SpecialitiesEJB extends AbstractEJB implements SpecialitiesDAO {
     @Override
     @WithLog
     @Restricted(allowedRoles = {}) // Неявно разрешено администратору
+    @Transactional(Transactional.TxType.REQUIRED)
     public void delete(final Speciality speciality) {
         Speciality item = em.find(Speciality.class, speciality.getId());
         if (null != item) {

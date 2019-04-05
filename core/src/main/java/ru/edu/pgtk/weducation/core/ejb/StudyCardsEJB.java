@@ -10,6 +10,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Stateless
@@ -70,6 +71,7 @@ public class StudyCardsEJB extends AbstractEJB implements StudyCardsDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public StudyCard save(StudyCard item) {
         if (item.getSchoolCode() > 0) {
             item.setSchool(schools.get(item.getSchoolCode()));
@@ -107,6 +109,7 @@ public class StudyCardsEJB extends AbstractEJB implements StudyCardsDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void delete(final StudyCard item) {
         StudyCard sc = em.find(StudyCard.class, item.getId());
         if (null != sc) {

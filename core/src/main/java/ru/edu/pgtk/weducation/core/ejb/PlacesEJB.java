@@ -6,6 +6,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Stateless
@@ -52,6 +53,7 @@ public class PlacesEJB extends AbstractEJB implements PlacesDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Place save(Place item) {
         if (item == null) {
             throw new IllegalArgumentException("You can't save NULL Place!");
@@ -65,6 +67,7 @@ public class PlacesEJB extends AbstractEJB implements PlacesDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void delete(final Place item) {
         Place p = em.find(Place.class, item.getId());
         if (null != p) {
