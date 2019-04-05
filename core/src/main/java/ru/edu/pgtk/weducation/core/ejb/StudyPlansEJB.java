@@ -9,6 +9,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +86,7 @@ public class StudyPlansEJB extends AbstractEJB implements StudyPlansDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public StudyPlan save(StudyPlan item) {
         if (null == item) {
             throw new IllegalArgumentException("StudyPlan must be not null!");
@@ -99,6 +101,7 @@ public class StudyPlansEJB extends AbstractEJB implements StudyPlansDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void delete(final StudyPlan item) {
         StudyPlan sp = em.find(StudyPlan.class, item.getId());
         if (null != sp) {

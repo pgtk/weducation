@@ -9,6 +9,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Stateless
@@ -33,6 +34,7 @@ public class DelegatesEJB extends AbstractEJB implements DelegatesDAO {
 
     @Override
     @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.RECEPTION})
+    @Transactional(Transactional.TxType.REQUIRED)
     public Delegate save(Delegate item) {
         if (item.getId() == 0) {
             em.persist(item);
@@ -44,6 +46,7 @@ public class DelegatesEJB extends AbstractEJB implements DelegatesDAO {
 
     @Override
     @Restricted(allowedRoles = {AccountRole.DEPARTMENT, AccountRole.RECEPTION})
+    @Transactional(Transactional.TxType.REQUIRED)
     public void delete(final Delegate item) {
         Delegate d = em.find(Delegate.class, item.getId());
         if (null != d) {

@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Stateless
@@ -85,6 +86,7 @@ public class StudyGroupsEJB extends AbstractEJB implements StudyGroupsDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public StudyGroup save(StudyGroup item) {
         try {
             // Получим специальность и учебный план
@@ -114,6 +116,7 @@ public class StudyGroupsEJB extends AbstractEJB implements StudyGroupsDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void delete(final StudyGroup item) {
         StudyGroup sg = em.find(StudyGroup.class, item.getId());
         if (null != sg) {

@@ -7,6 +7,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Stateless
@@ -59,6 +60,7 @@ public class PersonsEJB extends AbstractEJB implements PersonsDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Person save(Person item) {
         if (item.getPlaceCode() > 0) {
             item.setPlace(places.get(item.getPlaceCode()));
@@ -72,6 +74,7 @@ public class PersonsEJB extends AbstractEJB implements PersonsDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void delete(final Person item) {
         Person p = em.find(Person.class, item.getId());
         if (null != p) {

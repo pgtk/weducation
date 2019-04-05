@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Stateless
@@ -61,6 +62,7 @@ public class SchoolsEJB extends AbstractEJB implements SchoolsDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public School save(School item) {
         if (item.getId() == 0) {
             em.persist(item);
@@ -71,6 +73,7 @@ public class SchoolsEJB extends AbstractEJB implements SchoolsDAO {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void delete(final School item) {
         School s = em.find(School.class, item.getId());
         if (null != s) {
