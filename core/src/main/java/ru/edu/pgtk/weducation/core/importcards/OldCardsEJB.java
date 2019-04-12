@@ -143,10 +143,11 @@ public class OldCardsEJB implements OldCardsDAO {
                     result.setName(rs.getString("pl_Name"));
                     result.setType(PlaceType.forValue(rs.getInt("pl_kind") - 1));
                     return result;
+                } else {
+                    throw new EJBException(ERROR + PLACE + NOT_FOUND);
                 }
             }
-            return null;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new EJBException(ERROR + PLACE, e);
         }
     }
@@ -237,7 +238,7 @@ public class OldCardsEJB implements OldCardsDAO {
                 return result;
             }
             throw new EJBException(ERROR + PERSON + NOT_FOUND);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new EJBException(ERROR + PERSON, e);
         }
     }
