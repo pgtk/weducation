@@ -75,11 +75,21 @@ public class ImportCardEJB implements ImportCardDAO {
 
     /**
      * Импорт одной персоны.
+     *
+     * Если на момент импорта персона уже присутствует в БД, то данные не будут перезаписаны и такая персона будет пропущена.
+     *
      * @param group группа новой БД, в которую будет импортирована персона.
      * @param personCode код персоны из старой БД
      */
     @Transactional(Transactional.TxType.REQUIRED)
     private void importPerson(StudyGroup group, String personCode) {
+        // Для начала поищем уже имеющуюся запись персоны.
+        Person psn = oldCards.getPerson(personCode);
+        Person exPerson = persons.findLike(psn);
+        if (exPerson != null) {
+            // Персона уже есть. Не будем импортировать заново
+            return;
+        }
         // Импортируем населенный пункт
         Place place = oldCards.getPlace(personCode);
         if (place != null) {
@@ -97,21 +107,6 @@ public class ImportCardEJB implements ImportCardDAO {
             scl = exSchool;
         } else {
             schools.save(scl);
-        }
-        Person psn = oldCards.getPerson(personCode);
-        Person exPerson = persons.findLike(psn);
-        if (exPerson != null) {
-            psn = exPerson;
-        }
-        if (psn.getId() > 0) {
-            // А вдруг есть старые карточки? Удалим!
-            for (StudyCard c : cards.findByPerson(psn)) {
-                cards.delete(c);
-            }
-            // Удаляем имеющихся делегатов у персоны
-            for (Delegate d : delegates.fetchAll(psn)) {
-                delegates.delete(d);
-            }
         }
         psn.setPlace(place);
         persons.save(psn);
