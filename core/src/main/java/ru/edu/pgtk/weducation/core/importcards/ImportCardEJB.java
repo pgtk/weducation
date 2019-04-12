@@ -75,6 +75,7 @@ public class ImportCardEJB implements ImportCardDAO {
         for (String personCode : studentCodes) {
             importPerson(group, personCode);
         }
+        groups.save(group);
     }
 
     /**
