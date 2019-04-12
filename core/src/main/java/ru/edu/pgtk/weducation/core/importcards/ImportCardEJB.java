@@ -9,10 +9,12 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.logging.Logger;
 
 @Stateless
 @Named("importCardEJB")
 public class ImportCardEJB implements ImportCardDAO {
+    private static final Logger logger = Logger.getLogger(ImportCardEJB.class.getName());
 
     @EJB
     private PlacesDAO places;
@@ -37,6 +39,7 @@ public class ImportCardEJB implements ImportCardDAO {
      * Импортирует все ыозможные данные.
      */
     public void importAll() {
+        logger.warning("Попытка вызвать запрещенную операцию.");
         throw new EJBException("Данная функцияустарела и была отключена!");
     }
 
@@ -46,6 +49,7 @@ public class ImportCardEJB implements ImportCardDAO {
      */
     @Transactional(Transactional.TxType.REQUIRED)
     public void importGroup(final String grpCode) {
+        logger.info("Начало импорта группы с идентификатором " + grpCode);
         // Специальность
         Speciality spc = oldCards.getSpeciality(grpCode);
         Speciality exSpeciality = specialities.findLike(spc);
@@ -83,11 +87,13 @@ public class ImportCardEJB implements ImportCardDAO {
      */
     @Transactional(Transactional.TxType.REQUIRED)
     private void importPerson(StudyGroup group, String personCode) {
+        logger.info("Начало импорта персоны с идентификатором " + personCode + " для группы " + group.getName());
         // Для начала поищем уже имеющуюся запись персоны.
         Person psn = oldCards.getPerson(personCode);
         Person exPerson = persons.findLike(psn);
         if (exPerson != null) {
             // Персона уже есть. Не будем импортировать заново
+            logger.info("В Базе данных уже есть персона " + exPerson.getFullName() + ". Повторного импорта не будет.");
             return;
         }
         // Импортируем населенный пункт
