@@ -1,5 +1,6 @@
 package ru.edu.pgtk.weducation.webui.jsf;
 
+import ru.edu.pgtk.weducation.core.ejb.DelegatesDAO;
 import ru.edu.pgtk.weducation.core.ejb.DelegatesEJB;
 import ru.edu.pgtk.weducation.core.ejb.PersonsDAO;
 import ru.edu.pgtk.weducation.core.entity.Delegate;
@@ -21,7 +22,7 @@ public class DelegatesMB extends GenericBean<Delegate> implements Serializable {
     long serialVersionUID = 0L;
 
     @EJB
-    private transient DelegatesEJB ejb;
+    private transient DelegatesDAO ejb;
     @EJB
     private transient PersonsDAO persons;
     private int personCode;
